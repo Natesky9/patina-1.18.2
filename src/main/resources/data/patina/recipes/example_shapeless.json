@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "patina:test"
+    }
+  ],
+  "result": {
+    "item": "patina:test",
+    "count": 1
+  }
+}

@@ -1,8 +1,11 @@
 package com.natesky9.patina;
 
 import com.mojang.logging.LogUtils;
+import com.natesky9.patina.block.ModBlocks;
+import com.natesky9.patina.item.ModItems;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,6 +28,13 @@ public class Patina
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final String MOD_ID = "patina";
+    //create a tab
+    public static final CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("TAB_PATINA") {
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(ModItems.TEST.get());
+        }
+    };
 
     public Patina()
     {
@@ -34,6 +44,9 @@ public class Patina
         eventBus.addListener(this::setup);
         eventBus.addListener(this::enqueueIMC);
         eventBus.addListener(this::processIMC);
+        //register everything
+        ModItems.register(eventBus);
+        ModBlocks.register(eventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

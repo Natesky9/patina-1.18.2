@@ -1,0 +1,15 @@
+{
+  "item.patina.test": "Test Item",
+  "item.patina.custom_nugget": "Custom Nugget",
+  "item.patina.custom_ingot": "Custom Ingot",
+  "block.patina.custom_block": "Custom Block",
+
+  "block.patina.machine_blast_cauldron": "Blast V2",
+  "block.patina.machine_cauldron_brewing": "Brewing V2",
+  "block.patina.machine_smoker_grindstone": "Smoker V2",
+
+  "block.patina.test_block": "Test Block",
+
+  "itemGroup.TAB_PATINA": "Patina Creative Tab"
+
+}
