@@ -2,14 +2,20 @@ package com.natesky9.patina;
 
 import com.mojang.logging.LogUtils;
 import com.natesky9.patina.block.ModBlocks;
+import com.natesky9.patina.effect.ModEffects;
 import com.natesky9.patina.item.ModItems;
+import com.natesky9.patina.overlay.VenomOverlay;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -47,10 +53,16 @@ public class Patina
         //register everything
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
+        ModEffects.register(eventBus);
+
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            MinecraftForge.EVENT_BUS.register(new ClientOnlyStuff());
+        });
     }
+    //----------//
 
     private void setup(final FMLCommonSetupEvent event)
     {
@@ -79,6 +91,8 @@ public class Patina
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
+
+
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
