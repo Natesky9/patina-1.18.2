@@ -3,6 +3,9 @@
   "item.patina.custom_nugget": "Custom Nugget",
   "item.patina.custom_ingot": "Custom Ingot",
   "block.patina.custom_block": "Custom Block",
+  "item.patina.coal_coke": "Coal Coke",
+  "item.patina.inert_rod": "Inert Rod",
+  "item.patina.luxometer": "Luxometer",
 
   "item.patina.custom_sword": "Custom Sword",
   "item.patina.custom_axe": "Custom Axe",
@@ -11,6 +14,23 @@
   "item.patina.custom_hoe": "Custom Hoe",
   "item.patina.venom_sword": "Venom Sword",
 
+  "item.patina.copper_helmet": "Copper Helmet",
+  "item.patina.copper_chestplate": "Copper Chestplate",
+  "item.patina.copper_leggings": "Copper Leggings",
+  "item.patina.copper_boots": "Copper Boots",
+
+  "item.patina.crystal_helmet": "Crystal Helmet",
+  "item.patina.crystal_chestplate": "Crystal Chestplate",
+  "item.patina.crystal_leggings": "Crystal Leggings",
+  "item.patina.crystal_boots": "Crystal Boots",
+
+  "item.patina.test_food": "Test Food",
+  "item.patina.blink_brownie": "Blink Brownie",
+  "item.patina.candy_warts": "Candy Warts",
+
+  "item.patina.royal_jelly": "Royal Jelly",
+  "item.patina.spider_nest": "Spider Nest",
+
   "block.patina.machine_blast_cauldron": "Blast V2",
   "block.patina.machine_cauldron_brewing": "Brewing V2",
   "block.patina.machine_smoker_grindstone": "Smoker V2",
@@ -18,9 +38,13 @@
   "block.patina.test_block": "Test Block",
   "block.patina.test_slab": "Test Slab",
   "block.patina.test_stairs": "Test Stairs",
-  "block.patina.test_fence": "Test Fence",
   "block.patina.test_wall": "Test Wall",
-  "test.patina.fence_gate": "Test Fence Gate",
+  "block.patina.honey_puddle": "Honey Puddle",
+  "block.patina.telechorus": "Telechorus",
+  "block.patina.chorus_cable": "Chorus Cable",
+
+  "entity.patina.bee_queen": "Bee Queen",
+  "entity.patina.spider_queen": "Spider Queen",
 
   "effect.patina.venom": "Venom",
   "death.attack.venom": "%1$s succumbed to venom",

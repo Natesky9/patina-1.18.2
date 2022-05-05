@@ -6,9 +6,8 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.logging.LogUtils;
-import com.natesky9.patina.effect.ModEffects;
+import com.natesky9.patina.init.ModEffects;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,7 +20,6 @@ public class VenomOverlay {
 
     public static void renderVenomOutline(){
         //if the player does not have venom, exit
-        LOGGER.info("Start");
         if (!Minecraft.getInstance().player.hasEffect(ModEffects.VENOM.get())) return;
 
         float playerMaxHealth = Minecraft.getInstance().player.getMaxHealth();
@@ -29,18 +27,19 @@ public class VenomOverlay {
         int venomAmount = mobEffect.getAmplifier();
         float venomPercent = venomAmount/playerMaxHealth;
 
-        LOGGER.info("venom/health: " + venomAmount + "/" + playerMaxHealth);
-        LOGGER.info("venomPercent: " + venomPercent);
         renderTextureOverlay(VENOM_OUTLINE_LOCATION,venomPercent);
-        LOGGER.info("drawing venom");
     }
     private static void renderTextureOverlay(ResourceLocation location,float percent){
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+
+        RenderSystem.enableBlend();
+
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        LOGGER.info("venomPercent: " + percent);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, percent);
         RenderSystem.setShaderTexture(0, location);
         Tesselator tesselator = Tesselator.getInstance();

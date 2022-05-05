@@ -1,14 +1,15 @@
-package com.natesky9.patina.block;
+package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.item.ModItems;
+import com.natesky9.patina.block.ChorusCableBlock;
+import com.natesky9.patina.block.HoneyPuddleBlock;
+import com.natesky9.patina.block.TelechorusBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -29,6 +30,19 @@ public class ModBlocks {
     public static final RegistryObject<Block> TEST_SLAB = registerBlock("test_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(4f)));
+    public static final RegistryObject<Block> TEST_WALL = registerBlock("test_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(4f)));
+    public static final RegistryObject<Block> HONEY_PUDDLE = registerBlock("honey_puddle",
+            () -> new HoneyPuddleBlock(BlockBehaviour.Properties.of(Material.CLAY).color(MaterialColor.COLOR_ORANGE)
+                    .sound(SoundType.HONEY_BLOCK).randomTicks()));
+    public static final RegistryObject<Block> TELECHORUS = registerBlock("telechorus",
+            () -> new TelechorusBlock(BlockBehaviour.Properties.of(Material.METAL).color(MaterialColor.METAL)
+                    .strength(4).sound(SoundType.FUNGUS)));
+    public static final RegistryObject<Block> CHORUS_CABLE = registerBlock("chorus_cable",
+            () -> new ChorusCableBlock(BlockBehaviour.Properties.of(Material.PLANT).color(MaterialColor.COLOR_PURPLE)
+                    .noOcclusion()));
+
     //machines
     public static final RegistryObject<Block> MACHINE_BLAST_CAULDRON = registerBlock("machine_blast_cauldron",
             () -> new Block(BlockBehaviour.Properties.of(Material.WOOD)

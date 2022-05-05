@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "patina:item/copper/copper_leggings_oxidized"
+  }
+}

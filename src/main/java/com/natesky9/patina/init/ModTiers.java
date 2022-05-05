@@ -1,5 +1,6 @@
-package com.natesky9.patina.item;
+package com.natesky9.patina.init;
 
+import com.natesky9.patina.init.ModItems;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.ForgeTier;

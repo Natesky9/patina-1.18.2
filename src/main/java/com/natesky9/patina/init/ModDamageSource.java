@@ -1,4 +1,4 @@
-package com.natesky9.patina.effect;
+package com.natesky9.patina.init;
 
 import net.minecraft.world.damagesource.DamageSource;
 

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "patina:block/test_block",
+    "top": "patina:block/test_block",
+    "side": "patina:block/test_block"
+  }
+}

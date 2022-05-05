@@ -1,12 +1,12 @@
 package com.natesky9.patina.effect;
 
-import net.minecraft.world.damagesource.DamageSource;
+import com.natesky9.patina.init.ModDamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
 public class VenomEffect extends MobEffect {
-    protected VenomEffect(MobEffectCategory p_19451_, int p_19452_) {
+    public VenomEffect(MobEffectCategory p_19451_, int p_19452_) {
         super(p_19451_, p_19452_);
     }
 

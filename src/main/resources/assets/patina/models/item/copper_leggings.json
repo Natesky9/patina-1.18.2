@@ -1,0 +1,26 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "patina:item/copper/copper_leggings_clean"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "patina:rustlevel": 0.25
+      },
+      "model": "patina:item/copper/copper_leggings_exposed"
+    },
+    {
+      "predicate": {
+        "patina:rustlevel": 0.5
+      },
+      "model": "patina:item/copper/copper_leggings_weathered"
+    },
+    {
+      "predicate": {
+        "patina:rustlevel": 0.75
+      },
+      "model": "patina:item/copper/copper_leggings_oxidized"
+    }
+  ]
+}

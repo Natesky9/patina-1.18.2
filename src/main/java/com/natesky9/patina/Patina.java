@@ -1,31 +1,38 @@
 package com.natesky9.patina;
 
 import com.mojang.logging.LogUtils;
-import com.natesky9.patina.block.ModBlocks;
-import com.natesky9.patina.effect.ModEffects;
-import com.natesky9.patina.item.ModItems;
+import com.natesky9.patina.entity.BeeQueen.BeeQueen;
+import com.natesky9.patina.entity.BeeQueen.BeeQueenModel;
+import com.natesky9.patina.entity.BeeQueen.BeeQueenRender;
+import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
+import com.natesky9.patina.entity.SpiderQueen.SpiderQueenModel;
+import com.natesky9.patina.entity.SpiderQueen.SpiderQueenRender;
+import com.natesky9.patina.init.ModBlocks;
+import com.natesky9.patina.init.ModEffects;
+import com.natesky9.patina.init.ModEntityTypes;
+import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.overlay.VenomOverlay;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-import java.util.stream.Collectors;
+import static java.lang.Math.min;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Patina.MOD_ID)
@@ -40,50 +47,30 @@ public class Patina
         public ItemStack makeIcon() {
             return new ItemStack(ModItems.TEST.get());
         }
+
     };
 
-    public Patina()
-    {
+    public Patina() {
         // Register the setup method for modloading
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         
-        eventBus.addListener(this::setup);
-        eventBus.addListener(this::enqueueIMC);
-        eventBus.addListener(this::processIMC);
+        //eventBus.addListener(this::setup);
+        //eventBus.addListener(this::enqueueIMC);
+        //eventBus.addListener(this::processIMC);
         //register everything
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
         ModEffects.register(eventBus);
+        ModEntityTypes.register(eventBus);
+
+
 
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            MinecraftForge.EVENT_BUS.register(new ClientOnlyStuff());
-        });
+        //
     }
     //----------//
-
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-    }
-
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // Some example code to dispatch IMC to another mod
-        InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
-    }
-
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // Some example code to receive and process InterModComms from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m->m.messageSupplier().get()).
-                collect(Collectors.toList()));
-    }
-
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
@@ -92,18 +79,98 @@ public class Patina
         LOGGER.info("HELLO from server starting");
     }
 
+    //overlays
+    @SubscribeEvent
+    public void RenderGameOverlayEvent(RenderGameOverlayEvent.Post event){
+        VenomOverlay.renderVenomOutline();
+    }
 
-
-    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-    // Event bus for receiving Registry Events)
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents
+    @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ModEvents
     {
         @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
+        public static void addEntityAttributes(EntityAttributeCreationEvent event)
         {
-            // Register a new block here
-            LOGGER.info("HELLO from Register Block");
+            event.put(ModEntityTypes.BEE_QUEEN.get(), BeeQueen.createAttributes().build());
+            event.put(ModEntityTypes.SPIDER_QUEEN.get(), SpiderQueen.createAttributes().build());
+
         }
+        @SubscribeEvent
+        public static void entityLayer(EntityRenderersEvent.RegisterLayerDefinitions event)
+        {
+            event.registerLayerDefinition(BeeQueenModel.LAYER_LOCATION,BeeQueenModel::createBodyLayer);
+            event.registerLayerDefinition(SpiderQueenModel.LAYER_LOCATION,SpiderQueenModel::createBodyLayer);
+
+        }
+        @SubscribeEvent
+        public static void entityRenderer(EntityRenderersEvent.RegisterRenderers event)
+        {
+            event.registerEntityRenderer(ModEntityTypes.BEE_QUEEN.get(), BeeQueenRender::new);
+            event.registerEntityRenderer(ModEntityTypes.SPIDER_QUEEN.get(), SpiderQueenRender::new);
+        }
+        @SubscribeEvent
+        public static void doClientStuff(FMLClientSetupEvent event)
+        {
+            ItemProperties.register(ModItems.COPPER_HELMET.get(),
+                    new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
+                    {
+                        CompoundTag nbt = stack.getOrCreateTag();
+                        int rust =  nbt.getInt("oxidation");
+                        float rust_level = min(rust / 100,3);
+                        float rust_float = (rust_level/4);
+                        System.out.println("copper helmet is at stage: " + rust_float);
+                        return rust_float;
+                    });
+            ItemProperties.register(ModItems.COPPER_CHESTPLATE.get(),
+                    new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
+                    {
+
+                        CompoundTag nbt = stack.getOrCreateTag();
+                        int rust = nbt.getInt("oxidation");
+                        float rust_level = min(rust / 100,3);
+                        float rust_float = (rust_level/4);
+                        System.out.println("copper chest is at stage: " + rust_float);
+                        return rust_float;
+                    });
+            ItemProperties.register(ModItems.COPPER_LEGGINGS.get(),
+                    new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
+                    {
+                        CompoundTag nbt = stack.getOrCreateTag();
+                        int rust = nbt.getInt("oxidation");
+                        float rust_level = min(rust / 100,3);
+                        float rust_float = (rust_level/4);
+                        System.out.println("copper pants is at stage: " + rust_float);
+                        return rust_float;
+                    });
+            ItemProperties.register(ModItems.COPPER_BOOTS.get(),
+                    new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
+                    {
+                        CompoundTag nbt = stack.getOrCreateTag();
+                        int rust = nbt.getInt("oxidation");
+                        float rust_level = min(rust / 100,3);
+                        float rust_float = (rust_level/4);
+                        System.out.println("copper boots is at stage: " + rust_float);
+                        return rust_float;
+                    });
+            //entity
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.FORGE)
+    public static class ForgeEvents{
+        @SubscribeEvent
+        public void PotionRemoveEvent(LivingEntity living, MobEffectInstance effect){
+            int duration = effect.getDuration();
+            int intensity = effect.getAmplifier();
+            MobEffect potion = effect.getEffect();
+            LOGGER.info("effect duration is: " + duration);
+            LOGGER.info("effect intensity is: " + intensity);
+
+            if (intensity >= 1) {
+                MobEffectInstance newpotion = new MobEffectInstance(potion,100,intensity-1);
+                living.addEffect(newpotion);
+            }
+        }
+
     }
 }

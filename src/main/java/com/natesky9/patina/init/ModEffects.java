@@ -1,6 +1,7 @@
-package com.natesky9.patina.effect;
+package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.effect.VenomEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
