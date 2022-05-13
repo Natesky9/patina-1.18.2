@@ -1,10 +1,8 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.item.BlinkBrownie;
-import com.natesky9.patina.item.CoalCokeItem;
-import com.natesky9.patina.item.LuxometerItem;
-import com.natesky9.patina.item.VenomSwordItem;
+import com.natesky9.patina.item.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -15,6 +13,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, Patina.MOD_ID);
+    //add item predicates
+    public static final ResourceLocation rustlevel = new ResourceLocation(Patina.MOD_ID,"rustlevel");
 
     public static final RegistryObject<Item> TEST = ITEMS.register("test",
             () -> new Item(new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
@@ -42,6 +42,44 @@ public class ModItems {
             () -> new HoeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> VENOM_SWORD = ITEMS.register("venom_sword",
             () -> new VenomSwordItem(ModTiers.Custom,3,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
+
+    //boss shards
+    public static final RegistryObject<Item> BEE_FRAGMENT_1= ITEMS.register("bee_fragment_1",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> BEE_FRAGMENT_2 = ITEMS.register("bee_fragment_2",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> BEE_FRAGMENT_3 = ITEMS.register("bee_fragment_3",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> BEE_FRAGMENT_4 = ITEMS.register("bee_fragment_4",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> BEE_FRAGMENT_A = ITEMS.register("bee_fragment_a",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> BEE_FRAGMENT_B = ITEMS.register("bee_fragment_b",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> BEE_WEAPON = ITEMS.register("bee_weapon",
+            () -> (new SwordItem(ModTiers.Boss,3,4f,
+                    new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB))));
+
+    public static final RegistryObject<Item> PIG_FRAGMENT_1= ITEMS.register("pig_fragment_1",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> PIG_FRAGMENT_2 = ITEMS.register("pig_fragment_2",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> PIG_FRAGMENT_3 = ITEMS.register("pig_fragment_3",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> PIG_FRAGMENT_4 = ITEMS.register("pig_fragment_4",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> PIG_FRAGMENT_A = ITEMS.register("pig_fragment_a",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> PIG_FRAGMENT_B = ITEMS.register("pig_fragment_b",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> PIG_WEAPON = ITEMS.register("pig_weapon",
+            () -> (new SwordItem(ModTiers.Boss,5,1f,
+                    new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB))));
+    public static final RegistryObject<Item> PIGLIN_BALLISTA = ITEMS.register("piglin_ballista",
+            () -> new CrossbowItem(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> WITHER_SCEPTER = ITEMS.register("wither_scepter",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
+    //end boss shards
 
     //armor//
     public static final RegistryObject<Item> COPPER_HELMET = ITEMS.register("copper_helmet",
@@ -86,8 +124,22 @@ public class ModItems {
     public static final RegistryObject<Item> SPIDER_NEST = ITEMS.register("spider_nest",
             () -> new Item(new Item.Properties()
                     .tab(Patina.CREATIVE_MODE_TAB)));
-
+    //resources
+    //public static final RegistryObject<Item> CALCITE_DUST = ITEMS.register("calcite_dust",
+    //        () -> new Item(new Item.Properties()
+    //                .tab(Patina.CREATIVE_MODE_TAB)));
+    //public static final RegistryObject<Item> KELP_MEAL = ITEMS.register("kelp_meal",
+    //        () -> new Item(new Item.Properties()
+    //                .tab(Patina.CREATIVE_MODE_TAB)));
+    //public static final RegistryObject<Item> CRUSHED_SHELLS = ITEMS.register("crushed_shells",
+    //        () -> new Item(new Item.Properties()
+    //                .tab(Patina.CREATIVE_MODE_TAB)));
+    //public static final RegistryObject<Item> FERTILIZER = ITEMS.register("fertilizer",
+    //        () -> new FertilizerItem(new Item.Properties()
+    //                .rarity(Rarity.UNCOMMON)
+    //                .tab(Patina.CREATIVE_MODE_TAB)));
     //--------------------------------------------------//
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

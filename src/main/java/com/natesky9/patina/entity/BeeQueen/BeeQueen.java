@@ -12,10 +12,7 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.PowerableMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -23,8 +20,11 @@ import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
@@ -42,7 +42,7 @@ public class BeeQueen extends Monster implements PowerableMob {
         return Mob.createMobAttributes()
                 .add(ATTACK_DAMAGE,4)
                 .add(MAX_HEALTH,300)
-                .add(MOVEMENT_SPEED,1)
+                .add(MOVEMENT_SPEED,.5)
                 .add(KNOCKBACK_RESISTANCE,1)
                 .add(ATTACK_SPEED,.1)
                 .add(ATTACK_KNOCKBACK,1);
@@ -206,7 +206,10 @@ public class BeeQueen extends Monster implements PowerableMob {
     public void die(DamageSource p_70645_1_) {
         super.die(p_70645_1_);
         this.bossEvent.removeAllPlayers();
-        this.spawnAtLocation(ModItems.ROYAL_JELLY.get());
+        //spawn loot
+        ItemStack loot = new ItemStack(ModItems.ROYAL_JELLY.get(), random.nextInt(16));
+        this.spawnAtLocation(loot).setGlowingTag(true);
+        spawnFragment();
         List<Bee> beeEntities = this.level.getEntitiesOfClass(Bee.class,this.getBoundingBox().inflate(16));
         for(Bee beeentity : beeEntities)
         {
@@ -215,6 +218,22 @@ public class BeeQueen extends Monster implements PowerableMob {
             beeentity.removeAllEffects();
             beeentity.heal(10);
         }
+    }
+
+    private void spawnFragment() {
+        Item fragment = null;
+        int roll = random.nextInt(4);
+        fragment = switch (roll) {
+            case 1 -> ModItems.BEE_FRAGMENT_1.get();
+            case 2 -> ModItems.BEE_FRAGMENT_2.get();
+            case 3 -> ModItems.BEE_FRAGMENT_3.get();
+            default -> ModItems.BEE_FRAGMENT_4.get();
+        };
+        ItemEntity loot = this.spawnAtLocation(fragment);
+        if (loot != null)
+        {loot.setGlowingTag(true);}
+
+
     }
 
     @Override

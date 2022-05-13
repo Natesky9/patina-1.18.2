@@ -42,12 +42,15 @@ public class Patina
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final String MOD_ID = "patina";
     //create a tab
-    public static final CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("TAB_PATINA") {
+    public static final CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("patina_tab") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(ModItems.TEST.get());
         }
-
+    };
+    public static final CreativeModeTab BOSS_LOOT_TAB = new CreativeModeTab("patina_loot") {
+        @Override
+        public ItemStack makeIcon() {return new ItemStack(ModItems.VENOM_SWORD.get());}
     };
 
     public Patina() {
@@ -153,6 +156,12 @@ public class Patina
                         return rust_float;
                     });
             //entity
+            ItemProperties.register(ModItems.LUXOMETER.get(),
+                    new ResourceLocation(Patina.MOD_ID,"toggle"),(stack, world, entity, number) ->
+                    {
+                        CompoundTag nbt = stack.getOrCreateTag();
+                        return nbt.getBoolean("toggle") ? 1F:0F;
+                    });
         }
     }
 
