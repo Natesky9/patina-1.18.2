@@ -12,6 +12,8 @@ import com.natesky9.patina.init.ModEffects;
 import com.natesky9.patina.init.ModEntityTypes;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.overlay.VenomOverlay;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -114,6 +116,10 @@ public class Patina
         @SubscribeEvent
         public static void doClientStuff(FMLClientSetupEvent event)
         {
+            //Render types
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.HERB_BLOCK.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.HONEY_PUDDLE.get(), RenderType.translucentNoCrumbling());
+            //armor stuff
             ItemProperties.register(ModItems.COPPER_HELMET.get(),
                     new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
                     {

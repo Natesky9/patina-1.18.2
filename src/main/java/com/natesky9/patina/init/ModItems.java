@@ -35,14 +35,19 @@ public class ModItems {
     public static final RegistryObject<Item> CUSTOM_AXE = ITEMS.register("custom_axe",
             () -> new AxeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CUSTOM_PICK = ITEMS.register("custom_pick",
-            () -> new PickaxeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
+            () -> new ChargedPickaxeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CUSTOM_SHOVEL = ITEMS.register("custom_shovel",
             () -> new ShovelItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CUSTOM_HOE = ITEMS.register("custom_hoe",
             () -> new HoeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> VENOM_SWORD = ITEMS.register("venom_sword",
             () -> new VenomSwordItem(ModTiers.Custom,3,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
-
+    public static final RegistryObject<Item> FIRE_PIPE = ITEMS.register("fire_pipe",
+            () -> new FirePipeItem(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> PISTON_SHIELD = ITEMS.register("knockback_shield",
+            () -> new KnockbackShieldItem(new Item.Properties().rarity(Rarity.UNCOMMON).durability(200).tab(Patina.CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> CHARGED_SHEARS = ITEMS.register("charged_shears",
+            () -> new ChargedShearsItems(new Item.Properties().rarity(Rarity.UNCOMMON).durability(200).tab(Patina.CREATIVE_MODE_TAB)));
     //boss shards
     public static final RegistryObject<Item> BEE_FRAGMENT_1= ITEMS.register("bee_fragment_1",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
@@ -77,9 +82,16 @@ public class ModItems {
                     new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB))));
     public static final RegistryObject<Item> PIGLIN_BALLISTA = ITEMS.register("piglin_ballista",
             () -> new CrossbowItem(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
-    public static final RegistryObject<Item> WITHER_SCEPTER = ITEMS.register("wither_scepter",
+    public static final RegistryObject<Item> WITHER_WEAPON = ITEMS.register("wither_weapon",
             () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
     //end boss shards
+    //offhands
+    public static final RegistryObject<Item> MELEE_OFFHAND = ITEMS.register("melee_augment",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> RANGE_OFFHAND = ITEMS.register("range_augment",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
+    public static final RegistryObject<Item> MAGIC_OFFHAND = ITEMS.register("magic_augment",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
 
     //armor//
     public static final RegistryObject<Item> COPPER_HELMET = ITEMS.register("copper_helmet",
@@ -124,6 +136,20 @@ public class ModItems {
     public static final RegistryObject<Item> SPIDER_NEST = ITEMS.register("spider_nest",
             () -> new Item(new Item.Properties()
                     .tab(Patina.CREATIVE_MODE_TAB)));
+    //seeds
+    public static final RegistryObject<Item> HERB_SEEDS = ITEMS.register("herb_seeds",
+            () -> new ItemNameBlockItem(ModBlocks.HERB_BLOCK.get(),
+                    new Item.Properties()
+                            .rarity(Rarity.UNCOMMON)
+                            .tab(Patina.CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> HERB = ITEMS.register("herb",
+            () -> new Item(new Item.Properties()
+                    .rarity(Rarity.UNCOMMON)
+                    .food(ModFoods.HERB)));
+    public static final RegistryObject<Item> FERTILIZER = ITEMS.register("fertilizer",
+            () -> new FertilizerItem(new Item.Properties()
+                    .rarity(Rarity.UNCOMMON)
+                    .tab(Patina.CREATIVE_MODE_TAB)));
     //resources
     //public static final RegistryObject<Item> CALCITE_DUST = ITEMS.register("calcite_dust",
     //        () -> new Item(new Item.Properties()
@@ -133,10 +159,6 @@ public class ModItems {
     //                .tab(Patina.CREATIVE_MODE_TAB)));
     //public static final RegistryObject<Item> CRUSHED_SHELLS = ITEMS.register("crushed_shells",
     //        () -> new Item(new Item.Properties()
-    //                .tab(Patina.CREATIVE_MODE_TAB)));
-    //public static final RegistryObject<Item> FERTILIZER = ITEMS.register("fertilizer",
-    //        () -> new FertilizerItem(new Item.Properties()
-    //                .rarity(Rarity.UNCOMMON)
     //                .tab(Patina.CREATIVE_MODE_TAB)));
     //--------------------------------------------------//
 

@@ -15,4 +15,8 @@ public class ModFoods {
             .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,200,0),.5F)
             .effect(new MobEffectInstance(MobEffects.HUNGER,200,0),.5F)
             .build();
+    public static final FoodProperties HERB = new FoodProperties.Builder()
+            .nutrition(2).saturationMod(2)
+            .effect(new MobEffectInstance(MobEffects.ABSORPTION,2000,0),1)
+            .build();
 }

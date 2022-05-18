@@ -1,13 +1,17 @@
 package com.natesky9.patina.datagen;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.block.HerbPlantBlock;
 import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
+import java.util.function.Function;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper)
@@ -19,20 +23,57 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels()
     {
         //add blocks here
-        //simpleBlock(ModBlocks.TEST_BLOCK.get());
-        //stairsBlock((StairBlock) ModBlocks.TEST_STAIRS.get(),blockTexture(ModBlocks.TEST_BLOCK.get()));
-        //slabBlock((SlabBlock) ModBlocks.TEST_SLAB.get(),blockTexture(ModBlocks.TEST_BLOCK.get()), blockTexture(ModBlocks.TEST_BLOCK.get()));
-        //wallBlock((WallBlock) ModBlocks.TEST_WALL.get(),blockTexture(ModBlocks.TEST_BLOCK.get()));
-        //simpleBlock(ModBlocks.HONEY_PUDDLE.get());//change to thin block
-        //simpleBlock(ModBlocks.TELECHORUS.get());
-        //pipeBlock((PipeBlock) ModBlocks.CHORUS_CABLE.get(),blockTexture(Blocks.CHORUS_FLOWER),blockTexture(Blocks.CHORUS_PLANT));
-        //simpleBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());
-        //simpleBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());
-        //simpleBlock(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
-        //simpleBlock(ModBlocks.CUSTOM_BLOCK.get());
+        basicBlock(ModBlocks.TEST_BLOCK.get());
+        stairsBlock((StairBlock) ModBlocks.TEST_STAIRS.get(),blockTexture(ModBlocks.TEST_BLOCK.get()));
+        slabBlock((SlabBlock) ModBlocks.TEST_SLAB.get(),blockTexture(ModBlocks.TEST_BLOCK.get()), blockTexture(ModBlocks.TEST_BLOCK.get()));
+        wallBlock((WallBlock) ModBlocks.TEST_WALL.get(),blockTexture(ModBlocks.TEST_BLOCK.get()));
+        thinBlock(ModBlocks.HONEY_PUDDLE.get(),new ResourceLocation("minecraft:block/honey_block_bottom"));//change to thin block
+        basicBlock(ModBlocks.TELECHORUS.get());
+        //CHORUS_CABLE done with json
+        // pipeBlock((PipeBlock) ModBlocks.CHORUS_CABLE.get(),blockTexture(Blocks.CHORUS_FLOWER),blockTexture(Blocks.CHORUS_PLANT));
+        basicBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());
+        basicBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());
+        basicBlock(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
+        basicBlock(ModBlocks.CUSTOM_BLOCK.get());
+        makeCrop((HerbPlantBlock)ModBlocks.HERB_BLOCK.get(),"herb_block_stage");
 
 
         //done adding blocks
+    }
+    private void basicBlock(Block block)
+    {
+        String name = block.getRegistryName().toString();
+        ResourceLocation texture = blockTexture(block);
+        ModelFile modelFile = models().cubeAll(name,texture);
+        models().getBuilder(name).texture("all",texture);
+
+        getVariantBuilder(block).partialState().addModels(new ConfiguredModel(modelFile));
+        //itemModels().getBuilder(block.getRegistryName().getPath()).parent(modelFile);
+    }
+    private void thinBlock(Block block, ResourceLocation texture)
+    {
+        String name = block.getRegistryName().toString();
+        BlockModelBuilder builder = models().getBuilder(name);
+
+        ModelFile modelFile = models().cubeAll(name,texture);
+        builder.texture("texture",texture);
+        builder.element().from(0,0,0).to(16,1,16).texture("texture");
+
+
+        getVariantBuilder(block).partialState().addModels(new ConfiguredModel(modelFile));
+    }
+    public void makeCrop(CropBlock block, String name) {
+        Function<BlockState, ConfiguredModel[]> function = state -> states(state, block, name);
+
+        getVariantBuilder(block).forAllStates(function);
+    }
+
+    private ConfiguredModel[] states(BlockState state, CropBlock block, String name) {
+        ConfiguredModel[] models = new ConfiguredModel[1];
+        models[0] = new ConfiguredModel(models().crop(name + state.getValue(block.getAgeProperty()),
+                new ResourceLocation(Patina.MOD_ID, "block/plants/" + name + state.getValue(block.getAgeProperty()))));
+
+        return models;
     }
 
     public void pipeBlock(PipeBlock block, ResourceLocation nodeTexture, ResourceLocation pipeTexture)
@@ -41,34 +82,32 @@ public class ModBlockStateProvider extends BlockStateProvider {
         String texture1 = "node_texture";
         String texture2 = "pipe_texture";
 
-        BlockModelBuilder node = models().getBuilder(baseName+"_node").texture(texture1,nodeTexture);
-        BlockModelBuilder pipe = models().getBuilder(baseName+"_pipe").texture(texture2,pipeTexture);
-        BlockModelBuilder inventory = models().cubeAll(baseName+"_inventory",blockTexture(block));
-        MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
+        MultiPartBlockStateBuilder multipartBuilder = getMultipartBuilder(block);
+        MultiPartBlockStateBuilder inventoryBuilder = getMultipartBuilder(block);
 
-        formNode(node,texture1);
-        formPipe(pipe,texture2);
+        BlockModelBuilder nodeModel = models().getBuilder(baseName+"_node").texture(texture1,nodeTexture);
+        BlockModelBuilder pipeModel = models().getBuilder(baseName+"_pipe").texture(texture2,pipeTexture);
 
-        addNode(builder,node);
-        addPipe(builder,pipe);
-        builder.part().modelFile(inventory).addModel();
+
+        formNode(nodeModel);
+        formPipe(pipeModel);
+        nodeModel.texture("node",nodeTexture);
+        pipeModel.texture("pipe",pipeTexture);
+
+        blockPipe(multipartBuilder,nodeModel,pipeModel);
 
     }
-    private void formNode(BlockModelBuilder builder, String texture)
+    private void formNode(BlockModelBuilder builder)
     {
-        box(builder,texture,5,5,5,11,11,11);
+        box(builder,5,5,5,11,11,11);
     }
-    private void formPipe(BlockModelBuilder builder, String texture)
+    private void formPipe(BlockModelBuilder builder)
     {
-        box(builder,texture,6,6,0,10,10,5);
+        box(builder,6,6,0,10,10,5);
     }
 
-    public MultiPartBlockStateBuilder addNode(MultiPartBlockStateBuilder builder, ModelFile node)
-    {
-        //center node
-        return builder.part().modelFile(node).addModel().end();
-    }
-    public MultiPartBlockStateBuilder addPipe(MultiPartBlockStateBuilder builder, ModelFile pipe) {
+    public void blockPipe(MultiPartBlockStateBuilder builder, ModelFile node, ModelFile pipe) {
+        builder.part().modelFile(node).addModel();
         //6 pipes out
         builder.part().modelFile(pipe).rotationX(90).addModel().condition(BlockStateProperties.DOWN,true);
         builder.part().modelFile(pipe).rotationX(270).addModel().condition(BlockStateProperties.UP,true);
@@ -76,12 +115,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         builder.part().modelFile(pipe).rotationY(90).addModel().condition(BlockStateProperties.EAST,true);
         builder.part().modelFile(pipe).rotationY(180).addModel().condition(BlockStateProperties.SOUTH,true);
         builder.part().modelFile(pipe).rotationY(270).addModel().condition(BlockStateProperties.WEST,true);
-        return builder;
     }
     //
-    public void box(BlockModelBuilder builder, String texture, int x, int y, int z, int xx, int yy, int zz)
+    public void box(BlockModelBuilder builder, int x, int y, int z, int xx, int yy, int zz)
     {
-        builder.element().from(x,y,z).to(xx,yy,zz).allFaces((direction, faceBuilder) -> faceBuilder.texture("#"+texture));
-
+        builder.element().from(x,y,z).to(xx,yy,zz);
     }
 }

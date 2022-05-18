@@ -6,6 +6,7 @@
   "item.patina.coal_coke": "Coal Coke",
   "item.patina.inert_rod": "Inert Rod",
   "item.patina.luxometer": "Luxometer",
+  "item.patina.fertilizer": "Fertilizer",
 
   "item.patina.custom_sword": "Custom Sword",
   "item.patina.custom_axe": "Custom Axe",
@@ -13,6 +14,12 @@
   "item.patina.custom_shovel": "Custom Shovel",
   "item.patina.custom_hoe": "Custom Hoe",
   "item.patina.venom_sword": "Venom Sword",
+  "item.patina.fire_pipe": "Fire Pipe WIP",
+  "item.patina.knockback_shield": "Knockback Shield WIP",
+  "item.patina.charged_shears": "Charged Shears WIP",
+  "item.patina.melee_augment": "Melee Offhand WIP",
+  "item.patina.range_augment": "Range Offhand WIP",
+  "item.patina.magic_augment": "Magic Offhand WIP",
 
   "item.patina.copper_helmet": "Copper Helmet",
   "item.patina.copper_chestplate": "Copper Chestplate",
@@ -40,7 +47,7 @@
   "item.patina.pig_fragment_b": "P half 2",
   "item.patina.pig_weapon": "Pig Weapon",
   "item.patina.piglin_ballista": "Piglin Ballista",
-  "item.patina.wither_scepter": "Soul Scepter",
+  "item.patina.wither_weapon": "Soul Scepter",
 
   "item.patina.test_food": "Test Food",
   "item.patina.blink_brownie": "Blink Brownie",
@@ -48,6 +55,8 @@
 
   "item.patina.royal_jelly": "Royal Jelly",
   "item.patina.spider_nest": "Spider Nest",
+  "item.patina.herb_seeds": "Herb Seeds",
+  "item.patina.herb": "Herbs",
 
   "block.patina.machine_blast_cauldron": "Blast V2",
   "block.patina.machine_cauldron_brewing": "Brewing V2",
@@ -60,6 +69,8 @@
   "block.patina.honey_puddle": "Honey Puddle",
   "block.patina.telechorus": "Telechorus",
   "block.patina.chorus_cable": "Chorus Cable",
+
+  "block.patina.herb_block": "Herb Block",
 
   "entity.patina.bee_queen": "Bee Queen",
   "entity.patina.spider_queen": "Spider Queen",

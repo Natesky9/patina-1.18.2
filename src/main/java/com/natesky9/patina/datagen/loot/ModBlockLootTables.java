@@ -1,8 +1,16 @@
 package com.natesky9.patina.datagen.loot;
 
+import com.natesky9.patina.block.HerbPlantBlock;
 import com.natesky9.patina.init.ModBlocks;
+import com.natesky9.patina.init.ModItems;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.world.level.block.BeetrootBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModBlockLootTables extends BlockLoot {
@@ -25,6 +33,14 @@ public class ModBlockLootTables extends BlockLoot {
 
         //special blocks
         this.add(ModBlocks.TEST_SLAB.get(), BlockLoot::createSlabItemTable);
+        //crops
+        this.add(ModBlocks.HERB_BLOCK.get(),createCropDrops(ModBlocks.HERB_BLOCK.get(), ModItems.HERB.get(), ModItems.HERB_SEEDS.get(),propertyEquals(ModBlocks.HERB_BLOCK.get(), HerbPlantBlock.AGE,5)));
+    }
+
+    LootItemBlockStatePropertyCondition.Builder propertyEquals(Block block, IntegerProperty properties, Integer value)
+    {
+        return LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+            .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(properties, value));
     }
     @Override
     protected Iterable<Block> getKnownBlocks()

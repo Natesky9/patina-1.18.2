@@ -2,6 +2,7 @@ package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.block.ChorusCableBlock;
+import com.natesky9.patina.block.HerbPlantBlock;
 import com.natesky9.patina.block.HoneyPuddleBlock;
 import com.natesky9.patina.block.TelechorusBlock;
 import net.minecraft.world.item.BlockItem;
@@ -57,15 +58,23 @@ public class ModBlocks {
     public static final RegistryObject<Block> CUSTOM_BLOCK = registerBlock("custom_block",
             () -> new Block(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(8f).requiresCorrectToolForDrops()));
+    public static final RegistryObject<Block> HERB_BLOCK = registerBlockOnly("herb_block",
+            () -> new HerbPlantBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT).noOcclusion()));
     //--------------------------------------------------//
 
-    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block){
+    private static <T extends Block> RegistryObject<T> registerBlockOnly(String name, Supplier<T> block)
+    {
+        return BLOCKS.register(name,block);
+    }
+    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block)
+    {
         RegistryObject<T> toReturn = BLOCKS.register(name,block);
         registerBlockItem(name,toReturn);
         return toReturn;
     }
 
-    private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block) {
+    private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block)
+    {
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(),
                 new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     }
