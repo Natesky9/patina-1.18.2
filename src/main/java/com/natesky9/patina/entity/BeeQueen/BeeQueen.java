@@ -88,6 +88,7 @@ public class BeeQueen extends Monster implements PowerableMob {
             return false;
         if (source.isProjectile()) return false;//immune to arrows
 
+
         float prehealth = this.getHealth();
         boolean toreturn = super.hurt(source, amount);
         float posthealth = this.getHealth();

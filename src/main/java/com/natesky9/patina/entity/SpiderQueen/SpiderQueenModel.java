@@ -5,6 +5,7 @@ package com.natesky9.patina.entity.SpiderQueen;// Made with Blockbench 4.2.3
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.natesky9.patina.Patina;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,7 +16,7 @@ import net.minecraft.world.entity.Entity;
 
 public class SpiderQueenModel<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "spiderqueen"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Patina.MOD_ID, "spiderqueenmodel"), "main");
 	private final ModelPart leftleg2;
 	private final ModelPart butt;
 	private final ModelPart rightleg2;

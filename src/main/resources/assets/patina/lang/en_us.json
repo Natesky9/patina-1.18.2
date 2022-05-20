@@ -74,6 +74,8 @@
 
   "entity.patina.bee_queen": "Bee Queen",
   "entity.patina.spider_queen": "Spider Queen",
+  "entity.patina.spider_nest_entity": "Spider Nest",
+  "entity.patina.pig_king": "Piglin King",
 
   "effect.patina.venom": "Venom",
   "death.attack.venom": "%1$s succumbed to venom",

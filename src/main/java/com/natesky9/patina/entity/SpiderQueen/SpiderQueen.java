@@ -77,4 +77,5 @@ public class SpiderQueen extends Spider {
         this.bossEvent.removeAllPlayers();
         this.spawnAtLocation(ModItems.SPIDER_NEST.get());
     }
+
 }

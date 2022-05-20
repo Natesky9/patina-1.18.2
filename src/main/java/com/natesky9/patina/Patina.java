@@ -4,9 +4,15 @@ import com.mojang.logging.LogUtils;
 import com.natesky9.patina.entity.BeeQueen.BeeQueen;
 import com.natesky9.patina.entity.BeeQueen.BeeQueenModel;
 import com.natesky9.patina.entity.BeeQueen.BeeQueenRender;
+import com.natesky9.patina.entity.SpiderNest.SpiderNestEntity;
+import com.natesky9.patina.entity.SpiderNest.SpiderNestModel;
+import com.natesky9.patina.entity.SpiderNest.SpiderNestRender;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenModel;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenRender;
+import com.natesky9.patina.entity.PigKing.PigKing;
+import com.natesky9.patina.entity.PigKing.PigKingModel;
+import com.natesky9.patina.entity.PigKing.PigKingRender;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModEffects;
 import com.natesky9.patina.init.ModEntityTypes;
@@ -84,11 +90,7 @@ public class Patina
         LOGGER.info("HELLO from server starting");
     }
 
-    //overlays
-    @SubscribeEvent
-    public void RenderGameOverlayEvent(RenderGameOverlayEvent.Post event){
-        VenomOverlay.renderVenomOutline();
-    }
+
 
     @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ModEvents
@@ -98,6 +100,8 @@ public class Patina
         {
             event.put(ModEntityTypes.BEE_QUEEN.get(), BeeQueen.createAttributes().build());
             event.put(ModEntityTypes.SPIDER_QUEEN.get(), SpiderQueen.createAttributes().build());
+            event.put(ModEntityTypes.SPIDER_NEST_ENTITY.get(), SpiderNestEntity.createAttributes().build());
+            event.put(ModEntityTypes.PIGLIN_KING.get(), PigKing.createAttributes().build());
 
         }
         @SubscribeEvent
@@ -105,6 +109,8 @@ public class Patina
         {
             event.registerLayerDefinition(BeeQueenModel.LAYER_LOCATION,BeeQueenModel::createBodyLayer);
             event.registerLayerDefinition(SpiderQueenModel.LAYER_LOCATION,SpiderQueenModel::createBodyLayer);
+            event.registerLayerDefinition(SpiderNestModel.LAYER_LOCATION,SpiderNestModel::createBodyLayer);
+            event.registerLayerDefinition(PigKingModel.LAYER_LOCATION, PigKingModel::createBodyLayer);
 
         }
         @SubscribeEvent
@@ -112,6 +118,14 @@ public class Patina
         {
             event.registerEntityRenderer(ModEntityTypes.BEE_QUEEN.get(), BeeQueenRender::new);
             event.registerEntityRenderer(ModEntityTypes.SPIDER_QUEEN.get(), SpiderQueenRender::new);
+            event.registerEntityRenderer(ModEntityTypes.SPIDER_NEST_ENTITY.get(), SpiderNestRender::new);
+            event.registerEntityRenderer(ModEntityTypes.PIGLIN_KING.get(), PigKingRender::new);
+        }
+        //overlays
+        @SubscribeEvent
+        public void RenderGameOverlayEvent(RenderGameOverlayEvent.Post event)
+        {
+            VenomOverlay.renderVenomOutline();
         }
         @SubscribeEvent
         public static void doClientStuff(FMLClientSetupEvent event)
