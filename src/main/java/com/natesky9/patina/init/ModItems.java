@@ -35,7 +35,7 @@ public class ModItems {
     public static final RegistryObject<Item> CUSTOM_AXE = ITEMS.register("custom_axe",
             () -> new AxeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CUSTOM_PICK = ITEMS.register("custom_pick",
-            () -> new ChargedPickaxeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
+            () -> new PickaxeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CUSTOM_SHOVEL = ITEMS.register("custom_shovel",
             () -> new ShovelItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CUSTOM_HOE = ITEMS.register("custom_hoe",
@@ -48,6 +48,8 @@ public class ModItems {
             () -> new KnockbackShieldItem(new Item.Properties().rarity(Rarity.UNCOMMON).durability(200).tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CHARGED_SHEARS = ITEMS.register("charged_shears",
             () -> new ChargedShearsItems(new Item.Properties().rarity(Rarity.UNCOMMON).durability(200).tab(Patina.CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> CHARGED_PICK = ITEMS.register("charged_pick",
+            () -> new ChargedPickaxeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     //boss shards
     public static final RegistryObject<Item> BEE_FRAGMENT_1= ITEMS.register("bee_fragment_1",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));

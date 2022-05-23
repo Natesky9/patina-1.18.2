@@ -14,7 +14,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -43,7 +42,7 @@ public class PigKing extends Monster {
 
     private final ServerBossEvent hungerProgress = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(),
             BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(false);
-    private final ServerBossEvent saturationProgress = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(),
+    private final ServerBossEvent saturationProgress = (ServerBossEvent)(new ServerBossEvent(null,
             BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(false);
     public ItemStack food = ItemStack.EMPTY;
     float hunger = 0;

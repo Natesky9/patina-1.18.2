@@ -69,6 +69,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CUSTOM_HOE.get());
         simpleItem(ModItems.CUSTOM_PICK.get());
 
+        simpleItem(ModItems.CHARGED_SHEARS.get());
+        simpleItem(ModItems.CHARGED_PICK.get());
+        simpleItem(ModItems.PISTON_SHIELD.get());
+
         simpleItem(ModItems.VENOM_SWORD.get());
 
         simpleItem(ModItems.LUXOMETER.get());
