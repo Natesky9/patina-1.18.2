@@ -16,6 +16,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.IForgeShearable;
 
 import java.util.List;
+import java.util.Random;
 
 public class ChargedShearsItems extends ShearsItem {
     public ChargedShearsItems(Properties p_43074_) {
@@ -33,11 +34,11 @@ public class ChargedShearsItems extends ShearsItem {
         if (entity.level.isClientSide)
         {
             entity.setYRot(rotate);
-            entity.yRotO = rotate;
+            entity.yRotO = entity.getYRot();
             entity.yBodyRot = rotate;
-            entity.yBodyRotO = rotate;
+            entity.yBodyRotO = entity.yBodyRot;
             entity.yHeadRot = rotate;
-            entity.yHeadRotO = rotate;
+            entity.yHeadRotO = entity.yHeadRot;
             return InteractionResult.PASS;
         }
 
@@ -57,29 +58,24 @@ public class ChargedShearsItems extends ShearsItem {
                 //if we can shear it
                 List<ItemStack> drops = target.onSheared(playerIn, stack, entity.level,pos,
                         Math.max(fortune,looting));
-                drops.forEach(d -> {
-                    //randomly spawn each item with velocity
-                    ItemEntity item = entity.spawnAtLocation(d, 1.0F);
-                    item.setDeltaMovement(item.getDeltaMovement().add((double)((random.nextFloat() - random.nextFloat()) * 0.1F), (double)(random.nextFloat() * 0.05F), (double)((random.nextFloat() - random.nextFloat()) * 0.1F)));
-                });
+                if (random.nextFloat() > .1F/drops.size())
+                {
+                    ItemEntity drop = entity.spawnAtLocation(drops.get(0), 1.0F);
+                    drop.setDeltaMovement(drop.getDeltaMovement().add((double) ((random.nextFloat() - random.nextFloat()) * 0.1F), (double) (random.nextFloat() * 0.05F), (double) ((random.nextFloat() - random.nextFloat()) * 0.1F)));
+                }
+                //make it dance
+
+                entity.setPos(getx,gety+.5,getz);
+                entity.hurtMarked = true;
+                entity.resetFallDistance();
+
                 if (target instanceof Sheep sheep)
                 {
-                    //sheep.goalSelector.removeAllGoals();
-                    //make sheep be sheared multiple times
-                    entity.setPos(getx,gety+.25,getz);
-                    //rotate randomly
-                    entity.setYRot(rotate);
-                    entity.yRotO = rotate;
-                    entity.yBodyRot = rotate;
-                    entity.yBodyRotO = rotate;
-                    entity.yHeadRot = rotate;
-                    entity.yHeadRotO = rotate;
-
-                    entity.resetFallDistance();
-                    if (random.nextFloat() > .1F)
-                    sheep.setSheared(false);
-                    entity.hurtMarked = true;
-                    //10% chance to shear
+                    sheep.getMoveControl().setWantedPosition(entity.getX(),entity.getY(),entity.getZ(),0);
+                    sheep.getLookControl().setLookAt(sheep);
+                    if (random.nextFloat() > .1F/drops.size())
+                        sheep.setSheared(false);
+                    return InteractionResult.CONSUME;
                 }
             }
             else
@@ -88,8 +84,6 @@ public class ChargedShearsItems extends ShearsItem {
                 entity.hurt(DamageSource.playerAttack(playerIn),1F);
             }
         }
-
-
         //nothing happened
         return InteractionResult.PASS;
     }
