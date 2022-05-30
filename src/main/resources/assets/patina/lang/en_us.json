@@ -58,7 +58,8 @@
   "item.patina.herb_seeds": "Herb Seeds",
   "item.patina.herb": "Herbs",
 
-  "block.patina.machine_blast_cauldron": "Blast V2",
+  "block.patina.machine_custom": "Custom Machine WIP",
+  "block.patina.machine_blast_cauldron": "Foundry WIP",
   "block.patina.machine_cauldron_brewing": "Brewing V2",
   "block.patina.machine_smoker_grindstone": "Smoker V2",
 

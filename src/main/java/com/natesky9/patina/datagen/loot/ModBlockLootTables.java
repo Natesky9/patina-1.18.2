@@ -5,10 +5,7 @@ import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.world.level.block.BeetrootBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraftforge.registries.RegistryObject;
@@ -27,6 +24,7 @@ public class ModBlockLootTables extends BlockLoot {
         this.add(ModBlocks.HONEY_PUDDLE.get(), noDrop());
 
         this.dropSelf(ModBlocks.TELECHORUS.get());
+        this.dropSelf(ModBlocks.MACHINE_CUSTOM.get());
         this.dropSelf(ModBlocks.MACHINE_CAULDRON_BREWING.get());
         this.dropSelf(ModBlocks.MACHINE_BLAST_CAULDRON.get());
         this.dropSelf(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());

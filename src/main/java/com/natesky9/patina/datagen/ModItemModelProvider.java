@@ -69,9 +69,15 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CUSTOM_HOE.get());
         simpleItem(ModItems.CUSTOM_PICK.get());
 
+        simpleItem(ModItems.MELEE_OFFHAND.get());
+        simpleItem(ModItems.RANGE_OFFHAND.get());
+        simpleItem(ModItems.MAGIC_OFFHAND.get());
+        simpleItem(ModItems.FERTILIZER.get());
+
         simpleItem(ModItems.CHARGED_SHEARS.get());
         simpleItem(ModItems.CHARGED_PICK.get());
         simpleItem(ModItems.PISTON_SHIELD.get());
+        simpleItem(ModItems.FIRE_PIPE.get());
 
         simpleItem(ModItems.VENOM_SWORD.get());
 
@@ -81,15 +87,17 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());
         simpleBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());
         simpleBlock(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
+        simpleBlock(ModBlocks.MACHINE_CUSTOM.get());
         simpleBlock(ModBlocks.CUSTOM_BLOCK.get());
         simpleBlock(ModBlocks.TELECHORUS.get());
         withExistingParent(ModBlocks.CHORUS_CABLE.get().getRegistryName().getPath(),modLoc("block/chorus_cable_inventory"));
+        withExistingParent(ModBlocks.HONEY_PUDDLE.get().getRegistryName().getPath(),modLoc("block/honey_puddle"));
         simpleBlock(ModBlocks.TEST_BLOCK.get());
         withExistingParent(ModBlocks.TEST_SLAB.get().getRegistryName().getPath(),modLoc("block/test_slab"));
         withExistingParent(ModBlocks.TEST_STAIRS.get().getRegistryName().getPath(),modLoc("block/test_stairs"));
         withExistingParent(ModBlocks.TEST_WALL.get().getRegistryName().getPath(),mcLoc("block/wall_inventory"))
                 .texture("wall",modLoc("block/test_block"));
-        withExistingParent(ModBlocks.HONEY_PUDDLE.get().getRegistryName().getPath(),modLoc("block/honey_puddle"));
+        //withExistingParent(ModBlocks.HONEY_PUDDLE.get().getRegistryName().getPath(),modLoc("block/honey_puddle"));
     }
 
     private ItemModelBuilder simpleBlock(Block block)

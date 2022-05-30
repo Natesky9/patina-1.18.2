@@ -1,10 +1,9 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.block.ChorusCableBlock;
-import com.natesky9.patina.block.HerbPlantBlock;
-import com.natesky9.patina.block.HoneyPuddleBlock;
-import com.natesky9.patina.block.TelechorusBlock;
+import com.natesky9.patina.block.*;
+import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronBlock;
+import com.natesky9.patina.block.Custom.MachineCustomBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -45,14 +44,17 @@ public class ModBlocks {
                     .noOcclusion()));
 
     //machines
+    public static final RegistryObject<Block> MACHINE_CUSTOM = registerBlock("machine_custom",
+            () -> new MachineCustomBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+                    .strength(10f)));
     public static final RegistryObject<Block> MACHINE_BLAST_CAULDRON = registerBlock("machine_blast_cauldron",
-            () -> new Block(BlockBehaviour.Properties.of(Material.WOOD)
+            () -> new MachineBlastCauldronBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
     public static final RegistryObject<Block> MACHINE_CAULDRON_BREWING = registerBlock("machine_cauldron_brewing",
-            () -> new Block(BlockBehaviour.Properties.of(Material.WOOD)
+            () -> new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
     public static final RegistryObject<Block> MACHINE_SMOKER_GRINDSTONE = registerBlock("machine_smoker_grindstone",
-            () -> new Block(BlockBehaviour.Properties.of(Material.WOOD)
+            () -> new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
     //end machines
     public static final RegistryObject<Block> CUSTOM_BLOCK = registerBlock("custom_block",

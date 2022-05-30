@@ -27,10 +27,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         stairsBlock((StairBlock) ModBlocks.TEST_STAIRS.get(),blockTexture(ModBlocks.TEST_BLOCK.get()));
         slabBlock((SlabBlock) ModBlocks.TEST_SLAB.get(),blockTexture(ModBlocks.TEST_BLOCK.get()), blockTexture(ModBlocks.TEST_BLOCK.get()));
         wallBlock((WallBlock) ModBlocks.TEST_WALL.get(),blockTexture(ModBlocks.TEST_BLOCK.get()));
-        thinBlock(ModBlocks.HONEY_PUDDLE.get(),new ResourceLocation("minecraft:block/honey_block_bottom"));//change to thin block
         basicBlock(ModBlocks.TELECHORUS.get());
         //CHORUS_CABLE done with json
         // pipeBlock((PipeBlock) ModBlocks.CHORUS_CABLE.get(),blockTexture(Blocks.CHORUS_FLOWER),blockTexture(Blocks.CHORUS_PLANT));
+        basicBlock(ModBlocks.MACHINE_CUSTOM.get());
         basicBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());
         basicBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());
         basicBlock(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
