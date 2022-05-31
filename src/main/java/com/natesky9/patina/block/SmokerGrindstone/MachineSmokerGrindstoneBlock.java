@@ -1,4 +1,4 @@
-package com.natesky9.patina.block.Custom;
+package com.natesky9.patina.block.SmokerGrindstone;
 
 import com.natesky9.patina.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -23,12 +23,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class MachineCustomBlock extends BaseEntityBlock {
+public class MachineSmokerGrindstoneBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final VoxelShape SHAPE = Block.box(0,0,0,16,16,16);
 
     //constructor
-    public MachineCustomBlock(Properties p_49224_) {
+    public MachineSmokerGrindstoneBlock(Properties p_49224_) {
         super(p_49224_);
     }
 
@@ -52,9 +52,9 @@ public class MachineCustomBlock extends BaseEntityBlock {
         if (pState.getBlock() != pNewState.getBlock())
         {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof MachineCustomEntity)
+            if (blockEntity instanceof MachineSmokerGrindstoneEntity)
             {
-                ((MachineCustomEntity) blockEntity).drops();
+                ((MachineSmokerGrindstoneEntity) blockEntity).drops();
             }
         }
         super.onRemove(pState,pLevel,pPos,pNewState,pIsMoving);
@@ -65,9 +65,9 @@ public class MachineCustomBlock extends BaseEntityBlock {
         if (!pLevel.isClientSide())
         {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof MachineCustomEntity)
+            if (blockEntity instanceof MachineSmokerGrindstoneEntity)
             {
-                NetworkHooks.openGui(((ServerPlayer) pPlayer), (MachineCustomEntity) blockEntity, pPos);
+                NetworkHooks.openGui(((ServerPlayer) pPlayer), (MachineSmokerGrindstoneEntity) blockEntity, pPos);
             }
             else
             {
@@ -80,14 +80,14 @@ public class MachineCustomBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new MachineCustomEntity(pPos, pState);
+        return new MachineSmokerGrindstoneEntity(pPos, pState);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, ModBlockEntities.CUSTOM_MACHINE_BLOCK_ENTITY.get(),
-                MachineCustomEntity::tick);
+        return createTickerHelper(pBlockEntityType, ModBlockEntities.MACHINE_SMOKER_GRINDSTONE_ENTITY.get(),
+                MachineSmokerGrindstoneEntity::tick);
     }
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

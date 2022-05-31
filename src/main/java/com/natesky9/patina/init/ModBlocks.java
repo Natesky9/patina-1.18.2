@@ -4,6 +4,7 @@ import com.natesky9.patina.Patina;
 import com.natesky9.patina.block.*;
 import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronBlock;
 import com.natesky9.patina.block.Custom.MachineCustomBlock;
+import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -54,7 +55,7 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
     public static final RegistryObject<Block> MACHINE_SMOKER_GRINDSTONE = registerBlock("machine_smoker_grindstone",
-            () -> new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+            () -> new MachineSmokerGrindstoneBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
     //end machines
     public static final RegistryObject<Block> CUSTOM_BLOCK = registerBlock("custom_block",

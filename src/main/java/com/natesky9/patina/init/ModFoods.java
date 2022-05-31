@@ -5,7 +5,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 
 public class ModFoods {
-    public static final FoodProperties TEST_FOOD = new FoodProperties.Builder().nutrition(1).saturationMod(.2f)
+    public static final FoodProperties TEST_FOOD = new FoodProperties.Builder().nutrition(0).saturationMod(0f)
             .build();
     public static final FoodProperties BLINK_BROWNIE = new FoodProperties.Builder()
             .nutrition(1).saturationMod(2f).alwaysEat().fast()

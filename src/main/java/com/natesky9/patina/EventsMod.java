@@ -1,9 +1,10 @@
 package com.natesky9.patina;
 
 import com.natesky9.patina.block.BlastCauldron.MachineBlastFurnaceScreen;
+import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneScreen;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
-import com.natesky9.patina.block.Custom.CustomMachineScreen;
+import com.natesky9.patina.block.Custom.MachineCustomScreen;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -26,8 +27,9 @@ public class EventsMod {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HERB_BLOCK.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HONEY_PUDDLE.get(), RenderType.translucentNoCrumbling());
         //screen stuff
-        MenuScreens.register(ModMenuTypes.CUSTOM_MACHINE_MENU.get(), CustomMachineScreen::new);
+        MenuScreens.register(ModMenuTypes.CUSTOM_MACHINE_MENU.get(), MachineCustomScreen::new);
         MenuScreens.register(ModMenuTypes.MACHINE_BLAST_CAULDRON_MENU.get(), MachineBlastFurnaceScreen::new);
+        MenuScreens.register(ModMenuTypes.MACHINE_SMOKER_GRINDSTONE_MENU.get(), MachineSmokerGrindstoneScreen::new);
         //armor stuff
         ItemProperties.register(ModItems.COPPER_HELMET.get(),
                 new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->

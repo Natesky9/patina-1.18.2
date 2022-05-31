@@ -1,6 +1,5 @@
 package com.natesky9.patina.block.Custom;
 
-import com.natesky9.patina.block.Custom.CustomBlockEntity;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,18 +15,18 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class CustomMachineMenu extends AbstractContainerMenu {
-    private final CustomBlockEntity blockEntity;
+public class MachineCustomMenu extends AbstractContainerMenu {
+    private final MachineCustomEntity blockEntity;
     private final Level level;
-    public CustomMachineMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
+    public MachineCustomMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
         this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
     }
-    public CustomMachineMenu(int pContainerId, Inventory inv, BlockEntity entity)
+    public MachineCustomMenu(int pContainerId, Inventory inv, BlockEntity entity)
     {
         super(ModMenuTypes.CUSTOM_MACHINE_MENU.get(), pContainerId);
         checkContainerSize(inv, 3);
-        blockEntity = ((CustomBlockEntity) entity);
+        blockEntity = ((MachineCustomEntity) entity);
         this.level = inv.player.level;
 
         addPlayerInventory(inv);

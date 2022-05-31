@@ -1,4 +1,4 @@
-package com.natesky9.patina.block.Custom;
+package com.natesky9.patina.block.SmokerGrindstone;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -9,11 +9,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class CustomMachineScreen extends AbstractContainerScreen<CustomMachineMenu> {
+public class MachineSmokerGrindstoneScreen extends AbstractContainerScreen<MachineSmokerGrindstoneMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MOD_ID,"textures/gui/custom_machine_gui.png");
+            new ResourceLocation(Patina.MOD_ID,"textures/gui/machine_smoker_grindstone_gui.png");
 
-    public CustomMachineScreen(CustomMachineMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public MachineSmokerGrindstoneScreen(MachineSmokerGrindstoneMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
 

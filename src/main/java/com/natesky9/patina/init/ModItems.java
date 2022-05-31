@@ -123,7 +123,8 @@ public class ModItems {
                     new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     //foods
     public static final RegistryObject<Item> TEST_FOOD = ITEMS.register("test_food",
-            () -> new Item(new Item.Properties().food(ModFoods.TEST_FOOD)
+            () -> new CustomFood(new Item.Properties()
+                    .food(ModFoods.TEST_FOOD)
                     .tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> BLINK_BROWNIE = ITEMS.register("blink_brownie",
             () -> new BlinkBrownie(new Item.Properties().food(ModFoods.BLINK_BROWNIE)
