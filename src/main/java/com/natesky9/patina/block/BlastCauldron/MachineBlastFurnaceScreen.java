@@ -26,6 +26,12 @@ public class MachineBlastFurnaceScreen extends AbstractContainerScreen<MachineBl
         int y = (height-imageHeight)/2;
 
         this.blit(pPoseStack,x,y,0,0,imageWidth,imageHeight);
+        if (menu.isCrafting())
+        {
+            this.blit(pPoseStack,x+73,y+19,176,0,menu.getProgress(),8);
+            //draw the lit flame
+            this.blit(pPoseStack,x+78,y+58,202,0,14,14);
+        }
     }
 
     @Override

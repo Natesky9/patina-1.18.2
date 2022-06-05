@@ -4,6 +4,7 @@ import com.natesky9.patina.Patina;
 import com.natesky9.patina.item.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -89,11 +90,14 @@ public class ModItems {
     //end boss shards
     //offhands
     public static final RegistryObject<Item> MELEE_OFFHAND = ITEMS.register("melee_augment",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
+            () -> new OffhandItem(Attributes.MAX_HEALTH,4,
+                    new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
     public static final RegistryObject<Item> RANGE_OFFHAND = ITEMS.register("range_augment",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
+            () -> new OffhandItem(Attributes.JUMP_STRENGTH, 2,
+                    new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
     public static final RegistryObject<Item> MAGIC_OFFHAND = ITEMS.register("magic_augment",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
+            () -> new OffhandItem(Attributes.MOVEMENT_SPEED, 2,
+                    new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
 
     //armor//
     public static final RegistryObject<Item> COPPER_HELMET = ITEMS.register("copper_helmet",

@@ -6,9 +6,7 @@ import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,25 +17,28 @@ import org.jetbrains.annotations.NotNull;
 public class MachineBlastCauldronMenu extends AbstractContainerMenu {
     private final MachineBlastCauldronEntity blockEntity;
     private final Level level;
+    private final ContainerData data;
+
     public MachineBlastCauldronMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
-    public MachineBlastCauldronMenu(int pContainerId, Inventory inv, BlockEntity entity)
+    public MachineBlastCauldronMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data)
     {
         super(ModMenuTypes.MACHINE_BLAST_CAULDRON_MENU.get(), pContainerId);
         checkContainerSize(inv, 3);
         blockEntity = ((MachineBlastCauldronEntity) entity);
         this.level = inv.player.level;
+        this.data = data;
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler ->
         {
-            this.addSlot(new SlotItemHandler(handler,0,34,40));
-            this.addSlot(new SlotItemHandler(handler,1,57,18));
-            this.addSlot(new SlotItemHandler(handler,2,103,18)
+            this.addSlot(new SlotItemHandler(handler,0,42,20));
+            this.addSlot(new SlotItemHandler(handler,1,42,53));
+            this.addSlot(new SlotItemHandler(handler,2,122,36)
             {
                 @Override
                 public boolean mayPlace(@NotNull ItemStack stack) {
@@ -45,6 +46,19 @@ public class MachineBlastCauldronMenu extends AbstractContainerMenu {
                 }
             });
         });
+        addDataSlots(data);
+    }
+    public boolean isCrafting()
+    {
+        return data.get(0) > 0;
+    }
+    public int getProgress()
+    {
+        int progress = this.data.get(0);
+        int maxProgress = this.data.get(1);
+        int progressArrowSize = 26;//the size of the arrow
+        int arrowWidth = progress * progressArrowSize / maxProgress;
+        return maxProgress != 0 && progress != 0 ? arrowWidth : 0;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons

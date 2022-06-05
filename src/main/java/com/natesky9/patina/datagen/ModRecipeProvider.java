@@ -6,6 +6,7 @@ import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
@@ -28,7 +29,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapedRecipeBuilder.shaped(ModBlocks.CHORUS_CABLE.get())
                 .define('C', Items.CHORUS_FRUIT)
-                .define('W', Items.WHITE_CARPET)
+                .define('W', ItemTags.CARPETS)
                 .pattern("WCW")
                 .pattern("WCW")
                 .pattern("WCW")

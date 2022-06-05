@@ -28,6 +28,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.MixinEnvironment;
+import org.spongepowered.asm.mixin.Mixins;
+
+import java.util.Map;
 
 import static java.lang.Math.min;
 
@@ -119,5 +124,11 @@ public class Patina
             VenomOverlay.renderVenomOutline();
         }
 
+    }
+    public void injectData(Map<String,Object> data)
+    {
+        MixinBootstrap.init();
+        Mixins.addConfiguration("mixins." + Patina.MOD_ID + ".json");
+        MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
     }
 }
