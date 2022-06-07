@@ -22,6 +22,8 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity 
 
     @Shadow public abstract boolean addEffect(MobEffectInstance pEffectInstance);
 
+    @Shadow private boolean effectsDirty;
+
     public MixinLivingEntity(EntityType<?> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -38,6 +40,7 @@ public abstract class MixinLivingEntity extends Entity implements ILivingEntity 
                 MobEffectInstance newpotion = new MobEffectInstance(mobeffect,
                         ((IMobEffectInstance)pEffect).getMaxDuration(),pEffect.getAmplifier()-1);
             this.addEffect(newpotion);
+            this.effectsDirty = true;
         }
     }
 }

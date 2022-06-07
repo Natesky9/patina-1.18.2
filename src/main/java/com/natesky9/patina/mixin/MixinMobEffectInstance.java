@@ -5,10 +5,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(MobEffectInstance.class)
-public abstract class MixinMobEffectInstance
-        implements IMobEffectInstance,
-        Comparable<MobEffectInstance>,
-        net.minecraftforge.common.extensions.IForgeMobEffectInstance
+public abstract class MixinMobEffectInstance implements IMobEffectInstance, Comparable<MobEffectInstance>, net.minecraftforge.common.extensions.IForgeMobEffectInstance
 {
     private int maxDuration;
 
