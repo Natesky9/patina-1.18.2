@@ -1,6 +1,10 @@
-package com.natesky9.patina.datagen;
+package com.natesky9.patina.datagen.functional;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.datagen.ModBlockStateProvider;
+import com.natesky9.patina.datagen.ModItemModelProvider;
+import com.natesky9.patina.datagen.ModLootTableProvider;
+import com.natesky9.patina.datagen.ModRecipeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

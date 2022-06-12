@@ -18,13 +18,13 @@ public enum ModArmorMaterials implements ArmorMaterial {
     CRYSTAL("crystal",4,new int[]{2,4,4,2},4,SoundEvents.AMETHYST_CLUSTER_PLACE,
             0F,0F,
             () -> {return Ingredient.of(Items.AMETHYST_SHARD);}),
-    CUSTOM("custom",10,new int[]{0,0,0,0},0,SoundEvents.ITEM_FRAME_PLACE,
+    RANGER("ranger",10,new int[]{0,0,0,0},0,SoundEvents.ITEM_FRAME_PLACE,
             0F,0F,
-            () -> {return Ingredient.of(ModItems.CUSTOM_INGOT.get());}),
+            () -> {return Ingredient.of(Items.LEATHER);});
 
-    LEATHER("leather", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
-        return Ingredient.of(Items.LEATHER);
-    });
+    //LEATHER("leather", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
+    //    return Ingredient.of(Items.LEATHER);
+    //});
     //CHAIN("chainmail", 15, new int[]{1, 4, 5, 2}, 12, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> {
     //    return Ingredient.of(Items.IRON_INGOT);
     //}),
@@ -44,21 +44,21 @@ public enum ModArmorMaterials implements ArmorMaterial {
     //    return Ingredient.of(Items.NETHERITE_INGOT);
     //});
 
-    private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
+    private static final int[] DURABILITY_PER_SLOT = new int[]{13, 15, 16, 11};
     private final String name;
     private final int durabilityMultiplier;
-    private final int[] slotProtections;
+    private final int[] slotDefense;
     private final int enchantmentValue;
     private final SoundEvent sound;
     private final float toughness;
     private final float knockbackResistance;
     private final LazyLoadedValue<Ingredient> repairIngredient;
 
-    ModArmorMaterials(String name, int durabilityMultiplier, int[] slotProtections, int enchantmentValue, SoundEvent sound,
+    ModArmorMaterials(String name, int durabilityMultiplier, int[] slotDefense, int enchantmentValue, SoundEvent sound,
                               float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
-        this.slotProtections = slotProtections;
+        this.slotDefense = slotDefense;
         this.enchantmentValue = enchantmentValue;
         this.sound = sound;
         this.toughness = toughness;
@@ -67,11 +67,11 @@ public enum ModArmorMaterials implements ArmorMaterial {
     }
 
     public int getDurabilityForSlot(EquipmentSlot p_40484_) {
-        return HEALTH_PER_SLOT[p_40484_.getIndex()] * this.durabilityMultiplier;
+        return DURABILITY_PER_SLOT[p_40484_.getIndex()] * this.durabilityMultiplier;
     }
 
     public int getDefenseForSlot(EquipmentSlot p_40487_) {
-        return this.slotProtections[p_40487_.getIndex()];
+        return this.slotDefense[p_40487_.getIndex()];
     }
 
     public int getEnchantmentValue() {

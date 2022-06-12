@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.natesky9.patina.entity.BeeQueen.BeeQueen;
 import com.natesky9.patina.entity.BeeQueen.BeeQueenModel;
 import com.natesky9.patina.entity.BeeQueen.BeeQueenRender;
+import com.natesky9.patina.entity.MiscModels.KnockbackShield;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestEntity;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestModel;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestRender;
@@ -28,11 +29,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
-import org.spongepowered.asm.launch.MixinBootstrap;
-import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.mixin.Mixins;
-
-import java.util.Map;
 
 import static java.lang.Math.min;
 
@@ -54,15 +50,17 @@ public class Patina
         @Override
         public ItemStack makeIcon() {return new ItemStack(ModItems.VENOM_SWORD.get());}
     };
+    public static final CreativeModeTab FOOD_TAB = new CreativeModeTab("patina_food") {
+        @Override
+        public ItemStack makeIcon() {return new ItemStack(ModItems.CANDY_WARTS.get());}
+    };
 
     public Patina() {
         // Register the setup method for modloading
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        
-        //eventBus.addListener(this::setup);
-        //eventBus.addListener(this::enqueueIMC);
-        //eventBus.addListener(this::processIMC);
+
         //register everything
+        ModAttributes.register(eventBus);
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
         ModEffects.register(eventBus);
@@ -108,6 +106,8 @@ public class Patina
             event.registerLayerDefinition(SpiderNestModel.LAYER_LOCATION,SpiderNestModel::createBodyLayer);
             event.registerLayerDefinition(PigKingModel.LAYER_LOCATION, PigKingModel::createBodyLayer);
 
+            event.registerLayerDefinition(KnockbackShield.LAYER_LOCATION,KnockbackShield::createMainLayer);
+
         }
         @SubscribeEvent
         public static void entityRenderer(EntityRenderersEvent.RegisterRenderers event)
@@ -124,11 +124,5 @@ public class Patina
             VenomOverlay.renderVenomOutline();
         }
 
-    }
-    public void injectData(Map<String,Object> data)
-    {
-        MixinBootstrap.init();
-        Mixins.addConfiguration("mixins." + Patina.MOD_ID + ".json");
-        MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
     }
 }

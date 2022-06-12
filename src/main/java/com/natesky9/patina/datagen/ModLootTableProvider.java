@@ -2,8 +2,6 @@ package com.natesky9.patina.datagen;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
-import com.natesky9.patina.datagen.loot.ModBlockLootTables;
-import com.natesky9.patina.datagen.loot.ModChestLootTables;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.*;
 import net.minecraft.resources.ResourceLocation;

@@ -53,12 +53,14 @@ public class CustomFood extends Item {
         float saturation = pStack.getOrCreateTag().getFloat("saturation");
         pTooltipComponents.add(new TextComponent("hunger: " + hunger).withStyle(ChatFormatting.RED));
         pTooltipComponents.add(new TextComponent("saturation: " + saturation).withStyle(ChatFormatting.YELLOW));
-        pTooltipComponents.add(new TextComponent("ingredients: "));
         String food1 = pStack.getOrCreateTag().getString("food 1");
         String food2 = pStack.getOrCreateTag().getString("food 2");
         String food3 = pStack.getOrCreateTag().getString("food 3");
         String food4 = pStack.getOrCreateTag().getString("food 4");
 
+        if (food1.equals("")|| food2.equals("")||food3.equals("")||food4.equals("")) return;
+
+        pTooltipComponents.add(new TextComponent("ingredients: "));
         pTooltipComponents.add(new TextComponent(food1).withStyle(ChatFormatting.AQUA));
         pTooltipComponents.add(new TextComponent(food2).withStyle(ChatFormatting.AQUA));
         pTooltipComponents.add(new TextComponent(food3).withStyle(ChatFormatting.AQUA));

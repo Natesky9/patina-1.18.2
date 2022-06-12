@@ -52,14 +52,18 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.HERB_SEEDS.get());
         simpleItem(ModItems.HERB.get());
 
-        copperItem(ModItems.COPPER_HELMET.get());
-        copperItem(ModItems.COPPER_CHESTPLATE.get());
-        copperItem(ModItems.COPPER_LEGGINGS.get());
-        copperItem(ModItems.COPPER_BOOTS.get());
+        folderItem(ModItems.COPPER_HELMET.get(),"copper");
+        folderItem(ModItems.COPPER_CHESTPLATE.get(),"copper");
+        folderItem(ModItems.COPPER_LEGGINGS.get(),"copper");
+        folderItem(ModItems.COPPER_BOOTS.get(),"copper");
         folderItem(ModItems.CRYSTAL_HELMET.get(),"crystal");
         folderItem(ModItems.CRYSTAL_CHESTPLATE.get(),"crystal");
         folderItem(ModItems.CRYSTAL_LEGGINGS.get(),"crystal");
         folderItem(ModItems.CRYSTAL_BOOTS.get(),"crystal");
+        folderItem(ModItems.ARCHER_HELMET.get(), "archer");
+        folderItem(ModItems.ARCHER_CHESTPLATE.get(), "archer");
+        folderItem(ModItems.ARCHER_LEGGINGS.get(), "archer");
+        folderItem(ModItems.ARCHER_BOOTS.get(), "archer");
 
         simpleItem(ModItems.CUSTOM_NUGGET.get());
         simpleItem(ModItems.CUSTOM_INGOT.get());
@@ -74,9 +78,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.MAGIC_OFFHAND.get());
         simpleItem(ModItems.FERTILIZER.get());
 
+        simpleItem(ModItems.SWEETS.get());
+        simpleItem(ModItems.MONSTER_MEATBALLS.get());
+        simpleItem(ModItems.TRAIL_MIX.get());
+
         simpleItem(ModItems.CHARGED_SHEARS.get());
         simpleItem(ModItems.CHARGED_PICK.get());
-        simpleItem(ModItems.PISTON_SHIELD.get());
+        //simpleItem(ModItems.PISTON_SHIELD.get());
         simpleItem(ModItems.FIRE_PIPE.get());
 
         simpleItem(ModItems.VENOM_SWORD.get());

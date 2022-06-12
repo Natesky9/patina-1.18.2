@@ -1,4 +1,4 @@
-package com.natesky9.patina.datagen.loot;
+package com.natesky9.patina.datagen;
 
 import com.natesky9.patina.block.HerbPlantBlock;
 import com.natesky9.patina.init.ModBlocks;

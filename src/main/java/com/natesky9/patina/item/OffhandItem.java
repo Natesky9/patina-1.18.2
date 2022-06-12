@@ -12,18 +12,27 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class OffhandItem extends Item
 {
-    private final Multimap<Attribute,AttributeModifier> defaultModifiers;
+    private Supplier<Attribute> attributeSupplier;
+    private int attributeValue;
+    private Multimap<Attribute,AttributeModifier> baseAttributes;
 
-    public OffhandItem(Attribute attribute, int amount, Properties pProperties) {
+    public OffhandItem(Supplier<Attribute> attribute, int amount, Properties pProperties) {
         super(pProperties);
+        this.attributeSupplier = attribute;
+        this.attributeValue = amount;
+        //delay building the modifiers until the attributes are initialized
+        baseAttributes = null;
+    }
 
+    public OffhandItem(Attribute attribute, int amount, Properties properties) {
+        super(properties);
         UUID uuid = CustomAttributes.makeUUID(attribute,EquipmentSlot.OFFHAND, AttributeModifier.Operation.ADDITION);
-        Builder<Attribute,AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(attribute,new AttributeModifier(uuid, "custom attribute", amount, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
+        AttributeModifier attributeModifier = new AttributeModifier(uuid,"attribute",amount, AttributeModifier.Operation.ADDITION);
+        baseAttributes = ImmutableMultimap.of(attribute,attributeModifier);
     }
 
     @Nullable
@@ -32,13 +41,24 @@ public class OffhandItem extends Item
         return EquipmentSlot.OFFHAND;
     }
 
+
     @Override
     public int getItemStackLimit(ItemStack stack) {
         return 1;
     }
-    //@Override
-    //public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-    //    if (slot== EquipmentSlot.OFFHAND) return defaultModifiers;
-    //    else return super.getAttributeModifiers(slot,stack);
-    //}
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        if (slot != EquipmentSlot.OFFHAND) return ImmutableMultimap.of();
+        if (baseAttributes == null)
+        {
+            UUID uuid = CustomAttributes.makeUUID(attributeSupplier.get(), EquipmentSlot.OFFHAND, AttributeModifier.Operation.ADDITION);
+            Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            builder.put(attributeSupplier.get(), new AttributeModifier(uuid, "custom attribute", attributeValue, AttributeModifier.Operation.ADDITION));
+            baseAttributes = builder.build();
+        }
+        return baseAttributes;
+    }
+
+
 }

@@ -6,6 +6,7 @@ import com.natesky9.patina.item.KnockbackShieldItem;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,15 +14,22 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.minecraftforge.event.entity.living.PotionEvent;
-import net.minecraftforge.event.entity.living.ShieldBlockEvent;
+import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
+import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge
 {
+    //LivingHurtEvent
+    @SubscribeEvent
+    public static void ArrowLooseEvent(ArrowLooseEvent event)
+    {
+        event.setCanceled(true);
+    }
+
     @SubscribeEvent
     public static void ShieldBlockEvent(ShieldBlockEvent event) {
 
@@ -57,6 +65,17 @@ public class EventsForge
         int duration = newEffect.getDuration();
         int potency = newEffect.getAmplifier();
 
+        if (effect == MobEffects.DAMAGE_BOOST)
+        {
+            if (entity.getEffect(MobEffects.WEAKNESS) != null)
+            {
+                entity.removeEffect(MobEffects.WEAKNESS);
+                //TODO: figure out how to handle this
+                return;
+            }
+        }
+
+        //potion decay
         if (potency > 0)
         {
             //System.out.println("Added new potion of amplifier " + potency);

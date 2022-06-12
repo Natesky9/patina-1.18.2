@@ -1,4 +1,4 @@
-package com.natesky9.patina.datagen.loot;
+package com.natesky9.patina.datagen.functional;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;

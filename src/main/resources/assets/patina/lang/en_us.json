@@ -13,6 +13,7 @@
   "item.patina.custom_pick": "Custom Pickaxe",
   "item.patina.custom_shovel": "Custom Shovel",
   "item.patina.custom_hoe": "Custom Hoe",
+  "item.patina.charged_pick": "Charged Pickaxe",
   "item.patina.venom_sword": "Venom Sword",
   "item.patina.fire_pipe": "Fire Pipe WIP",
   "item.patina.knockback_shield": "Knockback Shield WIP",
@@ -30,6 +31,11 @@
   "item.patina.crystal_chestplate": "Crystal Chestplate",
   "item.patina.crystal_leggings": "Crystal Leggings",
   "item.patina.crystal_boots": "Crystal Boots",
+
+  "item.patina.archer_helmet": "Archer Helmet",
+  "item.patina.archer_chestplate": "Archer Chestplate",
+  "item.patina.archer_leggings": "Archer Leggings",
+  "item.patina.archer_boots": "Archer Boots",
 
   "item.patina.bee_fragment_1": "B 1/4",
   "item.patina.bee_fragment_2": "B 2/4",
@@ -52,6 +58,11 @@
   "item.patina.test_food": "Test Food",
   "item.patina.blink_brownie": "Blink Brownie",
   "item.patina.candy_warts": "Candy Warts",
+  "item.patina.cheese": "Gouda",
+  "item.patina.monster_meatballs": "Monster Meatballs",
+  "item.patina.trail_mix": "Trail Mix",
+  "item.patina.sweets": "Sweets",
+  "item.patina.magic_salt": "Magic Salt",
 
   "item.patina.royal_jelly": "Royal Jelly",
   "item.patina.spider_nest": "Spider Nest",
@@ -78,11 +89,14 @@
   "entity.patina.spider_nest_entity": "Spider Nest",
   "entity.patina.pig_king": "Piglin King",
 
+
+
   "effect.patina.venom": "Venom",
   "death.attack.venom": "%1$s succumbed to venom",
   "death.attack.venom.player": "%2$s was toxic to %1$s ",
 
   "itemGroup.patina_tab": "Patina Creative Tab",
-  "itemGroup.patina_loot": "Patina Loot Tab"
+  "itemGroup.patina_loot": "Patina Loot Tab",
+  "itemGroup.patina_food": "Patina Food Tab"
 
 }

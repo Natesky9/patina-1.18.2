@@ -19,4 +19,6 @@ public class ModFoods {
             .nutrition(2).saturationMod(2)
             .effect(new MobEffectInstance(MobEffects.ABSORPTION,2000,0),1)
             .build();
+    public static final FoodProperties SWEETS = new FoodProperties.Builder()
+            .nutrition(1).saturationMod(3).build();
 }

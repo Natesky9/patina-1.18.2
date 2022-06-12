@@ -5,6 +5,7 @@ import com.natesky9.patina.item.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -52,6 +53,7 @@ public class ModItems {
     public static final RegistryObject<Item> CHARGED_PICK = ITEMS.register("charged_pick",
             () -> new ChargedPickaxeItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     //boss shards
+
     public static final RegistryObject<Item> BEE_FRAGMENT_1= ITEMS.register("bee_fragment_1",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.BOSS_LOOT_TAB)));
     public static final RegistryObject<Item> BEE_FRAGMENT_2 = ITEMS.register("bee_fragment_2",
@@ -86,56 +88,94 @@ public class ModItems {
     public static final RegistryObject<Item> PIGLIN_BALLISTA = ITEMS.register("piglin_ballista",
             () -> new CrossbowItem(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
     public static final RegistryObject<Item> WITHER_WEAPON = ITEMS.register("wither_weapon",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
+            () -> new WitherScepterItem(new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
     //end boss shards
     //offhands
     public static final RegistryObject<Item> MELEE_OFFHAND = ITEMS.register("melee_augment",
-            () -> new OffhandItem(Attributes.MAX_HEALTH,4,
+            () -> new OffhandItem(Attributes.ATTACK_DAMAGE,4,
                     new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
     public static final RegistryObject<Item> RANGE_OFFHAND = ITEMS.register("range_augment",
-            () -> new OffhandItem(Attributes.JUMP_STRENGTH, 2,
+            () -> new OffhandItem(ModAttributes.RANGED_DAMAGE, 2,
                     new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
     public static final RegistryObject<Item> MAGIC_OFFHAND = ITEMS.register("magic_augment",
-            () -> new OffhandItem(Attributes.MOVEMENT_SPEED, 2,
+            () -> new OffhandItem(ModAttributes.MAGIC_DAMAGE, 2,
                     new Item.Properties().rarity(Rarity.RARE).tab(Patina.BOSS_LOOT_TAB)));
 
     //armor//
     public static final RegistryObject<Item> COPPER_HELMET = ITEMS.register("copper_helmet",
-            () -> new ArmorItem(ModArmorMaterials.COPPER, EquipmentSlot.HEAD,
+            () -> new CopperItem(ModArmorMaterials.COPPER, EquipmentSlot.HEAD,
                     new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> COPPER_CHESTPLATE = ITEMS.register("copper_chestplate",
-            () -> new ArmorItem(ModArmorMaterials.COPPER, EquipmentSlot.CHEST,
+            () -> new CopperItem(ModArmorMaterials.COPPER, EquipmentSlot.CHEST,
                     new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> COPPER_LEGGINGS = ITEMS.register("copper_leggings",
-            () -> new ArmorItem(ModArmorMaterials.COPPER, EquipmentSlot.LEGS,
+            () -> new CopperItem(ModArmorMaterials.COPPER, EquipmentSlot.LEGS,
                     new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> COPPER_BOOTS = ITEMS.register("copper_boots",
-            () -> new ArmorItem(ModArmorMaterials.COPPER, EquipmentSlot.FEET,
+            () -> new CopperItem(ModArmorMaterials.COPPER, EquipmentSlot.FEET,
                     new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
 
     public static final RegistryObject<Item> CRYSTAL_HELMET = ITEMS.register("crystal_helmet",
-            () -> new ArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.HEAD,
-                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
+            () -> new CustomArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.HEAD,
+                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB),
+                    ModAttributes.MAGIC_DAMAGE,1));
     public static final RegistryObject<Item> CRYSTAL_CHESTPLATE = ITEMS.register("crystal_chestplate",
-            () -> new ArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.CHEST,
-                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
+            () -> new CustomArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.CHEST,
+                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB),
+                    ModAttributes.MAGIC_DAMAGE,1));
     public static final RegistryObject<Item> CRYSTAL_LEGGINGS = ITEMS.register("crystal_leggings",
-            () -> new ArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.LEGS,
-                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
+            () -> new CustomArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.LEGS,
+                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB),
+                    ModAttributes.MAGIC_DAMAGE,1));
     public static final RegistryObject<Item> CRYSTAL_BOOTS = ITEMS.register("crystal_boots",
-            () -> new ArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.FEET,
-                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
+            () -> new CustomArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.FEET,
+                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB),
+                    ModAttributes.MAGIC_DAMAGE,1));
+
+    public static final RegistryObject<Item> ARCHER_HELMET = ITEMS.register("archer_helmet",
+            () -> new CustomArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.HEAD,
+                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB),
+                    ModAttributes.RANGED_DAMAGE,1));
+    public static final RegistryObject<Item> ARCHER_CHESTPLATE = ITEMS.register("archer_chestplate",
+            () -> new CustomArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.CHEST,
+                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB),
+                    ModAttributes.RANGED_DAMAGE,1));
+    public static final RegistryObject<Item> ARCHER_LEGGINGS = ITEMS.register("archer_leggings",
+            () -> new CustomArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.LEGS,
+                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB),
+                    ModAttributes.RANGED_DAMAGE,1));
+    public static final RegistryObject<Item> ARCHER_BOOTS = ITEMS.register("archer_boots",
+            () -> new CustomArmorItem(ModArmorMaterials.CRYSTAL, EquipmentSlot.FEET,
+                    new Item.Properties().tab(Patina.CREATIVE_MODE_TAB),
+                    ModAttributes.RANGED_DAMAGE,1));
     //foods
     public static final RegistryObject<Item> TEST_FOOD = ITEMS.register("test_food",
-            () -> new CustomFood(new Item.Properties()
-                    .food(ModFoods.TEST_FOOD)
-                    .tab(Patina.CREATIVE_MODE_TAB)));
+            () -> new CustomFood(new Item.Properties().food(ModFoods.TEST_FOOD)
+                    .tab(Patina.FOOD_TAB)));
     public static final RegistryObject<Item> BLINK_BROWNIE = ITEMS.register("blink_brownie",
             () -> new BlinkBrownie(new Item.Properties().food(ModFoods.BLINK_BROWNIE)
-                    .tab(Patina.CREATIVE_MODE_TAB)));
+                    .tab(Patina.FOOD_TAB)));
     public static final RegistryObject<Item> CANDY_WARTS = ITEMS.register("candy_warts",
             () -> new Item(new Item.Properties().food(ModFoods.CANDY_WARTS)
-                    .tab(Patina.CREATIVE_MODE_TAB)));
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> CHEESE = ITEMS.register("cheese",
+            () -> new Item(new Item.Properties().food(Foods.APPLE)
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> MONSTER_MEATBALLS = ITEMS.register("monster_meatballs",
+            () -> new Item(new Item.Properties().food(ModFoods.TEST_FOOD)
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> TRAIL_MIX = ITEMS.register("trail_mix",
+            () -> new Item(new Item.Properties().food(ModFoods.TEST_FOOD)
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> SWEETS = ITEMS.register("sweets",
+            () -> new Item(new Item.Properties().food(ModFoods.TEST_FOOD)
+                    .tab(Patina.FOOD_TAB)));
+
+    //potion salt
+    public static final RegistryObject<Item> MAGIC_SALT = ITEMS.register("magic_salt",
+            () -> new MagicSalt(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16)
+                    .tab(Patina.FOOD_TAB)));
+
     //loot
     public static final RegistryObject<Item> ROYAL_JELLY = ITEMS.register("royal_jelly",
             () -> new Item(new Item.Properties()
