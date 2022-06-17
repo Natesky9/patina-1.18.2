@@ -175,6 +175,9 @@ public class ModItems {
     public static final RegistryObject<Item> MAGIC_SALT = ITEMS.register("magic_salt",
             () -> new MagicSalt(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16)
                     .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> VOID_SALT = ITEMS.register("void_salt",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE).stacksTo(32).fireResistant()
+                    .tab(Patina.CREATIVE_MODE_TAB)));
 
     //loot
     public static final RegistryObject<Item> ROYAL_JELLY = ITEMS.register("royal_jelly",

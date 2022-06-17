@@ -1,6 +1,6 @@
 package com.natesky9.patina.block.BlastCauldron;
 
-import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronEntity;
+import com.natesky9.patina.block.Template.OutputSlotHandler;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import org.jetbrains.annotations.NotNull;
 
 public class MachineBlastCauldronMenu extends AbstractContainerMenu {
     private final MachineBlastCauldronEntity blockEntity;
@@ -30,6 +29,7 @@ public class MachineBlastCauldronMenu extends AbstractContainerMenu {
         blockEntity = ((MachineBlastCauldronEntity) entity);
         this.level = inv.player.level;
         this.data = data;
+        addDataSlots(data);
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
@@ -38,15 +38,8 @@ public class MachineBlastCauldronMenu extends AbstractContainerMenu {
         {
             this.addSlot(new SlotItemHandler(handler,0,42,20));
             this.addSlot(new SlotItemHandler(handler,1,42,53));
-            this.addSlot(new SlotItemHandler(handler,2,122,36)
-            {
-                @Override
-                public boolean mayPlace(@NotNull ItemStack stack) {
-                    return false;
-                }
-            });
+            this.addSlot(new OutputSlotHandler(handler,2,122,36));
         });
-        addDataSlots(data);
     }
     public boolean isCrafting()
     {
@@ -58,7 +51,7 @@ public class MachineBlastCauldronMenu extends AbstractContainerMenu {
         int maxProgress = this.data.get(1);
         int progressArrowSize = 26;//the size of the arrow
         int arrowWidth = progress * progressArrowSize / maxProgress;
-        return maxProgress != 0 && progress != 0 ? arrowWidth : 0;
+        return progress != 0 ? arrowWidth : 0;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -77,7 +70,7 @@ public class MachineBlastCauldronMenu extends AbstractContainerMenu {
         private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
         // THIS YOU HAVE TO DEFINE!
-        private static final int TE_INVENTORY_SLOT_COUNT = 3;  // must be the number of slots you have!
+        private static final int TE_INVENTORY_SLOT_COUNT = MachineBlastCauldronEntity.slots;  // must be the number of slots you have!
 
         @Override
         public ItemStack quickMoveStack(Player playerIn, int index) {

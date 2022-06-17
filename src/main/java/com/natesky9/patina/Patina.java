@@ -62,10 +62,10 @@ public class Patina
         //register everything
         ModAttributes.register(eventBus);
         ModItems.register(eventBus);
+        ModBlockEntities.register(eventBus);
         ModBlocks.register(eventBus);
         ModEffects.register(eventBus);
         ModEntityTypes.register(eventBus);
-        ModBlockEntities.register(eventBus);
         ModMenuTypes.register(eventBus);
 
 

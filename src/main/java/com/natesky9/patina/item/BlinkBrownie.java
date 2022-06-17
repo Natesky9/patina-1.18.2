@@ -22,7 +22,7 @@ public class BlinkBrownie extends Item {
         HitResult result = entity.pick(16,0,false);
         //HitResult liquid = entity.pick(16,0,true);
 
-        if (result.getType() == HitResult.Type.BLOCK || result.getType() == HitResult.Type.MISS)
+        if (result.getType() == HitResult.Type.BLOCK || result.getType() == HitResult.Type.ENTITY)
         {
             Vec3 blockpos = result.getLocation();
             double blockX = blockpos.x;

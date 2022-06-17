@@ -30,7 +30,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         basicBlock(ModBlocks.TELECHORUS.get());
         //CHORUS_CABLE done with json
         // pipeBlock((PipeBlock) ModBlocks.CHORUS_CABLE.get(),blockTexture(Blocks.CHORUS_FLOWER),blockTexture(Blocks.CHORUS_PLANT));
-        basicBlock(ModBlocks.MACHINE_CUSTOM.get());
+        basicBlock(ModBlocks.MACHINE_ANVIL_SMITHING.get());
         basicBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());
         basicBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());
         basicBlock(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());

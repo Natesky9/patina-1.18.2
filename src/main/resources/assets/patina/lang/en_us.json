@@ -69,10 +69,14 @@
   "item.patina.herb_seeds": "Herb Seeds",
   "item.patina.herb": "Herbs",
 
-  "block.patina.machine_custom": "Custom Machine WIP",
+  "block.patina.machine_template": "Template machine",
+  "block.patina.machine_anvil_smithing": "Attribute Forge WIP",
+  "block.patina.machine_beacon_grindstone": "Beacon Grindstone WIP",
   "block.patina.machine_blast_cauldron": "Foundry WIP",
-  "block.patina.machine_cauldron_brewing": "Brewing V2",
-  "block.patina.machine_smoker_grindstone": "Smoker V2",
+  "block.patina.machine_cauldron_brewing": "Alchemical Alembic WIP",
+  "block.patina.machine_cauldron_smoker": "Cauldron Smoker WIP",
+  "block.patina.machine_grindstone_barrel": "Grindstone Barrel WIP",
+  "block.patina.machine_smoker_grindstone": "Smoker Grindstone WIP",
 
   "block.patina.test_block": "Test Block",
   "block.patina.test_slab": "Test Slab",

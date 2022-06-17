@@ -9,11 +9,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MachineBlastFurnaceScreen extends AbstractContainerScreen<MachineBlastCauldronMenu> {
+public class MachineBlastCauldronScreen extends AbstractContainerScreen<MachineBlastCauldronMenu> {
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(Patina.MOD_ID,"textures/gui/machine_blast_cauldron_gui.png");
 
-    public MachineBlastFurnaceScreen(MachineBlastCauldronMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public MachineBlastCauldronScreen(MachineBlastCauldronMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
 

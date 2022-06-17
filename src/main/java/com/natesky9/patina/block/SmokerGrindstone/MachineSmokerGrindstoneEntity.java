@@ -1,62 +1,48 @@
 package com.natesky9.patina.block.SmokerGrindstone;
 
-import com.natesky9.patina.init.ModBlockEntities;
+import com.natesky9.patina.block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.item.CustomFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.Containers;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class MachineSmokerGrindstoneEntity extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler itemStackHandler = new ItemStackHandler(5)
-    {
-        @Override
-        protected void onContentsChanged(int slot)
-        {
-            setChanged();
-        }
+public class MachineSmokerGrindstoneEntity extends MachineTemplateEntity implements MenuProvider {
+    public static final int slots = 5;
 
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return switch (slot) {
-                case 0, 1, 2, 3, 4 -> true;
-                default -> false;
-            };
-        }
-    };
 
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     public MachineSmokerGrindstoneEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(ModBlockEntities.MACHINE_SMOKER_GRINDSTONE_ENTITY.get(), pWorldPosition, pBlockState);
+        super(pWorldPosition, pBlockState,slots);
     }
 
     @Override
-    public Component getDisplayName() {
-        return new TextComponent("Mincerator");
+    protected boolean mySlotValid(int slot, @NotNull ItemStack stack) {
+        return switch (slot) {
+            case 0, 1, 2, 3, 4 -> true;
+            default -> false;
+        };
     }
+
+    @Override
+    public Component getDisplayName() {return new TranslatableComponent("block.patina.machine_smoker_grindstone");}
 
     @Nullable
     @Override
@@ -74,50 +60,37 @@ public class MachineSmokerGrindstoneEntity extends BlockEntity implements MenuPr
         return super.getCapability(cap,side);
     }
 
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemStackHandler);
-    }
 
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
-        pTag.put("inventory",itemStackHandler.serializeNBT());
         super.saveAdditional(pTag);
     }
 
-    public void drops()
-    {
-        SimpleContainer inventory = new SimpleContainer(itemStackHandler.getSlots());
-        for (int i=0;i < itemStackHandler.getSlots();i++)
-        {
-            inventory.setItem(i,itemStackHandler.getStackInSlot(i));
-        }
-        Containers.dropContents(this.level,this.worldPosition,inventory);
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
     }
 
-    public static void tick(Level pLevel, BlockPos pPos, BlockState pState, MachineSmokerGrindstoneEntity pBlockEntity)
+    @Override
+    protected void MachineTick()
     {
         //System.out.println("machine tick");
-        if (inputsPopulated(pBlockEntity)
-                && twoFoods(pBlockEntity)
-                && noDuplicates(pBlockEntity)
-                && hasNotReachedStackLimit(pBlockEntity))
+        if (inputsPopulated()
+                && twoFoods()
+                && noDuplicates()
+                && hasNotReachedStackLimit())
         {
             //System.out.println("craft");
-            craftItem(pBlockEntity);
+            craftItem();
         }
+
     }
 
-    private static boolean noDuplicates(MachineSmokerGrindstoneEntity blockEntity)
+    private boolean noDuplicates()
     {
-        ItemStackHandler handler = blockEntity.itemStackHandler;
+        ItemStackHandler handler = itemStackHandler;
+
         Item slot1 = handler.getStackInSlot(0).getItem();
         Item slot2 = handler.getStackInSlot(1).getItem();
         Item slot3 = handler.getStackInSlot(2).getItem();
@@ -131,42 +104,41 @@ public class MachineSmokerGrindstoneEntity extends BlockEntity implements MenuPr
                 && slot3 != slot4;
 
     }
-    private static boolean twoFoods(MachineSmokerGrindstoneEntity blockEntity)
+    private boolean twoFoods()
     {
         int foodCount = 0;
-        ItemStackHandler handler = blockEntity.itemStackHandler;
-        if (handler.getStackInSlot(0).isEdible()) foodCount++;
-        if (handler.getStackInSlot(1).isEdible()) foodCount++;
-        if (handler.getStackInSlot(2).isEdible()) foodCount++;
-        if (handler.getStackInSlot(3).isEdible()) foodCount++;
+        if (itemStackHandler.getStackInSlot(0).isEdible()) foodCount++;
+        if (itemStackHandler.getStackInSlot(1).isEdible()) foodCount++;
+        if (itemStackHandler.getStackInSlot(2).isEdible()) foodCount++;
+        if (itemStackHandler.getStackInSlot(3).isEdible()) foodCount++;
         return foodCount >= 2;
     }
 
-    private static boolean inputsPopulated(MachineSmokerGrindstoneEntity blockEntity)
+    private boolean inputsPopulated()
     {
-        boolean hasFirstSlot = !blockEntity.itemStackHandler.getStackInSlot(0).isEmpty();
-        boolean hasSecondSlot = !blockEntity.itemStackHandler.getStackInSlot(1).isEmpty();
-        boolean hasThirdSlot = !blockEntity.itemStackHandler.getStackInSlot(2).isEmpty();
-        boolean hasFourthSlot = !blockEntity.itemStackHandler.getStackInSlot(3).isEmpty();
+        boolean hasFirstSlot = !itemStackHandler.getStackInSlot(0).isEmpty();
+        boolean hasSecondSlot = !itemStackHandler.getStackInSlot(1).isEmpty();
+        boolean hasThirdSlot = !itemStackHandler.getStackInSlot(2).isEmpty();
+        boolean hasFourthSlot = !itemStackHandler.getStackInSlot(3).isEmpty();
 
-        boolean outputEmpty = blockEntity.itemStackHandler.getStackInSlot(4).isEmpty();
+        boolean outputEmpty = itemStackHandler.getStackInSlot(4).isEmpty();
 
         return hasFirstSlot && hasSecondSlot && hasThirdSlot && hasFourthSlot && outputEmpty;
     }
-    private static void craftItem(MachineSmokerGrindstoneEntity blockEntity)
+    private void craftItem()
     {
         int hunger = 0;
         float saturation = 0;
 
-        String food1 = blockEntity.itemStackHandler.getStackInSlot(0).getDisplayName().getString();
-        String food2 = blockEntity.itemStackHandler.getStackInSlot(1).getDisplayName().getString();
-        String food3 = blockEntity.itemStackHandler.getStackInSlot(2).getDisplayName().getString();
-        String food4 = blockEntity.itemStackHandler.getStackInSlot(3).getDisplayName().getString();
+        String food1 = itemStackHandler.getStackInSlot(0).getDisplayName().getString();
+        String food2 = itemStackHandler.getStackInSlot(1).getDisplayName().getString();
+        String food3 = itemStackHandler.getStackInSlot(2).getDisplayName().getString();
+        String food4 = itemStackHandler.getStackInSlot(3).getDisplayName().getString();
 
 
         for (int i=0;i<4;i++)
         {
-            ItemStack get = blockEntity.itemStackHandler.extractItem(i,1,false);
+            ItemStack get = itemStackHandler.extractItem(i,1,false);
 
             if (get.getFoodProperties(null) == null)
             {
@@ -190,11 +162,11 @@ public class MachineSmokerGrindstoneEntity extends BlockEntity implements MenuPr
         CustomFood.setIngredients(food,food1,food2,food3,food4);
 
 
-        blockEntity.itemStackHandler.insertItem(4,food,false);
+        itemStackHandler.insertItem(4,food,false);
     }
-    private static boolean hasNotReachedStackLimit(MachineSmokerGrindstoneEntity blockEntity)
+    private boolean hasNotReachedStackLimit()
     {
-        ItemStack output = blockEntity.itemStackHandler.getStackInSlot(4);
+        ItemStack output = itemStackHandler.getStackInSlot(4);
         return output.getCount() < 1;//output.getMaxStackSize();
     }
 }

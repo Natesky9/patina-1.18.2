@@ -1,6 +1,5 @@
-package com.natesky9.patina.block.Custom;
+package com.natesky9.patina.block.Template;
 
-import com.natesky9.patina.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -23,38 +22,47 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class MachineCustomBlock extends BaseEntityBlock {
+public abstract class MachineTemplateBlock extends BaseEntityBlock
+{
+    //block stuff
+    //BlockEntityType<MachineTemplateEntity> blockEntityType;
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final VoxelShape SHAPE = Block.box(0,0,0,16,16,16);
 
     //constructor
-    public MachineCustomBlock(Properties p_49224_) {
+    public MachineTemplateBlock(Properties p_49224_) {
         super(p_49224_);
+        //this.blockEntityType = blockEntityType;
     }
+    public abstract BlockEntityType<? extends MachineTemplateEntity> getBlockEntityType();
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+    public BlockState getStateForPlacement(BlockPlaceContext pContext)
+    {
         return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+    }
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(FACING);
     }
 
     //Block Entity stuff
-
-
     @Override
-    public RenderShape getRenderShape(BlockState pState) {
+    public RenderShape getRenderShape(BlockState pState)
+    {//needed to apply the model
         return RenderShape.MODEL;
     }
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving)
-    {
+    {//when removed from the world, drop contents
         if (pState.getBlock() != pNewState.getBlock())
         {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof MachineCustomEntity)
+            if (blockEntity instanceof MachineTemplateEntity machine)
             {
-                ((MachineCustomEntity) blockEntity).drops();
+                machine.drops();
             }
         }
         super.onRemove(pState,pLevel,pPos,pNewState,pIsMoving);
@@ -63,11 +71,11 @@ public class MachineCustomBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide())
-        {
+        {//open the gui when clicked
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof MachineCustomEntity)
+            if (blockEntity instanceof MachineTemplateEntity machine)
             {
-                NetworkHooks.openGui(((ServerPlayer) pPlayer), (MachineCustomEntity) blockEntity, pPos);
+                NetworkHooks.openGui(((ServerPlayer) pPlayer), machine, pPos);
             }
             else
             {
@@ -79,18 +87,13 @@ public class MachineCustomBlock extends BaseEntityBlock {
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new MachineCustomEntity(pPos, pState);
-    }
+    public abstract BlockEntity newBlockEntity(BlockPos pPos, BlockState pState);
+
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, ModBlockEntities.CUSTOM_MACHINE_BLOCK_ENTITY.get(),
-                MachineCustomEntity::tick);
-    }
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
+        return createTickerHelper(pBlockEntityType, getBlockEntityType(),
+                MachineTemplateEntity::tick);
     }
 }

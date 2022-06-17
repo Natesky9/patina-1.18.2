@@ -1,5 +1,6 @@
-package com.natesky9.patina.block.Custom;
+package com.natesky9.patina.block.BeaconGrindstone;
 
+import com.natesky9.patina.block.Template.OutputSlotHandler;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,20 +14,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import org.jetbrains.annotations.NotNull;
 
-public class MachineCustomMenu extends AbstractContainerMenu {
-    private final MachineCustomEntity blockEntity;
+public class MachineBeaconGrindstoneMenu extends AbstractContainerMenu {
+    private final MachineBeaconGrindstoneEntity blockEntity;
+
     private final Level level;
-    public MachineCustomMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
+    public MachineBeaconGrindstoneMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
         this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
     }
-    public MachineCustomMenu(int pContainerId, Inventory inv, BlockEntity entity)
+    public MachineBeaconGrindstoneMenu(int pContainerId, Inventory inv, BlockEntity entity)
     {
-        super(ModMenuTypes.CUSTOM_MACHINE_MENU.get(), pContainerId);
-        checkContainerSize(inv, 3);
-        blockEntity = ((MachineCustomEntity) entity);
+        super(ModMenuTypes.MACHINE_BEACON_GRINDSTONE_MENU.get(), pContainerId);
+        checkContainerSize(inv, MachineBeaconGrindstoneEntity.slots);
+        blockEntity = ((MachineBeaconGrindstoneEntity) entity);
         this.level = inv.player.level;
 
         addPlayerInventory(inv);
@@ -35,14 +36,7 @@ public class MachineCustomMenu extends AbstractContainerMenu {
         this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler ->
         {
             this.addSlot(new SlotItemHandler(handler,0,34,40));
-            this.addSlot(new SlotItemHandler(handler,1,57,18));
-            this.addSlot(new SlotItemHandler(handler,2,103,18)
-            {
-                @Override
-                public boolean mayPlace(@NotNull ItemStack stack) {
-                    return false;
-                }
-            });
+            this.addSlot(new OutputSlotHandler(handler,1,103,18));
         });
     }
 
@@ -62,7 +56,7 @@ public class MachineCustomMenu extends AbstractContainerMenu {
         private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
         // THIS YOU HAVE TO DEFINE!
-        private static final int TE_INVENTORY_SLOT_COUNT = 3;  // must be the number of slots you have!
+        private static final int TE_INVENTORY_SLOT_COUNT = MachineBeaconGrindstoneEntity.slots;  // must be the number of slots you have!
 
         @Override
         public ItemStack quickMoveStack(Player playerIn, int index) {
@@ -102,7 +96,7 @@ public class MachineCustomMenu extends AbstractContainerMenu {
     public boolean stillValid(Player pPlayer)
     {
         return stillValid(ContainerLevelAccess.create(level,blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.MACHINE_CUSTOM.get());
+                pPlayer, ModBlocks.MACHINE_BEACON_GRINDSTONE.get());
     }
     private void addPlayerInventory(Inventory playerInventory)
     {

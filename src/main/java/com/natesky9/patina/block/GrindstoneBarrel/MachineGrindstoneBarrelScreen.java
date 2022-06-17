@@ -1,4 +1,4 @@
-package com.natesky9.patina.block.Custom;
+package com.natesky9.patina.block.GrindstoneBarrel;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -9,11 +9,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MachineCustomScreen extends AbstractContainerScreen<MachineCustomMenu> {
+public class MachineGrindstoneBarrelScreen extends AbstractContainerScreen<MachineGrindstoneBarrelMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MOD_ID,"textures/gui/custom_machine_gui.png");
+            new ResourceLocation(Patina.MOD_ID,"textures/gui/machine_grindstone_barrel_gui.png");
 
-    public MachineCustomScreen(MachineCustomMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public MachineGrindstoneBarrelScreen(MachineGrindstoneBarrelMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
 

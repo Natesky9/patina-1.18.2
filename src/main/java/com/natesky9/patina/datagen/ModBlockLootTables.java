@@ -24,9 +24,13 @@ public class ModBlockLootTables extends BlockLoot {
         this.add(ModBlocks.HONEY_PUDDLE.get(), noDrop());
 
         this.dropSelf(ModBlocks.TELECHORUS.get());
-        this.dropSelf(ModBlocks.MACHINE_CUSTOM.get());
-        this.dropSelf(ModBlocks.MACHINE_CAULDRON_BREWING.get());
+
+        this.dropSelf(ModBlocks.MACHINE_ANVIL_SMITHING.get());
+        this.dropSelf(ModBlocks.MACHINE_BEACON_GRINDSTONE.get());
         this.dropSelf(ModBlocks.MACHINE_BLAST_CAULDRON.get());
+        this.dropSelf(ModBlocks.MACHINE_CAULDRON_BREWING.get());
+        this.dropSelf(ModBlocks.MACHINE_CAULDRON_SMOKER.get());
+        this.dropSelf(ModBlocks.MACHINE_GRINDSTONE_BARREL.get());
         this.dropSelf(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
 
         //special blocks

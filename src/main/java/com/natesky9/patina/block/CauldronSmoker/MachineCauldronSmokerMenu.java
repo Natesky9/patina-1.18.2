@@ -1,4 +1,4 @@
-package com.natesky9.patina.block.SmokerGrindstone;
+package com.natesky9.patina.block.CauldronSmoker;
 
 import com.natesky9.patina.block.Template.OutputSlotHandler;
 import com.natesky9.patina.init.ModBlocks;
@@ -6,40 +6,49 @@ import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class MachineSmokerGrindstoneMenu extends AbstractContainerMenu {
-    private final MachineSmokerGrindstoneEntity blockEntity;
+public class MachineCauldronSmokerMenu extends AbstractContainerMenu {
+    private final MachineCauldronSmokerEntity blockEntity;
     private final Level level;
-    public MachineSmokerGrindstoneMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
+    private final ContainerData data;
+    public MachineCauldronSmokerMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
-    public MachineSmokerGrindstoneMenu(int pContainerId, Inventory inv, BlockEntity entity)
+    public MachineCauldronSmokerMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data)
     {
-        super(ModMenuTypes.MACHINE_SMOKER_GRINDSTONE_MENU.get(), pContainerId);
-        checkContainerSize(inv, 5);
-        blockEntity = ((MachineSmokerGrindstoneEntity) entity);
+        super(ModMenuTypes.MACHINE_CAULDRON_SMOKER_MENU.get(), pContainerId);
+        checkContainerSize(inv, MachineCauldronSmokerEntity.slots);
+        blockEntity = ((MachineCauldronSmokerEntity) entity);
         this.level = inv.player.level;
+        this.data = data;
+        addDataSlots(data);
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler ->
         {
-            this.addSlot(new SlotItemHandler(handler,0,28,15));
-            this.addSlot(new SlotItemHandler(handler,1,60,15));
-            this.addSlot(new SlotItemHandler(handler,2,28,47));
-            this.addSlot(new SlotItemHandler(handler,3,60,47));
-            this.addSlot(new OutputSlotHandler(handler,4,126,32));
+            this.addSlot(new SlotItemHandler(handler,0,23,33));
+            this.addSlot(new SlotItemHandler(handler,1,80,64));
+            this.addSlot(new OutputSlotHandler(handler,2,137,33));
         });
+    }
+    public boolean isCrafting()
+    {return data.get(0) > 0;}
+    public int getProgress()
+    {
+        int progress = this.data.get(0);
+        int maxProgress = this.data.get(1);
+        int height = 34;
+        int progressHeight = progress * height / maxProgress;
+        return progress != 0 ? progressHeight : 0;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -58,7 +67,7 @@ public class MachineSmokerGrindstoneMenu extends AbstractContainerMenu {
         private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
         // THIS YOU HAVE TO DEFINE!
-        private static final int TE_INVENTORY_SLOT_COUNT = MachineSmokerGrindstoneEntity.slots;  // must be the number of slots you have!
+        private static final int TE_INVENTORY_SLOT_COUNT = MachineCauldronSmokerEntity.slots;  // must be the number of slots you have!
 
         @Override
         public ItemStack quickMoveStack(Player playerIn, int index) {
@@ -98,7 +107,7 @@ public class MachineSmokerGrindstoneMenu extends AbstractContainerMenu {
     public boolean stillValid(Player pPlayer)
     {
         return stillValid(ContainerLevelAccess.create(level,blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
+                pPlayer, ModBlocks.MACHINE_CAULDRON_SMOKER.get());
     }
     private void addPlayerInventory(Inventory playerInventory)
     {

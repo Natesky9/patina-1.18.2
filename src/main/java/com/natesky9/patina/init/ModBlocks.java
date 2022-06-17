@@ -1,10 +1,15 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.block.Template.MachineTemplateBlock;
 import com.natesky9.patina.block.*;
+import com.natesky9.patina.block.BeaconGrindstone.MachineBeaconGrindstoneBlock;
 import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronBlock;
-import com.natesky9.patina.block.Custom.MachineCustomBlock;
+import com.natesky9.patina.block.AnvilSmithing.MachineAnvilSmithingBlock;
+import com.natesky9.patina.block.CauldronBrewing.MachineCauldronBrewingBlock;
+import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelBlock;
 import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneBlock;
+import com.natesky9.patina.block.CauldronSmoker.MachineCauldronSmokerBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -45,18 +50,31 @@ public class ModBlocks {
                     .noOcclusion()));
 
     //machines
-    public static final RegistryObject<Block> MACHINE_CUSTOM = registerBlock("machine_custom",
-            () -> new MachineCustomBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+    //public static final RegistryObject<Block> MACHINE_TEMPLATE = registerBlock("machine_custom",
+    //        () -> new MachineTemplateBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+    //                .strength(10f)));
+    public static final RegistryObject<Block> MACHINE_ANVIL_SMITHING = registerBlock("machine_anvil_smithing",
+            () -> new MachineAnvilSmithingBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(10f)));
     public static final RegistryObject<Block> MACHINE_BLAST_CAULDRON = registerBlock("machine_blast_cauldron",
             () -> new MachineBlastCauldronBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
     public static final RegistryObject<Block> MACHINE_CAULDRON_BREWING = registerBlock("machine_cauldron_brewing",
-            () -> new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+            () -> new MachineCauldronBrewingBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
     public static final RegistryObject<Block> MACHINE_SMOKER_GRINDSTONE = registerBlock("machine_smoker_grindstone",
             () -> new MachineSmokerGrindstoneBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
+    public static final RegistryObject<Block> MACHINE_GRINDSTONE_BARREL = registerBlock("machine_grindstone_barrel",
+            () -> new MachineGrindstoneBarrelBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+                    .strength(4f)));
+    public static final RegistryObject<Block> MACHINE_BEACON_GRINDSTONE = registerBlock("machine_beacon_grindstone",
+            () -> new MachineBeaconGrindstoneBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+                    .strength(4f)));
+    public static final RegistryObject<Block> MACHINE_CAULDRON_SMOKER = registerBlock("machine_cauldron_smoker",
+            () -> new MachineCauldronSmokerBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+                    .strength(4f)));
+
     //end machines
     public static final RegistryObject<Block> CUSTOM_BLOCK = registerBlock("custom_block",
             () -> new Block(BlockBehaviour.Properties.of(Material.METAL)

@@ -1,21 +1,23 @@
 package com.natesky9.patina;
 
-import com.natesky9.patina.block.BlastCauldron.MachineBlastFurnaceScreen;
+import com.natesky9.patina.block.Template.MachineTemplateScreen;
+import com.natesky9.patina.block.AnvilSmithing.MachineAnvilSmithingScreen;
+import com.natesky9.patina.block.BeaconGrindstone.MachineBeaconGrindstoneScreen;
+import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronScreen;
+import com.natesky9.patina.block.CauldronBrewing.MachineCauldronBrewingScreen;
+import com.natesky9.patina.block.CauldronSmoker.MachineCauldronSmokerScreen;
+import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelScreen;
 import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneScreen;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
-import com.natesky9.patina.block.Custom.MachineCustomScreen;
 import com.natesky9.patina.init.ModMenuTypes;
 import com.natesky9.patina.item.CopperItem;
-import com.natesky9.patina.item.MagicSalt;
-import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,54 +46,20 @@ public class EventsMod {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HERB_BLOCK.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HONEY_PUDDLE.get(), RenderType.translucentNoCrumbling());
         //screen stuff
-        MenuScreens.register(ModMenuTypes.CUSTOM_MACHINE_MENU.get(), MachineCustomScreen::new);
-        MenuScreens.register(ModMenuTypes.MACHINE_BLAST_CAULDRON_MENU.get(), MachineBlastFurnaceScreen::new);
+
+        //IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        //ModMenuTypes.register(eventBus);
+        MenuScreens.register(ModMenuTypes.MACHINE_TEMPLATE_MENU.get(), MachineTemplateScreen::new);
+
+        MenuScreens.register(ModMenuTypes.MACHINE_ANVIL_SMITHING_MENU.get(), MachineAnvilSmithingScreen::new);
+        MenuScreens.register(ModMenuTypes.MACHINE_BEACON_GRINDSTONE_MENU.get(), MachineBeaconGrindstoneScreen::new);
+        MenuScreens.register(ModMenuTypes.MACHINE_BLAST_CAULDRON_MENU.get(), MachineBlastCauldronScreen::new);
+        MenuScreens.register(ModMenuTypes.MACHINE_CAULDRON_BREWING_MENU.get(), MachineCauldronBrewingScreen::new);
+        MenuScreens.register(ModMenuTypes.MACHINE_CAULDRON_SMOKER_MENU.get(), MachineCauldronSmokerScreen::new);
+        MenuScreens.register(ModMenuTypes.MACHINE_GRINDSTONE_BARREL_MENU.get(), MachineGrindstoneBarrelScreen::new);
         MenuScreens.register(ModMenuTypes.MACHINE_SMOKER_GRINDSTONE_MENU.get(), MachineSmokerGrindstoneScreen::new);
 
-        //replace all this mess with the other code
 
-        //ItemProperties.register(ModItems.COPPER_HELMET.get(),
-        //        new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
-        //        {
-        //            CompoundTag nbt = stack.getOrCreateTag();
-        //            int rust =  nbt.getInt("oxidation");
-        //            float rust_level = min(rust / 100,3);
-        //            float rust_float = (rust_level/4);
-        //            //System.out.println("copper helmet is at stage: " + rust_float);
-        //            return rust_float;
-        //        });
-        //ItemProperties.register(ModItems.COPPER_CHESTPLATE.get(),
-        //        new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
-        //        {
-//
-        //            CompoundTag nbt = stack.getOrCreateTag();
-        //            int rust = nbt.getInt("oxidation");
-        //            float rust_level = min(rust / 100,3);
-        //            float rust_float = (rust_level/4);
-        //            //System.out.println("copper chest is at stage: " + rust_float);
-        //            return rust_float;
-        //        });
-        //ItemProperties.register(ModItems.COPPER_LEGGINGS.get(),
-        //        new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
-        //        {
-        //            CompoundTag nbt = stack.getOrCreateTag();
-        //            int rust = nbt.getInt("oxidation");
-        //            float rust_level = min(rust / 100,3);
-        //            float rust_float = (rust_level/4);
-        //            //System.out.println("copper pants is at stage: " + rust_float);
-        //            return rust_float;
-        //        });
-        //ItemProperties.register(ModItems.COPPER_BOOTS.get(),
-        //        new ResourceLocation(Patina.MOD_ID, "rustlevel"), (stack, world, living, number) ->
-        //        {
-        //            CompoundTag nbt = stack.getOrCreateTag();
-        //            int rust = nbt.getInt("oxidation");
-        //            float rust_level = min(rust / 100,3);
-        //            float rust_float = (rust_level/4);
-        //            //System.out.println("copper boots is at stage: " + rust_float);
-        //            return rust_float;
-        //        });
-        //entity
         ItemProperties.register(ModItems.LUXOMETER.get(),
                 new ResourceLocation(Patina.MOD_ID,"toggle"),(stack, world, entity, number) ->
                 {
