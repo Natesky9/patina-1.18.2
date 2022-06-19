@@ -26,6 +26,24 @@ public class MachineGrindstoneBarrelScreen extends AbstractContainerScreen<Machi
         int y = (height-imageHeight)/2;
 
         this.blit(pPoseStack,x,y,0,0,imageWidth,imageHeight);
+        boolean crafting = menu.isCrafting();
+        float progress = menu.getProgress();
+        float fluid = menu.getFluid();
+
+        if (crafting)
+        {
+            //draw the progress arrow
+            int height = (int)(22*progress);
+            this.blit(pPoseStack,x+126,y+30,210,0,16,height);
+        }
+        //draw the grindstone animation
+        int scroll = (int)(progress*5*28);
+        int drips = (int)(progress*6*6);
+        this.blit(pPoseStack,x+94,y+23,176,scroll,12,28);
+        this.blit(pPoseStack,x+92,y+53,188, 36-drips, 16,6);
+        //draw the bar
+        int bar = (int)(fluid*41);
+        this.blit(pPoseStack,x+57,y+33+41-bar,204,41-bar,6, bar);
     }
 
     @Override

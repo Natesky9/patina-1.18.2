@@ -1,6 +1,7 @@
 package com.natesky9.patina.block.CauldronSmoker;
 
 import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronEntity;
+import com.natesky9.patina.block.Template.MachineEntityContainerData;
 import com.natesky9.patina.block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.core.BlockPos;
@@ -36,30 +37,7 @@ public class MachineCauldronSmokerEntity extends MachineTemplateEntity implement
     public MachineCauldronSmokerEntity(BlockPos pWorldPosition, BlockState pBlockState)
     {
         super(pWorldPosition, pBlockState, slots);
-        this.data = new ContainerData() {
-            @Override
-            public int get(int index) {
-                return switch (index)
-                        {
-                            case 0 -> MachineCauldronSmokerEntity.this.progress;
-                            case 1 -> MachineCauldronSmokerEntity.this.maxProgress;
-                            default -> 0;
-                        };
-            }
-
-            @Override
-            public void set(int index, int value) {
-                switch (index) {
-                    case 0 -> MachineCauldronSmokerEntity.this.progress = value;
-                    case 1 -> MachineCauldronSmokerEntity.this.maxProgress = value;
-                }
-            }
-
-            @Override
-            public int getCount() {
-                return 2;
-            }
-        };
+        this.data = new MachineEntityContainerData(progress,maxProgress);
     }
 
     @Override

@@ -177,7 +177,14 @@ public class ModItems {
                     .tab(Patina.FOOD_TAB)));
     public static final RegistryObject<Item> VOID_SALT = ITEMS.register("void_salt",
             () -> new Item(new Item.Properties().rarity(Rarity.RARE).stacksTo(32).fireResistant()
-                    .tab(Patina.CREATIVE_MODE_TAB)));
+                    .tab(Patina.RESOURCE_TAB)));
+    //resources
+    public static final RegistryObject<Item> CLOTH = ITEMS.register("cloth",
+            () -> new Item(new Item.Properties().rarity(Rarity.COMMON)
+                    .tab(Patina.RESOURCE_TAB)));
+    public static final RegistryObject<Item> MAGIC_CLOTH = ITEMS.register("magic_cloth",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .tab(Patina.RESOURCE_TAB)));
 
     //loot
     public static final RegistryObject<Item> ROYAL_JELLY = ITEMS.register("royal_jelly",

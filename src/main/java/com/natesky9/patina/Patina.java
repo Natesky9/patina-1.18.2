@@ -54,6 +54,10 @@ public class Patina
         @Override
         public ItemStack makeIcon() {return new ItemStack(ModItems.CANDY_WARTS.get());}
     };
+    public static final CreativeModeTab RESOURCE_TAB = new CreativeModeTab("patina_resources") {
+        @Override
+        public ItemStack makeIcon() {return new ItemStack(ModItems.CLOTH.get());}
+    };
 
     public Patina() {
         // Register the setup method for modloading

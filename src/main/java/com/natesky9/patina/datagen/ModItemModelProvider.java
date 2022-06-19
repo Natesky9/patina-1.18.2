@@ -48,6 +48,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.TEST_FOOD.get());
         simpleItem(ModItems.ROYAL_JELLY.get());
         simpleItem(ModItems.SPIDER_NEST.get());
+        simpleItem(ModItems.CLOTH.get());
+        simpleItem(ModItems.MAGIC_CLOTH.get());
 
         simpleItem(ModItems.HERB_SEEDS.get());
         simpleItem(ModItems.HERB.get());

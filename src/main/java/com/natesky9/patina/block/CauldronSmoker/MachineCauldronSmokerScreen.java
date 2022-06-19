@@ -27,7 +27,7 @@ public class MachineCauldronSmokerScreen extends AbstractContainerScreen<Machine
 
         this.blit(pPoseStack,x,y,0,0,imageWidth,imageHeight);
         boolean crafting = menu.isCrafting();
-        if (menu.isCrafting())
+        if (crafting)
         {
             //204,0 52*34
             int progress = menu.getProgress();

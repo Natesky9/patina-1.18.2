@@ -6,9 +6,7 @@ import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,25 +16,44 @@ import net.minecraftforge.items.SlotItemHandler;
 public class MachineGrindstoneBarrelMenu extends AbstractContainerMenu {
     private final MachineGrindstoneBarrelEntity blockEntity;
     private final Level level;
+    private final ContainerData data;
     public MachineGrindstoneBarrelMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()),new SimpleContainerData(4));
     }
-    public MachineGrindstoneBarrelMenu(int pContainerId, Inventory inv, BlockEntity entity)
+    public MachineGrindstoneBarrelMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data)
     {
         super(ModMenuTypes.MACHINE_GRINDSTONE_BARREL_MENU.get(), pContainerId);
-        checkContainerSize(inv, 3);
+        checkContainerSize(inv, MachineGrindstoneBarrelEntity.slots);
         blockEntity = ((MachineGrindstoneBarrelEntity) entity);
         this.level = inv.player.level;
+        this.data = data;
+        addDataSlots(data);
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler ->
         {
-            this.addSlot(new SlotItemHandler(handler,0,34,40));
-            this.addSlot(new OutputSlotHandler(handler,1,57,18));
+            this.addSlot(new SlotItemHandler(handler,0,125,12));
+            this.addSlot(new OutputSlotHandler(handler,1,125,58));
         });
+    }
+    public boolean isCrafting()
+    {
+        return this.data.get(0) > 0;
+    }
+    public float getProgress()
+    {
+        int progress = this.data.get(0);
+        int progressMax = this.data.get(1);
+        return (float)progress / (float)progressMax;
+    }
+    public float getFluid()
+    {
+        int fluid = this.data.get(2);
+        int fluidMax = this.data.get(3);
+        return (float)fluid / (float)fluidMax;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
