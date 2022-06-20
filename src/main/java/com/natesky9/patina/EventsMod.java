@@ -11,18 +11,26 @@ import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneScreen;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModMenuTypes;
+import com.natesky9.patina.init.ModPotions;
 import com.natesky9.patina.item.CopperItem;
+import com.natesky9.recipe.SaltBrewingRecipe;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import static java.lang.Math.min;
 
@@ -38,6 +46,11 @@ public class EventsMod {
         {return hue > 0 ? -1 : CopperItem.getRustColor(item);},
             ModItems.COPPER_HELMET.get(),ModItems.COPPER_CHESTPLATE.get(),
                 ModItems.COPPER_LEGGINGS.get(),ModItems.COPPER_BOOTS.get());
+    }
+    @SubscribeEvent
+    public static void doCommonStuff(final FMLCommonSetupEvent event)
+    {
+        ModPotions.addSaltPotions();
     }
     @SubscribeEvent
     public static void doClientStuff(FMLClientSetupEvent event)

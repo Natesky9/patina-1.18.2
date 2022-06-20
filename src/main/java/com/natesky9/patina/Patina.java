@@ -71,6 +71,7 @@ public class Patina
         ModEffects.register(eventBus);
         ModEntityTypes.register(eventBus);
         ModMenuTypes.register(eventBus);
+        ModPotions.register(eventBus);
 
 
 
@@ -87,7 +88,6 @@ public class Patina
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
-
 
 
     @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.MOD)

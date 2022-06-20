@@ -1,7 +1,5 @@
 package com.natesky9.patina.block.CauldronSmoker;
 
-import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronEntity;
-import com.natesky9.patina.block.Template.MachineEntityContainerData;
 import com.natesky9.patina.block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.core.BlockPos;
@@ -12,12 +10,15 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -27,17 +28,42 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Random;
 
 public class MachineCauldronSmokerEntity extends MachineTemplateEntity implements MenuProvider {
     public static int slots = 3;
     public final ContainerData data;
+    public static int dataSlots = 2;
     private int progress = 0;
-    private int maxProgress = 80;
+    private int progressMax = 80;
 
     public MachineCauldronSmokerEntity(BlockPos pWorldPosition, BlockState pBlockState)
     {
         super(pWorldPosition, pBlockState, slots);
-        this.data = new MachineEntityContainerData(progress,maxProgress);
+        this.data = new ContainerData() {
+            @Override
+            public int get(int index) {
+                return switch (index) {
+                    case 0 -> progress;
+                    case 1 -> progressMax;
+                    default -> 0;
+                };
+            }
+
+            @Override
+            public void set(int pIndex, int pValue) {
+                switch (pIndex) {
+                    case 0 -> progress = pValue;
+                    case 1 -> progressMax = pValue;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
     }
 
     @Override
@@ -58,7 +84,8 @@ public class MachineCauldronSmokerEntity extends MachineTemplateEntity implement
     private boolean hasRecipe()
     {
         boolean hasFirstSlot = itemStackHandler.getStackInSlot(0).getCount() > 0;
-        boolean valid = PotionUtils.getPotion(itemStackHandler.getStackInSlot(0)).getEffects().size() > 0;
+        Potion potion = PotionUtils.getPotion(itemStackHandler.getStackInSlot(0));
+        boolean valid = potion.getEffects().size() == 1;
         boolean hasSecondSlot = itemStackHandler.getStackInSlot(1).getCount() > 0;
 
         return hasFirstSlot && hasSecondSlot && valid;
@@ -72,7 +99,13 @@ public class MachineCauldronSmokerEntity extends MachineTemplateEntity implement
         //take a campfire out
         itemStackHandler.extractItem(1,1,false);
 
-        ItemStack salt = new ItemStack(ModItems.MAGIC_SALT.get());
+        //List<MobEffectInstance> effectList = PotionUtils.getPotion(slot1).getEffects();
+        //Random random = new Random();
+        //MobEffectInstance effect = effectList.get(random.nextInt(effectList.size()));
+        //int amplifier = effect.getAmplifier();
+
+        int count = PotionUtils.getPotion(slot1).getEffects().size()+1;
+        ItemStack salt = new ItemStack(ModItems.MAGIC_SALT.get(),1);
         PotionUtils.setPotion(salt,PotionUtils.getPotion(slot1));
         itemStackHandler.insertItem(2,salt,false);
     }
@@ -137,7 +170,7 @@ public class MachineCauldronSmokerEntity extends MachineTemplateEntity implement
             if (itemStackHandler.getStackInSlot(1).getItem() == Items.SOUL_CAMPFIRE)
                 progress++;
             //System.out.println("craft");
-            if (progress >= maxProgress) {
+            if (progress >= progressMax) {
                 craftItem();
                 resetProgress();
             }

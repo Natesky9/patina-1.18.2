@@ -34,6 +34,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         basicBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());
         basicBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());
         basicBlock(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
+        basicBlock(ModBlocks.MACHINE_CAULDRON_SMOKER.get());
+        basicBlock(ModBlocks.MACHINE_GRINDSTONE_BARREL.get());
         basicBlock(ModBlocks.CUSTOM_BLOCK.get());
         makeCrop((HerbPlantBlock)ModBlocks.HERB_BLOCK.get(),"herb_block_stage");
 

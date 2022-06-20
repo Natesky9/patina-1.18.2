@@ -79,6 +79,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.RANGE_OFFHAND.get());
         simpleItem(ModItems.MAGIC_OFFHAND.get());
         simpleItem(ModItems.FERTILIZER.get());
+        //potion salt is done differently
+        simpleItem(ModItems.VOID_SALT.get());
 
         simpleItem(ModItems.SWEETS.get());
         simpleItem(ModItems.MONSTER_MEATBALLS.get());
@@ -98,6 +100,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());
         simpleBlock(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
         simpleBlock(ModBlocks.MACHINE_ANVIL_SMITHING.get());
+        simpleBlock(ModBlocks.MACHINE_CAULDRON_SMOKER.get());
         simpleBlock(ModBlocks.CUSTOM_BLOCK.get());
         simpleBlock(ModBlocks.TELECHORUS.get());
         withExistingParent(ModBlocks.CHORUS_CABLE.get().getRegistryName().getPath(),modLoc("block/chorus_cable_inventory"));
