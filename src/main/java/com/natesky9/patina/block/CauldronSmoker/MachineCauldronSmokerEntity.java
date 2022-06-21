@@ -12,6 +12,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -104,8 +105,8 @@ public class MachineCauldronSmokerEntity extends MachineTemplateEntity implement
         //MobEffectInstance effect = effectList.get(random.nextInt(effectList.size()));
         //int amplifier = effect.getAmplifier();
 
-        int count = PotionUtils.getPotion(slot1).getEffects().size()+1;
-        ItemStack salt = new ItemStack(ModItems.MAGIC_SALT.get(),1);
+        int count = PotionUtils.getPotion(slot1).getEffects().get(0).getAmplifier()+1;
+        ItemStack salt = new ItemStack(ModItems.MAGIC_SALT.get(),count);
         PotionUtils.setPotion(salt,PotionUtils.getPotion(slot1));
         itemStackHandler.insertItem(2,salt,false);
     }

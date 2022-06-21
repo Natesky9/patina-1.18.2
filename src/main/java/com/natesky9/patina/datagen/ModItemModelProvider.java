@@ -82,6 +82,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         //potion salt is done differently
         simpleItem(ModItems.VOID_SALT.get());
 
+        simpleItem(ModItems.POTION_FLASK.get());
+        simpleItem(ModItems.SOUP_BOTTLE.get());
+
         simpleItem(ModItems.SWEETS.get());
         simpleItem(ModItems.MONSTER_MEATBALLS.get());
         simpleItem(ModItems.TRAIL_MIX.get());

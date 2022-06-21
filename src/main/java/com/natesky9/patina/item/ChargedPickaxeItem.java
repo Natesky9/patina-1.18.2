@@ -57,11 +57,18 @@ public class ChargedPickaxeItem extends PickaxeItem
 
     @Override
     public boolean onDroppedByPlayer(ItemStack item, Player player) {
+        //fully charge when dropped, debug feature
         CompoundTag nbt = item.getOrCreateTag();
         nbt.putBoolean("charged",true);
         nbt.putInt("charge",chargeMax);
 
         return super.onDroppedByPlayer(item, player);
+    }
+
+    @Override
+    public boolean isFoil(ItemStack itemStack) {
+        if (!itemStack.hasTag()) return false;
+        return itemStack.getTag().getBoolean("charged");
     }
 
     @Override

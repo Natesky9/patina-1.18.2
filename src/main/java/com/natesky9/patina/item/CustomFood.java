@@ -2,6 +2,7 @@ package com.natesky9.patina.item;
 
 import com.natesky9.patina.init.ModFoods;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -49,21 +50,27 @@ public class CustomFood extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced)
     {
-        int hunger = pStack.getOrCreateTag().getInt("hunger");
-        float saturation = pStack.getOrCreateTag().getFloat("saturation");
-        pTooltipComponents.add(new TextComponent("hunger: " + hunger).withStyle(ChatFormatting.RED));
-        pTooltipComponents.add(new TextComponent("saturation: " + saturation).withStyle(ChatFormatting.YELLOW));
-        String food1 = pStack.getOrCreateTag().getString("food 1");
-        String food2 = pStack.getOrCreateTag().getString("food 2");
-        String food3 = pStack.getOrCreateTag().getString("food 3");
-        String food4 = pStack.getOrCreateTag().getString("food 4");
+        if (Screen.hasShiftDown())
+        {
+            int hunger = pStack.getOrCreateTag().getInt("hunger");
+            float saturation = pStack.getOrCreateTag().getFloat("saturation");
+            pTooltipComponents.add(new TextComponent("hunger: " + hunger).withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(new TextComponent("saturation: " + saturation).withStyle(ChatFormatting.YELLOW));
+            String food1 = pStack.getOrCreateTag().getString("food 1");
+            String food2 = pStack.getOrCreateTag().getString("food 2");
+            String food3 = pStack.getOrCreateTag().getString("food 3");
+            String food4 = pStack.getOrCreateTag().getString("food 4");
 
-        if (food1.equals("")|| food2.equals("")||food3.equals("")||food4.equals("")) return;
+            if (food1.equals("") || food2.equals("") || food3.equals("") || food4.equals("")) return;
 
-        pTooltipComponents.add(new TextComponent("ingredients: "));
-        pTooltipComponents.add(new TextComponent(food1).withStyle(ChatFormatting.AQUA));
-        pTooltipComponents.add(new TextComponent(food2).withStyle(ChatFormatting.AQUA));
-        pTooltipComponents.add(new TextComponent(food3).withStyle(ChatFormatting.AQUA));
-        pTooltipComponents.add(new TextComponent(food4).withStyle(ChatFormatting.AQUA));
+            pTooltipComponents.add(new TextComponent(food1).withStyle(ChatFormatting.AQUA));
+            pTooltipComponents.add(new TextComponent(food2).withStyle(ChatFormatting.AQUA));
+            pTooltipComponents.add(new TextComponent(food3).withStyle(ChatFormatting.AQUA));
+            pTooltipComponents.add(new TextComponent(food4).withStyle(ChatFormatting.AQUA));
+        }
+        else
+        {
+            pTooltipComponents.add(new TextComponent("Hold shift to view ingredients!").withStyle(ChatFormatting.YELLOW));
+        }
     }
 }

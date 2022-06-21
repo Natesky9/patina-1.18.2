@@ -51,6 +51,7 @@ public class EventsMod {
     public static void doCommonStuff(final FMLCommonSetupEvent event)
     {
         ModPotions.addSaltPotions();
+        ModPotions.addVoidPotions();
     }
     @SubscribeEvent
     public static void doClientStuff(FMLClientSetupEvent event)

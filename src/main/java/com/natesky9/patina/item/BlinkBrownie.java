@@ -19,18 +19,13 @@ public class BlinkBrownie extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
-        HitResult result = entity.pick(16,0,false);
-        //HitResult liquid = entity.pick(16,0,true);
-
-        if (result.getType() == HitResult.Type.BLOCK || result.getType() == HitResult.Type.ENTITY)
-        {
-            Vec3 blockpos = result.getLocation();
-            double blockX = blockpos.x;
-            double blockY = blockpos.y;
-            double blockZ = blockpos.z;
-            entity.teleportTo(blockX,blockY,blockZ);
+        //put brownies on cooldown
+        if (entity instanceof Player) {
+            ((Player)entity).getCooldowns().addCooldown(this, 60);
         }
 
+        HitResult result = entity.pick(16,0,false);
+        //HitResult liquid = entity.pick(16,0,true);
         if (result.getType() == HitResult.Type.ENTITY)
         {
             //swap positions
@@ -41,13 +36,19 @@ public class BlinkBrownie extends Item {
 
             entityHit.teleportTo(entity.getX(),entity.getY(),entity.getZ());
             entity.teleportTo(entityHitX,entityHitY,entityHitZ);
+            return super.finishUsingItem(itemStack, level, entity);
         }
 
-        //put brownies on cooldown
-        if (entity instanceof Player) {
-            ((Player)entity).getCooldowns().addCooldown(this, 60);
+        if (result.getType() == HitResult.Type.BLOCK)
+        {
+            Vec3 blockpos = result.getLocation();
+            double blockX = blockpos.x;
+            double blockY = blockpos.y;
+            double blockZ = blockpos.z;
+            entity.teleportTo(blockX,blockY,blockZ);
+            return super.finishUsingItem(itemStack, level, entity);
         }
-
+        //if nothing happened
         return super.finishUsingItem(itemStack, level, entity);
     }
 }

@@ -8,10 +8,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
@@ -35,11 +32,20 @@ public class MagicSalt extends Item {
     @Override
     public void fillItemCategory(CreativeModeTab Category, NonNullList<ItemStack> pItems) {
         if (this.allowdedIn(Category)) {
-            for(MobEffect effect : Registry.MOB_EFFECT) {
-                if (effect != MobEffects.HERO_OF_THE_VILLAGE) {
-                    pItems.add(PotionUtils.setPotion(new ItemStack(this), new Potion(new MobEffectInstance(effect))));
-                }
+
+            for(Potion potion : Registry.POTION) {
+                if (potion.getEffects().isEmpty() || potion.getEffects().size() > 1) continue;
+                if (potion.getEffects().get(0).getAmplifier() >= 1) continue;
+                pItems.add(PotionUtils.setPotion(new ItemStack(this), potion));
             }
+            /*
+            for (Potion potion: Registry.POTION)
+            {
+                if (PotionUtils.getPotion(potion).getEffects().stream().anyMatch(potency -> PotionUtils.))
+                    potion.getEffects().g
+                PotionUtils.getPotion(PotionUtils.setPotion(new ItemStack(Items.POTION),potion));
+            }
+            */
         }
     }
 }

@@ -32,6 +32,7 @@ public class SaltBrewingRecipe implements IBrewingRecipe
     @Override
     public boolean isIngredient(ItemStack ingredient)
     {
+        if (!ingredient.getItem().equals(ModItems.MAGIC_SALT.get())) return false;
         //add a case for Potion Salt
         Potion potion = PotionUtils.getPotion(ingredient);
         if (potion.getEffects().size() == 0) return false;

@@ -1,7 +1,9 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.effect.CalmEffect;
 import com.natesky9.patina.effect.EatingEffect;
+import com.natesky9.patina.effect.FrenzyEffect;
 import com.natesky9.patina.effect.VenomEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -18,6 +20,11 @@ public class ModEffects {
             () -> new VenomEffect(MobEffectCategory.HARMFUL,123123));
     public static final RegistryObject<MobEffect> EATING = MOD_EFFECTS.register("eating",
             () -> new EatingEffect(MobEffectCategory.BENEFICIAL,444444));
+
+    public static final RegistryObject<MobEffect> FRENZY = MOD_EFFECTS.register("frenzy",
+            () -> new FrenzyEffect(MobEffectCategory.NEUTRAL,22222));
+    public static final RegistryObject<MobEffect> CALM = MOD_EFFECTS.register("calm",
+            () -> new CalmEffect(MobEffectCategory.NEUTRAL,111111));
 
     public static void register(IEventBus eventBus){
         MOD_EFFECTS.register(eventBus);
