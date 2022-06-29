@@ -181,7 +181,7 @@ public class MachineCauldronSmokerEntity extends MachineTemplateEntity implement
             resetProgress();
         }
 
-        setChanged(this.level,this.worldPosition,this.getBlockState());
+        setChanged();
     }
 
     private void resetProgress()

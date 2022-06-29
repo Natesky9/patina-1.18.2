@@ -187,7 +187,7 @@ public class ModPotions
                 MobEffects.MOVEMENT_SPEED,
                 ModPotions.IMPROVED_SWIFTNESS.get()));
         BrewingRecipeRegistry.addRecipe(new SaltBrewingRecipe(
-                Potions.STRONG_STRENGTH,
+                Potions.STRONG_SWIFTNESS,
                 MobEffects.MOVEMENT_SPEED,
                 ModPotions.IMPROVED_SWIFTNESS.get()));
         BrewingRecipeRegistry.addRecipe(new SaltBrewingRecipe(
@@ -239,10 +239,6 @@ public class ModPotions
                 MobEffects.WEAKNESS,
                 ModPotions.IMPROVED_WEAKNESS.get()));
         BrewingRecipeRegistry.addRecipe(new SaltBrewingRecipe(
-                Potions.WEAKNESS,
-                MobEffects.WEAKNESS,
-                ModPotions.IMPROVED_WEAKNESS.get()));
-        BrewingRecipeRegistry.addRecipe(new SaltBrewingRecipe(
                 Potions.LONG_SLOW_FALLING,
                 MobEffects.SLOW_FALLING,
                 ModPotions.IMPROVED_SLOW_FALLING.get()));
@@ -276,9 +272,9 @@ public class ModPotions
                 ModItems.VOID_SALT.get(),
                 ModPotions.ENHANCED_FIRE_RESISTANCE.get()));
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(
-                ModPotions.ENHANCED_SWIFTNESS.get(),
+                ModPotions.IMPROVED_SWIFTNESS.get(),
                 ModItems.VOID_SALT.get(),
-                ModPotions.IMPROVED_SWIFTNESS.get()));
+                ModPotions.ENHANCED_SWIFTNESS.get()));
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(
                 ModPotions.IMPROVED_SLOWNESS.get(),
                 ModItems.VOID_SALT.get(),

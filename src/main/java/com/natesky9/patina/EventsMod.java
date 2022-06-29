@@ -36,6 +36,7 @@ import static java.lang.Math.min;
 
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {
+
     @SubscribeEvent
     public static void ColorHandlerEvent(final ColorHandlerEvent.Item event)
     {
@@ -59,6 +60,7 @@ public class EventsMod {
         //Render types
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HERB_BLOCK.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HONEY_PUDDLE.get(), RenderType.translucentNoCrumbling());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MACHINE_BEACON_GRINDSTONE.get(), RenderType.cutout());
         //screen stuff
 
         //IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();

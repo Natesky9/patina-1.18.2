@@ -17,6 +17,7 @@ public class ModEntityTypes {
     public static DeferredRegister<EntityType<?>> ENTITY_TYPES
             =DeferredRegister.create(ForgeRegistries.ENTITIES, Patina.MOD_ID);
     //start entities
+    //region entities
     public static final RegistryObject<EntityType<BeeQueen>> BEE_QUEEN =
             ENTITY_TYPES.register("bee_queen",
                     () -> EntityType.Builder.of(BeeQueen::new, MobCategory.MONSTER)
@@ -37,6 +38,7 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(PigKing::new, MobCategory.MONSTER)
                             .sized(2,3)
                             .build(new ResourceLocation(Patina.MOD_ID,"pig_king").toString()));
+    //endregion
     //done with entities
     public static void register(IEventBus eventBus)
     {ENTITY_TYPES.register(eventBus);}
