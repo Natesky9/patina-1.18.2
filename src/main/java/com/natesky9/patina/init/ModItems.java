@@ -185,6 +185,10 @@ public class ModItems {
     public static final RegistryObject<Item> SOUP_BOTTLE = ITEMS.register("soup_bottle",
             () -> new SoupBottleItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
                     .tab(Patina.CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> DUST_BAG = ITEMS.register("powder_pouch",
+            () -> new PowderPouchItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
+                    .tab(Patina.CREATIVE_MODE_TAB)));
+
     //resources
     public static final RegistryObject<Item> CLOTH = ITEMS.register("cloth",
             () -> new Item(new Item.Properties().rarity(Rarity.COMMON)

@@ -24,7 +24,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         folderItem(ModItems.BEE_FRAGMENT_4.get(),"fragment");
         folderItem(ModItems.BEE_FRAGMENT_A.get(),"fragment");
         folderItem(ModItems.BEE_FRAGMENT_B.get(),"fragment");
-        handheldItem(ModItems.BEE_WEAPON.get());
+        //handheldItem(ModItems.BEE_WEAPON.get());
 
         folderItem(ModItems.PIG_FRAGMENT_1.get(),"fragment");
         folderItem(ModItems.PIG_FRAGMENT_2.get(),"fragment");

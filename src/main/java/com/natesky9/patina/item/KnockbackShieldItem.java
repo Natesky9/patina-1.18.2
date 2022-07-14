@@ -1,5 +1,9 @@
 package com.natesky9.patina.item;
 
+import com.natesky9.patina.Patina;
+import com.natesky9.patina.entity.MiscModels.BEWLR;
+import com.natesky9.patina.entity.MiscModels.KnockbackShield;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
@@ -8,11 +12,25 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraftforge.client.IItemRenderProperties;
+
+import java.util.function.Consumer;
 
 public class KnockbackShieldItem extends ShieldItem {
     public KnockbackShieldItem(Properties p_43089_) {
         super(p_43089_);
     }
+
+    @Override
+    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+        consumer.accept(new IItemRenderProperties() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                return Patina.bewlr;
+            }
+        });
+    }
+
     public static void activate(Entity blocker, ItemStack itemstack, DamageSource damageSource)
     {
         if (damageSource instanceof EntityDamageSource)

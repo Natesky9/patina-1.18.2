@@ -1,12 +1,11 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "builtin/entity",
 	"textures": {
 		"0": "block/piston_top",
 		"1": "block/piston_side",
 		"2": "block/dark_oak_planks",
 		"3": "block/copper_block",
-		"particle": "block/dark_oak_planks"
+		"particle": "block/piston_top"
 	},
 	"elements": [
 		{
@@ -121,13 +120,5 @@
 		"fixed": {
 			"translation": [0, -2, 0]
 		}
-	},
-	"overrides": [
-		{
-			"predicate": {
-				"blocking": 1
-			},
-			"model": "item/shield_blocking"
-		}
-	]
+	}
 }

@@ -8,12 +8,14 @@ import com.natesky9.patina.block.CauldronBrewing.MachineCauldronBrewingScreen;
 import com.natesky9.patina.block.CauldronSmoker.MachineCauldronSmokerScreen;
 import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelScreen;
 import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneScreen;
+import com.natesky9.patina.entity.MiscModels.BEWLR;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModMenuTypes;
 import com.natesky9.patina.init.ModPotions;
 import com.natesky9.patina.item.CopperItem;
 import com.natesky9.recipe.SaltBrewingRecipe;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -57,6 +59,7 @@ public class EventsMod {
     @SubscribeEvent
     public static void doClientStuff(FMLClientSetupEvent event)
     {
+        Patina.bewlr = new BEWLR(Minecraft.getInstance().getBlockEntityRenderDispatcher(),Minecraft.getInstance().getEntityModels());
         //Render types
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HERB_BLOCK.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HONEY_PUDDLE.get(), RenderType.translucentNoCrumbling());

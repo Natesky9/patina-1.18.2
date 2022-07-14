@@ -2,6 +2,7 @@ package com.natesky9.patina.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,13 +25,20 @@ import java.util.List;
 
 public class PotionFlaskItem extends Item {
     private final int capacity;
-    private int uses;
-    private Potion potion;
 
     public PotionFlaskItem(Properties pProperties) {
         super(pProperties);
-        this.uses = 0;
         this.capacity = 6;
+    }
+
+    //setter and getter for uses, potion is done via PotionUtils
+    public int getUses(ItemStack stack)
+    {
+        return stack.getOrCreateTag().getInt("uses");
+    }
+    public void setUses(ItemStack stack,int value)
+    {
+        stack.getOrCreateTag().putInt("uses",value);
     }
 
     @Override
@@ -40,42 +48,47 @@ public class PotionFlaskItem extends Item {
 
     @Override
     public int getBarWidth(ItemStack pStack) {
-        return this.uses / this.capacity;
+        //durability bar is 14 pixels wide
+        return (int)((getUses(pStack) / (float)this.capacity) * 14);
     }
 
     @Override
     public int getBarColor(ItemStack pStack) {
-        if (PotionUtils.getPotion(pStack).getEffects().isEmpty()) return 0;
-        return PotionUtils.getColor(this.potion);
+        Potion potion = PotionUtils.getPotion(pStack);
+        if (potion.getEffects().isEmpty()) return 0;
+        return PotionUtils.getColor(potion);
     }
 
+
     @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pEntity instanceof Player player) {
-            if (pSlotId == Inventory.SLOT_OFFHAND) {
-                ItemStack otherItem = player.getInventory().getSelected();
-                Potion getPotion = PotionUtils.getPotion(otherItem);
-                if (getPotion == this.potion || this.potion == null) {
-                    this.uses++;
-                    player.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.GLASS_BOTTLE));
-                }
+    public void inventoryTick(ItemStack stack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+        if (pEntity instanceof ServerPlayer player) {
+            if (!stack.equals(((Player) pEntity).getItemBySlot(EquipmentSlot.OFFHAND)))return;
+            ItemStack otherItem = player.getInventory().getSelected();
+            if (otherItem.isEmpty() || !otherItem.is(Items.POTION) || getUses(stack) == this.capacity) return;
+
+            Potion potion = PotionUtils.getPotion(stack);
+            Potion getPotion = PotionUtils.getPotion(otherItem);
+            if (getPotion == potion || potion == Potions.EMPTY) {
+                setUses(stack,getUses(stack)+1);
+                PotionUtils.setPotion(stack,getPotion);
+                player.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.GLASS_BOTTLE));
             }
+
         }
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         //crouch to fill?
-        if (this.uses > 0)
+        ItemStack stack = pPlayer.getItemInHand(pUsedHand);
+        if (getUses(stack) > 0)
             return ItemUtils.startUsingInstantly(pLevel, pPlayer, pUsedHand);
         else return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
     }
 
     @Override
     public boolean onDroppedByPlayer(ItemStack item, Player player) {
-        this.uses = Math.min(this.uses + 1, this.capacity);
-        this.potion = Potions.SWIFTNESS;
-
         return super.onDroppedByPlayer(item, player);
     }
 
@@ -90,19 +103,23 @@ public class PotionFlaskItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(new TextComponent("sips: " + this.uses));
-        PotionUtils.addPotionTooltip(pStack,pTooltipComponents,0);
+    public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(new TextComponent("sips: " + getUses(stack)));
+        PotionUtils.addPotionTooltip(stack,pTooltipComponents,1);
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
+    public ItemStack finishUsingItem(ItemStack stack, Level pLevel, LivingEntity pLivingEntity) {
+        if (pLevel.isClientSide) return stack;
+        Potion potion = PotionUtils.getPotion(stack);
         potion.getEffects().forEach(pLivingEntity::addEffect);
 
         //pLivingEntity.addEffect(instance);
-        this.uses -= 1;
-        if (this.uses == 0)
-            this.potion = null;
-        return pStack;
+        setUses(stack,getUses(stack)-1);
+        if (getUses(stack) == 0)
+        {
+        PotionUtils.setPotion(stack,Potions.EMPTY);
+        }
+        return stack;
     }
 }

@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.natesky9.patina.entity.BeeQueen.BeeQueen;
 import com.natesky9.patina.entity.BeeQueen.BeeQueenModel;
 import com.natesky9.patina.entity.BeeQueen.BeeQueenRender;
+import com.natesky9.patina.entity.MiscModels.BEWLR;
 import com.natesky9.patina.entity.MiscModels.KnockbackShield;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestEntity;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestModel;
@@ -17,6 +18,8 @@ import com.natesky9.patina.entity.PigKing.PigKingRender;
 import com.natesky9.patina.init.*;
 import com.natesky9.patina.overlay.VenomOverlay;
 import com.natesky9.patina.init.ModMenuTypes;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -39,6 +42,8 @@ public class Patina
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final String MOD_ID = "patina";
+    public static BEWLR bewlr;
+
     //create a tab
     public static final CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("patina_tab") {
         @Override
@@ -113,6 +118,7 @@ public class Patina
             event.registerLayerDefinition(KnockbackShield.LAYER_LOCATION,KnockbackShield::createMainLayer);
 
         }
+
         @SubscribeEvent
         public static void entityRenderer(EntityRenderersEvent.RegisterRenderers event)
         {
