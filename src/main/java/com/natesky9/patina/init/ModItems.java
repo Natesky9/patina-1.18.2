@@ -218,6 +218,10 @@ public class ModItems {
             () -> new FertilizerItem(new Item.Properties()
                     .rarity(Rarity.UNCOMMON)
                     .tab(Patina.CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> RAID_TEST = ITEMS.register("raid_test",
+            () -> new DebugRaidItem(new Item.Properties()
+                    .rarity(Rarity.EPIC)
+                    .tab(Patina.BOSS_LOOT_TAB)));
     //resources
     //public static final RegistryObject<Item> CALCITE_DUST = ITEMS.register("calcite_dust",
     //        () -> new Item(new Item.Properties()

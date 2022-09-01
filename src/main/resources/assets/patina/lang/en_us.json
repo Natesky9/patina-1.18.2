@@ -96,7 +96,14 @@
   "entity.patina.spider_nest_entity": "Spider Nest",
   "entity.patina.pig_king": "Piglin King",
 
+  "enchantment.patina.curse": "Curse",
 
+  "enchantment.patina.envy": "Envy",
+  "enchantment.patina.gluttony": "Gluttony",
+  "enchantment.patina.greed": "Greed",
+  "enchantment.patina.lust": "Lust",
+  "enchantment.patina.pride": "Pride",
+  "enchantment.patina.wrath": "Wrath",
 
   "effect.patina.venom": "Venom",
   "death.attack.venom": "%1$s succumbed to venom",
@@ -104,6 +111,8 @@
 
   "itemGroup.patina_tab": "Patina Creative Tab",
   "itemGroup.patina_loot": "Patina Loot Tab",
-  "itemGroup.patina_food": "Patina Food Tab"
+  "itemGroup.patina_food": "Patina Food Tab",
+
+  "component.patina.excursion": "Test Incursion"
 
 }

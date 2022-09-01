@@ -51,7 +51,8 @@ public class BeeQueen extends Monster implements PowerableMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(0,new FloatGoal(this));
         this.goalSelector.addGoal(0,new LookAtPlayerGoal(this, Player.class,8));
-        this.goalSelector.addGoal(2,new BossMeleeAttackGoal(this,1,true));
+        this.goalSelector.addGoal(1,new NearestAttackableTargetGoal<>(this,Player.class,true));
+        //this.goalSelector.addGoal(2,new BossMeleeAttackGoal(this,1,true));
         this.goalSelector.addGoal(3,new MoveTowardsTargetGoal(this,1,8));
         this.targetSelector.addGoal(0, (new HurtByTargetGoal(this)).setAlertOthers(Bee.class));
         this.targetSelector.addGoal(1,new NearestAttackableTargetGoal<>(this, Player.class,true));

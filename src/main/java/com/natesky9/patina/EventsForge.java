@@ -3,24 +3,62 @@ package com.natesky9.patina;
 import com.google.common.collect.Multimap;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.item.KnockbackShieldItem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Iterator;
 
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge
 {
+
+    @SubscribeEvent
+    public static void LevelTickEvent(TickEvent.WorldTickEvent event)
+    {
+        //exit if not client
+        if (!(event.world instanceof ServerLevel level)) return;
+        IncursionManager.tick(level);
+    }
+    @SubscribeEvent
+    public static void LivingDeathEvent(LivingDeathEvent event)
+    {
+        if (!(event.getEntity().level instanceof ServerLevel level)) return;
+
+        IncursionManager manager = IncursionManager.get(event.getEntity().level);
+        manager.entityDie(event.getEntityLiving());
+    }
+    @SubscribeEvent
+    public static void registerCaps(RegisterCapabilitiesEvent event)
+    {
+        event.register(PlayerCapabilities.class);
+    }
     //LivingHurtEvent
     @SubscribeEvent
     public static void ArrowLooseEvent(ArrowLooseEvent event)
