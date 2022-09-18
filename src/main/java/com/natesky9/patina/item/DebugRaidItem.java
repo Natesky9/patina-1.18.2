@@ -4,7 +4,10 @@ import com.natesky9.patina.Incursion;
 import com.natesky9.patina.IncursionManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -23,27 +26,39 @@ public class DebugRaidItem extends Item {
         if (level instanceof ServerLevel serverLevel)
         {
             IncursionManager manager = IncursionManager.get(level);
+            BlockPos pos = pPlayer.blockPosition();
             //check if we're already in an incursion
-            boolean existing = manager.within(pPlayer.blockPosition());
+            boolean within = manager.isWithinIncursion(pos);
+            boolean creative = pPlayer.isCreative();
+            if (within && creative)
+            {
+                Incursion incursion = manager.getIncursion(level,pos);
+                incursion.success();
+                return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
+            }
+            boolean existing = manager.isNearbyIncursion(pos,100);
             if (existing)
             {
-                Incursion incursion = manager.find(level,pPlayer.blockPosition());
-                incursion.rewardPlayers();
-                System.out.println("in incursion, rewarding!");
+                Incursion incursion = manager.findNearbyIncursion(level,pos,100);
+                System.out.println("there's already an incursion nearby");
+                pPlayer.displayClientMessage(new TextComponent("There's an incursion nearby!"),true);
+                level.playSound(null,pPlayer, SoundEvents.AXOLOTL_HURT, SoundSource.PLAYERS,1,1);
                 return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
             }
 
 
-            //otherwise, create one
+            //create an incursion if the time is right
             boolean night = Incursion.night((int)level.getDayTime()%24000);
             if (!night)
-            System.out.println("has to be night");
+                pPlayer.displayClientMessage(new TextComponent("has to be night to create incursions"),true);
             boolean moon = level.getMoonPhase() == 0;
             if (!moon)
-            System.out.println("has to be full moon");
+                pPlayer.displayClientMessage(new TextComponent("has to be a full moon to create incursions"),true);
             if (night && moon)
             {
-                Incursion incursion = manager.createIncursion(pPlayer);
+                level.playSound(null,pPlayer, SoundEvents.ANVIL_USE, SoundSource.PLAYERS,.5F,1);
+                Incursion incursion = manager.createIncursion(level, pos);
+                pPlayer.displayClientMessage(new TextComponent("Incursion created!"),true);
             }
 
         }
@@ -54,7 +69,7 @@ public class DebugRaidItem extends Item {
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (!(pLevel instanceof ServerLevel)) return;
         IncursionManager manager = IncursionManager.get(pLevel);
-        if (manager.within(pEntity.blockPosition()))
+        if (manager.isWithinIncursion(pEntity.blockPosition()))
         {
             pStack.getOrCreateTag().putBoolean("active",true);
         }
@@ -63,6 +78,7 @@ public class DebugRaidItem extends Item {
 
     @Override
     public boolean isFoil(ItemStack pStack) {
+        //shiny if in a raid
         CompoundTag tag = pStack.getOrCreateTag();
         if (tag.contains("active"))
         {

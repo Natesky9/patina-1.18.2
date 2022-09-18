@@ -1,8 +1,11 @@
 package com.natesky9.patina.item;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
@@ -20,22 +23,22 @@ public class BlinkBrownie extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
         //put brownies on cooldown
-        if (entity instanceof Player) {
-            ((Player)entity).getCooldowns().addCooldown(this, 60);
+        if (entity instanceof Player player)
+        {
+            level.playSound(null,player, SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.AMBIENT,
+                    1F,1F);
+            player.getCooldowns().addCooldown(this, 20);
         }
-
-        HitResult result = entity.pick(16,0,false);
+        //TODO fix entity picking//done?
+        HitResult result = ProjectileUtil.getHitResult(entity,Entity::canBeCollidedWith);
         //HitResult liquid = entity.pick(16,0,true);
         if (result.getType() == HitResult.Type.ENTITY)
         {
             //swap positions
             Entity entityHit = ((EntityHitResult)result).getEntity();
-            double entityHitX = entityHit.getX();
-            double entityHitY = entityHit.getY();
-            double entityHitZ = entityHit.getZ();
-
-            entityHit.teleportTo(entity.getX(),entity.getY(),entity.getZ());
-            entity.teleportTo(entityHitX,entityHitY,entityHitZ);
+            Vec3 storePos = entity.position();
+            entity.setPos(entityHit.position());
+            entityHit.setPos(storePos);
             return super.finishUsingItem(itemStack, level, entity);
         }
 

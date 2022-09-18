@@ -2,6 +2,8 @@ package com.natesky9.patina;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.bossevents.CustomBossEvent;
@@ -24,6 +26,9 @@ import net.minecraft.world.phys.AABB;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.natesky9.patina.init.ModEnchantments.*;
+import static net.minecraft.world.item.enchantment.Enchantments.*;
+
 public class Incursion {
     Level incursionLevel;
     BlockPos incursionPos;
@@ -31,6 +36,26 @@ public class Incursion {
     CustomBossEvent event;
     int lifetime;
     boolean valid;
+    public Map<Enchantment,Enchantment> enchantmentOpposites = Map.of
+            (
+                    VANISHING_CURSE, SOULBOUND.get(),
+                    //losing items to keeping them on death
+
+                    ENVYCURSE.get(), ENVYBLESSING.get(),
+                    GLUTTONYCURSE.get(), GLUTTONYBLESSING.get(),
+                    //consuming more food to increased capacity
+                    GREEDCURSE.get(), GREEDBLESSING.get(),
+                    //reduced drops to rare drop table
+                    LUSTCURSE.get(), LUSTBLESSING.get(),
+                    //weakened hits to lifesteal
+                    PRIDECURSE.get(), PRIDEBLESSING.get(),
+                    //increased durability to extra boss damage
+                    SLOTHCURSE.get(), SLOTHBLESSING.get(),
+                    //_____ to shrugging off attacks?
+                    WRATHCURSE.get(), WRATHBLESSING.get()
+                    //take increased damage to dealing extra retaliation
+            );
+
     //----------//
     public Incursion(Level level, BlockPos pos)
     {
@@ -133,16 +158,25 @@ public class Incursion {
                 //loop through all slots
                 ItemStack stack = player.getItemBySlot(slot);
                 Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
-                Optional<Enchantment> curse = enchantments.keySet().stream().findFirst().filter(Enchantment::isCurse);
+                Optional<Enchantment> curse = enchantments.keySet().stream().filter(Enchantment::isCurse).findFirst();
                 if (curse.isPresent())
                 {
                     //remove the curse?
                     enchantments.remove(curse.get());
+                    Component name = curse.get().getFullname(1);
+                    MutableComponent text = new TextComponent("the curse of ").append(name).append(" has been purged");
+                    Enchantment blessing = getOpposite(curse.get());
+                    player.displayClientMessage(text,true);
                     EnchantmentHelper.setEnchantments(enchantments,stack);
+                    stack.enchant(blessing,0);
                     flag = false;
                 }
             }
         });
+    }
+    public Enchantment getOpposite(Enchantment enchantment)
+    {
+        return enchantmentOpposites.get(enchantment);
     }
     public boolean doTimeCheck()
     {

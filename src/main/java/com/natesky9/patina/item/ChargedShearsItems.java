@@ -65,7 +65,7 @@ public class ChargedShearsItems extends ShearsItem {
                 }
                 //make it dance
 
-                entity.setPos(getx,gety+.5,getz);
+                entity.setPos(getx,gety+1,getz);
                 entity.hurtMarked = true;
                 entity.resetFallDistance();
 

@@ -24,41 +24,54 @@ public class ModEnchantments
     public static RegistryObject<Enchantment> CURSE =
             ENCHANTMENTS.register("curse",
                     () -> new Curse(Enchantment.Rarity.UNCOMMON, EnchantmentCategory.ARMOR,ARMOR_SLOTS));
-    public static RegistryObject<Enchantment> CURSE_OF_OVERLOAD =
-            ENCHANTMENTS.register("overload",
-                    () -> new CurseOverload(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.ARMOR,HAND_SLOTS));
-    public static RegistryObject<Enchantment> CURSE_OF_HUNGER =
-            ENCHANTMENTS.register("hunger",
-                    () -> new CurseHunger(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.ARMOR_CHEST,EquipmentSlot.CHEST));
-    public static RegistryObject<Enchantment> CURSE_SUNSCORNED =
-            ENCHANTMENTS.register("sunscorned",
-                    () -> new CurseSunscorned(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.ARMOR_HEAD,EquipmentSlot.HEAD));
-    public static RegistryObject<Enchantment> CURSE_OF_BRITTLENESS =
-            ENCHANTMENTS.register("brittleness",
-                    () -> new CurseBrittle(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ALL_SLOTS));
 
+    public static RegistryObject<Enchantment> SOULBOUND =
+            ENCHANTMENTS.register("soulbound",
+                    () -> new SoulboundEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ALL_SLOTS));
     //deadly sins
-    public static RegistryObject<Enchantment> ENVY =
+    public static RegistryObject<Enchantment> ENVYCURSE =
             ENCHANTMENTS.register("envy",
-                    () -> new EnvyEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,EquipmentSlot.CHEST));
-    public static RegistryObject<Enchantment> GREED =
+                    () -> new EnvyEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> GREEDCURSE =
             ENCHANTMENTS.register("greed",
-                    () -> new GreedEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,EquipmentSlot.CHEST));
-    public static RegistryObject<Enchantment> GLUTTONY =
+                    () -> new GreedEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> GLUTTONYCURSE =
             ENCHANTMENTS.register("gluttony",
-                    () -> new GluttonyEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,EquipmentSlot.CHEST));
-    public static RegistryObject<Enchantment> LUST =
+                    () -> new GluttonyEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> LUSTCURSE =
             ENCHANTMENTS.register("lust",
-                    () -> new LustEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,EquipmentSlot.CHEST));
-    public static RegistryObject<Enchantment> PRIDE =
+                    () -> new LustEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> PRIDECURSE =
             ENCHANTMENTS.register("pride",
-                    () -> new PrideEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,EquipmentSlot.CHEST));
-    public static RegistryObject<Enchantment> SLOTH =
+                    () -> new PrideEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> SLOTHCURSE =
             ENCHANTMENTS.register("sloth",
-                    () -> new SlothEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,EquipmentSlot.CHEST));
-    public static RegistryObject<Enchantment> Wrath =
+                    () -> new SlothEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> WRATHCURSE =
             ENCHANTMENTS.register("wrath",
-                    () -> new WrathEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,EquipmentSlot.CHEST));
+                    () -> new WrathEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    //
+    public static RegistryObject<Enchantment> ENVYBLESSING =
+            ENCHANTMENTS.register("strife",
+                    () -> new StrifeEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> GLUTTONYBLESSING =
+            ENCHANTMENTS.register("brimful",
+                    () -> new BrimfulEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> GREEDBLESSING =
+            ENCHANTMENTS.register("avarice",
+                    () -> new AvariceEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> LUSTBLESSING =
+            ENCHANTMENTS.register("coercion",
+                    () -> new CoercionEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> PRIDEBLESSING =
+            ENCHANTMENTS.register("humility",
+                    () -> new HumilityEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> SLOTHBLESSING =
+            ENCHANTMENTS.register("apathy",
+                    () -> new ApathyEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
+    public static RegistryObject<Enchantment> WRATHBLESSING =
+            ENCHANTMENTS.register("retribution",
+                    () -> new RetributionEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
     //----------//
     public static void register(IEventBus eventBus)
     {

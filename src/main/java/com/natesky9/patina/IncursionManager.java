@@ -11,10 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.AABB;
@@ -38,8 +35,23 @@ public class IncursionManager extends SavedData {
     {
         IncursionManager manager = IncursionManager.get(level);
 
-        Iterator<Incursion> iterator = manager.incursions.iterator();
+        //tick through players
+        if (level.getDayTime() % 100 == 0)
+        {
+            if (Incursion.night((int) level.getDayTime() % 24000) && level.getMoonPhase() == 0) {
+                level.players().stream().forEach(player ->
+                {
+                    if (!manager.isWithinIncursion(player.blockPosition()))
+                    {
 
+                        manager.createIncursion(level,player.blockPosition());
+                    }
+                });
+            }
+        }
+
+        //tick through incursions
+        Iterator<Incursion> iterator = manager.incursions.iterator();
         while (iterator.hasNext())
         {
             Incursion incursion = iterator.next();
@@ -56,15 +68,14 @@ public class IncursionManager extends SavedData {
             }
         }
     }
-    public Incursion createIncursion(Player player)
+    public Incursion createIncursion(Level level, BlockPos pos)
     {
-        Level level = player.level;
-        BlockPos pos = player.blockPosition();
-        Incursion incursion = new Incursion(level, pos);
-        incursion.addPlayer(player);
+        Incursion incursion = new Incursion(level,pos);
         incursions.add(incursion);
         return incursion;
     }
+
+
     public void checkPlayers(Incursion incursion)
     {
         for (ServerPlayer player : incursion.event.getPlayers()) {
@@ -79,11 +90,11 @@ public class IncursionManager extends SavedData {
             if (!incursion.event.getPlayers().contains(player))
             {
                 System.out.println("adding player to incursion");
-                incursion.event.addPlayer(player);
+                incursion.addPlayer(player);
             }
         });
     }
-    public boolean within(BlockPos pos)
+    public boolean isWithinIncursion(BlockPos pos)
     {
         for (Incursion incursion:incursions)
         {
@@ -91,12 +102,40 @@ public class IncursionManager extends SavedData {
         }
         return false;
     }
-    public Incursion find(Level level, BlockPos pos)
+    public boolean isNearbyIncursion(BlockPos pos, int distance)
     {
-        for (Incursion incursion:incursions) {
+        //checks whether there's an incursion nearby
+        for (Incursion incursion:incursions)
+        {
+            BlockPos incursionpos = incursion.incursionPos;
+            double dist = incursionpos.distSqr(pos);
+            if (dist < dist*dist) return true;
+        }
+        return false;
+    }
+    public Incursion getIncursion(Level level, BlockPos pos)
+    {
+        for (Incursion incursion:incursions)
+        {
             if (incursion.inside(pos)) return incursion;
         }
-        return new Incursion(level,pos);
+        return null;
+    }
+    public Incursion findNearbyIncursion(Level level, BlockPos pos, int distance)
+    {
+        double max = distance*distance;
+        Incursion nearest = null;
+        for (Incursion incursion:incursions)
+        {
+            BlockPos incursionPos = incursion.incursionPos;
+            double dist = incursionPos.distSqr(pos);
+            if (dist < max)
+            {
+                max = dist;
+                nearest = incursion;
+            }
+        }
+        return nearest;
     }
     public void doTimeCheck(Incursion incursion)
     {
@@ -118,10 +157,12 @@ public class IncursionManager extends SavedData {
     }
     public void entityDie(LivingEntity entity)
     {
+        //triggers when something dies within an incursion
+        if (entity instanceof Player) return;
         BlockPos pos = entity.blockPosition();
-        if (!within(pos)) return;
+        if (!isWithinIncursion(pos)) return;
         ServerLevel level = (ServerLevel)entity.level;
-        Incursion incursion = find(level,entity.blockPosition());
+        Incursion incursion = getIncursion(level,entity.blockPosition());
         //particle
         level.sendParticles(ParticleTypes.SOUL,entity.getX(),entity.getY(),entity.getZ(),
                 10,0,2,0,.2);

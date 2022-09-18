@@ -1,44 +1,41 @@
 package com.natesky9.patina;
 
 import com.google.common.collect.Multimap;
+import com.natesky9.patina.Enchantments.*;
+import com.natesky9.patina.init.ModEnchantments;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.item.KnockbackShieldItem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.event.entity.player.ArrowLooseEvent;
-import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Iterator;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge
 {
-
     @SubscribeEvent
     public static void LevelTickEvent(TickEvent.WorldTickEvent event)
     {
@@ -50,20 +47,40 @@ public class EventsForge
     public static void LivingDeathEvent(LivingDeathEvent event)
     {
         if (!(event.getEntity().level instanceof ServerLevel level)) return;
-
         IncursionManager manager = IncursionManager.get(event.getEntity().level);
         manager.entityDie(event.getEntityLiving());
+
     }
     @SubscribeEvent
-    public static void registerCaps(RegisterCapabilitiesEvent event)
+    public static void PlayerCloneEvent(PlayerEvent.Clone event)
     {
-        event.register(PlayerCapabilities.class);
+        SoulboundEnchantment.restore(event);
     }
-    //LivingHurtEvent
+
     @SubscribeEvent
-    public static void ArrowLooseEvent(ArrowLooseEvent event)
+    public static void PlayerTickEvent(TickEvent.PlayerTickEvent event)
     {
-        event.setCanceled(true);
+        GluttonyEnchantment.doEffect(event);
+    }
+    @SubscribeEvent
+    public static void LivingDropsEvent(LivingDropsEvent event)
+    {
+        GreedEnchantment.doEffect(event);
+        SoulboundEnchantment.store(event);
+    }
+    @SubscribeEvent
+    public static void LivingDamageEvent(LivingDamageEvent event)
+    {
+        //when an entity is damaged
+        WrathEnchantment.doEffect(event);
+        PrideEnchantment.doEffect(event);
+
+    }
+    @SubscribeEvent
+    public static void LivingHurtEvent(LivingHurtEvent event)
+    {
+        //when an entity is attacking
+        LustEnchantment.doEffect(event);
     }
 
     @SubscribeEvent

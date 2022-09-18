@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.UseAnim;
 import net.minecraftforge.client.IItemRenderProperties;
 
 import java.util.function.Consumer;
@@ -22,13 +23,8 @@ public class KnockbackShieldItem extends ShieldItem {
     }
 
     @Override
-    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
-        consumer.accept(new IItemRenderProperties() {
-            @Override
-            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
-                return Patina.bewlr;
-            }
-        });
+    public UseAnim getUseAnimation(ItemStack pStack) {
+        return UseAnim.BLOCK;
     }
 
     public static void activate(Entity blocker, ItemStack itemstack, DamageSource damageSource)

@@ -29,16 +29,28 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
+import javax.annotation.Nonnull;
+
 import static java.lang.Math.min;
 
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {
+    @SubscribeEvent
+    public static void registerModifierSerializers(@Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event)
+    {
+        event.getRegistry().registerAll(
+                new GreedCurseSubtractionModifier.Serializer().setRegistryName(
+                        new ResourceLocation(Patina.MOD_ID,"greed_curse"))
 
+        );
+    }
     @SubscribeEvent
     public static void ColorHandlerEvent(final ColorHandlerEvent.Item event)
     {

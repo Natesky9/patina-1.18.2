@@ -98,12 +98,21 @@
 
   "enchantment.patina.curse": "Curse",
 
+  "enchantment.patina.soulbound": "Soulbound",
   "enchantment.patina.envy": "Envy",
   "enchantment.patina.gluttony": "Gluttony",
   "enchantment.patina.greed": "Greed",
   "enchantment.patina.lust": "Lust",
   "enchantment.patina.pride": "Pride",
+  "enchantment.patina.sloth": "Sloth",
   "enchantment.patina.wrath": "Wrath",
+  "enchantment.patina.apathy": "Apathy",
+  "enchantment.patina.avarice": "Avarice",
+  "enchantment.patina.brimful": "Brimful",
+  "enchantment.patina.Coercion": "Coercion",
+  "enchantment.patina.humility": "Humility",
+  "enchantment.patina.retribution": "Retribution",
+  "enchantment.patina.strife": "Strife",
 
   "effect.patina.venom": "Venom",
   "death.attack.venom": "%1$s succumbed to venom",

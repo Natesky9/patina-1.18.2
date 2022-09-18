@@ -14,6 +14,11 @@ public class VenomSwordItem extends SwordItem {
 
     @Override
     public boolean hurtEnemy(ItemStack p_43278_, LivingEntity target, LivingEntity attacker) {
+        if (target.hasEffect(ModEffects.VENOM.get()))
+        {
+            MobEffectInstance instance = target.getEffect(ModEffects.VENOM.get());
+            int potency = instance.getAmplifier();
+        }
         target.addEffect(new MobEffectInstance(ModEffects.VENOM.get(),100));
         return super.hurtEnemy(p_43278_, target, attacker);
     }
