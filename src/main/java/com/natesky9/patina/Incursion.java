@@ -12,7 +12,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
@@ -22,9 +25,9 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static com.natesky9.patina.init.ModEnchantments.*;
 import static net.minecraft.world.item.enchantment.Enchantments.*;
@@ -32,29 +35,43 @@ import static net.minecraft.world.item.enchantment.Enchantments.*;
 public class Incursion {
     Level incursionLevel;
     BlockPos incursionPos;
+    IncursionType incursionType;
     AABB area;
     CustomBossEvent event;
     int lifetime;
     boolean valid;
-    public Map<Enchantment,Enchantment> enchantmentOpposites = Map.of
-            (
-                    VANISHING_CURSE, SOULBOUND.get(),
-                    //losing items to keeping them on death
+    public Map<IncursionType,EntityType<?>> IncursionTypes;
+    {
+        //TODO: make this a list of entities instead of singles
+        IncursionTypes = new HashMap<>();
+        IncursionTypes.put(IncursionType.UNDEAD, EntityType.ZOMBIE);
+        IncursionTypes.put(IncursionType.OSSIFIED,EntityType.SKELETON);
+        IncursionTypes.put(IncursionType.ARACHNID,EntityType.SPIDER);
+        IncursionTypes.put(IncursionType.COVEN,EntityType.WITCH);
+        IncursionTypes.put(IncursionType.RAIDER,EntityType.PILLAGER);
+        IncursionTypes.put(IncursionType.CANINE,EntityType.WOLF);
+        IncursionTypes.put(IncursionType.ALIEN,EntityType.ENDERMAN);
+        IncursionTypes.put(IncursionType.AQUATIC,EntityType.GUARDIAN);
+    }
+    private IncursionType ChooseIncursionType()
+    {//picks a random incursion
+        return IncursionType.values()[(int)(Math.random()*IncursionType.values().length)];
+    }
 
-                    ENVYCURSE.get(), ENVYBLESSING.get(),
-                    GLUTTONYCURSE.get(), GLUTTONYBLESSING.get(),
-                    //consuming more food to increased capacity
-                    GREEDCURSE.get(), GREEDBLESSING.get(),
-                    //reduced drops to rare drop table
-                    LUSTCURSE.get(), LUSTBLESSING.get(),
-                    //weakened hits to lifesteal
-                    PRIDECURSE.get(), PRIDEBLESSING.get(),
-                    //increased durability to extra boss damage
-                    SLOTHCURSE.get(), SLOTHBLESSING.get(),
-                    //_____ to shrugging off attacks?
-                    WRATHCURSE.get(), WRATHBLESSING.get()
-                    //take increased damage to dealing extra retaliation
-            );
+    public Map<Enchantment,Enchantment> enchantmentOpposites;
+    {
+        enchantmentOpposites = new HashMap<>();
+        enchantmentOpposites.put(VANISHING_CURSE, SOULBOUND.get());
+        enchantmentOpposites.put(ENVYCURSE.get(), ENVYBLESSING.get());
+        enchantmentOpposites.put(GLUTTONYCURSE.get(), GLUTTONYBLESSING.get());
+        enchantmentOpposites.put(GREEDCURSE.get(), GREEDBLESSING.get());
+        enchantmentOpposites.put(LUSTCURSE.get(), LUSTBLESSING.get());
+        enchantmentOpposites.put(PRIDECURSE.get(), PRIDEBLESSING.get());
+        enchantmentOpposites.put(SLOTHCURSE.get(), SLOTHBLESSING.get());
+        enchantmentOpposites.put(WRATHCURSE.get(), WRATHBLESSING.get());
+    }
+    public List<ItemEntity> items;
+
 
     //----------//
     public Incursion(Level level, BlockPos pos)
@@ -70,6 +87,11 @@ public class Incursion {
         valid = true;
         event = new CustomBossEvent(new ResourceLocation(Patina.MOD_ID),new TextComponent("incursion"));
         event.setMax(10);
+        incursionType = ChooseIncursionType();
+        items = new ArrayList<>();
+
+        items.add(new ItemEntity(incursionLevel,incursionPos.getX(),incursionPos.getY(),incursionPos.getZ(),
+                new ItemStack(Items.DIAMOND)));
     }
     //----------//
     public BlockPos position()
@@ -87,6 +109,10 @@ public class Incursion {
         if (player instanceof ServerPlayer serverPlayer)
         event.addPlayer(serverPlayer);
     }
+    public void addItems(Collection<ItemEntity> collection)
+    {
+        items.addAll(collection);
+    }
     public void spawnMobs()
     {
         boolean spawnTick = (lifetime % 20) == 0;
@@ -97,10 +123,14 @@ public class Incursion {
         int z = (int)(Math.random()*32) - 16 + position().getZ();
         if (mobs < 8)
         {
-            Entity zombie = new Zombie(incursionLevel);
-            zombie.setPos(x,y,z);
-            zombie.setItemSlot(EquipmentSlot.CHEST,new ItemStack(Items.LEATHER_CHESTPLATE));
-            incursionLevel.addFreshEntity(zombie);
+            EntityType<?> type = IncursionTypes.get(incursionType);
+            Entity entity = type.create(incursionLevel);
+            //Entity entity = new Zombie(incursionLevel);
+            entity.setPos(x,y,z);
+            incursionLevel.addParticle(ParticleTypes.POOF,x,y,z,0,1,0);
+            //do armor and stuff here
+            entity.setItemSlot(EquipmentSlot.CHEST,new ItemStack(Items.LEATHER_CHESTPLATE));
+            incursionLevel.addFreshEntity(entity);
         }
     }
     public void drawBoundary()
@@ -109,12 +139,16 @@ public class Incursion {
         int incursionX = incursionPos.getX();
         int incursionY = incursionPos.getY();
         int incursionZ = incursionPos.getZ();
+        ServerLevel level = (ServerLevel) incursionLevel;
+        //mark the center
+        level.sendParticles(ParticleTypes.ELECTRIC_SPARK,incursionX,incursionY,incursionZ,
+                1,.5,.5,.5,0);
         for (int x = -16;x <= 16;x++)
         {
             for (int z = -16;z <= 16;z++)
             {
                 if ((x == -16 || x == 16 || z == -16 || z == 16) && Math.random() > .75)
-                    ((ServerLevel)(incursionLevel)).sendParticles(ParticleTypes.ENCHANT,
+                    level.sendParticles(ParticleTypes.ENCHANT,
                             incursionX+x,incursionY,incursionZ+z,1,.5,1.5,.5,-.2);
             }
         }
@@ -132,6 +166,13 @@ public class Incursion {
         rewardPlayers();
         event.removeAllPlayers();
         valid = false;
+
+        //drop all the collected items at the start
+        items.stream().forEach(itemEntity ->
+        {
+            incursionLevel.addFreshEntity(itemEntity);
+            itemEntity.setPos(Vec3.atCenterOf(incursionPos));
+        });
     }
     public void fail()
     {
@@ -150,7 +191,6 @@ public class Incursion {
             //loop through all players in the incursion
             boolean flag = true;
             player.giveExperiencePoints(100);
-            player.drop(new ItemStack(Items.DIAMOND),false);
             for (EquipmentSlot slot:EquipmentSlot.values())
             {
                 //take only the first curse off
@@ -180,11 +220,12 @@ public class Incursion {
     }
     public boolean doTimeCheck()
     {
-        int time = (int)incursionLevel.getDayTime() % 24000;
+        long time = incursionLevel.getDayTime();
          return night(time);
     }
-    public static boolean night(int time)
+    public static boolean night(long time)
     {
+        time = time % 24000;
         return (time <= 23000 && time >= 13000);
     }
 }

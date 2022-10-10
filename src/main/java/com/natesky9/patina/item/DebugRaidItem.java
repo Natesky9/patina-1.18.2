@@ -48,7 +48,7 @@ public class DebugRaidItem extends Item {
 
 
             //create an incursion if the time is right
-            boolean night = Incursion.night((int)level.getDayTime()%24000);
+            boolean night = Incursion.night(level.getDayTime());
             if (!night)
                 pPlayer.displayClientMessage(new TextComponent("has to be night to create incursions"),true);
             boolean moon = level.getMoonPhase() == 0;

@@ -13,6 +13,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -67,6 +68,22 @@ public class EventsForge
     {
         GreedEnchantment.doEffect(event);
         SoulboundEnchantment.store(event);
+
+        //prevent incursion mobs from dropping items
+        //if (!(event.getSource().getEntity() instanceof Player)) return;
+
+        Entity entity = event.getEntity();
+        Level level = entity.level;
+        IncursionManager manager = IncursionManager.get(level);
+        if (manager.isWithinIncursion(event.getEntity().blockPosition()))
+        {
+            //add all dropped mob items to the incursion
+            Incursion incursion = manager.getIncursion(level,entity.blockPosition());
+            Collection<ItemEntity> items = event.getDrops();
+            incursion.addItems(items);
+            event.getDrops().removeAll(items);
+        }
+
     }
     @SubscribeEvent
     public static void LivingDamageEvent(LivingDamageEvent event)

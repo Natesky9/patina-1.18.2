@@ -10,12 +10,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 
 public class BlinkBrownie extends Item {
+    int blinkDistance = 16;
     public BlinkBrownie(Properties p_41383_) {
         super(p_41383_);
     }
@@ -29,22 +27,30 @@ public class BlinkBrownie extends Item {
                     1F,1F);
             player.getCooldowns().addCooldown(this, 20);
         }
-        //TODO fix entity picking//done?
-        HitResult result = ProjectileUtil.getHitResult(entity,Entity::canBeCollidedWith);
-        //HitResult liquid = entity.pick(16,0,true);
-        if (result.getType() == HitResult.Type.ENTITY)
+        //hit entities and swap
+        Vec3 start = entity.getEyePosition();
+        Vec3 end = start.add(entity.getLookAngle().scale(blinkDistance));
+        AABB aabb = entity.getBoundingBox().expandTowards(entity.getLookAngle().scale(blinkDistance)).inflate(1);
+        EntityHitResult entityresult = ProjectileUtil.getEntityHitResult(entity,start,end,
+                aabb,Entity::isAttackable,blinkDistance*blinkDistance);
+        if (entityresult != null)
         {
             //swap positions
-            Entity entityHit = ((EntityHitResult)result).getEntity();
+            Entity entityHit = entityresult.getEntity();
+            System.out.println("stored position");
             Vec3 storePos = entity.position();
+            System.out.println("swapped");
             entity.setPos(entityHit.position());
             entityHit.setPos(storePos);
             return super.finishUsingItem(itemStack, level, entity);
         }
+        //TODO:fix this if broken
+        HitResult blockResult = level.clip(new ClipContext(entity.position(),entity.position().add(entity.getLookAngle().normalize().scale(blinkDistance)),
+                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE,entity));
 
-        if (result.getType() == HitResult.Type.BLOCK)
+        if (blockResult.getType() == HitResult.Type.BLOCK)
         {
-            Vec3 blockpos = result.getLocation();
+            Vec3 blockpos = blockResult.getLocation();
             double blockX = blockpos.x;
             double blockY = blockpos.y;
             double blockZ = blockpos.z;

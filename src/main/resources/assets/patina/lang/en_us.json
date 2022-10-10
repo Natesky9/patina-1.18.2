@@ -122,6 +122,7 @@
   "itemGroup.patina_loot": "Patina Loot Tab",
   "itemGroup.patina_food": "Patina Food Tab",
 
-  "component.patina.excursion": "Test Incursion"
+  "component.patina.excursion": "Test Incursion",
+  "patina.container.dust_bag": "Dust bag proper"
 
 }

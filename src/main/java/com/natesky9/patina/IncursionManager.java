@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
@@ -38,13 +39,18 @@ public class IncursionManager extends SavedData {
         //tick through players
         if (level.getDayTime() % 100 == 0)
         {
-            if (Incursion.night((int) level.getDayTime() % 24000) && level.getMoonPhase() == 0) {
+            if (Incursion.night(level.getDayTime()) && level.getMoonPhase() == 0) {
                 level.players().stream().forEach(player ->
                 {
                     if (!manager.isWithinIncursion(player.blockPosition()))
                     {
-
-                        manager.createIncursion(level,player.blockPosition());
+                        Vec3 pos = player.position();
+                        double angle = Math.toRadians(Math.random()*360);
+                        Vec3 fresh = new Vec3(Math.cos(angle),0,Math.sin(angle)).scale(32);
+                        BlockPos blockpos = new BlockPos(pos.add(fresh));
+                        //if there's not one nearby, make one
+                        if (!manager.isNearbyIncursion(blockpos,32))
+                        manager.createIncursion(level,blockpos);
                     }
                 });
             }
@@ -109,7 +115,7 @@ public class IncursionManager extends SavedData {
         {
             BlockPos incursionpos = incursion.incursionPos;
             double dist = incursionpos.distSqr(pos);
-            if (dist < dist*dist) return true;
+            if (dist < distance*distance) return true;
         }
         return false;
     }
@@ -127,6 +133,7 @@ public class IncursionManager extends SavedData {
         Incursion nearest = null;
         for (Incursion incursion:incursions)
         {
+            if (incursion.incursionLevel != level) continue;
             BlockPos incursionPos = incursion.incursionPos;
             double dist = incursionPos.distSqr(pos);
             if (dist < max)
@@ -158,6 +165,7 @@ public class IncursionManager extends SavedData {
     public void entityDie(LivingEntity entity)
     {
         //triggers when something dies within an incursion
+        //
         if (entity instanceof Player) return;
         BlockPos pos = entity.blockPosition();
         if (!isWithinIncursion(pos)) return;
@@ -165,7 +173,7 @@ public class IncursionManager extends SavedData {
         Incursion incursion = getIncursion(level,entity.blockPosition());
         //particle
         level.sendParticles(ParticleTypes.SOUL,entity.getX(),entity.getY(),entity.getZ(),
-                10,0,2,0,.2);
+                20,0,2,0,.2);
         incursion.addValue(1);
         System.out.println("entity died within incursion!");
 
@@ -190,6 +198,7 @@ public class IncursionManager extends SavedData {
     @Override
     public CompoundTag save(CompoundTag tag)
     {
+        System.out.println("saving incursions!");
         //list of compounds
         ListTag incursionList = new ListTag();
         incursions.forEach(incursion ->
@@ -202,6 +211,7 @@ public class IncursionManager extends SavedData {
             incursionTag.putInt("x",pos.getX());
             incursionTag.putInt("y",pos.getY());
             incursionTag.putInt("z",pos.getZ());
+            incursionTag.putString("type", String.valueOf(incursion.incursionType));
             incursionTag.putInt("lifetime",incursion.lifetime);
             incursionList.add(incursionTag);
         });
@@ -211,6 +221,7 @@ public class IncursionManager extends SavedData {
     }
     public IncursionManager(CompoundTag tag)
     {
+        System.out.println("loading incursions!");
         ListTag incursionList = tag.getList("incursions", Tag.TAG_COMPOUND);
         for (Tag t : incursionList)
         {
@@ -221,8 +232,13 @@ public class IncursionManager extends SavedData {
             int x = incursionTag.getInt("x");
             int y = incursionTag.getInt("y");
             int z = incursionTag.getInt("z");
+            String type = incursionTag.getString("type");
             int lifetime = incursionTag.getInt("lifetime");
+            //TODO: save and load items
+
             Incursion incursion = new Incursion(level, new BlockPos(x,y,z));
+            incursion.lifetime = lifetime;
+            incursion.incursionType = IncursionType.valueOf(type);
         }
     }
 }

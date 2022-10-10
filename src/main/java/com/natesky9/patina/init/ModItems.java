@@ -2,6 +2,7 @@ package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.item.*;
+import com.natesky9.patina.item.PowderPouch.PowderPouchItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -185,8 +186,11 @@ public class ModItems {
     public static final RegistryObject<Item> SOUP_BOTTLE = ITEMS.register("soup_bottle",
             () -> new SoupBottleItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
                     .tab(Patina.CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> DUST_BAG = ITEMS.register("powder_pouch",
+    public static final RegistryObject<Item> DUST_BAG = ITEMS.register("dust_bag",
             () -> new PowderPouchItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
+                    .tab(Patina.CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> GEM_BAG = ITEMS.register("gem_bag",
+            () -> new GemBagItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
                     .tab(Patina.CREATIVE_MODE_TAB)));
 
     //resources

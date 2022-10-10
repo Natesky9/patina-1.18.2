@@ -35,7 +35,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.PIG_WEAPON.get());
 
         handheldItem(ModItems.PIGLIN_BALLISTA.get());
-        handheldItem(ModItems.WITHER_WEAPON.get());
+
 
         simpleItem(ModItems.CANDY_WARTS.get());
         simpleItem(ModItems.BLINK_BROWNIE.get());
@@ -46,6 +46,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.INERT_ROD.get());
         //simpleItem(ModItems.KELP_MEAL.get());
         simpleItem(ModItems.TEST_FOOD.get());
+        simpleItem(ModItems.CHEESE.get());
         simpleItem(ModItems.ROYAL_JELLY.get());
         simpleItem(ModItems.SPIDER_NEST.get());
         simpleItem(ModItems.CLOTH.get());
@@ -88,6 +89,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.SWEETS.get());
         simpleItem(ModItems.MONSTER_MEATBALLS.get());
         simpleItem(ModItems.TRAIL_MIX.get());
+
+        simpleItem(ModItems.DUST_BAG.get());
+        simpleItem(ModItems.GEM_BAG.get());
 
         simpleItem(ModItems.CHARGED_SHEARS.get());
         simpleItem(ModItems.CHARGED_PICK.get());

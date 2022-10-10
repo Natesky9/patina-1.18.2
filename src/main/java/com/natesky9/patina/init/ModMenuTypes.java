@@ -9,6 +9,7 @@ import com.natesky9.patina.block.CauldronBrewing.MachineCauldronBrewingMenu;
 import com.natesky9.patina.block.CauldronSmoker.MachineCauldronSmokerMenu;
 import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelMenu;
 import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneMenu;
+import com.natesky9.patina.item.PowderPouch.PowderPouchMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -40,6 +41,9 @@ public class ModMenuTypes
             registerMenuType(MachineGrindstoneBarrelMenu::new,"machine_grindstone_barrel_menu");
     public static final RegistryObject<MenuType<MachineSmokerGrindstoneMenu>> MACHINE_SMOKER_GRINDSTONE_MENU =
             registerMenuType(MachineSmokerGrindstoneMenu::new,"machine_smoker_grindstone_menu");
+
+    public static final RegistryObject<MenuType<PowderPouchMenu>> POWDER_POUCH_MENU =
+            registerMenuType(PowderPouchMenu::new,"powder_pouch_menu");
     //--------------------------------------------------//
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name)
     {
