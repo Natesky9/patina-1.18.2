@@ -66,14 +66,6 @@ public class PowderPouchMenu extends AbstractContainerMenu
         }
     }
 
-    @Override
-    public void slotsChanged(Container pInventory) {
-        super.slotsChanged(pInventory);
-        if (selected.getItem() instanceof PowderPouchItem pouch)
-        {
-            pouch.setContents(selected,pInventory.getItem(slot.index));
-        }
-    }
 
     private static final int HOTBAR_SLOT_COUNT = 9;
     private static final int PLAYER_INVENTORY_ROW_COUNT = 3;

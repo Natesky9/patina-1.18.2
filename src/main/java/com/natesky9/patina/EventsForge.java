@@ -25,8 +25,10 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.VanillaGameEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,12 +40,25 @@ import java.util.*;
 public class EventsForge
 {
     @SubscribeEvent
-    public static void LevelTickEvent(TickEvent.WorldTickEvent event)
+    public static void TickEvent(TickEvent event)
     {
-        //exit if not client
-        if (!(event.world instanceof ServerLevel level)) return;
-        IncursionManager.tick(level);
+        switch (event.type)
+        {
+            case SERVER, CLIENT -> Patina.enchantmentCooldowns.tick();
+            case WORLD ->
+                    {
+                        if (!(((TickEvent.WorldTickEvent) event).world instanceof ServerLevel level)) return;
+                        IncursionManager.tick(level);
+                    }
+        }
     }
+    //@SubscribeEvent
+    //public static void LevelTickEvent(TickEvent.WorldTickEvent event)
+    //{
+    //    //exit if not client
+    //    if (!(event.world instanceof ServerLevel level)) return;
+    //    IncursionManager.tick(level);
+    //}
     @SubscribeEvent
     public static void LivingDeathEvent(LivingDeathEvent event)
     {
@@ -59,14 +74,10 @@ public class EventsForge
     }
 
     @SubscribeEvent
-    public static void PlayerTickEvent(TickEvent.PlayerTickEvent event)
-    {
-        GluttonyEnchantment.doEffect(event);
-    }
-    @SubscribeEvent
     public static void LivingDropsEvent(LivingDropsEvent event)
     {
         GreedEnchantment.doEffect(event);
+        AvariceEnchantment.doEffect(event);
         SoulboundEnchantment.store(event);
 
         //prevent incursion mobs from dropping items
@@ -89,15 +100,32 @@ public class EventsForge
     public static void LivingDamageEvent(LivingDamageEvent event)
     {
         //when an entity is damaged
+        ApathyEnchantment.doEffect(event);
         WrathEnchantment.doEffect(event);
         PrideEnchantment.doEffect(event);
+        CoercionEnchantment.doEffect(event);
 
     }
     @SubscribeEvent
     public static void LivingHurtEvent(LivingHurtEvent event)
     {
         //when an entity is attacking
+        RetributionEnchantment.doEffect(event);
         LustEnchantment.doEffect(event);
+    }
+    @SubscribeEvent
+    public static void LivingHealEvent(LivingHealEvent event)
+    {
+        SlothEnchantment.doEffect(event);
+    }
+    @SubscribeEvent
+    public static void EatEvent(VanillaGameEvent event)
+    {
+        if (event.getVanillaEvent() == GameEvent.EAT)
+        {
+            GluttonyEnchantment.doEffect(event);
+            BrimfulEnchantment.doEffect(event);
+        }
     }
 
     @SubscribeEvent
@@ -134,16 +162,6 @@ public class EventsForge
         MobEffect effect = newEffect.getEffect();
         int duration = newEffect.getDuration();
         int potency = newEffect.getAmplifier();
-
-        if (effect == MobEffects.DAMAGE_BOOST)
-        {
-            if (entity.getEffect(MobEffects.WEAKNESS) != null)
-            {
-                entity.removeEffect(MobEffects.WEAKNESS);
-                //TODO: figure out how to handle this
-                return;
-            }
-        }
 
         //potion decay
         if (potency > 0)

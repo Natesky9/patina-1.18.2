@@ -1,7 +1,10 @@
 package com.natesky9.patina.Enchantments;
 
 import com.natesky9.patina.init.ModEnchantments;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -56,5 +59,9 @@ public class SoulboundEnchantment extends Enchantment {
             }
             soulboundItems.remove(player);
         }
+    }
+    @Override
+    public Component getFullname(int pLevel) {
+        return new TranslatableComponent(this.getDescriptionId()).withStyle(ChatFormatting.DARK_PURPLE);
     }
 }

@@ -9,30 +9,31 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.VanillaGameEvent;
 
 public class GluttonyEnchantment extends Enchantment {
     public GluttonyEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
         super(pRarity, pCategory, pApplicableSlots);
     }
+    //curse of gluttony halves the players saturation
+    //whenever they try to eat anything
 
     @Override
     public boolean isCurse() {
         return true;
     }
-    public static void doEffect(TickEvent.PlayerTickEvent event)
-    {
-        if (event.phase == TickEvent.Phase.START) return;
-        Player player = event.player;
-        boolean gluttonyCursed = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.GLUTTONYCURSE.get(), player) > 0;
-        if (!gluttonyCursed) return;
 
-        FoodData data = player.getFoodData();
-        if (data.getFoodLevel() == data.getLastFoodLevel()) return;
-        int difference = Math.max(data.getLastFoodLevel() - data.getFoodLevel(),0);
-        for (ItemStack itemstack: player.getArmorSlots())
+    public static void doEffect(VanillaGameEvent event)
+    {
+        if (event.getCause() instanceof Player player)
         {
-            if (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.GLUTTONYCURSE.get(), itemstack)>0)
-                player.causeFoodExhaustion(difference*4);
+            boolean gluttonyCursed = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.GLUTTONYCURSE.get(), player) > 0;
+            if (!gluttonyCursed) return;
+
+            FoodData foodData = player.getFoodData();
+            foodData.setSaturation(foodData.getSaturationLevel()/2);
+            System.out.println(foodData.getFoodLevel());
+            System.out.println(foodData.getSaturationLevel());
         }
     }
 }

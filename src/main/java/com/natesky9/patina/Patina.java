@@ -18,8 +18,6 @@ import com.natesky9.patina.entity.PigKing.PigKingRender;
 import com.natesky9.patina.init.*;
 import com.natesky9.patina.overlay.VenomOverlay;
 import com.natesky9.patina.init.ModMenuTypes;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -42,6 +40,7 @@ public class Patina
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final String MOD_ID = "patina";
+    public static EnchantCooldowns enchantmentCooldowns = new EnchantCooldowns();
     public static BEWLR bewlr;
 
     //create a tab
@@ -78,6 +77,7 @@ public class Patina
         ModMenuTypes.register(eventBus);
         ModPotions.register(eventBus);
         ModEnchantments.register(eventBus);
+
 
 
 

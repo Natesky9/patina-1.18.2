@@ -64,7 +64,7 @@ public class IncursionManager extends SavedData {
             if (incursion.incursionLevel.equals(level))
             {
                 //do incursion tick in here
-                System.out.println("tick incursion");
+                //System.out.println("tick incursion");
                 incursion.lifetime++;
                 incursion.drawBoundary();
                 manager.checkPlayers(incursion);
