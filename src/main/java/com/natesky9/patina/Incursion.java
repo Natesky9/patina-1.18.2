@@ -1,5 +1,6 @@
 package com.natesky9.patina;
 
+import com.natesky9.patina.init.ModEnchantments;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -14,20 +15,22 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 import static com.natesky9.patina.init.ModEnchantments.*;
 import static net.minecraft.world.item.enchantment.Enchantments.*;
@@ -40,6 +43,16 @@ public class Incursion {
     CustomBossEvent event;
     int lifetime;
     boolean valid;
+    public static List<Enchantment> curses = new ArrayList<>();
+    {
+        curses.add(BINDING_CURSE);
+        curses.add(VANISHING_CURSE);
+        for (Supplier<Enchantment> enchant:deadlySins)
+        {
+            curses.add(enchant.get());
+        }
+    };
+
     public Map<IncursionType,EntityType<?>> IncursionTypes;
     {
         //TODO: make this a list of entities instead of singles
@@ -115,6 +128,7 @@ public class Incursion {
     }
     public void spawnMobs()
     {
+        if (!valid) return;
         boolean spawnTick = (lifetime % 20) == 0;
         if (!spawnTick) return;
         int mobs = incursionLevel.getEntitiesOfClass(Monster.class,area).size();
@@ -164,8 +178,9 @@ public class Incursion {
             incursionLevel.playSound(null,player.blockPosition(),SoundEvents.ENDER_DRAGON_GROWL,SoundSource.PLAYERS,1,1);
         });
         rewardPlayers();
-        event.removeAllPlayers();
+        event.setName(new TextComponent("Incursion Successful"));
         valid = false;
+        lifetime = 0;
 
         //drop all the collected items at the start
         items.stream().forEach(itemEntity ->
@@ -178,10 +193,11 @@ public class Incursion {
     {
         event.getPlayers().stream().forEach(player ->
         {
-            incursionLevel.playSound(null,player.blockPosition(), SoundEvents.WITCH_CELEBRATE, SoundSource.PLAYERS,1,1);
+            incursionLevel.playSound(null,player.blockPosition(), SoundEvents.ENDERMITE_DEATH, SoundSource.PLAYERS,1,1);
         });
-        event.removeAllPlayers();
+        event.setName(new TextComponent("Incursion Failed"));
         valid = false;
+        lifetime = 0;
     }
 
     public void rewardPlayers()
@@ -227,5 +243,30 @@ public class Incursion {
     {
         time = time % 24000;
         return (time <= 23000 && time >= 13000);
+    }
+    public static void curseItem(Player player)
+    {
+        List<ItemStack> items = new ArrayList<>();
+        items.addAll(player.getInventory().armor);
+        items.addAll(player.getInventory().items);
+        items.addAll(player.getInventory().offhand);
+
+        Collections.shuffle(items);
+        for (ItemStack item: items)
+        {
+            //if it's not enchantable, skip
+            //if (!(item.isEnchanted())) continue;
+            int index = (int)(Math.random()*curses.size());
+            Enchantment curse = curses.get(index);
+            if (curse.canEnchant(item))
+            {
+                item.enchant(curse, 1);
+                for (float i = 0;i < 5;i++)
+                player.level.playSound(null,player.blockPosition(),SoundEvents.SILVERFISH_AMBIENT,SoundSource.PLAYERS,
+                        .5F,i/10);
+
+                break;
+            }
+        }
     }
 }

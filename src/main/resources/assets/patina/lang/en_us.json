@@ -63,9 +63,11 @@
   "item.patina.trail_mix": "Trail Mix",
   "item.patina.sweets": "Sweets",
   "item.patina.magic_salt": "Magic Salt",
+  "item.patina.void_salt": "Void Salt",
   "item.patina.potion_flask": "Potion Flask",
   "item.patina.soup_bottle": "Soup Bottle",
   "item.patina.dust_bag": "Powder Pouch",
+  "item.patina.feral_lantern": "Feral Lantern but in item form, fix",
 
   "item.patina.royal_jelly": "Royal Jelly",
   "item.patina.spider_nest": "Spider Nest",
@@ -80,6 +82,7 @@
   "block.patina.machine_cauldron_smoker": "Cauldron Smoker WIP",
   "block.patina.machine_grindstone_barrel": "Grindstone Barrel WIP",
   "block.patina.machine_smoker_grindstone": "Smoker Grindstone WIP",
+  "block.patina.feral_lantern": "Feral Lantern",
 
   "block.patina.test_block": "Test Block",
   "block.patina.test_slab": "Test Slab",
@@ -99,7 +102,7 @@
   "enchantment.patina.curse": "Curse",
 
   "enchantment.patina.soulbound": "Soulbound",
-  "enchantment.patina.envy": "Curse of Envy",
+  "enchantment.patina.envy": "Curse of Envy WIP",
   "enchantment.patina.gluttony": "Curse of Gluttony",
   "enchantment.patina.greed": "Curse of Greed",
   "enchantment.patina.lust": "Curse of Lust",
@@ -112,7 +115,7 @@
   "enchantment.patina.Coercion": "Blessing of Coercion",
   "enchantment.patina.humility": "Blessing of Humility",
   "enchantment.patina.retribution": "Blessing of Retribution",
-  "enchantment.patina.strife": "Blessing of Strife",
+  "enchantment.patina.strife": "Blessing of Strife WIP",
 
   "effect.patina.venom": "Venom",
   "death.attack.venom": "%1$s succumbed to venom",
@@ -123,6 +126,6 @@
   "itemGroup.patina_food": "Patina Food Tab",
 
   "component.patina.excursion": "Test Incursion",
-  "patina.container.dust_bag": "Dust bag proper"
+  "container.dust_bag": "Powder Pouch"
 
 }

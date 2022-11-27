@@ -36,25 +36,26 @@ public class IncursionManager extends SavedData {
     {
         IncursionManager manager = IncursionManager.get(level);
 
+        //spawning incursions now done with Feral lantern
         //tick through players
-        if (level.getDayTime() % 100 == 0)
-        {
-            if (Incursion.night(level.getDayTime()) && level.getMoonPhase() == 0) {
-                level.players().stream().forEach(player ->
-                {
-                    if (!manager.isWithinIncursion(player.blockPosition()))
-                    {
-                        Vec3 pos = player.position();
-                        double angle = Math.toRadians(Math.random()*360);
-                        Vec3 fresh = new Vec3(Math.cos(angle),0,Math.sin(angle)).scale(32);
-                        BlockPos blockpos = new BlockPos(pos.add(fresh));
-                        //if there's not one nearby, make one
-                        if (!manager.isNearbyIncursion(blockpos,32))
-                        manager.createIncursion(level,blockpos);
-                    }
-                });
-            }
-        }
+        //if (level.getDayTime() % 100 == 0)
+        //{
+        //    if (Incursion.night(level.getDayTime()) && level.getMoonPhase() == 0) {
+        //        level.players().stream().forEach(player ->
+        //        {
+        //            if (!manager.isWithinIncursion(player.blockPosition()))
+        //            {
+        //                Vec3 pos = player.position();
+        //                double angle = Math.toRadians(Math.random()*360);
+        //                Vec3 fresh = new Vec3(Math.cos(angle),0,Math.sin(angle)).scale(32);
+        //                BlockPos blockpos = new BlockPos(pos.add(fresh));
+        //                //if there's not one nearby, make one
+        //                if (!manager.isNearbyIncursion(blockpos,32))
+        //                manager.createIncursion(level,blockpos);
+        //            }
+        //        });
+        //    }
+        //}
 
         //tick through incursions
         Iterator<Incursion> iterator = manager.incursions.iterator();
@@ -150,14 +151,16 @@ public class IncursionManager extends SavedData {
         {//if the time is out
             System.out.println("excursion expired!");
             incursion.valid = false;
+            incursion.lifetime = 0;
         }
     }
     public boolean doValidCheck(Incursion incursion)
     {
-        if (!incursion.valid)
+        if (!incursion.valid && incursion.lifetime < 100)
         {
+
             incursion.event.removeAllPlayers();
-            incursion.fail();
+
             return false;
         }
         return true;

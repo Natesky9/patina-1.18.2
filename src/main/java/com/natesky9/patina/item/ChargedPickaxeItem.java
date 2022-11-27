@@ -87,6 +87,7 @@ public class ChargedPickaxeItem extends PickaxeItem
         if (nbt.getInt("charge") == 0)
             nbt.putBoolean("charged",false);
 
+
         return super.mineBlock(pStack, pLevel, pState, pPos, pEntityLiving);
     }
 

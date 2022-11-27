@@ -8,17 +8,21 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.VanillaGameEvent;
 
 public class BrimfulEnchantment extends Enchantment implements TriggeredEnchant {
+    ItemStack item = new ItemStack(Items.COOKIE);
     public BrimfulEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
         super(pRarity, pCategory, pApplicableSlots);
     }
@@ -43,15 +47,21 @@ public class BrimfulEnchantment extends Enchantment implements TriggeredEnchant 
             player.displayClientMessage(new TextComponent("You feel nourished"),true);
         }
     }
-
+    //
     @Override
-    public void onCooldown(Player player) {
-        TriggeredEnchant.message(player,"You feel nourished");
-        TriggeredEnchant.playSound(player, SoundEvents.BUNDLE_DROP_CONTENTS);
-        }
-
+    public String getMessage() {
+        return "You feel nourished";
+    }
     @Override
-    public void offCooldown(Player player) {
-        TriggeredEnchant.playSound(player,SoundEvents.PIG_AMBIENT);
+    public SoundEvent getSound() {
+        return SoundEvents.BUNDLE_DROP_CONTENTS;
+    }
+    @Override
+    public SoundEvent getSound2() {
+        return SoundEvents.PIG_AMBIENT;
+    }
+    @Override
+    public ItemStack getItem() {
+        return item;
     }
 }

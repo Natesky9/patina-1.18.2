@@ -1,5 +1,7 @@
 package com.natesky9.patina.Enchantments;
 
+import com.natesky9.patina.Incursion;
+import com.natesky9.patina.init.ModEnchantments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -23,9 +25,8 @@ public class EnvyEnchantment extends Enchantment{
         return new TranslatableComponent(this.getDescriptionId()).withStyle(ChatFormatting.DARK_RED);
         //placeholder to test
     }
-
     @Override
     protected boolean checkCompatibility(Enchantment pOther) {
-        return !pOther.isCurse();
+        return ModEnchantments.deadlySins.contains(pOther);
     }
 }

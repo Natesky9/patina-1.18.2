@@ -92,6 +92,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         simpleItem(ModItems.DUST_BAG.get());
         simpleItem(ModItems.GEM_BAG.get());
+        //feral lantern is a model
 
         simpleItem(ModItems.CHARGED_SHEARS.get());
         simpleItem(ModItems.CHARGED_PICK.get());
@@ -102,6 +103,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         simpleItem(ModItems.LUXOMETER.get());
         simpleItem(ModItems.TEST.get());
+        simpleItem(ModItems.RAID_TEST.get());
         //begin block items
         simpleBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());
         simpleBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());

@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -34,6 +36,7 @@ import java.util.List;
 import java.util.Random;
 
 public class AvariceEnchantment extends Enchantment implements TriggeredEnchant {
+    ItemStack item = new ItemStack(Items.EMERALD);
     public AvariceEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
         super(pRarity, pCategory, pApplicableSlots);
     }
@@ -94,15 +97,21 @@ public class AvariceEnchantment extends Enchantment implements TriggeredEnchant 
         drops.addAll(greed);
         cooldowns.addCooldown(player,ModEnchantments.GREEDBLESSING.get(),200);
     }
-
+    //
     @Override
-    public void onCooldown(Player player) {
-        TriggeredEnchant.message(player,"you purloin extra loot");
-        TriggeredEnchant.playSound(player, SoundEvents.FIREWORK_ROCKET_TWINKLE);
+    public String getMessage() {
+        return "you purloin extra loot";
     }
-
     @Override
-    public void offCooldown(Player player) {
-        TriggeredEnchant.playSound(player,SoundEvents.VILLAGER_TRADE);
+    public SoundEvent getSound() {
+        return SoundEvents.FIREWORK_ROCKET_TWINKLE;
+    }
+    @Override
+    public SoundEvent getSound2() {
+        return SoundEvents.VILLAGER_TRADE;
+    }
+    @Override
+    public ItemStack getItem() {
+        return item;
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -15,6 +16,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -24,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RetributionEnchantment extends Enchantment implements TriggeredEnchant {
+    ItemStack item = new ItemStack(Items.GOLDEN_SWORD);
     public RetributionEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
         super(pRarity, pCategory, pApplicableSlots);
     }
@@ -80,15 +84,21 @@ public class RetributionEnchantment extends Enchantment implements TriggeredEnch
 
         }
     }
-
+    //
     @Override
-    public void onCooldown(Player player) {
-        TriggeredEnchant.playSound(player, SoundEvents.PIGLIN_BRUTE_ANGRY);
-        TriggeredEnchant.message(player,"Blessing of retribution");
+    public String getMessage() {
+        return "You return the pain";
     }
-
     @Override
-    public void offCooldown(Player player) {
-        TriggeredEnchant.playSound(player,SoundEvents.RESPAWN_ANCHOR_SET_SPAWN);
+    public SoundEvent getSound() {
+        return SoundEvents.PIGLIN_BRUTE_ANGRY;
+    }
+    @Override
+    public SoundEvent getSound2() {
+        return SoundEvents.RESPAWN_ANCHOR_SET_SPAWN;
+    }
+    @Override
+    public ItemStack getItem() {
+        return item;
     }
 }

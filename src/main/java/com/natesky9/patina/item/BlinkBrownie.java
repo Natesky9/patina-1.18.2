@@ -45,7 +45,7 @@ public class BlinkBrownie extends Item {
             return super.finishUsingItem(itemStack, level, entity);
         }
         //TODO:fix this if broken
-        HitResult blockResult = level.clip(new ClipContext(entity.position(),entity.position().add(entity.getLookAngle().normalize().scale(blinkDistance)),
+        HitResult blockResult = level.clip(new ClipContext(entity.getEyePosition(),entity.position().add(entity.getLookAngle().normalize().scale(blinkDistance)),
                 ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE,entity));
 
         if (blockResult.getType() == HitResult.Type.BLOCK)

@@ -2,13 +2,18 @@ package com.natesky9.patina;
 
 import com.google.common.collect.Multimap;
 import com.natesky9.patina.Enchantments.*;
+import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModEnchantments;
 import com.natesky9.patina.init.ModItems;
+import com.natesky9.patina.item.FeralLanternItem;
 import com.natesky9.patina.item.KnockbackShieldItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,26 +24,63 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.VanillaGameEvent;
+import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.awt.event.ContainerEvent;
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge
 {
+    @SubscribeEvent
+    public static void PlayerDestroyItemEvent(PlayerDestroyItemEvent event)
+    {
+        Player player = event.getPlayer();
+        ItemStack item = event.getOriginal();
+        if (!item.isDamageableItem()) return;
+
+        player.level.playSound(null,player.blockPosition(), SoundEvents.ANVIL_BREAK, SoundSource.PLAYERS,.5F,1F);
+        System.out.println("Item broken");
+        player.addItem(item);
+    }
+    @SubscribeEvent
+    public static void LootEvent(PlayerInteractEvent.RightClickBlock event)
+    {
+        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        if (!(level.dimension() == Level.NETHER)) return;
+        //only curse when opening loot chests in the nether
+        if (event.getWorld().getBlockEntity(event.getPos()) instanceof RandomizableContainerBlockEntity lootChest)
+        {
+            boolean loot = lootChest.saveWithId().contains("LootTable");
+            if (loot)
+            {
+                Incursion.curseItem(event.getPlayer());
+            }
+        }
+    }
     @SubscribeEvent
     public static void TickEvent(TickEvent event)
     {
@@ -63,9 +105,9 @@ public class EventsForge
     public static void LivingDeathEvent(LivingDeathEvent event)
     {
         if (!(event.getEntity().level instanceof ServerLevel level)) return;
-        IncursionManager manager = IncursionManager.get(event.getEntity().level);
+        IncursionManager manager = IncursionManager.get(level);
         manager.entityDie(event.getEntityLiving());
-
+        FeralLanternItem.trigger(event);
     }
     @SubscribeEvent
     public static void PlayerCloneEvent(PlayerEvent.Clone event)
@@ -104,6 +146,7 @@ public class EventsForge
         WrathEnchantment.doEffect(event);
         PrideEnchantment.doEffect(event);
         CoercionEnchantment.doEffect(event);
+        HumilityEnchantment.doEffect(event);
 
     }
     @SubscribeEvent
@@ -112,6 +155,11 @@ public class EventsForge
         //when an entity is attacking
         RetributionEnchantment.doEffect(event);
         LustEnchantment.doEffect(event);
+
+        if (!(event.getEntityLiving() instanceof ServerPlayer player)) return;
+        if (!(player.getLevel().dimension() == Level.NETHER)) return;
+        if (!(event.getSource().getEntity() instanceof WitherSkeleton)) return;
+        Incursion.curseItem(player);
     }
     @SubscribeEvent
     public static void LivingHealEvent(LivingHealEvent event)

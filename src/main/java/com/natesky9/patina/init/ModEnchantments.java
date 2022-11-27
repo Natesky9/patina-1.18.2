@@ -11,6 +11,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
 public class ModEnchantments
 {
     public static final DeferredRegister<Enchantment> ENCHANTMENTS
@@ -73,6 +77,16 @@ public class ModEnchantments
             ENCHANTMENTS.register("retribution",
                     () -> new RetributionEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
     //----------//
+    public static List<Supplier<Enchantment>> deadlySins = List.of
+            (
+                ENVYCURSE,
+                GLUTTONYCURSE,
+                GREEDCURSE,
+                LUSTCURSE,
+                SLOTHCURSE,
+                WRATHCURSE
+            );
+    //
     public static void register(IEventBus eventBus)
     {
         ENCHANTMENTS.register(eventBus);

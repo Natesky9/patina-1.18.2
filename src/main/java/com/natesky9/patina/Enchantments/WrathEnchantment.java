@@ -1,7 +1,10 @@
 package com.natesky9.patina.Enchantments;
 
 import com.natesky9.patina.init.ModEnchantments;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,5 +36,14 @@ public class WrathEnchantment extends Enchantment {
                     player.displayClientMessage(new TextComponent("The curse of wrath burns you"), true);
             }
         }
+    }
+    @Override
+    public Component getFullname(int pLevel) {
+        return new TranslatableComponent(this.getDescriptionId()).withStyle(ChatFormatting.DARK_RED);
+        //placeholder to test
+    }
+    @Override
+    protected boolean checkCompatibility(Enchantment pOther) {
+        return ModEnchantments.deadlySins.contains(pOther);
     }
 }

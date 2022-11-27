@@ -1,7 +1,6 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.block.Template.MachineTemplateBlock;
 import com.natesky9.patina.block.*;
 import com.natesky9.patina.block.BeaconGrindstone.MachineBeaconGrindstoneBlock;
 import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronBlock;
@@ -10,8 +9,11 @@ import com.natesky9.patina.block.CauldronBrewing.MachineCauldronBrewingBlock;
 import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelBlock;
 import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneBlock;
 import com.natesky9.patina.block.CauldronSmoker.MachineCauldronSmokerBlock;
+import com.natesky9.patina.block.FeralLanternBlock;
+import com.natesky9.patina.item.FeralLanternItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
@@ -74,6 +76,15 @@ public class ModBlocks {
     public static final RegistryObject<Block> MACHINE_CAULDRON_SMOKER = registerBlock("machine_cauldron_smoker",
             () -> new MachineCauldronSmokerBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
+
+    public static final RegistryObject<Block> FERAL_LANTERN = registerBlockOnly("feral_lantern",
+            () -> new FeralLanternBlock(BlockBehaviour.Properties.of(Material.METAL).strength(1F)
+                    .sound(SoundType.LANTERN).lightLevel((p_187431_) -> {
+                return 10;
+            }).noOcclusion()));
+    public static final RegistryObject<Item> FERAL_LANTERN_ITEM = ModItems.ITEMS.register("feral_lantern",
+            () -> new FeralLanternItem(FERAL_LANTERN.get(),new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
+                    .tab(Patina.RESOURCE_TAB)));
 
     //end machines
     public static final RegistryObject<Block> CUSTOM_BLOCK = registerBlock("custom_block",

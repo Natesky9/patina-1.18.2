@@ -2,9 +2,12 @@ package com.natesky9.patina.item.PowderPouch;
 
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.SimpleContainer;
@@ -12,12 +15,15 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PowderPouchMenu extends AbstractContainerMenu
 {
@@ -28,30 +34,36 @@ public class PowderPouchMenu extends AbstractContainerMenu
 
     public PowderPouchMenu(int containerID, Inventory inventory, FriendlyByteBuf extraData)
     {
-        this(containerID, inventory, inventory.player, new SimpleContainer(1),ItemStack.EMPTY);
-        inventory.getItem(inventory.selected);
+        this(containerID, inventory, inventory.player, new SimpleContainer(1),inventory.getItem(inventory.selected));
     }
 
     public PowderPouchMenu(int containerID, Inventory inventory, Player player, Container container, ItemStack itemStack) {
         super(ModMenuTypes.POWDER_POUCH_MENU.get(), containerID);
         addPlayerInventory(inventory);
         addPlayerHotbar(inventory);
+        this.slot = addSlot(BackpackSlot(container,0,80,35,itemStack));
         selected = itemStack;
 
         this.pouch = container;
-        this.slot = addSlot(BackpackSlot(container,0,80,35));
 
-        if (selected.getItem() instanceof PowderPouchItem pouch)
+        if (selected.getItem() instanceof PowderPouchItem)
         {
             //load from item into menu
             CompoundTag tag = selected.getOrCreateTag();
-            NonNullList<ItemStack> itemstacks = NonNullList.withSize(1,ItemStack.EMPTY);
-            if (tag.contains("Items",9))
-            {
-                ContainerHelper.loadAllItems(tag, itemstacks);
-                //initializeContents(containerID,items,ItemStack.EMPTY);
-                slot.set(itemstacks.get(0));
-            }
+            Item getItem = Registry.ITEM.get(new ResourceLocation(tag.getString("id")));
+            int count = tag.getInt("count");
+            int min = Math.min(count,getItem.getMaxStackSize());
+            //ItemStack stack = new ItemStack(getItem,min);
+            //tag.putInt("count",count-min);
+            //slot.set(stack);
+
+            //NonNullList<ItemStack> itemstacks = NonNullList.withSize(1,ItemStack.EMPTY);
+            //if (tag.contains("Items",9))
+            //{
+            //    ContainerHelper.loadAllItems(tag, itemstacks);
+            //    //initializeContents(containerID,items,ItemStack.EMPTY);
+            //    slot.set(itemstacks.get(0));
+            //}
         }
     }
 
@@ -62,7 +74,8 @@ public class PowderPouchMenu extends AbstractContainerMenu
         if (getPouch.getItem() instanceof PowderPouchItem pouch)
         {
             //save menu to item
-            pouch.setContents(getPouch,slot.getItem());
+            //not needed?
+            //pouch.setContents(getPouch,slot.getItem());
         }
     }
 
@@ -83,46 +96,80 @@ public class PowderPouchMenu extends AbstractContainerMenu
         //        //  0 - 8 = hotbar slots (which will map to the InventoryPlayer slot numbers 0 - 8)
         //        //  9 - 35 = player inventory slots (which map to the InventoryPlayer slot numbers 9 - 35)
         //        //  36 - 44 = TileInventory slots, which map to our TileEntity slot numbers 0 - 8)
+        CompoundTag tag = selected.getOrCreateTag();
+        Item item = Registry.ITEM.get(new ResourceLocation(tag.getString("id")));
+        int count = tag.contains("count") ? tag.getInt("count") : 0;
+        int count_stack = Math.min(count,64);
+        if (index == 36)
+        {
+            if (item == Items.AIR) return ItemStack.EMPTY;
+            boolean complete = moveItemStackTo(new ItemStack(item,count), 0, 35, false);
 
-        Slot sourceSlot = slots.get(index);
-        if (!sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
-        ItemStack sourceStack = sourceSlot.getItem();
-        ItemStack copyOfSourceStack = sourceStack.copy();
-        // Check if the slot clicked is one of the vanilla container slots
-        if (index < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT)
-        {
-            // This is a vanilla container slot so merge the stack into the tile inventory
-            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                    + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;  // EMPTY_ITEM
+            tag.putInt("count",count-count_stack);
+            if (tag.getInt("count") == 0)
+            {
+                tag.remove("count");
+                tag.remove("id");
             }
-        } else if (index < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT)
-        {
-            // This is a TE slot so merge the stack into the players inventory
-            if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+            if (!complete)
                 return ItemStack.EMPTY;
-            }
-        } else {
-            System.out.println("Invalid slotIndex:" + index);
-            return ItemStack.EMPTY;
         }
-        // If stack size == 0 (the entire stack was moved) set slot contents to null
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.set(ItemStack.EMPTY);
-        } else {
-            sourceSlot.setChanged();
+        else
+        {
+            //the stack from inventory
+            ItemStack stack = slots.get(index).getItem();
+
+            Item existingItem = Registry.ITEM.get(new ResourceLocation(tag.getString("id")));
+            if ((existingItem != stack.getItem()) && count != 0)
+                return ItemStack.EMPTY;
+
+            ((PowderPouchItem)selected.getItem()).setContents(selected,stack);
+            boolean complete = moveItemStackTo(stack, 36, 36, false);
+            slots.get(index).set(ItemStack.EMPTY);
+            if (!complete)
+                return ItemStack.EMPTY;
         }
-        sourceSlot.onTake(player, sourceStack);
-        return copyOfSourceStack;
+        return ItemStack.EMPTY;
+
+        //Slot sourceSlot = slots.get(index);
+        //if (!sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
+        //ItemStack sourceStack = sourceSlot.getItem();
+        //ItemStack copyOfSourceStack = sourceStack.copy();
+        //// Check if the slot clicked is one of the vanilla container slots
+        //if (index < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT)
+        //{
+        //    // This is a vanilla container slot so merge the stack into the tile inventory
+        //    if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
+        //            + TE_INVENTORY_SLOT_COUNT, false)) {
+        //        return ItemStack.EMPTY;  // EMPTY_ITEM
+        //    }
+        //} else if (index < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT)
+        //{
+        //    // This is a TE slot so merge the stack into the players inventory
+        //    if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+        //        return ItemStack.EMPTY;
+        //    }
+        //} else {
+        //    System.out.println("Invalid slotIndex:" + index);
+        //    return ItemStack.EMPTY;
+        //}
+        //// If stack size == 0 (the entire stack was moved) set slot contents to null
+        //if (sourceStack.getCount() == 0) {
+        //    sourceSlot.set(ItemStack.EMPTY);
+        //} else {
+        //    sourceSlot.setChanged();
+        //}
+        //sourceSlot.onTake(player, sourceStack);
+        //return copyOfSourceStack;
     }
 
-    private Slot BackpackSlot(Container container, int index, int x, int y)
+    private Slot BackpackSlot(Container container, int index, int x, int y,ItemStack bag)
     {
         return new Slot(container,index,x,y)
         {
             @Override
             public int getMaxStackSize() {
-                return 63;
+                return 64;
             }
 
             @Override
@@ -131,14 +178,23 @@ public class PowderPouchMenu extends AbstractContainerMenu
                         || pStack.is(Tags.Items.GUNPOWDER)
                         || pStack.is(Items.BLAZE_POWDER)
                         || pStack.is(Items.BONE_MEAL)
-                        || pStack.is(Tags.Items.DYES);
+                        || pStack.is(Tags.Items.DYES)
+                        || pStack.is(Items.SUGAR);
             }
 
             @Override
             public void onTake(Player pPlayer, ItemStack pStack) {
-
+                int count = bag.getOrCreateTag().contains("count") ? bag.getOrCreateTag().getInt("count"):0;
+                bag.getOrCreateTag().putInt("count",count-pStack.getCount());
+                container.setItem(0,new ItemStack(pStack.getItem(),count-pStack.getCount()));
             }
 
+            @Override
+            public ItemStack safeInsert(ItemStack itemstack) {
+                int count = bag.getOrCreateTag().contains("count") ? bag.getOrCreateTag().getInt("count"):0;
+                bag.getOrCreateTag().putInt("count",count+itemstack.getCount());
+                return ItemStack.EMPTY;
+            }
         };
     }
     @Override

@@ -2,8 +2,12 @@ package com.natesky9.patina.item.PowderPouch;
 
 import com.natesky9.patina.Patina;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -13,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -44,8 +49,24 @@ public class PowderPouchItem extends Item {
     public void setContents(ItemStack pouch,ItemStack stack)
     {
         //contents = stack;
-        NonNullList<ItemStack> stacks = NonNullList.withSize(1,stack);
-        ContainerHelper.saveAllItems(pouch.getOrCreateTag(), stacks,false);
+        //NonNullList<ItemStack> stacks = NonNullList.withSize(1,stack);
+        //ContainerHelper.saveAllItems(pouch.getOrCreateTag(), stacks,false);
+        CompoundTag tag = pouch.getOrCreateTag();
+        ResourceLocation resourcelocation = stack.getItem().getRegistryName();
+        int count = tag.getInt("count");
+
+        tag.putString("id", resourcelocation == null ? "minecraft:air" : resourcelocation.toString());
+        tag.putInt("count",count+stack.getCount());
     }
 
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        CompoundTag tag = pStack.getOrCreateTag();
+        if (tag.contains("id"))
+        {
+            Item item = Registry.ITEM.get(new ResourceLocation(tag.getString("id")));
+            int count = tag.getInt("count");
+            pTooltipComponents.add(new TextComponent("stored: " + count + " " + item));
+        }
+    }
 }

@@ -7,16 +7,20 @@ import com.natesky9.patina.init.ModEnchantments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 public class ApathyEnchantment extends Enchantment implements TriggeredEnchant {
+    static ItemStack item = new ItemStack(Items.RED_BED);
     public ApathyEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
         super(pRarity, pCategory, pApplicableSlots);
     }
@@ -35,15 +39,21 @@ public class ApathyEnchantment extends Enchantment implements TriggeredEnchant {
         cooldowns.addCooldown(player,ModEnchantments.SLOTHBLESSING.get(),200);
         event.setCanceled(true);
     }
-
+    //
     @Override
-    public void onCooldown(Player player) {
-        TriggeredEnchant.message(player,"You shrug off the blow");
-        TriggeredEnchant.playSound(player, SoundEvents.SHIELD_BLOCK);
+    public String getMessage() {
+        return "You shrug off the blow";
     }
-
     @Override
-    public void offCooldown(Player player) {
-        TriggeredEnchant.playSound(player,SoundEvents.BASALT_PLACE);
+    public SoundEvent getSound() {
+        return SoundEvents.SHIELD_BLOCK;
+    }
+    @Override
+    public SoundEvent getSound2() {
+        return SoundEvents.BASALT_PLACE;
+    }
+    @Override
+    public ItemStack getItem() {
+        return item;
     }
 }
