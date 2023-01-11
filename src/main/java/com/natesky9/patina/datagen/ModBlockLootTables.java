@@ -19,7 +19,10 @@ public class ModBlockLootTables extends BlockLoot {
         this.dropSelf(ModBlocks.TEST_STAIRS.get());
         this.dropSelf(ModBlocks.TEST_WALL.get());
 
+        //cables
         this.dropSelf(ModBlocks.CHORUS_CABLE.get());
+        this.dropSelf(ModBlocks.WATER_PIPE.get());
+        this.dropSelf(ModBlocks.WATER_VALVE.get());
 
         this.add(ModBlocks.HONEY_PUDDLE.get(), noDrop());
 
@@ -32,6 +35,8 @@ public class ModBlockLootTables extends BlockLoot {
         this.dropSelf(ModBlocks.MACHINE_CAULDRON_SMOKER.get());
         this.dropSelf(ModBlocks.MACHINE_GRINDSTONE_BARREL.get());
         this.dropSelf(ModBlocks.MACHINE_SMOKER_GRINDSTONE.get());
+
+        this.dropSelf(ModBlocks.FERAL_LANTERN.get());
 
         //special blocks
         this.add(ModBlocks.TEST_SLAB.get(), BlockLoot::createSlabItemTable);

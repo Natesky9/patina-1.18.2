@@ -47,6 +47,13 @@ public class ModBlocks {
     public static final RegistryObject<Block> TELECHORUS = registerBlock("telechorus",
             () -> new TelechorusBlock(BlockBehaviour.Properties.of(Material.METAL).color(MaterialColor.METAL)
                     .strength(4).sound(SoundType.FUNGUS)));
+    //pipes and cables
+    public static final RegistryObject<Block> WATER_PIPE = registerBlock("water_pipe",
+            () -> new WaterPipeBlock(BlockBehaviour.Properties.of(Material.METAL).color(MaterialColor.COLOR_ORANGE)
+                    .noOcclusion()));
+    public static final RegistryObject<Block> WATER_VALVE = registerBlock("water_valve",
+            () -> new WaterValveBlock(BlockBehaviour.Properties.of(Material.METAL).color(MaterialColor.COLOR_ORANGE)
+                    .noOcclusion()));
     public static final RegistryObject<Block> CHORUS_CABLE = registerBlock("chorus_cable",
             () -> new ChorusCableBlock(BlockBehaviour.Properties.of(Material.PLANT).color(MaterialColor.COLOR_PURPLE)
                     .noOcclusion()));

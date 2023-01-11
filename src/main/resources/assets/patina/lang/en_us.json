@@ -74,6 +74,10 @@
   "item.patina.herb_seeds": "Herb Seeds",
   "item.patina.herb": "Herbs",
 
+  "block.patina.chorus_cable": "Chorus Cable",
+  "block.patina.water_pipe": "Water Pipe",
+  "block.patina.water_valve": "Water Valve",
+
   "block.patina.machine_template": "Template machine",
   "block.patina.machine_anvil_smithing": "Attribute Forge WIP",
   "block.patina.machine_beacon_grindstone": "Beacon Grindstone WIP",
@@ -90,7 +94,6 @@
   "block.patina.test_wall": "Test Wall",
   "block.patina.honey_puddle": "Honey Puddle",
   "block.patina.telechorus": "Telechorus",
-  "block.patina.chorus_cable": "Chorus Cable",
 
   "block.patina.herb_block": "Herb Block",
 
@@ -126,6 +129,13 @@
   "itemGroup.patina_food": "Patina Food Tab",
 
   "component.patina.excursion": "Test Incursion",
-  "container.dust_bag": "Powder Pouch"
+  "container.dust_bag": "Powder Pouch",
 
+  "stat.patina.test": "Test stat",
+
+  "hint_telechorus_1": "You feel a tingle but appear to not have moved",
+  "hint_telechorus_2": "It appears like there was no path",
+  "hint_telechorus_3": "Maybe chorus cables can link to another teleporter",
+  "hint_telechorus_4": "This machine needs to be linked to another one with cables",
+  "hint_telechorus_5": "Link to video/wiki"
 }

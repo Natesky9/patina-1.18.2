@@ -23,6 +23,7 @@ public class SoulboundEnchantment extends Enchantment {
         super(pRarity, pCategory, pApplicableSlots);
     }
     //
+    //TODO:This broke, fix pls
     protected static Map<UUID,List<ItemStack>> soulboundItems = new HashMap<>();
     public static void store(LivingDropsEvent event)
     {

@@ -74,6 +74,7 @@ public class EventsMod {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HERB_BLOCK.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.HONEY_PUDDLE.get(), RenderType.translucentNoCrumbling());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.MACHINE_BEACON_GRINDSTONE.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WATER_VALVE.get(),RenderType.cutout());
         //screen stuff
 
         //IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();

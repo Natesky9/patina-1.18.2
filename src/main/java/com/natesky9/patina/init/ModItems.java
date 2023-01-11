@@ -71,6 +71,7 @@ public class ModItems {
             () -> new LuxometerItem(new Item.Properties().rarity(Rarity.UNCOMMON).tab(Patina.CREATIVE_MODE_TAB)));
 
     //region equipment
+    //the tenticler
     public static final RegistryObject<Item> CUSTOM_SWORD = ITEMS.register("custom_sword",
             () -> new SwordItem(ModTiers.Custom,2,3f,new Item.Properties().tab(Patina.CREATIVE_MODE_TAB)));
     public static final RegistryObject<Item> CUSTOM_AXE = ITEMS.register("custom_axe",
@@ -222,10 +223,6 @@ public class ModItems {
             () -> new FertilizerItem(new Item.Properties()
                     .rarity(Rarity.UNCOMMON)
                     .tab(Patina.CREATIVE_MODE_TAB)));
-    public static final RegistryObject<Item> RAID_TEST = ITEMS.register("raid_test",
-            () -> new DebugRaidItem(new Item.Properties()
-                    .rarity(Rarity.EPIC)
-                    .tab(Patina.BOSS_LOOT_TAB)));
     //resources
     //public static final RegistryObject<Item> CALCITE_DUST = ITEMS.register("calcite_dust",
     //        () -> new Item(new Item.Properties()

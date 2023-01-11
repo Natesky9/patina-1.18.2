@@ -77,6 +77,7 @@ public class Patina
         ModMenuTypes.register(eventBus);
         ModPotions.register(eventBus);
         ModEnchantments.register(eventBus);
+        ModStats.register(eventBus);
 
 
 
