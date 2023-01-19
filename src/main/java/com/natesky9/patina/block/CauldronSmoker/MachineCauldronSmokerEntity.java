@@ -1,5 +1,6 @@
 package com.natesky9.patina.block.CauldronSmoker;
 
+import com.natesky9.patina.block.CauldronBrewing.MachineCauldronBrewingEntity;
 import com.natesky9.patina.block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.core.BlockPos;
@@ -76,6 +77,39 @@ public class MachineCauldronSmokerEntity extends MachineTemplateEntity implement
             case 2 -> stack.getItem() == ModItems.MAGIC_SALT.get();
             default -> false;
         };
+    }
+
+    @Override
+    protected ContainerData createData() {
+        return new ContainerData() {
+            @Override
+            public int get(int index) {
+                return switch (index) {
+                    case 0 -> MachineCauldronSmokerEntity.this.progress;
+                    case 1 -> MachineCauldronSmokerEntity.this.progressMax;
+                    default -> 0;
+                };
+            }
+
+            @Override
+            public void set(int index, int value)
+            {
+                switch (index) {
+                    case 0 -> MachineCauldronSmokerEntity.this.progress = value;
+                    case 1 -> MachineCauldronSmokerEntity.this.progressMax = value;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
+    }
+
+    @Override
+    protected void myContentsChanged() {
+
     }
 
     @Override

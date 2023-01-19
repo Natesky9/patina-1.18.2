@@ -154,6 +154,7 @@ public class ModItems {
     public static final RegistryObject<Item> TEST_FOOD = ITEMS.register("test_food",
             () -> new CustomFood(new Item.Properties().food(ModFoods.TEST_FOOD)
                     .tab(Patina.FOOD_TAB)));
+
     public static final RegistryObject<Item> BLINK_BROWNIE = ITEMS.register("blink_brownie",
             () -> new BlinkBrownie(new Item.Properties().food(ModFoods.BLINK_BROWNIE)
                     .tab(Patina.FOOD_TAB)));
@@ -171,6 +172,21 @@ public class ModItems {
                     .tab(Patina.FOOD_TAB)));
     public static final RegistryObject<Item> SWEETS = ITEMS.register("sweets",
             () -> new Item(new Item.Properties().food(ModFoods.TEST_FOOD)
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> CARROT_CAKE = ITEMS.register("carrot_cake",
+            () -> new Item(new Item.Properties().food(Foods.PUMPKIN_PIE)
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> FISH_ROLL = ITEMS.register("fish_roll",
+            () -> new Item(new Item.Properties().food(Foods.BAKED_POTATO)
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> DANDELION_SALAD = ITEMS.register("dandelion_salad",
+            () -> new Item(new Item.Properties().food(Foods.BAKED_POTATO)
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> WELLINGTON = ITEMS.register("wellington",
+            () -> new Item(new Item.Properties().food(Foods.BAKED_POTATO)
+                    .tab(Patina.FOOD_TAB)));
+    public static final RegistryObject<Item> NACHOS = ITEMS.register("nachos",
+            () -> new Item(new Item.Properties().food(Foods.BAKED_POTATO)
                     .tab(Patina.FOOD_TAB)));
 
     //potion salt

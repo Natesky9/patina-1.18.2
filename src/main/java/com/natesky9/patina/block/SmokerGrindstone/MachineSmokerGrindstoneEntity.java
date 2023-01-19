@@ -3,15 +3,17 @@ package com.natesky9.patina.block.SmokerGrindstone;
 import com.natesky9.patina.block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.item.CustomFood;
+import com.natesky9.patina.recipe.SmokerGrindstoneRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -24,9 +26,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 public class MachineSmokerGrindstoneEntity extends MachineTemplateEntity implements MenuProvider {
     public static final int slots = 5;
+    public int progressMax = 100;
 
 
     public MachineSmokerGrindstoneEntity(BlockPos pWorldPosition, BlockState pBlockState) {
@@ -42,12 +46,62 @@ public class MachineSmokerGrindstoneEntity extends MachineTemplateEntity impleme
     }
 
     @Override
+    protected ContainerData createData() {
+        return new ContainerData() {
+            @Override
+            public int get(int index) {
+                return switch (index) {
+                    case 0 -> MachineSmokerGrindstoneEntity.this.progress;
+                    case 1 -> MachineSmokerGrindstoneEntity.this.progressMax;
+                    default -> 0;
+                };
+            }
+
+            @Override
+            public void set(int index, int value)
+            {
+                switch (index) {
+                    case 0 -> MachineSmokerGrindstoneEntity.this.progress = value;
+                    case 1 -> MachineSmokerGrindstoneEntity.this.progressMax = value;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
+    }
+
+    private Optional<SmokerGrindstoneRecipe> getRecipe()
+    {
+        SimpleContainer inventory = new SimpleContainer(this.itemStackHandler.getSlots());
+        for (int i = 0; i < this.itemStackHandler.getSlots(); i++)
+        {
+            inventory.setItem(i,this.itemStackHandler.getStackInSlot(i));
+        }
+        Optional<SmokerGrindstoneRecipe> match = level.getRecipeManager()
+                .getRecipeFor(SmokerGrindstoneRecipe.Type.INSTANCE, inventory, level);
+        return match;
+    }
+    @Override
+    protected void myContentsChanged()
+    {
+        Optional match = getRecipe();
+        //
+        boolean prev = hasRecipe;
+        hasRecipe = match.isPresent();
+        //reset the progress if the recipe changed
+        if (hasRecipe != prev) progress = 0;
+    }
+
+    @Override
     public Component getDisplayName() {return new TranslatableComponent("block.patina.machine_smoker_grindstone");}
 
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
-        return new MachineSmokerGrindstoneMenu(pContainerId,pInventory,this);
+        return new MachineSmokerGrindstoneMenu(pContainerId,pInventory,this,this.data);
     }
     @Nonnull
     @Override
@@ -63,23 +117,10 @@ public class MachineSmokerGrindstoneEntity extends MachineTemplateEntity impleme
 
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-    }
-
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-    }
-
-    @Override
     protected void MachineTick()
     {
         //System.out.println("machine tick");
-        if (inputsPopulated()
-                && twoFoods()
-                && noDuplicates()
-                && hasNotReachedStackLimit())
+        if (hasRecipe)
         {
             //System.out.println("craft");
             craftItem();
@@ -127,6 +168,10 @@ public class MachineSmokerGrindstoneEntity extends MachineTemplateEntity impleme
     }
     private void craftItem()
     {
+
+    Optional<SmokerGrindstoneRecipe> recipe = getRecipe();
+    if (recipe.isPresent())
+        {
         int hunger = 0;
         float saturation = 0;
 
@@ -160,9 +205,13 @@ public class MachineSmokerGrindstoneEntity extends MachineTemplateEntity impleme
         ItemStack food = new ItemStack(ModItems.TEST_FOOD.get());
         CustomFood.setFoodProperties(food,hunger,saturation);
         CustomFood.setIngredients(food,food1,food2,food3,food4);
+        //
+            ItemStack stack = new ItemStack(recipe.get().getResultItem().getItem());
+
+            itemStackHandler.insertItem(4,stack,false);
+        }
 
 
-        itemStackHandler.insertItem(4,food,false);
     }
     private boolean hasNotReachedStackLimit()
     {

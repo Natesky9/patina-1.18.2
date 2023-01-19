@@ -6,9 +6,7 @@ import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,16 +16,18 @@ import net.minecraftforge.items.SlotItemHandler;
 public class MachineSmokerGrindstoneMenu extends AbstractContainerMenu {
     private final MachineSmokerGrindstoneEntity blockEntity;
     private final Level level;
+    private final ContainerData data;
     public MachineSmokerGrindstoneMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
-    public MachineSmokerGrindstoneMenu(int pContainerId, Inventory inv, BlockEntity entity)
+    public MachineSmokerGrindstoneMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data)
     {
         super(ModMenuTypes.MACHINE_SMOKER_GRINDSTONE_MENU.get(), pContainerId);
         checkContainerSize(inv, 5);
         blockEntity = ((MachineSmokerGrindstoneEntity) entity);
         this.level = inv.player.level;
+        this.data = data;
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
@@ -40,6 +40,12 @@ public class MachineSmokerGrindstoneMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(handler,3,60,47));
             this.addSlot(new OutputSlotHandler(handler,4,126,32));
         });
+        addDataSlots(data);
+    }
+
+    public boolean isCrafting()
+    {
+        return data.get(0) > 0;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons

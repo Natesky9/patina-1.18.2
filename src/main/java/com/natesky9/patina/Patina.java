@@ -18,6 +18,7 @@ import com.natesky9.patina.entity.PigKing.PigKingRender;
 import com.natesky9.patina.init.*;
 import com.natesky9.patina.overlay.VenomOverlay;
 import com.natesky9.patina.init.ModMenuTypes;
+import com.natesky9.patina.init.ModRecipes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -78,6 +79,7 @@ public class Patina
         ModPotions.register(eventBus);
         ModEnchantments.register(eventBus);
         ModStats.register(eventBus);
+        ModRecipes.register(eventBus);
 
 
 

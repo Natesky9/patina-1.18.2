@@ -1,0 +1,15 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"item": "minecraft:wheat_seeds"},
+            {"item": "minecraft:sugar"},
+            {"item": "minecraft:sweet_berries"},
+            {"item": "minecraft:cocoa_beans"}
+          ],
+  "output":
+  {
+    "item": "patina:trail_mix"
+  },
+  "credit": "Natesky9"
+}

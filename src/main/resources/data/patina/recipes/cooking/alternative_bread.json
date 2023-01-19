@@ -1,0 +1,14 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"item": "minecraft:wheat"},
+            {"item": "minecraft:wheat"},
+            {"item": "minecraft:sugar"},
+            {"item": "minecraft:bone_meal"}
+          ],
+  "output":
+  {
+    "item": "minecraft:bread"
+  }
+}

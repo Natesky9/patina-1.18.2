@@ -50,7 +50,24 @@ public class MachineGrindstoneBarrelEntity extends MachineTemplateEntity impleme
     public MachineGrindstoneBarrelEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(pWorldPosition, pBlockState,slots);
         //this.data = new MachineEntityContainerData(progress,progressMax,enchantFluid,enchantFluidMax);
-        this.data = new ContainerData() {
+        this.data = createData();
+        //System.out.println("data is: " + this.data);
+    }
+    //
+    @Override
+    protected boolean mySlotValid(int slot, @NotNull ItemStack stack)
+    {
+        return switch (slot)
+            {
+            case 0 -> true;
+            case 1 -> true;
+            default -> false;
+            };
+    }
+
+    @Override
+    protected ContainerData createData() {
+        return new ContainerData() {
             @Override
             public int get(int index) {
                 return switch (index) {
@@ -78,18 +95,11 @@ public class MachineGrindstoneBarrelEntity extends MachineTemplateEntity impleme
                 return 4;
             }
         };
-        //System.out.println("data is: " + this.data);
     }
-    //
+
     @Override
-    protected boolean mySlotValid(int slot, @NotNull ItemStack stack)
-    {
-        return switch (slot)
-            {
-            case 0 -> true;
-            case 1 -> true;
-            default -> false;
-            };
+    protected void myContentsChanged() {
+
     }
 
     @Override

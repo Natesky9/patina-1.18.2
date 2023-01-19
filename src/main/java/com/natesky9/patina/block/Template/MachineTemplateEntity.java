@@ -9,6 +9,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,6 +26,12 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
     protected abstract boolean mySlotValid(int slot, @NotNull ItemStack stack);
 
     protected LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
+
+    protected final ContainerData data;
+    protected int progress = 0;
+    protected int progressMax = 100;
+    protected boolean hasRecipe = false;
+
     public MachineTemplateEntity(BlockPos pWorldPosition, BlockState pBlockState, int slots) {
         super(((MachineTemplateBlock)pBlockState.getBlock()).getBlockEntityType(),pWorldPosition, pBlockState);
         //create the handler
@@ -34,6 +41,7 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
             protected void onContentsChanged(int slot)
             {
                 setChanged();
+                myContentsChanged();
             }
 
             @Override
@@ -41,7 +49,12 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
                 return mySlotValid(slot,stack);
             }
         };
+        data = createData();
     }
+    //creates the data slots to read/write
+    protected abstract ContainerData createData();
+
+    protected abstract void myContentsChanged();
 
     @Override
     public abstract Component getDisplayName();
@@ -66,12 +79,16 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         pTag.put("inventory",itemStackHandler.serializeNBT());
+        pTag.putInt("progress",progress);
+        pTag.putBoolean("active",hasRecipe);
         super.saveAdditional(pTag);
     }
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
         itemStackHandler.deserializeNBT(tag.getCompound("inventory"));
+        progress = tag.getInt("progress");
+        hasRecipe = tag.getBoolean("active");
     }
 
     public void drops()

@@ -1,5 +1,6 @@
 package com.natesky9.patina.block.CauldronBrewing;
 
+import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelEntity;
 import com.natesky9.patina.block.Template.MachineTemplateEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,6 +13,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionBrewing;
@@ -29,24 +31,9 @@ import javax.annotation.Nonnull;
 
 public class MachineCauldronBrewingEntity extends MachineTemplateEntity implements MenuProvider {
     public static final int slots = 3;
-    private final ItemStackHandler itemStackHandler = new ItemStackHandler(slots)
-    {
-        @Override
-        protected void onContentsChanged(int slot)
-        {
-            setChanged();
-        }
+    private int progress;
+    private int progressMax;
 
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return switch (slot) {
-                case 0 -> stack.getItem() == Items.POTION;
-                case 1 -> PotionBrewing.isIngredient(stack);
-                case 2 -> true;
-                default -> false;
-            };
-        }
-    };
 
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     public MachineCauldronBrewingEntity(BlockPos pWorldPosition, BlockState pBlockState) {
@@ -84,6 +71,39 @@ public class MachineCauldronBrewingEntity extends MachineTemplateEntity implemen
     @Override
     protected boolean mySlotValid(int slot, @NotNull ItemStack stack) {
         return false;
+    }
+
+    @Override
+    protected ContainerData createData() {
+        return new ContainerData() {
+            @Override
+            public int get(int index) {
+                return switch (index) {
+                    case 0 -> MachineCauldronBrewingEntity.this.progress;
+                    case 1 -> MachineCauldronBrewingEntity.this.progressMax;
+                    default -> 0;
+                };
+            }
+
+            @Override
+            public void set(int index, int value)
+            {
+                switch (index) {
+                    case 0 -> MachineCauldronBrewingEntity.this.progress = value;
+                    case 1 -> MachineCauldronBrewingEntity.this.progressMax = value;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
+    }
+
+    @Override
+    protected void myContentsChanged() {
+
     }
 
     //other methods

@@ -1,32 +1,19 @@
 package com.natesky9.patina;
 
-import com.natesky9.patina.block.Template.MachineTemplateScreen;
-import com.natesky9.patina.block.AnvilSmithing.MachineAnvilSmithingScreen;
-import com.natesky9.patina.block.BeaconGrindstone.MachineBeaconGrindstoneScreen;
-import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronScreen;
-import com.natesky9.patina.block.CauldronBrewing.MachineCauldronBrewingScreen;
-import com.natesky9.patina.block.CauldronSmoker.MachineCauldronSmokerScreen;
-import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelScreen;
-import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneScreen;
 import com.natesky9.patina.entity.MiscModels.BEWLR;
 import com.natesky9.patina.init.*;
 import com.natesky9.patina.item.CopperItem;
-import com.natesky9.patina.item.PowderPouch.PowderPouchScreen;
-import com.natesky9.recipe.SaltBrewingRecipe;
+import com.natesky9.patina.recipe.SmokerGrindstoneRecipe;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,6 +35,11 @@ public class EventsMod {
                         new ResourceLocation(Patina.MOD_ID,"greed_curse"))
 
         );
+    }
+    @SubscribeEvent
+    public static void registerRecipeTypes(final RegistryEvent.Register<RecipeSerializer<?>> event)
+    {
+        Registry.register(Registry.RECIPE_TYPE, SmokerGrindstoneRecipe.Type.ID, SmokerGrindstoneRecipe.Type.INSTANCE);
     }
     @SubscribeEvent
     public static void ColorHandlerEvent(final ColorHandlerEvent.Item event)

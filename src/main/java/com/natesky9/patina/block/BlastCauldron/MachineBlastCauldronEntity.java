@@ -14,7 +14,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -34,7 +33,12 @@ public class MachineBlastCauldronEntity extends MachineTemplateEntity implements
     public MachineBlastCauldronEntity(BlockPos pWorldPosition, BlockState pBlockState)
     {
         super(pWorldPosition, pBlockState,slots);
-        this.data = new ContainerData() {
+        this.data = createData();
+    }
+
+    @Override
+    protected ContainerData createData() {
+        return new ContainerData() {
             @Override
             public int get(int index) {
                 return switch (index) {
@@ -58,6 +62,11 @@ public class MachineBlastCauldronEntity extends MachineTemplateEntity implements
                 return 2;
             }
         };
+    }
+
+    @Override
+    protected void myContentsChanged() {
+
     }
 
     @Override

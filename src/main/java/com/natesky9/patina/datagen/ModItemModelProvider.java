@@ -36,17 +36,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         handheldItem(ModItems.PIGLIN_BALLISTA.get());
 
-
-        simpleItem(ModItems.CANDY_WARTS.get());
-        simpleItem(ModItems.BLINK_BROWNIE.get());
         simpleItem(ModItems.COAL_COKE.get());
-        //simpleItem(ModItems.CALCITE_DUST.get());
-        //simpleItem(ModItems.CRUSHED_SHELLS.get());
-        //simpleItem(ModItems.FERTILIZER.get());
         simpleItem(ModItems.INERT_ROD.get());
-        //simpleItem(ModItems.KELP_MEAL.get());
-        simpleItem(ModItems.TEST_FOOD.get());
-        simpleItem(ModItems.CHEESE.get());
         simpleItem(ModItems.ROYAL_JELLY.get());
         simpleItem(ModItems.SPIDER_NEST.get());
         simpleItem(ModItems.CLOTH.get());
@@ -86,9 +77,20 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.POTION_FLASK.get());
         simpleItem(ModItems.SOUP_BOTTLE.get());
 
-        simpleItem(ModItems.SWEETS.get());
+        //foods
+        simpleItem(ModItems.TEST_FOOD.get());
+        simpleItem(ModItems.BLINK_BROWNIE.get());
+        simpleItem(ModItems.CANDY_WARTS.get());
+        simpleItem(ModItems.CHEESE.get());
         simpleItem(ModItems.MONSTER_MEATBALLS.get());
         simpleItem(ModItems.TRAIL_MIX.get());
+        simpleItem(ModItems.SWEETS.get());
+        simpleItem(ModItems.CARROT_CAKE.get());
+        simpleItem(ModItems.FISH_ROLL.get());
+        simpleItem(ModItems.DANDELION_SALAD.get());
+        simpleItem(ModItems.WELLINGTON.get());
+        simpleItem(ModItems.NACHOS.get());
+
 
         simpleItem(ModItems.DUST_BAG.get());
         simpleItem(ModItems.GEM_BAG.get());

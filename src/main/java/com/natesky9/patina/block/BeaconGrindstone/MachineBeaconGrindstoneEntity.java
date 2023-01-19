@@ -44,7 +44,12 @@ public class MachineBeaconGrindstoneEntity extends MachineTemplateEntity impleme
 
     public MachineBeaconGrindstoneEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(pWorldPosition, pBlockState,slots);
-        this.data = new ContainerData() {
+        this.data = createData();
+    }
+
+    @Override
+    protected ContainerData createData() {
+        return new ContainerData() {
             @Override
             public int get(int index) {
                 return switch (index)
@@ -73,6 +78,11 @@ public class MachineBeaconGrindstoneEntity extends MachineTemplateEntity impleme
                 return dataSlots;
             }
         };
+    }
+
+    @Override
+    protected void myContentsChanged() {
+
     }
 
     @Override
