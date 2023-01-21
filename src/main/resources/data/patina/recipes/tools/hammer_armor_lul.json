@@ -1,0 +1,14 @@
+{
+  "type": "patina:tool",
+  "inputs":
+    [
+      {"item": "patina:hammer"},
+      {"item": "minecraft:iron_block"}
+    ]
+  ,
+  "output":
+  {
+    "item": "minecraft:iron_helmet",
+    "count": 1
+  }
+}

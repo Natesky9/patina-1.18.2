@@ -239,6 +239,40 @@ public class ModItems {
             () -> new FertilizerItem(new Item.Properties()
                     .rarity(Rarity.UNCOMMON)
                     .tab(Patina.CREATIVE_MODE_TAB)));
+
+    public static final RegistryObject<Item> CHISEL = ITEMS.register("chisel",
+            () -> new ChiselItem(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> HAMMER = ITEMS.register("hammer",
+            () -> new HammerItem(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> KNIFE = ITEMS.register("knife",
+            () -> new KnifeItem(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> RUBY = ITEMS.register("ruby",
+            () -> new Item(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> BOLT_TIPS = ITEMS.register("bolt_tips",
+            () -> new Item(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> INGOT_1 = ITEMS.register("ingot_1",
+            () -> new Item(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> INGOT_2 = ITEMS.register("ingot_2",
+            () -> new Item(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> UNFINISHED_BOLTS = ITEMS.register("unfinished_bolts",
+            () -> new Item(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> BOLTS = ITEMS.register("bolts",
+            () -> new Item(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> DART_TIPS = ITEMS.register("dart_tips",
+            () -> new Item(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    //public static final RegistryObject<Item> SAPPHIRE = ITEMS.register("sapphire",
+    //        () -> new Item(new Item.Properties()
+    //                .tab(Patina.OSRS_TAB)));
     //resources
     //public static final RegistryObject<Item> CALCITE_DUST = ITEMS.register("calcite_dust",
     //        () -> new Item(new Item.Properties()

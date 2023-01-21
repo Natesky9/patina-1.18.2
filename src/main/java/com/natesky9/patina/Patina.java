@@ -21,6 +21,7 @@ import com.natesky9.patina.init.ModMenuTypes;
 import com.natesky9.patina.init.ModRecipes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -62,6 +63,10 @@ public class Patina
     public static final CreativeModeTab RESOURCE_TAB = new CreativeModeTab("patina_resources") {
         @Override
         public ItemStack makeIcon() {return new ItemStack(ModItems.CLOTH.get());}
+    };
+    public static final CreativeModeTab OSRS_TAB = new CreativeModeTab("runescape") {
+        @Override
+        public ItemStack makeIcon() {return new ItemStack(Items.CROSSBOW);}
     };
 
     public Patina() {

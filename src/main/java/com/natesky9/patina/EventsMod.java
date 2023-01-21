@@ -3,6 +3,7 @@ package com.natesky9.patina;
 import com.natesky9.patina.entity.MiscModels.BEWLR;
 import com.natesky9.patina.init.*;
 import com.natesky9.patina.item.CopperItem;
+import com.natesky9.patina.recipe.ToolRecipe;
 import com.natesky9.patina.recipe.SmokerGrindstoneRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -40,6 +41,7 @@ public class EventsMod {
     public static void registerRecipeTypes(final RegistryEvent.Register<RecipeSerializer<?>> event)
     {
         Registry.register(Registry.RECIPE_TYPE, SmokerGrindstoneRecipe.Type.ID, SmokerGrindstoneRecipe.Type.INSTANCE);
+        Registry.register(Registry.RECIPE_TYPE, ToolRecipe.Type.ID, ToolRecipe.Type.INSTANCE);
     }
     @SubscribeEvent
     public static void ColorHandlerEvent(final ColorHandlerEvent.Item event)

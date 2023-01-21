@@ -3,12 +3,12 @@
   "ingredients":
           [
             {"item": "minecraft:milk_bucket"},
-            {"item": "patina:slime_ball"},
+            {"item": "minecraft:slime_ball"},
             {"item": "minecraft:milk_bucket"},
             {"item": "minecraft:yellow_dye"}
           ],
   "output":
   {
-    "item": "minecraft:nachos"
+    "item": "patina:cheese"
   }
 }

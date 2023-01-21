@@ -1,0 +1,14 @@
+{
+  "type": "patina:tool",
+  "inputs":
+    [
+      {"item": "patina:knife"},
+      {"item": "minecraft:oak_log"}
+    ]
+  ,
+  "output":
+  {
+    "item": "minecraft:stick",
+    "count": 8
+  }
+}

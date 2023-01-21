@@ -105,6 +105,28 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         simpleItem(ModItems.LUXOMETER.get());
         simpleItem(ModItems.TEST.get());
+        //Runescape items
+        simpleItem(ModItems.KNIFE.get());
+        simpleItem(ModItems.HAMMER.get());
+        simpleItem(ModItems.CHISEL.get());
+        simpleItem(ModItems.RUBY.get());
+        simpleItem(ModItems.BOLT_TIPS.get());
+        withExistingParent(ModItems.UNFINISHED_BOLTS.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(Patina.MOD_ID,"item/component/bolt_unfinished"));
+        withExistingParent(ModItems.BOLTS.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_unfinished"))
+                .texture("layer1", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_fletching"))
+                .texture("layer2", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_tipped"));
+        simpleItem(ModItems.DART_TIPS.get());
+        withExistingParent(ModItems.INGOT_1.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(Patina.MOD_ID,"item/custom_ingot"));
+        withExistingParent(ModItems.INGOT_2.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(Patina.MOD_ID,"item/custom_ingot"));
+        //----------//
         //begin block items
         simpleBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());
         simpleBlock(ModBlocks.MACHINE_CAULDRON_BREWING.get());
