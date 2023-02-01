@@ -1,0 +1,14 @@
+{
+  "type": "patina:tool",
+  "inputs":
+    [
+      {"item": "patina:hammer"},
+      {"item": "minecraft:gold_ingot"}
+    ]
+  ,
+  "output":
+  {
+    "item": "patina:unfinished_bolts",
+    "count": 6
+  }
+}

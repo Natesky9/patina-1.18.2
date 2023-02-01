@@ -1,0 +1,13 @@
+{
+  "type": "patina:fletching",
+  "inputs":
+    [
+      {"item": "patina:unfinished_bolts"},
+      {"item": "minecraft:feather"}
+    ]
+  ,
+  "output":
+  {
+    "item": "patina:bolts"
+  }
+}

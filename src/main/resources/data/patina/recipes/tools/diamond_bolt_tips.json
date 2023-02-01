@@ -1,0 +1,14 @@
+{
+  "type": "patina:tool",
+  "inputs":
+    [
+      {"item": "patina:chisel"},
+      {"item": "minecraft:diamond"}
+    ]
+  ,
+  "output":
+  {
+    "item": "patina:bolt_tips",
+    "count": 4
+  }
+}

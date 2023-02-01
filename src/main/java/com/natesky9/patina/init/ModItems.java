@@ -253,7 +253,7 @@ public class ModItems {
             () -> new Item(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> BOLT_TIPS = ITEMS.register("bolt_tips",
-            () -> new Item(new Item.Properties()
+            () -> new BoltComponent(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> INGOT_1 = ITEMS.register("ingot_1",
             () -> new Item(new Item.Properties()
@@ -262,7 +262,7 @@ public class ModItems {
             () -> new Item(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> UNFINISHED_BOLTS = ITEMS.register("unfinished_bolts",
-            () -> new Item(new Item.Properties()
+            () -> new BoltComponent(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> BOLTS = ITEMS.register("bolts",
             () -> new Item(new Item.Properties()

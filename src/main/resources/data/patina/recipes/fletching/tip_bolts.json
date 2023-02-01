@@ -1,0 +1,13 @@
+{
+  "type": "patina:fletching",
+  "inputs":
+    [
+      {"item": "patina:bolt_tips"},
+      {"item": "patina:bolts"}
+    ]
+  ,
+  "output":
+  {
+    "item": "patina:bolts"
+  }
+}

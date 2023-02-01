@@ -3,8 +3,8 @@ package com.natesky9.patina.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.init.ModItems;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -14,17 +14,17 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class ToolRecipe implements Recipe<SimpleContainer> {
+public class FletchingRecipe implements Recipe<SimpleContainer> {
     //recipe type
     //that takes in a tool
     //and a resource, outputting a component
-    private static final String name = "tool";
+    private static final String name = "fletching";
     private final ResourceLocation id;
     private final ItemStack output;
     private final NonNullList<Ingredient> inputs;
 
-    public ToolRecipe(ResourceLocation id, ItemStack output,
-                      NonNullList<Ingredient> recipeItems)
+    public FletchingRecipe(ResourceLocation id, ItemStack output,
+                           NonNullList<Ingredient> recipeItems)
     {
         this.id = id;
         this.output = output;
@@ -33,21 +33,23 @@ public class ToolRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        boolean tool = inputs.get(0).test(pContainer.getItem(0));
-        boolean item = inputs.get(1).test(pContainer.getItem(1));
-        if (tool && item) assemble(pContainer);
-        return tool && item;
+        boolean component1 = inputs.get(0).test(pContainer.getItem(0));
+        boolean component2 = inputs.get(1).test(pContainer.getItem(1));
+        if (component1 && component1) assemble(pContainer);
+        return component1 && component2;
     }
 
     @Override
     public ItemStack assemble(SimpleContainer pContainer) {
-        ItemStack item = pContainer.getItem(1);
-        String name = item.getItem().getCreatorModId(item) + ":" + item.getItem().toString();
-        System.out.println("item crafted: " + name);
-        if (output.is(ModItems.BOLT_TIPS.get()))
-            output.getOrCreateTag().putString("gem",name);
-        if (output.is(ModItems.UNFINISHED_BOLTS.get()))
-            output.getOrCreateTag().putString("metal",name);
+        //gem
+        ItemStack item1 = pContainer.getItem(0);
+        //bolts
+        ItemStack item2 = pContainer.getItem(1);
+
+        //todo change this to use the nbt of previos nbt
+        output.getOrCreateTag().putString("gem",item1.getOrCreateTag().getString("gem"));
+        output.getOrCreateTag().putString("metal",item2.getOrCreateTag().getString("metal"));
+        System.out.println(output);
         return output;
     }
 
@@ -76,19 +78,19 @@ public class ToolRecipe implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<ToolRecipe>
+    public static class Type implements RecipeType<FletchingRecipe>
     {
         private Type() {}
         public static final Type INSTANCE = new Type();
         public static final String ID = name;
     }
-    public static class Serializer implements RecipeSerializer<ToolRecipe>
+    public static class Serializer implements RecipeSerializer<FletchingRecipe>
     {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID = new ResourceLocation(Patina.MOD_ID,name);
 
         @Override
-        public ToolRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
+        public FletchingRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json,"output"));
             JsonArray ingredients = GsonHelper.getAsJsonArray(json,"inputs");
             NonNullList<Ingredient> inputs = NonNullList.withSize(2,Ingredient.EMPTY);
@@ -96,23 +98,23 @@ public class ToolRecipe implements Recipe<SimpleContainer> {
             for (int i = 0; i < inputs.size(); i++)
             {inputs.set(i,Ingredient.fromJson(ingredients.get(i)));}
 
-            return new ToolRecipe(pRecipeId, output, inputs);
+            return new FletchingRecipe(pRecipeId, output, inputs);
         }
 
         @Nullable
         @Override
-        public ToolRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+        public FletchingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
             NonNullList<Ingredient> inputs = NonNullList.withSize(buffer.readInt(),Ingredient.EMPTY);
 
             for (int i = 0; i < inputs.size(); i++)
             {inputs.set(i, Ingredient.fromNetwork(buffer));}
 
             ItemStack output = buffer.readItem();
-            return new ToolRecipe(id, output, inputs);
+            return new FletchingRecipe(id, output, inputs);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, ToolRecipe pRecipe) {
+        public void toNetwork(FriendlyByteBuf buffer, FletchingRecipe pRecipe) {
 
             buffer.writeInt(pRecipe.getIngredients().size());
 

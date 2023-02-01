@@ -2,7 +2,9 @@ package com.natesky9.patina;
 
 import com.natesky9.patina.entity.MiscModels.BEWLR;
 import com.natesky9.patina.init.*;
+import com.natesky9.patina.item.BoltComponent;
 import com.natesky9.patina.item.CopperItem;
+import com.natesky9.patina.recipe.FletchingRecipe;
 import com.natesky9.patina.recipe.ToolRecipe;
 import com.natesky9.patina.recipe.SmokerGrindstoneRecipe;
 import net.minecraft.client.Minecraft;
@@ -42,10 +44,17 @@ public class EventsMod {
     {
         Registry.register(Registry.RECIPE_TYPE, SmokerGrindstoneRecipe.Type.ID, SmokerGrindstoneRecipe.Type.INSTANCE);
         Registry.register(Registry.RECIPE_TYPE, ToolRecipe.Type.ID, ToolRecipe.Type.INSTANCE);
+        Registry.register(Registry.RECIPE_TYPE, FletchingRecipe.Type.ID,FletchingRecipe.Type.INSTANCE);
     }
     @SubscribeEvent
     public static void ColorHandlerEvent(final ColorHandlerEvent.Item event)
     {
+        //color bolt tips
+        event.getItemColors().register((item,hue) -> {return BoltComponent.getColor(item);},
+                ModItems.BOLT_TIPS.get());
+        //color unfinished bolts
+        event.getItemColors().register((item,hue) -> {return BoltComponent.getColor(item);},
+                ModItems.UNFINISHED_BOLTS.get());
         event.getItemColors().register((item,hue) ->
                 {return hue > 0 ? -1 : PotionUtils.getColor(item);}
                 ,ModItems.MAGIC_SALT.get());

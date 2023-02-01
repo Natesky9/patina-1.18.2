@@ -1,6 +1,7 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.recipe.FletchingRecipe;
 import com.natesky9.patina.recipe.ToolRecipe;
 import com.natesky9.patina.recipe.SmokerGrindstoneRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -17,6 +18,8 @@ public class ModRecipes {
             SERIALIZERS.register("smoker_grindstone", () -> SmokerGrindstoneRecipe.Serializer.INSTANCE);
     public static final RegistryObject<RecipeSerializer<ToolRecipe>> CHISEL_SERIALIZER =
             SERIALIZERS.register("chisel", () -> ToolRecipe.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<FletchingRecipe>> FLETCHING_SERIALIZER =
+            SERIALIZERS.register("fletching", () -> FletchingRecipe.Serializer.INSTANCE);
 
     public static void register(IEventBus eventBus)
     {
