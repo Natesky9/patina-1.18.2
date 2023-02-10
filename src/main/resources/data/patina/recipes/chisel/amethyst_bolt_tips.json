@@ -1,0 +1,11 @@
+{
+  "type": "patina:chisel",
+  "input": {"item": "minecraft:amethyst_shard"}
+  ,
+  "output":
+  {
+    "item": "patina:bolt_tips",
+    "count": 4
+  },
+  "color": 10053324
+}

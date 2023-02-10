@@ -134,6 +134,11 @@
   "death.attack.venom": "%1$s succumbed to venom",
   "death.attack.venom.player": "%2$s was toxic to %1$s ",
 
+  "component.patina.bolt_name": "%1$s Bolts",
+  "component.patina.tipped_bolt_name": "%1$s Tipped %2$s Bolts",
+  "component.patina.bolt_blank_name": "%1$s Bolt Blanks",
+  "component.patina.bolt_tips_name": "%1$s Bolt Tips",
+
   "itemGroup.patina_tab": "Patina Creative Tab",
   "itemGroup.patina_loot": "Patina Loot Tab",
   "itemGroup.patina_food": "Patina Food Tab",

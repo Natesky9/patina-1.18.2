@@ -265,10 +265,13 @@ public class ModItems {
             () -> new BoltComponent(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> BOLTS = ITEMS.register("bolts",
-            () -> new Item(new Item.Properties()
+            () -> new BoltItem(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> DART_TIPS = ITEMS.register("dart_tips",
             () -> new Item(new Item.Properties()
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> CROSSBOW = ITEMS.register("crossbow",
+            () -> new CustomCrossbowItem(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     //public static final RegistryObject<Item> SAPPHIRE = ITEMS.register("sapphire",
     //        () -> new Item(new Item.Properties()

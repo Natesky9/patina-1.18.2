@@ -2,9 +2,10 @@ package com.natesky9.patina.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.natesky9.patina.Patina;
+import com.natesky9.patina.init.ModItems;
+import com.natesky9.patina.init.ModRecipeTypes;
+import com.natesky9.patina.init.ModRecipeSerializers;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -12,13 +13,14 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
 public class FletchingRecipe implements Recipe<SimpleContainer> {
     //recipe type
     //that takes in a tool
     //and a resource, outputting a component
-    private static final String name = "fletching";
     private final ResourceLocation id;
     private final ItemStack output;
     private final NonNullList<Ingredient> inputs;
@@ -46,10 +48,23 @@ public class FletchingRecipe implements Recipe<SimpleContainer> {
         //bolts
         ItemStack item2 = pContainer.getItem(1);
 
-        //todo change this to use the nbt of previos nbt
+        //bolt tips + bolts
+        if (item1.is(ModItems.BOLT_TIPS.get()) && item2.is(ModItems.BOLTS.get()))
+        {
         output.getOrCreateTag().putString("gem",item1.getOrCreateTag().getString("gem"));
+        output.getOrCreateTag().putInt("gem color", item1.getOrCreateTag().getInt("color"));
         output.getOrCreateTag().putString("metal",item2.getOrCreateTag().getString("metal"));
-        System.out.println(output);
+        output.getOrCreateTag().putInt("metal color", item2.getOrCreateTag().getInt("metal color"));
+        }
+        if (item1.is(ModItems.UNFINISHED_BOLTS.get()) && item2.is(Tags.Items.FEATHERS))
+        {
+            output.getOrCreateTag().putString("metal", item1.getOrCreateTag().getString("metal"));
+            output.getOrCreateTag().putInt("metal color", item1.getOrCreateTag().getInt("color"));
+
+            String name = item2.getItem().getCreatorModId(item2) + ":" + item2.getItem();
+            output.getOrCreateTag().putString("feather",name);
+        }
+            System.out.println(output);
         return output;
     }
 
@@ -70,24 +85,17 @@ public class FletchingRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return null;
+        return Serializer.INSTANCE;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return Type.INSTANCE;
+        return ModRecipeTypes.FLETCHING_RECIPE_TYPE.get();
     }
 
-    public static class Type implements RecipeType<FletchingRecipe>
-    {
-        private Type() {}
-        public static final Type INSTANCE = new Type();
-        public static final String ID = name;
-    }
-    public static class Serializer implements RecipeSerializer<FletchingRecipe>
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<FletchingRecipe>
     {
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID = new ResourceLocation(Patina.MOD_ID,name);
 
         @Override
         public FletchingRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
@@ -122,27 +130,6 @@ public class FletchingRecipe implements Recipe<SimpleContainer> {
             {ingredient.toNetwork(buffer);}
 
             buffer.writeItemStack(pRecipe.getResultItem(),false);
-        }
-
-        @Override
-        public RecipeSerializer<?> setRegistryName(ResourceLocation name) {
-            return INSTANCE;
-        }
-
-        @Nullable
-        @Override
-        public ResourceLocation getRegistryName() {
-            return ID;
-        }
-
-        @Override
-        public Class<RecipeSerializer<?>> getRegistryType() {
-            return Serializer.castClass(RecipeSerializer.class);
-        }
-        //why do we need this?
-        private static <G> Class<G> castClass(Class<?> cls)
-        {
-            return (Class<G>)cls;
         }
     }
 }

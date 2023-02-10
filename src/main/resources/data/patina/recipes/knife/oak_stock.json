@@ -1,0 +1,10 @@
+{
+  "type": "patina:hammer",
+  "input": {"item": "minecraft:stripped_oak_log"}
+  ,
+  "output":
+  {
+    "item": "patina:crossbow_stock"
+  },
+  "color": 14202249
+}

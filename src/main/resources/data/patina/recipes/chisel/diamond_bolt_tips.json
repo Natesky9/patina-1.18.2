@@ -1,0 +1,11 @@
+{
+  "type": "patina:chisel",
+  "input": {"item": "minecraft:diamond"}
+  ,
+  "output":
+  {
+    "item": "patina:bolt_tips",
+    "count": 8
+  },
+  "color": 12186367
+}

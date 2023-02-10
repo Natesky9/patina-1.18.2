@@ -20,7 +20,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -28,6 +30,7 @@ import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.VanillaGameEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -39,6 +42,23 @@ import java.util.Collection;
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge
 {
+    @SubscribeEvent
+    public static void LivingGetProjectileEvent(LivingGetProjectileEvent event)
+    {
+        //I want this to fail, to test
+        ItemStack bow = event.getProjectileWeaponItemStack();
+        ItemStack ammo = event.getProjectileItemStack();
+        if (bow.is(Items.CROSSBOW))
+        {
+            int limbtier = PatinaArchery.Tiers.getLimbTier(bow);
+            int stocktier = PatinaArchery.Tiers.getStockTier(bow);
+            System.out.println("Tier of crossbow is: " + limbtier + ":" + stocktier);
+            if (ammo.is(ModItems.BOLTS.get()))
+                event.setProjectileItemStack(ItemStack.EMPTY);
+        }
+        else//if it's not a crossbow, continue as normal
+            event.setProjectileItemStack(ammo);
+    }
     @SubscribeEvent
     public static void PlayerDestroyItemEvent(PlayerDestroyItemEvent event)
     {

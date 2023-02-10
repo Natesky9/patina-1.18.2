@@ -1,6 +1,7 @@
 package com.natesky9.patina.item;
 
-import com.natesky9.patina.recipe.ToolRecipe;
+import com.natesky9.patina.init.ModRecipeTypes;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -13,22 +14,26 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
 public abstract class ToolItem extends Item {
     protected int useDuration;
-    protected SoundEvent sound;
-    public ToolItem(Properties pProperties) {
+    public ToolItem(Properties pProperties)
+    {
         super(pProperties);
     }
     //----------//
     @Override
     public int getUseDuration(ItemStack pStack)
     {return useDuration;}
-    //----------//
 
+    abstract RecipeType<? extends Recipe<SimpleContainer>> getRecipe();
+    abstract SoundEvent getSound();
+    //----------//
 
     @Override
     public UseAnim getUseAnimation(ItemStack pStack) {
@@ -53,12 +58,12 @@ public abstract class ToolItem extends Item {
         ItemStack[] hands = {offhand ? left:right,
                             offhand ? right:left};
 
-        SimpleContainer inventory = new SimpleContainer(hands);
-        Optional<ToolRecipe> match = pLevel.getRecipeManager().getRecipeFor(ToolRecipe.Type.INSTANCE,inventory,pLevel);
-        System.out.println(pLevel.getRecipeManager().getAllRecipesFor(ToolRecipe.Type.INSTANCE));
+        SimpleContainer container = new SimpleContainer(hands);
+        Optional<? extends Recipe<?>> match = pLevel.getRecipeManager().getRecipeFor(getRecipe(), container,pLevel);
+        //System.out.println(pLevel.getRecipeManager().getAllRecipesFor(ModRecipeTypes.TOOL_RECIPE_TYPE.get()));
         if (match.isPresent())
         {
-            pLevel.playSound(null,player.blockPosition(), sound, SoundSource.PLAYERS,.1F,2F);
+            pLevel.playSound(null,player.blockPosition(), getSound(), SoundSource.PLAYERS,.1F,2F);
             //get the stack of the opposite hand
             ItemStack stack = player.getItemInHand(player.getUsedItemHand() == InteractionHand.MAIN_HAND ?
                     InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND);
@@ -69,8 +74,9 @@ public abstract class ToolItem extends Item {
             entity.setPickUpDelay(40);
             entity.setDeltaMovement(player.getLookAngle());
             pLevel.addFreshEntity(entity);
+            return pStack;
         }
-
+        player.displayClientMessage(new TextComponent("There doesn't seem to be a recipe"),true);
         return pStack;
     }
 }

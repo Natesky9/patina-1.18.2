@@ -1,26 +1,28 @@
 package com.natesky9.patina.item;
 
+import com.natesky9.patina.PatinaArchery;
 import com.natesky9.patina.init.ModItems;
-import com.natesky9.patina.recipe.ToolRecipe;
-import net.minecraft.core.Registry;
+import com.natesky9.patina.init.ModRecipeTypes;
+import com.natesky9.patina.recipe.FletchingRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.awt.*;
 import java.util.Optional;
 
 public class BoltComponent extends Item {
@@ -28,41 +30,42 @@ public class BoltComponent extends Item {
         super(pProperties);
     }
     //----------//
-
     @Override
-    public Component getName(ItemStack pStack) {
-        CompoundTag tag = pStack.getTag();
-        if (tag == null) return super.getName(pStack);
-        if (pStack.is(ModItems.BOLT_TIPS.get()))
+    public Component getName(ItemStack stack) {
+        //replace the name with what's in the nbt
+        CompoundTag tag = stack.getTag();
+        if (tag == null) return super.getName(stack);
+        if (tag.contains("metal"))
         {
-            return new TextComponent(tag.getString("gem") + " bolt tips");
+            Item metal = ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getString("metal")));
+            return new TranslatableComponent("component.patina.bolt_blank_name",
+                    metal.getName(new ItemStack(metal)).getString().replace(" Ingot",""));
         }
-        if (pStack.is(ModItems.UNFINISHED_BOLTS.get()))
+        if (tag.contains("gem"))
         {
-            return new TextComponent(tag.getString("metal") + " unfinished bolts");
+            Item gem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(tag.getString("gem")));
+            return new TranslatableComponent("component.patina.bolt_tips_name",
+                    gem.getName(new ItemStack(gem)).getString());
         }
-        return new TextComponent("Blank Item, craft instead!");
+        return super.getName(stack);
     }
 
     public static int getColor(ItemStack stack)
     {
-        String value = "";
-        if (stack.is(ModItems.BOLT_TIPS.get()))
-            value = stack.getOrCreateTag().getString("gem");
-        if (stack.is(ModItems.UNFINISHED_BOLTS.get()))
-            value = stack.getOrCreateTag().getString("metal");
-        Item getItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(value));
-        if (getItem == Items.EMERALD) return Color.green.getRGB();
-        if (getItem == Items.DIAMOND) return Color.CYAN.getRGB();
-        if (getItem == ModItems.RUBY.get()) return Color.RED.getRGB();
-
-        if (getItem == Items.IRON_INGOT) return Color.gray.getRGB();
-        if (getItem == Items.GOLD_INGOT) return Color.yellow.getRGB();
-        if (getItem == Items.COPPER_INGOT) return Color.green.getRGB();
-        if (getItem == ModItems.INGOT_1.get()) return Color.ORANGE.getRGB();
-        if (getItem == ModItems.INGOT_2.get()) return Color.BLUE.getRGB();
-        return Color.MAGENTA.getRGB();
+        return stack.getOrCreateTag().getInt("color");
     }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+        pPlayer.startUsingItem(pUsedHand);
+        return InteractionResultHolder.consume(pPlayer.getItemInHand(pUsedHand));
+    }
+
+    @Override
+    public int getUseDuration(ItemStack pStack) {
+        return 5;
+    }
+
     @Override
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity)
     {
@@ -75,8 +78,7 @@ public class BoltComponent extends Item {
                 offhand ? right:left};
 
         SimpleContainer inventory = new SimpleContainer(hands);
-        Optional<ToolRecipe> match = pLevel.getRecipeManager().getRecipeFor(ToolRecipe.Type.INSTANCE,inventory,pLevel);
-        System.out.println(pLevel.getRecipeManager().getAllRecipesFor(ToolRecipe.Type.INSTANCE));
+        Optional<FletchingRecipe> match = pLevel.getRecipeManager().getRecipeFor(ModRecipeTypes.FLETCHING_RECIPE_TYPE.get(), inventory,pLevel);
         if (match.isPresent())
         {
             pLevel.playSound(null,player.blockPosition(),

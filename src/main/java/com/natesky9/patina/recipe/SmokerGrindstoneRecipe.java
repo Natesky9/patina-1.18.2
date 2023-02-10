@@ -3,6 +3,7 @@ package com.natesky9.patina.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +12,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
 public class SmokerGrindstoneRecipe implements Recipe<SimpleContainer> {
@@ -61,30 +63,22 @@ public class SmokerGrindstoneRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public RecipeType<?> getType() {
-        return Type.INSTANCE;
+    public RecipeType<?> getType()
+    {
+        return ModRecipeTypes.SMOKER_GRINDSTONE_RECIPE_TYPE.get();
     }
 
-    public static class Type implements RecipeType<SmokerGrindstoneRecipe>
-    {
-        private Type() {}
-        public static final Type INSTANCE = new Type();
-        public static final String ID = "smoker_grindstone";
-    }
-    public static class Serializer implements RecipeSerializer<SmokerGrindstoneRecipe>
-    {
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<SmokerGrindstoneRecipe> {
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID = new ResourceLocation(Patina.MOD_ID,"smoker_grindstone");
 
         @Override
         public SmokerGrindstoneRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json,"output"));
-            JsonArray ingredients = GsonHelper.getAsJsonArray(json,"ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(4,Ingredient.EMPTY);
+            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
+            JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
+            NonNullList<Ingredient> inputs = NonNullList.withSize(4, Ingredient.EMPTY);
 
-            for (int i = 0; i < inputs.size(); i++)
-            {
-                inputs.set(i,Ingredient.fromJson(ingredients.get(i)));
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
             }
             return new SmokerGrindstoneRecipe(pRecipeId, output, inputs);
         }
@@ -92,10 +86,9 @@ public class SmokerGrindstoneRecipe implements Recipe<SimpleContainer> {
         @Nullable
         @Override
         public SmokerGrindstoneRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
-            NonNullList<Ingredient> inputs = NonNullList.withSize(buffer.readInt(),Ingredient.EMPTY);
+            NonNullList<Ingredient> inputs = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
 
-            for (int i = 0; i < inputs.size(); i++)
-            {
+            for (int i = 0; i < inputs.size(); i++) {
                 inputs.set(i, Ingredient.fromNetwork(buffer));
             }
 
@@ -106,32 +99,10 @@ public class SmokerGrindstoneRecipe implements Recipe<SimpleContainer> {
         @Override
         public void toNetwork(FriendlyByteBuf buffer, SmokerGrindstoneRecipe pRecipe) {
             buffer.writeInt(pRecipe.getIngredients().size());
-            for (Ingredient ingredient: pRecipe.getIngredients())
-            {
+            for (Ingredient ingredient : pRecipe.getIngredients()) {
                 ingredient.toNetwork(buffer);
             }
-            buffer.writeItemStack(pRecipe.getResultItem(),false);
-        }
-
-        @Override
-        public RecipeSerializer<?> setRegistryName(ResourceLocation name) {
-            return INSTANCE;
-        }
-
-        @Nullable
-        @Override
-        public ResourceLocation getRegistryName() {
-            return ID;
-        }
-
-        @Override
-        public Class<RecipeSerializer<?>> getRegistryType() {
-            return Serializer.castClass(RecipeSerializer.class);
-        }
-        //why do we need this?
-        private static <G> Class<G> castClass(Class<?> cls)
-        {
-            return (Class<G>)cls;
+            buffer.writeItemStack(pRecipe.getResultItem(), false);
         }
     }
 }

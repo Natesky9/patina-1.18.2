@@ -2,6 +2,7 @@ package com.natesky9.patina.block.SmokerGrindstone;
 
 import com.natesky9.patina.block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModItems;
+import com.natesky9.patina.init.ModRecipeTypes;
 import com.natesky9.patina.item.CustomFood;
 import com.natesky9.patina.recipe.SmokerGrindstoneRecipe;
 import net.minecraft.core.BlockPos;
@@ -81,7 +82,7 @@ public class MachineSmokerGrindstoneEntity extends MachineTemplateEntity impleme
             inventory.setItem(i,this.itemStackHandler.getStackInSlot(i));
         }
         Optional<SmokerGrindstoneRecipe> match = level.getRecipeManager()
-                .getRecipeFor(SmokerGrindstoneRecipe.Type.INSTANCE, inventory, level);
+                .getRecipeFor(ModRecipeTypes.SMOKER_GRINDSTONE_RECIPE_TYPE.get(), inventory, level);
         return match;
     }
     @Override

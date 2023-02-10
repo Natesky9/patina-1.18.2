@@ -3,49 +3,34 @@ package com.natesky9.patina;
 import com.natesky9.patina.entity.MiscModels.BEWLR;
 import com.natesky9.patina.init.*;
 import com.natesky9.patina.item.BoltComponent;
+import com.natesky9.patina.item.BoltItem;
 import com.natesky9.patina.item.CopperItem;
-import com.natesky9.patina.recipe.FletchingRecipe;
-import com.natesky9.patina.recipe.ToolRecipe;
-import com.natesky9.patina.recipe.SmokerGrindstoneRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
-import javax.annotation.Nonnull;
-
 import static java.lang.Math.min;
 
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {
-    @SubscribeEvent
-    public static void registerModifierSerializers(@Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event)
-    {
-        event.getRegistry().registerAll(
-                new GreedCurseSubtractionModifier.Serializer().setRegistryName(
-                        new ResourceLocation(Patina.MOD_ID,"greed_curse"))
 
-        );
-    }
-    @SubscribeEvent
-    public static void registerRecipeTypes(final RegistryEvent.Register<RecipeSerializer<?>> event)
-    {
-        Registry.register(Registry.RECIPE_TYPE, SmokerGrindstoneRecipe.Type.ID, SmokerGrindstoneRecipe.Type.INSTANCE);
-        Registry.register(Registry.RECIPE_TYPE, ToolRecipe.Type.ID, ToolRecipe.Type.INSTANCE);
-        Registry.register(Registry.RECIPE_TYPE, FletchingRecipe.Type.ID,FletchingRecipe.Type.INSTANCE);
-    }
+    //@SubscribeEvent
+    //public static void registerRecipeTypes(final RegistryEvent.Register<RecipeSerializer<?>> event)
+    //{
+    //    Registry.register(Registry.RECIPE_TYPE, SmokerGrindstoneRecipe.Type.ID, SmokerGrindstoneRecipe.Type.INSTANCE);
+    //    Registry.register(Registry.RECIPE_TYPE, ToolRecipe.Type.ID, ToolRecipe.Type.INSTANCE);
+    //    Registry.register(Registry.RECIPE_TYPE, FletchingRecipe.Type.ID,FletchingRecipe.Type.INSTANCE);
+    //    Registry.register(Registry.RECIPE_TYPE, CrossbowRecipe.NAME, RecipeType.CRAFTING);
+    //}
     @SubscribeEvent
     public static void ColorHandlerEvent(final ColorHandlerEvent.Item event)
     {
@@ -55,8 +40,16 @@ public class EventsMod {
         //color unfinished bolts
         event.getItemColors().register((item,hue) -> {return BoltComponent.getColor(item);},
                 ModItems.UNFINISHED_BOLTS.get());
+        //color finished bolts
+        event.getItemColors().register((item,index) ->
+                switch (index) {
+                    case 0 -> BoltItem.getBase(item);
+                    case 1 -> BoltItem.getFeather(item);
+                    case 2 -> BoltItem.getTip(item);
+                    default -> -1;
+                },ModItems.BOLTS.get());
         event.getItemColors().register((item,hue) ->
-                {return hue > 0 ? -1 : PotionUtils.getColor(item);}
+                        hue > 0 ? -1 : PotionUtils.getColor(item)
                 ,ModItems.MAGIC_SALT.get());
         event.getItemColors().register((item,hue) ->
         {return hue > 0 ? -1 : CopperItem.getRustColor(item);},
@@ -90,6 +83,15 @@ public class EventsMod {
                 {
                     CompoundTag nbt = stack.getOrCreateTag();
                     return nbt.getBoolean("toggle") ? 1F:0F;
+                });
+        ItemProperties.register(ModItems.BOLTS.get(),
+                new ResourceLocation(Patina.MOD_ID,"item/stage"),(stack, pLevel, pEntity, pSeed) ->
+                {
+                    boolean hasFeather = PatinaArchery.HAS_FEATHER.test(stack);
+                    boolean hasTip = PatinaArchery.HAS_TIP.test(stack);
+                    if (hasTip) return 1.0F;
+                    if (hasFeather) return 0.5F;
+                    return 0.0F;
                 });
     }
 }
