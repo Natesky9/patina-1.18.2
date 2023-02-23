@@ -123,7 +123,12 @@ public class PowderPouchMenu extends AbstractContainerMenu
             if ((existingItem != stack.getItem()) && count != 0)
                 return ItemStack.EMPTY;
 
-            ((PowderPouchItem)selected.getItem()).setContents(selected,stack);
+
+            NonNullList<ItemStack> items = NonNullList.create();
+            for (Slot getslot: slots)
+            {items.add(getslot.getItem());}
+            ContainerHelper.saveAllItems(selected.getOrCreateTag(), items,false);
+
             boolean complete = moveItemStackTo(stack, 36, 36, false);
             slots.get(index).set(ItemStack.EMPTY);
             if (!complete)

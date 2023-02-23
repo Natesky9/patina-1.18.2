@@ -13,7 +13,6 @@ public class ChiselItem extends ToolItem {
     public ChiselItem(Properties pProperties)
     {
         super(pProperties);
-        useDuration = 20;
     }
 
     @Override
@@ -28,7 +27,17 @@ public class ChiselItem extends ToolItem {
 
     @Override
     SoundEvent getSound() {
-        return SoundEvents.GLASS_BREAK;
+        return SoundEvents.ANCIENT_DEBRIS_BREAK;
+    }
+
+    @Override
+    boolean shrinkThis() {
+        return false;
+    }
+
+    @Override
+    boolean shrinkThat() {
+        return true;
     }
     //----------//
 }

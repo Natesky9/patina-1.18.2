@@ -1,10 +1,11 @@
 package com.natesky9.patina;
 
 import com.natesky9.patina.entity.MiscModels.BEWLR;
-import com.natesky9.patina.init.*;
-import com.natesky9.patina.item.BoltComponent;
-import com.natesky9.patina.item.BoltItem;
-import com.natesky9.patina.item.CopperItem;
+import com.natesky9.patina.init.ModBlocks;
+import com.natesky9.patina.init.ModItems;
+import com.natesky9.patina.init.ModPotions;
+import com.natesky9.patina.init.ModScreens;
+import com.natesky9.patina.item.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -17,8 +18,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-
-import static java.lang.Math.min;
 
 @Mod.EventBusSubscriber(modid = Patina.MOD_ID,bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {
@@ -35,10 +34,10 @@ public class EventsMod {
     public static void ColorHandlerEvent(final ColorHandlerEvent.Item event)
     {
         //color bolt tips
-        event.getItemColors().register((item,hue) -> {return BoltComponent.getColor(item);},
+        event.getItemColors().register((item,hue) -> BoltTipItem.getColor(item),
                 ModItems.BOLT_TIPS.get());
         //color unfinished bolts
-        event.getItemColors().register((item,hue) -> {return BoltComponent.getColor(item);},
+        event.getItemColors().register((item,hue) -> BoltItem.getBase(item),
                 ModItems.UNFINISHED_BOLTS.get());
         //color finished bolts
         event.getItemColors().register((item,index) ->
@@ -47,12 +46,39 @@ public class EventsMod {
                     case 1 -> BoltItem.getFeather(item);
                     case 2 -> BoltItem.getTip(item);
                     default -> -1;
-                },ModItems.BOLTS.get());
+                },ModItems.BOLTS.get(),ModItems.TIPPED_BOLTS.get(),ModItems.ENCHANTED_BOLTS.get());
+        //color crossbow limbs
+        event.getItemColors().register((item,index) ->
+                CrossbowLimbItem.getColor(item),
+                ModItems.CROSSBOW_LIMB.get());
+        event.getItemColors().register((item,index) ->
+                CrossbowStockItem.getColor(item),
+                ModItems.CROSSBOW_STOCK.get());
+        event.getItemColors().register((item,index) ->
+                switch (index) {
+                            case 0 -> CrossbowStockItem.getColor(item);
+                            case 1 -> CrossbowLimbItem.getColor(item);
+                            case 2 -> BowstringItem.getColor(item);
+                            default -> 0;
+                        },ModItems.CROSSBOW.get(),ModItems.UNSTRUNG_CROSSBOW.get()
+                );
+        event.getItemColors().register((item,index) ->
+                BowstringItem.getColor(item), ModItems.BOWSTRING.get());
+        event.getItemColors().register((item,index) ->
+                switch (index) {
+                        case 0 -> StaffItem.getWoodColor(item);
+                        case 1 -> StaffItem.getOrnamentColor(item);
+                        case 2 -> StaffItem.getOrbColor(item);
+                    default -> 0;
+                            },ModItems.UNFINISHED_STAFF.get(),ModItems.IMPERFECT_STAFF.get(),ModItems.STAFF.get());
+        event.getItemColors().register((item,index) ->
+                StaffItem.getOrbColor(item),ModItems.ORB.get());
+        //color salt
         event.getItemColors().register((item,hue) ->
                         hue > 0 ? -1 : PotionUtils.getColor(item)
                 ,ModItems.MAGIC_SALT.get());
         event.getItemColors().register((item,hue) ->
-        {return hue > 0 ? -1 : CopperItem.getRustColor(item);},
+                        hue > 0 ? -1 : CopperItem.getRustColor(item),
             ModItems.COPPER_HELMET.get(),ModItems.COPPER_CHESTPLATE.get(),
                 ModItems.COPPER_LEGGINGS.get(),ModItems.COPPER_BOOTS.get());
     }
@@ -83,15 +109,6 @@ public class EventsMod {
                 {
                     CompoundTag nbt = stack.getOrCreateTag();
                     return nbt.getBoolean("toggle") ? 1F:0F;
-                });
-        ItemProperties.register(ModItems.BOLTS.get(),
-                new ResourceLocation(Patina.MOD_ID,"item/stage"),(stack, pLevel, pEntity, pSeed) ->
-                {
-                    boolean hasFeather = PatinaArchery.HAS_FEATHER.test(stack);
-                    boolean hasTip = PatinaArchery.HAS_TIP.test(stack);
-                    if (hasTip) return 1.0F;
-                    if (hasFeather) return 0.5F;
-                    return 0.0F;
                 });
     }
 }

@@ -2,6 +2,7 @@ package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.item.*;
+import com.natesky9.patina.item.BoltPouch.BoltPouchItem;
 import com.natesky9.patina.item.PowderPouch.PowderPouchItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -209,6 +210,9 @@ public class ModItems {
     public static final RegistryObject<Item> GEM_BAG = ITEMS.register("gem_bag",
             () -> new GemBagItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
                     .tab(Patina.CREATIVE_MODE_TAB)));
+    public static final RegistryObject<Item> BOLT_POUCH = ITEMS.register("bolt_pouch",
+            () -> new BoltPouchItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
 
     //resources
     public static final RegistryObject<Item> CLOTH = ITEMS.register("cloth",
@@ -241,19 +245,19 @@ public class ModItems {
                     .tab(Patina.CREATIVE_MODE_TAB)));
 
     public static final RegistryObject<Item> CHISEL = ITEMS.register("chisel",
-            () -> new ChiselItem(new Item.Properties()
+            () -> new ChiselItem(new Item.Properties().stacksTo(1)
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> HAMMER = ITEMS.register("hammer",
-            () -> new HammerItem(new Item.Properties()
+            () -> new HammerItem(new Item.Properties().stacksTo(1)
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> KNIFE = ITEMS.register("knife",
-            () -> new KnifeItem(new Item.Properties()
+            () -> new KnifeItem(new Item.Properties().stacksTo(1)
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> RUBY = ITEMS.register("ruby",
             () -> new Item(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> BOLT_TIPS = ITEMS.register("bolt_tips",
-            () -> new BoltComponent(new Item.Properties()
+            () -> new BoltTipItem(new Item.Properties().stacksTo(64)
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> INGOT_1 = ITEMS.register("ingot_1",
             () -> new Item(new Item.Properties()
@@ -262,16 +266,49 @@ public class ModItems {
             () -> new Item(new Item.Properties()
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> UNFINISHED_BOLTS = ITEMS.register("unfinished_bolts",
-            () -> new BoltComponent(new Item.Properties()
+            () -> new UnfinishedBoltItem(new Item.Properties().stacksTo(64)
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> BOLTS = ITEMS.register("bolts",
-            () -> new BoltItem(new Item.Properties()
+            () -> new BoltItem(new Item.Properties().stacksTo(999)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> TIPPED_BOLTS = ITEMS.register("tipped_bolts",
+            () -> new BoltItem(new Item.Properties().stacksTo(999)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> ENCHANTED_BOLTS = ITEMS.register("enchanted_bolts",
+            () -> new BoltItem(new Item.Properties().stacksTo(999)
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> DART_TIPS = ITEMS.register("dart_tips",
-            () -> new Item(new Item.Properties()
+            () -> new Item(new Item.Properties().stacksTo(64)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> UNSTRUNG_CROSSBOW = ITEMS.register("unstrung_crossbow",
+            () -> new UnstrungCrossbowItem(new Item.Properties().stacksTo(1)
                     .tab(Patina.OSRS_TAB)));
     public static final RegistryObject<Item> CROSSBOW = ITEMS.register("crossbow",
-            () -> new CustomCrossbowItem(new Item.Properties()
+            () -> new CustomCrossbowItem(new Item.Properties().stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> CROSSBOW_STOCK = ITEMS.register("crossbow_stock",
+            () -> new CrossbowStockItem(new Item.Properties().stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> CROSSBOW_LIMB = ITEMS.register("crossbow_limbs",
+            () -> new CrossbowLimbItem(new Item.Properties().stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> BOWSTRING = ITEMS.register("bowstring",
+            () -> new BowstringItem(new Item.Properties().stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> UNFINISHED_STAFF = ITEMS.register("unfinished_staff",
+            () -> new UnfinishedStaffItem(new Item.Properties().stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> IMPERFECT_STAFF = ITEMS.register("imperfect_staff",
+            () -> new ImperfectStaffItem(new Item.Properties().stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> ORB = ITEMS.register("orb",
+            () -> new Item(new Item.Properties().stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> STAFF = ITEMS.register("staff",
+            () -> new StaffItem(new Item.Properties().stacksTo(1)
+                    .tab(Patina.OSRS_TAB)));
+    public static final RegistryObject<Item> ENCHANTING_ORB = ITEMS.register("enchanting_orb",
+            () -> new EnchantOrbItem(new Item.Properties().stacksTo(1)
                     .tab(Patina.OSRS_TAB)));
     //public static final RegistryObject<Item> SAPPHIRE = ITEMS.register("sapphire",
     //        () -> new Item(new Item.Properties()

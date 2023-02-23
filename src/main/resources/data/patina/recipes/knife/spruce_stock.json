@@ -1,0 +1,10 @@
+{
+  "type": "patina:knife",
+  "input": {"item": "minecraft:stripped_spruce_log"}
+  ,
+  "output":
+  {
+    "item": "patina:crossbow_stock"
+  },
+  "color": 123
+}

@@ -1,0 +1,10 @@
+{
+  "type": "patina:enchanting",
+  "inputs":
+  [
+    {"item": "patina:enchanting_orb"},
+    {"item": "patina:tipped_bolts"}
+  ],
+  "output":
+  {"item": "patina:enchanted_bolts"}
+}

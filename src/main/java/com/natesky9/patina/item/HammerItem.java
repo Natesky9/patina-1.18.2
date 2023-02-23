@@ -11,7 +11,6 @@ public class HammerItem extends ToolItem {
     public HammerItem(Properties pProperties)
     {
         super(pProperties);
-        useDuration = 20;
     }
 
     @Override
@@ -22,6 +21,16 @@ public class HammerItem extends ToolItem {
     @Override
     SoundEvent getSound() {
         return SoundEvents.ANVIL_USE;
+    }
+
+    @Override
+    boolean shrinkThis() {
+        return false;
+    }
+
+    @Override
+    boolean shrinkThat() {
+        return true;
     }
     //----------//
 }

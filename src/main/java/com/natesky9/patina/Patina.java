@@ -6,19 +6,17 @@ import com.natesky9.patina.entity.BeeQueen.BeeQueenModel;
 import com.natesky9.patina.entity.BeeQueen.BeeQueenRender;
 import com.natesky9.patina.entity.MiscModels.BEWLR;
 import com.natesky9.patina.entity.MiscModels.KnockbackShield;
+import com.natesky9.patina.entity.PigKing.PigKing;
+import com.natesky9.patina.entity.PigKing.PigKingModel;
+import com.natesky9.patina.entity.PigKing.PigKingRender;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestEntity;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestModel;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestRender;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenModel;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenRender;
-import com.natesky9.patina.entity.PigKing.PigKing;
-import com.natesky9.patina.entity.PigKing.PigKingModel;
-import com.natesky9.patina.entity.PigKing.PigKingRender;
 import com.natesky9.patina.init.*;
 import com.natesky9.patina.overlay.VenomOverlay;
-import com.natesky9.patina.init.ModMenuTypes;
-import com.natesky9.patina.init.ModRecipeSerializers;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,14 +24,17 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 import org.slf4j.Logger;
 
-import static java.lang.Math.min;
+import java.util.function.Predicate;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Patina.MOD_ID)
@@ -44,6 +45,10 @@ public class Patina
     public static final String MOD_ID = "patina";
     public static EnchantCooldowns enchantmentCooldowns = new EnchantCooldowns();
     public static BEWLR bewlr;
+
+    static String VERSION = "1.0";
+    static Predicate<String> version = NetworkRegistry.acceptMissingOr(VERSION);
+    public static SimpleChannel PacketChannel;
 
     //create a tab
     public static final CreativeModeTab CREATIVE_MODE_TAB = new CreativeModeTab("patina_tab") {
@@ -87,10 +92,14 @@ public class Patina
         ModRecipeTypes.register(eventBus);
         ModRecipeSerializers.register(eventBus);
 
-
-
-
-
+        //PacketChannel = NetworkRegistry.newSimpleChannel(new ResourceLocation("patina","test"),
+        //        () -> VERSION,version, version);
+        //PacketChannel.registerMessage(0,MyContainerPacket.class,
+        //        MyContainerPacket::write,MyContainerPacket::new,MyContainerPacket::handle,
+        //        Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        //PacketChannel.registerMessage(1, MySendInitial.class,
+        //        MySendInitial::write, MySendInitial::read, MySendInitial::handle,
+        //        Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 
 
         // Register ourselves for server and other game events we are interested in
@@ -104,6 +113,11 @@ public class Patina
     {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+    @SubscribeEvent
+    public static void preInit(FMLCommonSetupEvent event)
+    {
+
     }
 
 

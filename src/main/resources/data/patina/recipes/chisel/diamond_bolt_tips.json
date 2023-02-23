@@ -7,5 +7,6 @@
     "item": "patina:bolt_tips",
     "count": 8
   },
-  "color": 12186367
+  "color": 12186367,
+  "enchantment": "patina:diamond_bolt"
 }

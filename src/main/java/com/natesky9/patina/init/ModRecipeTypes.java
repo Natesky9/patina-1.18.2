@@ -14,14 +14,16 @@ public class ModRecipeTypes
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
             DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, Patina.MOD_ID);
     //
-    public static final RegistryObject<RecipeType<HammerRecipe>> HAMMER_RECIPE_TYPE = create("hammer");
-    public static final RegistryObject<RecipeType<ChiselRecipe>> CHISEL_RECIPE_TYPE = create("chisel");
-    public static final RegistryObject<RecipeType<KnifeRecipe>> KNIFE_RECIPE_TYPE = create("knife");
+    public static final RegistryObject<RecipeType<HammerRecipe>> HAMMER_RECIPE_TYPE = create(HammerRecipe.name);
+    public static final RegistryObject<RecipeType<ChiselRecipe>> CHISEL_RECIPE_TYPE = create(ChiselRecipe.name);
+    public static final RegistryObject<RecipeType<KnifeRecipe>> KNIFE_RECIPE_TYPE = create(KnifeRecipe.name);
     //
-    public static final RegistryObject<RecipeType<FletchingRecipe>> FLETCHING_RECIPE_TYPE = create("fletching");
-    public static final RegistryObject<RecipeType<SmokerGrindstoneRecipe>> SMOKER_GRINDSTONE_RECIPE_TYPE = create("smoker_grindstone");
-    //do I need a recipe type for an existing crafting recipe?
-    public static final RegistryObject<RecipeType<CrossbowRecipe>> CROSSBOW_UPGRADE_RECIPE_TYPE = create("crossbow_upgrade");
+    public static final RegistryObject<RecipeType<CombiningRecipe>> COMBINING_RECIPE_TYPE = create(CombiningRecipe.name);
+    public static final RegistryObject<RecipeType<FinishingRecipe>> FINISHING_RECIPE_TYPE = create(FinishingRecipe.name);
+    public static final RegistryObject<RecipeType<EnchantingRecipe>> ENCHANTING_RECIPE_TYPE = create(EnchantingRecipe.name);
+
+
+    public static final RegistryObject<RecipeType<SmokerGrindstoneRecipe>> SMOKER_GRINDSTONE_RECIPE_TYPE = create(SmokerGrindstoneRecipe.name);
     //----------//
     static <T extends Recipe<?>> RegistryObject<RecipeType<T>> create(final String id)
     {

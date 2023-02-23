@@ -1,0 +1,11 @@
+{
+  "type": "patina:chisel",
+  "input": {"item": "minecraft:nether_star"}
+  ,
+  "output":
+  {
+    "item": "patina:orb"
+  },
+  "color": 5555535,
+  "enchantment": "minecraft:enchantment/efficiency"
+}

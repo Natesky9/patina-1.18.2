@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "patina:item/crossbow_stock",
+    "layer1": "patina:item/crossbow_limbs"
+  }
+}

@@ -21,6 +21,7 @@ public class HammerRecipe implements Recipe<SimpleContainer> {
     //that takes in a tool
     //and a resource, outputting a component
     private final ResourceLocation id;
+    public static final String name = "hammer";
     private final ItemStack output;
     private final Ingredient input;
     private final int color;
@@ -50,7 +51,7 @@ public class HammerRecipe implements Recipe<SimpleContainer> {
         System.out.println("item crafted: " + name);
 
         output.getOrCreateTag().putString("metal",name);
-        output.getOrCreateTag().putInt("color",color);
+        output.getOrCreateTag().putInt("metal color",color);
         return output;
     }
 

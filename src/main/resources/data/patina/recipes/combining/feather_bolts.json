@@ -1,13 +1,11 @@
 {
-  "type": "patina:fletching",
+  "type": "patina:finishing",
   "inputs":
     [
       {"item": "patina:unfinished_bolts"},
       {"item": "minecraft:feather"}
     ]
   ,
-  "output":
-  {
-    "item": "patina:bolts"
-  }
+  "output": {"item": "patina:bolts"},
+  "color": 16777215
 }

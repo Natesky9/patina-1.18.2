@@ -16,7 +16,7 @@ public class StrifeEnchantment extends Enchantment implements TriggeredEnchant {
     }
     @Override
     public Component getFullname(int pLevel) {
-        return new TranslatableComponent(this.getDescriptionId() + " WIP").withStyle(ChatFormatting.DARK_PURPLE);
+        return new TranslatableComponent(this.getDescriptionId()).append(" WIP").withStyle(ChatFormatting.DARK_PURPLE);
     }
 
     @Override

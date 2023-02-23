@@ -1,0 +1,11 @@
+{
+  "type": "patina:combining",
+  "inputs":
+    [
+      {"item": "patina:imperfect_staff"},
+      {"item": "patina:orb"}
+    ]
+  ,
+  "output":
+  {"item": "patina:staff"}
+}

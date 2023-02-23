@@ -1,7 +1,6 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.block.Template.MachineTemplateMenu;
 import com.natesky9.patina.block.AnvilSmithing.MachineAnvilSmithingMenu;
 import com.natesky9.patina.block.BeaconGrindstone.MachineBeaconGrindstoneMenu;
 import com.natesky9.patina.block.BlastCauldron.MachineBlastCauldronMenu;
@@ -9,6 +8,8 @@ import com.natesky9.patina.block.CauldronBrewing.MachineCauldronBrewingMenu;
 import com.natesky9.patina.block.CauldronSmoker.MachineCauldronSmokerMenu;
 import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelMenu;
 import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneMenu;
+import com.natesky9.patina.block.Template.MachineTemplateMenu;
+import com.natesky9.patina.item.BoltPouch.BoltPouchMenu;
 import com.natesky9.patina.item.PowderPouch.PowderPouchMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -44,6 +45,8 @@ public class ModMenuTypes
 
     public static final RegistryObject<MenuType<PowderPouchMenu>> POWDER_POUCH_MENU =
             registerMenuType(PowderPouchMenu::new,"powder_pouch_menu");
+    public static final RegistryObject<MenuType<BoltPouchMenu>> BOLT_POUCH_MENU =
+            registerMenuType(BoltPouchMenu::new, "bolt_pouch_menu");
     //--------------------------------------------------//
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name)
     {

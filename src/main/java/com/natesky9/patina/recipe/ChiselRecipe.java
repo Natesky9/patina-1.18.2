@@ -1,6 +1,7 @@
 package com.natesky9.patina.recipe;
 
 import com.google.gson.JsonObject;
+import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModRecipeTypes;
 import com.natesky9.patina.item.ChiselItem;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,17 +19,20 @@ public class ChiselRecipe implements Recipe<SimpleContainer> {
     //that takes in a tool
     //and a resource, outputting a component
     private final ResourceLocation id;
+    public static final String name = "chisel";
     private final ItemStack output;
     private final Ingredient input;
     private final int color;
+    private final String enchantment;
 
     public ChiselRecipe(ResourceLocation id, ItemStack output,
-                        Ingredient input, int color)
+                        Ingredient input, int color, String enchantment)
     {
         this.id = id;
         this.output = output;
         this.input = input;
         this.color = color;
+        this.enchantment = enchantment;
     }
 
     @Override
@@ -44,10 +48,18 @@ public class ChiselRecipe implements Recipe<SimpleContainer> {
         //tool is always index 0
         ItemStack item = pContainer.getItem(1);
         String name = item.getItem().getCreatorModId(item) + ":" + item.getItem();
-        System.out.println("item crafted: " + name);
+        if (output.is(ModItems.BOLT_TIPS.get()))
+        {
+            output.getOrCreateTag().putString("gem",name);
+            output.getOrCreateTag().putInt("gem color",color);
+            output.getOrCreateTag().putString("enchantment",enchantment);
+        }
+        if (output.is(ModItems.ORB.get()))
+        {
+            output.getOrCreateTag().putString("orb",name);
+            output.getOrCreateTag().putInt("orb color",color);
+        }
 
-        output.getOrCreateTag().putString("gem",name);
-        output.getOrCreateTag().putInt("color",color);
         return output;
     }
 
@@ -85,8 +97,9 @@ public class ChiselRecipe implements Recipe<SimpleContainer> {
             Ingredient input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json,"input"));
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json,"output"));
             int color = GsonHelper.getAsInt(json,"color");
+            String enchantment = GsonHelper.getAsString(json, "enchantment");
 
-            return new ChiselRecipe(pRecipeId, output, input, color);
+            return new ChiselRecipe(pRecipeId, output, input, color, enchantment);
         }
 
         @Nullable
@@ -95,7 +108,8 @@ public class ChiselRecipe implements Recipe<SimpleContainer> {
             Ingredient input = Ingredient.fromNetwork(buffer);
             ItemStack output = buffer.readItem();
             int color = buffer.readInt();
-            return new ChiselRecipe(id, output, input, color);
+            String enchantment = buffer.readUtf();
+            return new ChiselRecipe(id, output, input, color, enchantment);
         }
 
         @Override
@@ -104,6 +118,7 @@ public class ChiselRecipe implements Recipe<SimpleContainer> {
             pRecipe.input.toNetwork(buffer);
             buffer.writeItemStack(pRecipe.getResultItem(),false);
             buffer.writeInt(pRecipe.color);
+            buffer.writeUtf(pRecipe.enchantment);
         }
     }
 }

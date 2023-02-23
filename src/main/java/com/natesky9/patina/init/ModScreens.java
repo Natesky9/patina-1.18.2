@@ -8,6 +8,7 @@ import com.natesky9.patina.block.CauldronSmoker.MachineCauldronSmokerScreen;
 import com.natesky9.patina.block.GrindstoneBarrel.MachineGrindstoneBarrelScreen;
 import com.natesky9.patina.block.SmokerGrindstone.MachineSmokerGrindstoneScreen;
 import com.natesky9.patina.block.Template.MachineTemplateScreen;
+import com.natesky9.patina.item.BoltPouch.BoltPouchScreen;
 import com.natesky9.patina.item.PowderPouch.PowderPouchScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 
@@ -24,5 +25,6 @@ public class ModScreens
         MenuScreens.register(ModMenuTypes.MACHINE_GRINDSTONE_BARREL_MENU.get(), MachineGrindstoneBarrelScreen::new);
         MenuScreens.register(ModMenuTypes.MACHINE_SMOKER_GRINDSTONE_MENU.get(), MachineSmokerGrindstoneScreen::new);
         MenuScreens.register(ModMenuTypes.POWDER_POUCH_MENU.get(), PowderPouchScreen::new);
+        MenuScreens.register(ModMenuTypes.BOLT_POUCH_MENU.get(), BoltPouchScreen::new);
     }
 }

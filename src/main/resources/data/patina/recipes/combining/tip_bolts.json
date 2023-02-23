@@ -1,5 +1,5 @@
 {
-  "type": "patina:fletching",
+  "type": "patina:combining",
   "inputs":
     [
       {"item": "patina:bolt_tips"},
@@ -7,7 +7,5 @@
     ]
   ,
   "output":
-  {
-    "item": "patina:bolts"
-  }
+  {"item": "patina:tipped_bolts"}
 }

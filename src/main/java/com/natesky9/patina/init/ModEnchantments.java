@@ -11,7 +11,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -25,9 +24,26 @@ public class ModEnchantments
     private static final EquipmentSlot[] HAND_SLOTS = new EquipmentSlot[]{EquipmentSlot.OFFHAND,EquipmentSlot.MAINHAND};
     private static final EquipmentSlot[] ALL_SLOTS = ArrayUtils.addAll(ARMOR_SLOTS,HAND_SLOTS);
     //----------//
-    public static RegistryObject<Enchantment> CURSE =
-            ENCHANTMENTS.register("curse",
-                    () -> new Curse(Enchantment.Rarity.UNCOMMON, EnchantmentCategory.ARMOR,ARMOR_SLOTS));
+    //region bolt enchants
+    public static RegistryObject<Enchantment> EMERALD =
+            ENCHANTMENTS.register("emerald_bolt",
+                    () -> new Bolt1Enchantment(Enchantment.Rarity.COMMON,null,null));
+    public static RegistryObject<Enchantment> DIAMOND =
+            ENCHANTMENTS.register("diamond_bolt",
+                    () -> new Bolt2Enchantment(Enchantment.Rarity.COMMON,null,null));
+    public static RegistryObject<Enchantment> QUARTZ =
+            ENCHANTMENTS.register("quartz_bolt",
+                    () -> new Bolt3Enchantment(Enchantment.Rarity.COMMON,null,null));
+    public static RegistryObject<Enchantment> PRISMARINE =
+            ENCHANTMENTS.register("prismarine_bolt",
+                    () -> new Bolt4Enchantment(Enchantment.Rarity.COMMON,null,null));
+    public static RegistryObject<Enchantment> AMETHYST =
+            ENCHANTMENTS.register("amethyst_bolt",
+                    () -> new Bolt6Enchantment(Enchantment.Rarity.COMMON,null,null));
+    public static RegistryObject<Enchantment> RUBY =
+            ENCHANTMENTS.register("ruby_bolt",
+                    () -> new Bolt7Enchantment(Enchantment.Rarity.COMMON,null,null));
+    //endregion
 
     public static RegistryObject<Enchantment> SOULBOUND =
             ENCHANTMENTS.register("soulbound",
@@ -77,7 +93,7 @@ public class ModEnchantments
             ENCHANTMENTS.register("retribution",
                     () -> new RetributionEnchantment(Enchantment.Rarity.VERY_RARE,EnchantmentCategory.BREAKABLE,ARMOR_SLOTS));
     //----------//
-    public static List<Supplier<Enchantment>> deadlySins = List.of
+    public static final List<Supplier<Enchantment>> deadlySins = List.of
             (
                 ENVYCURSE,
                 GLUTTONYCURSE,

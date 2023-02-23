@@ -20,7 +20,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -29,8 +28,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.VanillaGameEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -43,6 +42,24 @@ import java.util.Collection;
 public class EventsForge
 {
     @SubscribeEvent
+    public static ItemStack ItemDropEvent(ItemTossEvent event)
+    {
+        ItemEntity entity = event.getEntityItem();
+        ItemStack stack = entity.getItem();
+
+        while (stack.getCount() > 64)
+        {
+            ItemStack fresh = new ItemStack(stack.getItem(),64,null);
+            fresh.setTag(stack.getTag());
+            //fresh.setCount(64);
+            stack.shrink(64);
+            event.getPlayer().drop(fresh,false,false);
+            //if (event.getPlayer() instanceof ServerPlayer player)
+            //player.drop(fresh,false, false);
+        }
+        return stack;
+    }
+    @SubscribeEvent
     public static void LivingGetProjectileEvent(LivingGetProjectileEvent event)
     {
         //I want this to fail, to test
@@ -50,9 +67,6 @@ public class EventsForge
         ItemStack ammo = event.getProjectileItemStack();
         if (bow.is(Items.CROSSBOW))
         {
-            int limbtier = PatinaArchery.Tiers.getLimbTier(bow);
-            int stocktier = PatinaArchery.Tiers.getStockTier(bow);
-            System.out.println("Tier of crossbow is: " + limbtier + ":" + stocktier);
             if (ammo.is(ModItems.BOLTS.get()))
                 event.setProjectileItemStack(ItemStack.EMPTY);
         }

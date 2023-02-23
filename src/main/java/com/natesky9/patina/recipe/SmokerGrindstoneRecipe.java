@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SmokerGrindstoneRecipe implements Recipe<SimpleContainer> {
     private final ResourceLocation id;
+    public static final String name = "smoker_grindstone";
     private final ItemStack output;
     private final NonNullList<Ingredient> recipeItems;
 

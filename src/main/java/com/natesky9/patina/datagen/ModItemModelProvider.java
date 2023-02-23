@@ -111,21 +111,59 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CHISEL.get());
         simpleItem(ModItems.RUBY.get());
         simpleItem(ModItems.BOLT_TIPS.get());
+        //region Bolts
         withExistingParent(ModItems.UNFINISHED_BOLTS.get().getRegistryName().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Patina.MOD_ID,"item/component/bolt_unfinished"));
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_unfinished"));
         withExistingParent(ModItems.BOLTS.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_unfinished"))
+                .texture("layer1", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_fletching"));
+        withExistingParent(ModItems.TIPPED_BOLTS.get().getRegistryName().getPath(),
                 new ResourceLocation("item/generated"))
                 .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_unfinished"))
                 .texture("layer1", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_fletching"))
                 .texture("layer2", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_tipped"));
+        withExistingParent(ModItems.ENCHANTED_BOLTS.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_unfinished"))
+                .texture("layer1", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_fletching"))
+                .texture("layer2", new ResourceLocation(Patina.MOD_ID,"item/component/bolt_tipped"));
+        //endregion
+        //region Crossbow
+        withExistingParent(ModItems.UNSTRUNG_CROSSBOW.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID, "item/crossbow_stock"))
+                .texture("layer1", new ResourceLocation(Patina.MOD_ID,"item/crossbow_limbs"));
+        withExistingParent(ModItems.CROSSBOW.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/crossbow_stock"))
+                .texture("layer1", new ResourceLocation(Patina.MOD_ID,"item/crossbow_limbs"))
+                .texture("layer2", new ResourceLocation(Patina.MOD_ID,"item/crossbow_string"));
+        //endregion
         simpleItem(ModItems.DART_TIPS.get());
         withExistingParent(ModItems.INGOT_1.get().getRegistryName().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Patina.MOD_ID,"item/custom_ingot"));
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/custom_ingot"));
         withExistingParent(ModItems.INGOT_2.get().getRegistryName().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(Patina.MOD_ID,"item/custom_ingot"));
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/custom_ingot"));
+        simpleItem(ModItems.CROSSBOW_LIMB.get());
+        simpleItem(ModItems.CROSSBOW_STOCK.get());
+        simpleItem(ModItems.BOWSTRING.get());
+        simpleItem(ModItems.BOWSTRING.get());
+        simpleItem(ModItems.UNFINISHED_STAFF.get());
+        withExistingParent(ModItems.IMPERFECT_STAFF.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/unfinished_staff"))
+                .texture("layer1", new ResourceLocation(Patina.MOD_ID,"item/staff_decoration"));
+        withExistingParent(ModItems.STAFF.get().getRegistryName().getPath(),
+                new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(Patina.MOD_ID,"item/unfinished_staff"))
+                .texture("layer1", new ResourceLocation(Patina.MOD_ID,"item/staff_decoration"))
+                .texture("layer2", new ResourceLocation(Patina.MOD_ID,"item/orb"));
+        simpleItem(ModItems.ORB.get());
+        simpleItem(ModItems.ENCHANTING_ORB.get());
         //----------//
         //begin block items
         simpleBlock(ModBlocks.MACHINE_BLAST_CAULDRON.get());

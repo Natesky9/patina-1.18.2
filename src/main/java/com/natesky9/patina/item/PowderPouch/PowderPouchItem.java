@@ -26,11 +26,9 @@ import java.util.List;
 
 public class PowderPouchItem extends Item {
     Component name = new TranslatableComponent("container.dust_bag");
-    ItemStack contents;
 
     public PowderPouchItem(Properties pProperties) {
         super(pProperties);
-        contents = ItemStack.EMPTY;
     }
 
     @Override
@@ -39,24 +37,12 @@ public class PowderPouchItem extends Item {
         Component title = itemstack.hasCustomHoverName() ? itemstack.getHoverName() : name;
         if (pPlayer instanceof ServerPlayer player) {
             NetworkHooks.openGui(player, new SimpleMenuProvider((pContainerId, pInventory, pPlayer1) ->
-            {return new PowderPouchMenu(pContainerId, player.getInventory(), player, new SimpleContainer(1),itemstack);},
+            new PowderPouchMenu(pContainerId, player.getInventory(), player, new SimpleContainer(1),itemstack),
                     title));
             pLevel.playSound(null,player, SoundEvents.ARMOR_EQUIP_LEATHER, SoundSource.PLAYERS,1,1);
         }
 
         return InteractionResultHolder.consume(pPlayer.getItemInHand(pUsedHand));
-    }
-    public void setContents(ItemStack pouch,ItemStack stack)
-    {
-        //contents = stack;
-        //NonNullList<ItemStack> stacks = NonNullList.withSize(1,stack);
-        //ContainerHelper.saveAllItems(pouch.getOrCreateTag(), stacks,false);
-        CompoundTag tag = pouch.getOrCreateTag();
-        ResourceLocation resourcelocation = stack.getItem().getRegistryName();
-        int count = tag.getInt("count");
-
-        tag.putString("id", resourcelocation == null ? "minecraft:air" : resourcelocation.toString());
-        tag.putInt("count",count+stack.getCount());
     }
 
     @Override

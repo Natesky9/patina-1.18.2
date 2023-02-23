@@ -11,7 +11,6 @@ public class KnifeItem extends ToolItem {
     public KnifeItem(Properties pProperties)
     {
         super(pProperties);
-        useDuration = 20;
     }
 
     @Override
@@ -22,6 +21,16 @@ public class KnifeItem extends ToolItem {
     @Override
     SoundEvent getSound() {
         return SoundEvents.SHEEP_SHEAR;
+    }
+
+    @Override
+    boolean shrinkThis() {
+        return false;
+    }
+
+    @Override
+    boolean shrinkThat() {
+        return true;
     }
     //----------//
 }

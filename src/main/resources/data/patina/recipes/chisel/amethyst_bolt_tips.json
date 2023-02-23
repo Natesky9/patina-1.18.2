@@ -5,7 +5,8 @@
   "output":
   {
     "item": "patina:bolt_tips",
-    "count": 4
+    "count": 8
   },
-  "color": 10053324
+  "color": 10053324,
+  "enchantment": "patina:amethyst_bolt"
 }
