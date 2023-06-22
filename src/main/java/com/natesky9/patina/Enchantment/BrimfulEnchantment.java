@@ -18,7 +18,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.VanillaGameEvent;
 
 public class BrimfulEnchantment extends Enchantment {
-    static final MobEffectInstance brimful = new MobEffectInstance(MobEffects.SATURATION,5,0);
+    static final MobEffectInstance brimful = new MobEffectInstance(MobEffects.SATURATION,100,0);
     public BrimfulEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
         super(pRarity, pCategory, pApplicableSlots);
     }

@@ -46,6 +46,7 @@ public class ModEnchantmentUtil {
 
     public static void netherCursePlayer(LivingHurtEvent event)
     {
+        //nether curse items when hurt by wither skeleton
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         if (!(player.getLevel().dimension() == Level.NETHER)) return;
         if (!(event.getSource().getEntity() instanceof WitherSkeleton)) return;
