@@ -39,8 +39,15 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.PIG_SWORD);
         handheldItem(ModItems.PIG_CROSSBOW);
 
+        simpleItem(ModItems.CHARM_CONTRABAND);
+        simpleItem(ModItems.CHARM_DETONATION);
+        simpleItem(ModItems.CHARM_EXPERIENCE);
+        simpleItem(ModItems.CHARM_WARDING);
+        simpleItem(ModItems.CHARM_ALCHEMY);
+        simpleItem(ModItems.CHARM_FERTILITY);
+        simpleItem(ModItems.CHARM_VITALITY);
+
         simpleItem(ModItems.CHARM_FRAGMENT);
-        simpleItem(ModItems.FRAGMENT_TEMPLATE);
     }
 
 

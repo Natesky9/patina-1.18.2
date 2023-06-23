@@ -73,6 +73,8 @@ public class ModItems {
     //region charms
     public static final RegistryObject<Item> CHARM_AMBUSH = ITEMS.register("charm_ambush",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> CHARM_EXPERIENCE = ITEMS.register("charm_experience",
+            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
     public static final RegistryObject<Item> CHARM_VITALITY = ITEMS.register("charm_vitality",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
     public static final RegistryObject<Item> CHARM_FERTILITY = ITEMS.register("charm_fertility",
@@ -83,10 +85,10 @@ public class ModItems {
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
     public static final RegistryObject<Item> CHARM_DETONATION = ITEMS.register("charm_detonation",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> CHARM_WARDING = ITEMS.register("charm_warding",
+            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
     public static final RegistryObject<Item> CHARM_FRAGMENT = ITEMS.register("charm_fragment",
-            () -> new Item(new Item.Properties().stacksTo(64).rarity(Rarity.RARE)));
-    public static final RegistryObject<Item> FRAGMENT_TEMPLATE = ITEMS.register("fragment_template",
-            () -> FragmentSmithingTemplateItem.makeFragment());
+            CharmFragmentItem::makeFragment);
     //charm of pounce
     //charm of warding
     //charm of blessing

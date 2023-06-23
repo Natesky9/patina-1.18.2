@@ -1,6 +1,8 @@
 package com.natesky9.patina.Enchantment.Util;
 
 import com.natesky9.patina.init.ModEnchantments;
+import com.natesky9.patina.init.ModItems;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -50,6 +52,11 @@ public class ModEnchantmentUtil {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         if (!(player.getLevel().dimension() == Level.NETHER)) return;
         if (!(event.getSource().getEntity() instanceof WitherSkeleton)) return;
+        if (player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_WARDING.get())))
+        {
+            player.displayClientMessage(Component.translatable("charm_warding"),true);
+            return;
+        }
         curseItem(player);
     }
     public static void curseItem(Player player)

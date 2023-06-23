@@ -23,6 +23,7 @@ import net.minecraftforge.event.VanillaGameEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -36,6 +37,11 @@ public class EventsForge {
         AvariceEnchantment.doEffect(event);
         GreedEnchantment.doEffect(event);
         SoulboundEnchantment.store(event);
+    }
+    @SubscribeEvent
+    public static void PlayerXpEvent(PlayerXpEvent.PickupXp event)
+    {
+        Charms.experienceCharm(event);
     }
 
     @SubscribeEvent

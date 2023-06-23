@@ -9,11 +9,13 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 
 public class Charms {
     public static void ambushCharm(LivingHurtEvent event)
@@ -34,6 +36,14 @@ public class Charms {
         entity.level.playSound(null,entity.blockPosition(),SoundEvents.GOAT_RAM_IMPACT, SoundSource.PLAYERS,1F,1F);
 
 
+    }
+    public static void experienceCharm(PlayerXpEvent.PickupXp event)
+    {
+        //doubles the received xp
+        Player player = event.getEntity();
+        if (!player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_EXPERIENCE.get()))) return;
+        ExperienceOrb orb = event.getOrb();
+        orb.value = orb.value*2;
     }
     public static void vitalityCharm(LivingHealEvent event)
     {
@@ -119,7 +129,7 @@ public class Charms {
     public static void spawnFragment(LivingUseTotemEvent event)
     {
         Entity entity = event.getEntity();
-        ItemStack stack = new ItemStack(ModItems.CHARM_FRAGMENT.get(),2 + (int)(Math.random()*4));
+        ItemStack stack = new ItemStack(ModItems.CHARM_FRAGMENT.get(),1 + (int)(Math.random()*2));
         entity.spawnAtLocation(stack);
     }
 }
