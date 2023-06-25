@@ -1,5 +1,6 @@
 package com.natesky9.patina.Enchantment;
 
+import com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil;
 import com.natesky9.patina.init.ModEnchantments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -44,6 +45,6 @@ public class LustEnchantment extends Enchantment {
     }
     @Override
     protected boolean checkCompatibility(Enchantment pOther) {
-        return !pOther.isCurse();
+        return ModEnchantmentUtil.sins.contains(pOther);
     }
 }

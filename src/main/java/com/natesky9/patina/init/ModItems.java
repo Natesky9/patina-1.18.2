@@ -57,18 +57,39 @@ public class ModItems {
                     new Item.Properties().rarity(Rarity.RARE))));
     public static final RegistryObject<Item> PIG_CROSSBOW = ITEMS.register("pig_crossbow",
             () -> new PigCrossbowItem(new Item.Properties().rarity(Rarity.RARE).stacksTo(1)));
+    //spooky
+    public static final RegistryObject<Item>  WITHER_FRAGMENT_1 = ITEMS.register("wither_fragment_1",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_FRAGMENT_2 = ITEMS.register("wither_fragment_2",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_FRAGMENT_3 = ITEMS.register("wither_fragment_3",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_FRAGMENT_4 = ITEMS.register("wither_fragment_4",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_FRAGMENT_A = ITEMS.register("wither_fragment_a",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_FRAGMENT_B = ITEMS.register("wither_fragment_b",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_FRAGMENT_C = ITEMS.register("wither_fragment_c",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_FRAGMENT_D = ITEMS.register("wither_fragment_d",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_STAFF = ITEMS.register("wither_staff",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item>  WITHER_WINGS = ITEMS.register("wither_wings",
+            () -> new ElytraItem(new Item.Properties().rarity(Rarity.RARE)));
     //endregion shards
     //region copper
     public static final RegistryObject<Item> COPPER_SWORD = ITEMS.register("copper_pickaxe",
-            () -> new PickaxeItem(ModTiers.COPPER,3,-2.4F, new Item.Properties()));
+            () -> new SwordItem(ModTiers.COPPER,3,-2.4F, new Item.Properties()));
     public static final RegistryObject<Item> COPPER_AXE = ITEMS.register("copper_axe",
             () -> new AxeItem(ModTiers.COPPER,7,-3.0F,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_SHOVEL = ITEMS.register("copper_shovel",
             () -> new ShovelItem(ModTiers.COPPER,1.5F,-3.0F,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_PICK = ITEMS.register("copper_pick",
-            () -> new AxeItem(ModTiers.COPPER,1,-2.8F,new Item.Properties()));
+            () -> new PickaxeItem(ModTiers.COPPER,1,-2.8F,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_HOE = ITEMS.register("copper_hoe",
-            () -> new AxeItem(ModTiers.COPPER,0,-2.0F,new Item.Properties()));
+            () -> new HoeItem(ModTiers.COPPER,0,-2.0F,new Item.Properties()));
     //endregion copper
     //region charms
     public static final RegistryObject<Item> CHARM_AMBUSH = ITEMS.register("charm_ambush",

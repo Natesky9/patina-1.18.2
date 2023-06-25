@@ -1,5 +1,6 @@
 package com.natesky9.patina.Enchantment;
 
+import com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -24,6 +25,6 @@ public class EnvyEnchantment extends Enchantment{
     }
     @Override
     protected boolean checkCompatibility(Enchantment pOther) {
-        return !pOther.isCurse();
+        return ModEnchantmentUtil.sins.contains(pOther);
     }
 }

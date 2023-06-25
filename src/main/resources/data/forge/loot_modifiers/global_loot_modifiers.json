@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "entries":
+          [
+            "patina:pig_fragment_1",
+            "patina:pig_fragment_2",
+            "patina:pig_fragment_3",
+            "patina:pig_fragment_4",
+
+            "patina:wither_fragment_1",
+            "patina:wither_fragment_2",
+            "patina:wither_fragment_3",
+            "patina:wither_fragment_4"
+          ]
+}

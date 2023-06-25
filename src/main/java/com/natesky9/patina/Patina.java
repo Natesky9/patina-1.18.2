@@ -1,6 +1,7 @@
 package com.natesky9.patina;
 
 import com.mojang.logging.LogUtils;
+import com.natesky9.patina.Loot.ModLootModifiers;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModEnchantments;
 import com.natesky9.patina.init.ModItems;
@@ -33,6 +34,7 @@ public class Patina
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
         ModEnchantments.register(eventBus);
+        ModLootModifiers.register(eventBus);
 
 
 

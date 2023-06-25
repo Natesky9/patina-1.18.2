@@ -10,7 +10,7 @@ import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -21,20 +21,12 @@ import static com.natesky9.patina.init.ModEnchantments.*;
 import static net.minecraft.world.item.enchantment.Enchantments.*;
 
 public class ModEnchantmentUtil {
+    public static final List<Enchantment> sins = List.of(CURSEENVY.get(), CURSEGREED.get(), CURSEGLUTTONY.get(), CURSELUST.get(), CURSESLOTH.get(), CURSEPRIDE.get(), CURSEWRATH.get());
     public static final List<Enchantment> curses = List.of
-            (
-                    CURSEENVY.get(),
-                    CURSEGREED.get(),
-                    CURSEGLUTTONY.get(),
-                    CURSELUST.get(),
-                    CURSESLOTH.get(),
-                    CURSEPRIDE.get(),
-                    CURSEWRATH.get(),
-                    Enchantments.BINDING_CURSE,
-                    VANISHING_CURSE
-            );
-    public Map<Enchantment,Enchantment> enchantmentOpposites;
-    {
+            (CURSEENVY.get(), CURSEGREED.get(), CURSEGLUTTONY.get(), CURSELUST.get(), CURSESLOTH.get(), CURSEPRIDE.get(), CURSEWRATH.get(), BINDING_CURSE, VANISHING_CURSE);
+
+    public static Map<Enchantment,Enchantment> enchantmentOpposites;
+    static {
         enchantmentOpposites = new HashMap<>();
         enchantmentOpposites.put(VANISHING_CURSE, BLESSINGSOULBOUND.get());
         enchantmentOpposites.put(CURSEENVY.get(), BLESSINGENVY.get());
@@ -73,7 +65,7 @@ public class ModEnchantmentUtil {
             //if (!(item.isEnchanted())) continue;
             int index = (int)(Math.random()*curses.size());
             Enchantment curse = curses.get(index);
-            if (curse.canEnchant(item))
+            if (curse.canEnchant(item) && EnchantmentHelper.isEnchantmentCompatible(item.getAllEnchantments().keySet(),curse))
             {
                 item.enchant(curse, 1);
                 for (float i = 0;i < 5;i++)
@@ -83,5 +75,9 @@ public class ModEnchantmentUtil {
                 break;
             }
         }
+    }
+    public static Enchantment getOpposite(Enchantment enchantment)
+    {
+        return enchantmentOpposites.get(enchantment);
     }
 }

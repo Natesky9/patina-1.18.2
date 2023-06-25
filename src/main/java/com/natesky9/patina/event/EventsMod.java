@@ -3,11 +3,9 @@ package com.natesky9.patina.event;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.datagen.DataGenerators;
 import com.natesky9.patina.init.ModCreativeModeTab;
-import com.natesky9.patina.init.ModItems;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -15,6 +13,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegistryBuilder;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {

@@ -8,6 +8,7 @@ import com.natesky9.patina.Item.PigWeaponItem;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.Block.GravestoneBlock;
 import com.natesky9.patina.init.ModItems;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +19,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.VanillaGameEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -28,6 +32,8 @@ import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import static com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil.curseItem;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge {
@@ -154,10 +160,29 @@ public class EventsForge {
                 BeeShieldItem.trigger(event);
         }
     }
+    @SubscribeEvent
+    public static void LootEvent(PlayerInteractEvent.RightClickBlock event)
+    {
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        if (!(level.dimension() == Level.NETHER)) return;
+        //only curse when opening loot chests in the nether
+        if (event.getLevel().getBlockEntity(event.getPos()) instanceof RandomizableContainerBlockEntity lootChest)
+        {
+            boolean loot = lootChest.saveWithId().contains("LootTable");
+            if (loot)
+            {
+                curseItem(event.getEntity());
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void ExplosionEvent(ExplosionEvent event)
     {
-        event.getExplosion().getExploder();
+        Entity entity = event.getExplosion().getExploder();
+        if (!(entity instanceof  Player player)) return;
+        if (!(player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_DETONATION.get())))) return;
+        Explosion explosion = event.getExplosion();
+        explosion.radius = explosion.radius*2;
     }
 }
