@@ -160,6 +160,7 @@ public class EventsForge {
                 BeeShieldItem.trigger(event);
         }
     }
+
     @SubscribeEvent
     public static void LootEvent(PlayerInteractEvent.RightClickBlock event)
     {

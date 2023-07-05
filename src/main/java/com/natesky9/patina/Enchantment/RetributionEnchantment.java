@@ -99,6 +99,12 @@ public class RetributionEnchantment extends Enchantment{
     public boolean isTreasureOnly() {
         return true;
     }
+
+    @Override
+    public boolean isDiscoverable() {
+        return false;
+    }
+
     @Override
     protected boolean checkCompatibility(Enchantment pOther) {
         return !pOther.isCurse();

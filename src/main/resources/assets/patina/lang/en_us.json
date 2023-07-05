@@ -6,6 +6,7 @@
   "item.patina.bee_fragment_a": "B half 1",
   "item.patina.bee_fragment_b": "B half 2",
   "item.patina.bee_weapon": "Bee Weapon",
+  "item.patina.bee_shield": "Bee Shield",
 
   "item.patina.pig_fragment_1": "P 1/4",
   "item.patina.pig_fragment_2": "P 2/4",
@@ -15,6 +16,37 @@
   "item.patina.pig_fragment_b": "P half 2",
   "item.patina.pig_weapon": "Pig Weapon",
   "item.patina.piglin_ballista": "Piglin Ballista",
+
+  "item.patina.copper_sword": "Copper Sword",
+  "item.patina.copper_axe": "Copper Axe",
+  "item.patina.copper_shovel": "Copper Shovel",
+  "item.patina.copper_pick": "Copper Pickaxe",
+  "item.patina.copper_hoe": "Copper Hoe",
+  "item.patina.copper_helmet": "Copper Helmet",
+  "item.patina.copper_chestplate": "Copper Chestplate",
+  "item.patina.copper_leggings": "Copper Leggings",
+  "item.patina.copper_boots": "Copper Boots",
+
+  "item.patina.charm_ambush": "Ambush Charm",
+  "item.patina.charm_experience": "Experience Charm",
+  "item.patina.charm_vitality": "Vitality Charm",
+  "item.patina.charm_fertility": "Fertility Charm",
+  "item.patina.charm_alchemy": "Alchemy Charm",
+  "item.patina.charm_contraband": "Contraband Charm",
+  "item.patina.charm_detonation": "Detonation Charm",
+  "item.patina.charm_warding": "Warding Charm",
+  "item.patina.charm_fragment": "Charm Fragment",
+
+  "item.patina.potion_flask": "Crystal Flask",
+  "item.patina.potion_salt": "Potion Salt",
+  "item.patina.void_salt": "Void Salt",
+
+  "block.patina.appliance_icebox": "Icebox",
+  "block.patina.appliance_wardrobe": "Wardrobe",
+  "block.patina.machine_alembic": "Alembic",
+  "block.patina.machine_enchanter": "Enchanter",
+  "block.patina.machine_evaporator": "Evaporator",
+  "block.patina.machine_foundry": "Foundry",
 
   "enchantment.patina.soulbound": "Soulbound",
   "enchantment.patina.envy": "Curse of Envy WIP",
@@ -32,5 +64,21 @@
   "enchantment.patina.retribution": "Blessing of Retribution",
   "enchantment.patina.strife": "Blessing of Strife",
 
-  "creativemodetab.patina_tab": "Patina General Tab"
+  "creativemodetab.patina_tab": "Patina General Tab",
+  "creativemodetab.salt_tab": "Patina Salts",
+
+  "patina.wrath_trigger": "Your wrath burns you",
+  "patina.sloth_trigger": "Slothfulness consumes you",
+  "patina.gluttony_trigger": "You feel insatiated",
+  "patina.envy_trigger": "Nothing has happened, yet you feel uneasy",
+  "patina.greed_trigger": "Greedy shadows steal your loot",
+  "patina.lust_trigger": "Your lust distracts you",
+  "patina.pride_trigger": "Pridefulness has you denting your equipment",
+  "patina.retribution_trigger": "Retribution!",
+  "patina.apathy_trigger": "'Tis but a scratch!'",
+  "patina.brimful_trigger": "You feel well fed",
+  "patina.strife_trigger": "Nothing still happened",
+  "patina.avarice_trigger": "Payday!",
+  "patina.coercion_trigger": "You siphon some health",
+  "patina.humility_trigger": "You land a vicious blow"
 }

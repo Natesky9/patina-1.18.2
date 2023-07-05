@@ -1,0 +1,15 @@
+{
+  "type": "patina:add_min_max",
+  "min": 3,
+  "max": 8,
+  "item": "patina:dragon_scale",
+  "conditions": [
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "minecraft:ender_dragon"
+      }
+    }
+  ]
+}

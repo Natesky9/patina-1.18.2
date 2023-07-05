@@ -26,6 +26,8 @@ public class HumilityEnchantment extends Enchantment {
         if (!(event.getSource().getEntity() instanceof Player player)) return;
         if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.BLESSINGPRIDE.get(), player) == 0) return;
 
+        //only trigger on bosses?
+        if (event.getEntity().getMaxHealth() <= 20F) return;
         //10% chance to trigger
         if (Math.random() > 0.10) return;
         player.displayClientMessage(Component.translatable("patina.humility_trigger"),true);
@@ -47,6 +49,12 @@ public class HumilityEnchantment extends Enchantment {
     public boolean isTreasureOnly() {
         return true;
     }
+
+    @Override
+    public boolean isDiscoverable() {
+        return false;
+    }
+
     @Override
     protected boolean checkCompatibility(Enchantment pOther) {
         return !pOther.isCurse();

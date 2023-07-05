@@ -52,6 +52,7 @@ public class SoulboundEnchantment extends Enchantment {
         if (event.getEntity() instanceof ServerPlayer player)
         {
             List<ItemStack> items = soulboundItems.get(player.getUUID());
+            if (items == null) return;
             for (ItemStack stack:items)
             {
                 player.addItem(stack);
@@ -69,6 +70,12 @@ public class SoulboundEnchantment extends Enchantment {
     public boolean isTreasureOnly() {
         return true;
     }
+
+    @Override
+    public boolean isDiscoverable() {
+        return false;
+    }
+
     @Override
     public Component getFullname(int pLevel) {
         return Component.translatable(this.getDescriptionId()).withStyle(ChatFormatting.DARK_PURPLE);

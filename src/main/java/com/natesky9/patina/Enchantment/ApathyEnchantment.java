@@ -49,6 +49,11 @@ public class ApathyEnchantment extends Enchantment {
     }
 
     @Override
+    public boolean isDiscoverable() {
+        return false;
+    }
+
+    @Override
     protected boolean checkCompatibility(Enchantment pOther) {
         return !pOther.isCurse();
     }

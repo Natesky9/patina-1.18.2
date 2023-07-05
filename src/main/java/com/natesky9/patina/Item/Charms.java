@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
 
@@ -73,19 +75,36 @@ public class Charms {
         if (!(player.getInventory().hasAnyMatching
                 (itemStack -> itemStack.is(ModItems.CHARM_ALCHEMY.get())))) return;
 
-        MobEffectInstance effect = event.getEffectInstance();
+        MobEffectInstance instance = event.getEffectInstance();
+        MobEffect effect = instance.getEffect();
 
         //only apply to beneficial effects
-        if (!(effect.getEffect().isBeneficial())) return;
+        if (!(instance.getEffect().isBeneficial())) return;
 
-        int duration = effect.getDuration();
-        int potency = effect.getAmplifier();
+        int duration = instance.getDuration();
+        int potency = instance.getAmplifier();
+
+        MobEffectInstance holder;
+        while (potency > 0)
+        {
+            duration += event.getEffectInstance().getDuration();
+            potency--;
+            holder = new MobEffectInstance(effect,duration,potency);
+            instance.hiddenEffect = holder;
+            instance = holder;
+        }
+        //if (potency > 0)
+        //{
+        //    instance.hiddenEffect = new MobEffectInstance(
+        //            effect,duration*2,potency-1);
+        //}
 
         //potion decay
-        if (potency > 0)
-        {
-            entity.addEffect(new MobEffectInstance(effect.getEffect(),duration*2,potency-1));
-        }
+        //    System.out.println("i is: " + i);
+        //    Boolean test = instance.update(new MobEffectInstance(effect,duration*2,i-1));
+        //    System.out.println("test is: " + test);
+        //    //entity.forceAddEffect(new MobEffectInstance(effect,duration*2,potency-1),player);
+        //    //entity.addEffect(new MobEffectInstance(effect,duration*2,potency-1));
     }
     public static void fertilityCharm(BabyEntitySpawnEvent event)
     {

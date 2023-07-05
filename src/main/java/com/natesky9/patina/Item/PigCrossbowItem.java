@@ -33,6 +33,7 @@ public class PigCrossbowItem extends CrossbowItem {
             return InteractionResultHolder.fail(itemstack);
         }
     }
+
     static float getShootingPower(ItemStack itemstack)
     {
         return containsChargedProjectile(itemstack, Items.FIREWORK_ROCKET) ? 2.4F : 3.8F;

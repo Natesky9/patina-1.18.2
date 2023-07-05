@@ -9,6 +9,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SmithingTemplateItem;
@@ -54,6 +55,21 @@ public class CharmFragmentItem extends SmithingTemplateItem {
         }
 
         return super.use(pLevel, pPlayer, pUsedHand);
+    }
+
+    @Override
+    public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
+        if (!(pLivingEntity instanceof Player player)) return pStack;
+        ItemStack other = player.getItemInHand(pLivingEntity.getUsedItemHand() == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND);
+        Map<Enchantment,Integer> enchantments = EnchantmentHelper.getEnchantments(other);
+        Optional<Enchantment> curse = enchantments.keySet().stream().filter(Enchantment::isCurse).findFirst();
+        if (curse.isPresent())
+        {
+            enchantments.remove(curse.get());
+            pStack.enchant(ModEnchantmentUtil.getOpposite(curse.get()),0);
+            //pStack.shrink(1);
+        }
+        return super.finishUsingItem(pStack, pLevel, pLivingEntity);
     }
 
     public static CharmFragmentItem makeFragment()

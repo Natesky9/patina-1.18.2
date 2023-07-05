@@ -1,0 +1,6 @@
+{
+    "parent": "item/crossbow",
+    "textures": {
+        "layer0": "patina:item/animated/piglin_crossbow_arrow"
+    }
+}

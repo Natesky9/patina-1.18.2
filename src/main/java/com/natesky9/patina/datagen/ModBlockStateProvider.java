@@ -1,6 +1,7 @@
 package com.natesky9.patina.datagen;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -24,19 +25,20 @@ public class ModBlockStateProvider extends BlockStateProvider {
     public void registerStatesAndModels()
     {
         //add blocks here
-
+        horizontalBlock(ModBlocks.MACHINE_EVAPORATOR.get(),
+                new ResourceLocation(Patina.MODID,"block/evaporator_side"),
+                new ResourceLocation(Patina.MODID,"block/evaporator_front"),
+                new ResourceLocation(Patina.MODID,"block/evaporator_top"));
+        simpleBlock(ModBlocks.PRISMATIC_ORE.get());
+        simpleBlock(ModBlocks.BISMUTH_ORE.get());
+        simpleBlock(ModBlocks.APPLIANCE_ICEBOX.get());
+        simpleBlock(ModBlocks.APPLIANCE_WARDROBE.get());
+        simpleBlock(ModBlocks.MACHINE_FOUNDRY.get());
+        simpleBlock(ModBlocks.MACHINE_ENCHANTER.get());
+        simpleBlock(ModBlocks.MACHINE_ALEMBIC.get());
         //done adding blocks
     }
-    private void basicBlock(Block block)
-    {
-        String name = block.getName().toString();
-        ResourceLocation texture = blockTexture(block);
-        ModelFile modelFile = models().cubeAll(name,texture);
-        models().getBuilder(name).texture("all",texture);
 
-        getVariantBuilder(block).partialState().addModels(new ConfiguredModel(modelFile));
-        //itemModels().getBuilder(block.getRegistryName().getPath()).parent(modelFile);
-    }
     private void thinBlock(Block block, ResourceLocation texture)
     {
         String name = block.getName().toString();

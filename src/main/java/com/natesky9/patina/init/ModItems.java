@@ -2,7 +2,11 @@ package com.natesky9.patina.init;
 
 import com.natesky9.patina.Item.*;
 import com.natesky9.patina.Patina;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -81,15 +85,59 @@ public class ModItems {
     //endregion shards
     //region copper
     public static final RegistryObject<Item> COPPER_SWORD = ITEMS.register("copper_pickaxe",
-            () -> new SwordItem(ModTiers.COPPER,3,-2.4F, new Item.Properties()));
+            () -> new SwordItem(ModTiers.COPPER,3,-2.4F, new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                    RustableItem.rust(pStack);}
+            @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
     public static final RegistryObject<Item> COPPER_AXE = ITEMS.register("copper_axe",
-            () -> new AxeItem(ModTiers.COPPER,7,-3.0F,new Item.Properties()));
+            () -> new AxeItem(ModTiers.COPPER,7,-3.0F,new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                RustableItem.rust(pStack);}
+                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
     public static final RegistryObject<Item> COPPER_SHOVEL = ITEMS.register("copper_shovel",
-            () -> new ShovelItem(ModTiers.COPPER,1.5F,-3.0F,new Item.Properties()));
+            () -> new ShovelItem(ModTiers.COPPER,1.5F,-3.0F,new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                RustableItem.rust(pStack);}
+                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
     public static final RegistryObject<Item> COPPER_PICK = ITEMS.register("copper_pick",
-            () -> new PickaxeItem(ModTiers.COPPER,1,-2.8F,new Item.Properties()));
+            () -> new PickaxeItem(ModTiers.COPPER,1,-2.8F,new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                RustableItem.rust(pStack);}
+                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
     public static final RegistryObject<Item> COPPER_HOE = ITEMS.register("copper_hoe",
-            () -> new HoeItem(ModTiers.COPPER,0,-2.0F,new Item.Properties()));
+            () -> new HoeItem(ModTiers.COPPER,0,-2.0F,new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                RustableItem.rust(pStack);}
+                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
+    public static final RegistryObject<Item> COPPER_HELMET = ITEMS.register("copper_helmet",
+            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.HELMET,new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                RustableItem.rust(pStack);}
+                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
+    public static final RegistryObject<Item> COPPER_CHESTPLATE = ITEMS.register("copper_chestplate",
+            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.CHESTPLATE,new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                RustableItem.rust(pStack);}
+                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
+    public static final RegistryObject<Item> COPPER_LEGGINGS = ITEMS.register("copper_leggings",
+            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.LEGGINGS,new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                RustableItem.rust(pStack);}
+                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
+    public static final RegistryObject<Item> COPPER_BOOTS = ITEMS.register("copper_boots",
+            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.BOOTS,new Item.Properties())
+            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+                RustableItem.rust(pStack);}
+                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+                    return false;}});
     //endregion copper
     //region charms
     public static final RegistryObject<Item> CHARM_AMBUSH = ITEMS.register("charm_ambush",
@@ -115,6 +163,21 @@ public class ModItems {
     //charm of blessing
     //TODO add charms
     //endregion charms
+    public static final RegistryObject<Item> POTION_SALT = ITEMS.register("potion_salt",
+            () -> new PotionSaltItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> VOID_SALT = ITEMS.register("void_salt",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> BISMUTH_ORE = ITEMS.register("bismuth_ore",
+            () -> new BlockItem(ModBlocks.BISMUTH_ORE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> BISMUTH_NUGGET = ITEMS.register("bismuth_nugget",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> BISMUTH_INGOT = ITEMS.register("bismuth_ingot",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DRAGON_SCALE = ITEMS.register("dragon_scale",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> POTION_FLASK = ITEMS.register("potion_flask",
+            () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)));
     //
     public static void register(IEventBus eventBus)
     {ITEMS.register(eventBus);}

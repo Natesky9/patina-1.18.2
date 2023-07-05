@@ -1,0 +1,19 @@
+{
+  "type": "patina:add_single_item",
+  "item": "minecraft:turtle_helmet",
+  "conditions": [
+    {
+      "condition": "minecraft:killed_by_player"
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "minecraft:turtle",
+        "flags": {
+          "is_baby": false
+        }
+      }
+    }
+  ]
+}

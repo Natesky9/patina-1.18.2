@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,18 +29,18 @@ public class WrathEnchantment extends Enchantment {
     {
 
         LivingEntity entity = event.getEntity();
-        for (ItemStack stack: entity.getArmorSlots())
-        {
-            if (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.CURSEWRATH.get(), stack)==0) return;
+        if (!(entity instanceof Player player)) return;
+        //don't apply to self damage
+        if (event.getSource().getEntity() == player) return;
 
-            event.setAmount(event.getAmount() + 1F);
-            if (!(entity instanceof Player player)) return;
-            //10% chance to trigger
-            if (Math.random() > 0.10) return;
-            player.displayClientMessage(Component.translatable("patina.wrath_trigger"), true);
-            player.level.playSound(null,player.blockPosition(), SoundEvents.CHICKEN_HURT,
-                    SoundSource.PLAYERS,0.5F,0.5F);
-        }
+        if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.CURSEWRATH.get(),player)==0) return;
+
+        event.setAmount(event.getAmount() + 1F);
+        //10% chance to trigger
+        if (Math.random() > 0.10) return;
+        player.displayClientMessage(Component.translatable("patina.wrath_trigger"), true);
+        player.level.playSound(null,player.blockPosition(), SoundEvents.CHICKEN_HURT,
+                SoundSource.PLAYERS,0.5F,0.5F);
     }
     @Override
     public Component getFullname(int pLevel) {

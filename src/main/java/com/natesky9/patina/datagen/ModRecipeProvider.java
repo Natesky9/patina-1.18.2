@@ -114,7 +114,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         CriterionTriggerInstance experience_criteria = KilledTrigger.TriggerInstance
                 .playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.ENDER_DRAGON));
         CriterionTriggerInstance vanilla_totem = KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.EVOKER));
-        //
+        //this needs to be reworked for the new system
         charmCrafting(ModItems.CHARM_ALCHEMY.get(),Items.BREWING_STAND,alchemy_criteria,pWriter);
         charmCrafting(ModItems.CHARM_AMBUSH.get(),Items.SCULK_SENSOR,ambush_criteria,pWriter);
         charmCrafting(ModItems.CHARM_FERTILITY.get(),Items.GOLDEN_CARROT,fertility_criteria,pWriter);
@@ -125,44 +125,25 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         charmCrafting(ModItems.CHARM_EXPERIENCE.get(),Items.EXPERIENCE_BOTTLE,experience_criteria,pWriter);
         charmCrafting(Items.TOTEM_OF_UNDYING,ModItems.CHARM_FRAGMENT.get(),vanilla_totem,pWriter);
         //endregion charms
-
-        //ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModItems.CHARM_FERTILITY.get())
-        //        .define('C', ModItems.CHARM_FRAGMENT.get())
-        //        .define('I',Items.GOLDEN_CARROT)
-        //        .pattern("CCC")
-        //        .pattern("CIC")
-        //        .pattern("CCC")
-        //        .unlockedBy("unlocked_charm", BredAnimalsTrigger.TriggerInstance
-        //                .bredAnimals(EntityPredicate.Builder.entity()
-        //                        .of(EntityType.SHEEP).of(EntityType.PIG)
-        //                        .of(EntityType.COW).of(EntityType.BEE)
-        //                        .of(EntityType.CHICKEN).of(EntityType.RABBIT)))
-        //        .save(pWriter);
-
-        //ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModItems.CHARM_VITALITY.get())
-        //        .define('A', ModItems.CHARM_FRAGMENT.get())
-        //        .define('B', Items.GOLDEN_APPLE)
-        //        .define('C', Items.GOLD_INGOT)
-        //        .pattern("CBC").pattern("BAB").pattern("CBC")
-        //        .unlockedBy("gapple",has(Items.ENCHANTED_GOLDEN_APPLE))
-        //        .save(pWriter);
-        //ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModItems.CHARM_DETONATION.get())
-        //        .define('A', ModItems.CHARM_FRAGMENT.get())
-        //        .define('B', Items.TNT_MINECART)
-        //        .define('C', Items.GOLD_INGOT)
-        //        .pattern("CBC").pattern("BAB").pattern("CBC")
-        //        .unlockedBy("boom_boom_pow",KilledTrigger.TriggerInstance
-        //                .playerKilledEntity(EntityPredicate.Builder.entity()
-        //                        .of(EntityType.CREEPER), DamageSourcePredicate.Builder.damageType()
-        //                        .tag(TagPredicate.is(DamageTypeTags.IS_EXPLOSION))))
-        //        .save(pWriter);
-        //ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModItems.CHARM_AMBUSH.get())
-        //        .define('A', ModItems.CHARM_FRAGMENT.get())
-        //        .define('B', Items.POINTED_DRIPSTONE)
-        //        .define('C', Items.GOLD_INGOT)
-        //        .pattern("CBC").pattern("BAB").pattern("CBC")
-        //        .unlockedBy("sneaky_beaky",PlayerTrigger.TriggerInstance.avoidVibration())
-        //        .save(pWriter);
+        //temporary recipes
+        nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.POTION_SALT.get(),RecipeCategory.MISC,ModItems.VOID_SALT.get());
+        nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.BISMUTH_NUGGET.get(),RecipeCategory.MISC,ModItems.BISMUTH_INGOT.get());
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.POTION_FLASK.get())
+                .define('C',Items.COPPER_BLOCK).define('P',Items.PRISMARINE_CRYSTALS)
+                .pattern(" C ")
+                .pattern("P P")
+                .pattern("PPP")
+                .unlockedBy("unlocked_flask",has(Items.PRISMARINE_CRYSTALS))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.MACHINE_EVAPORATOR.get())
+                .define('C',Items.COPPER_INGOT)
+                .define('K',Items.CAULDRON)
+                .define('F',Items.SOUL_CAMPFIRE)
+                .pattern("CKC")
+                .pattern("CFC")
+                .pattern("CCC")
+                .unlockedBy("unlocked_evaporator",has(Items.SOUL_CAMPFIRE))
+                .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.COPPER_AXE.get())
                 .define('I', Items.COPPER_INGOT)
@@ -192,6 +173,26 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('I', Items.COPPER_INGOT)
                 .define('S', Items.STICK)
                 .pattern("II").pattern(" S").pattern(" S")
+                .unlockedBy("has_copper",has(Items.COPPER_INGOT))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.COPPER_HELMET.get())
+                .define('I', Items.COPPER_INGOT)
+                .pattern("III").pattern("I I")
+                .unlockedBy("has_copper",has(Items.COPPER_INGOT))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.COPPER_CHESTPLATE.get())
+                .define('I', Items.COPPER_INGOT)
+                .pattern("I I").pattern("III").pattern("III")
+                .unlockedBy("has_copper",has(Items.COPPER_INGOT))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.COPPER_LEGGINGS.get())
+                .define('I', Items.COPPER_INGOT)
+                .pattern("III").pattern("I I").pattern("I I")
+                .unlockedBy("has_copper",has(Items.COPPER_INGOT))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.COPPER_BOOTS.get())
+                .define('I', Items.COPPER_INGOT)
+                .pattern("I I").pattern("I I")
                 .unlockedBy("has_copper",has(Items.COPPER_INGOT))
                 .save(pWriter);
     }

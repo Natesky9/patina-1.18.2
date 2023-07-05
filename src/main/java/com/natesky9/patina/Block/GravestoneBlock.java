@@ -1,6 +1,7 @@
 package com.natesky9.patina.Block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -9,13 +10,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +31,30 @@ public class GravestoneBlock {
         if (!(event.getEntity() instanceof Player player)) return;
         Level level = event.getEntity().getLevel();
         BlockPos pos = event.getEntity().blockPosition();
+        //first height check
+        while (!player.level.isInWorldBounds(pos))
+            {
+                boolean above = pos.getY() >= player.level.getMaxBuildHeight();
+                boolean below = pos.getY() < player.level.getMinBuildHeight();
+                pos = pos.relative(Direction.Axis.Y,(below? 1:0)-(above ? 1:0));
+            }
+        BlockPos search = pos;
+        while (pos.getY() < player.level.getMaxBuildHeight())
+        {
+            Iterator<BlockPos.MutableBlockPos> iterator = BlockPos.spiralAround
+                    (pos, 8, Direction.NORTH, Direction.EAST).iterator();
 
+            search = iterator.next();
+
+            while ((!player.level.getBlockState(search).canBeReplaced()
+                    || player.level.isFluidAtPosition(search, FluidState::isSource))
+                    && iterator.hasNext())
+                search = iterator.next();
+            if (player.level.getBlockState(search).canBeReplaced()
+                    && !player.level.isFluidAtPosition(search, FluidState::isSource))
+                break;
+            pos = pos.above(1);
+        }
         //shrink foods by 1
         for (ItemEntity entity:event.getDrops())
         {
@@ -50,9 +79,9 @@ public class GravestoneBlock {
 
 
 
-        level.setBlock(pos, Blocks.BARREL.defaultBlockState(),3);
+        level.setBlock(search, Blocks.BARREL.defaultBlockState(),3);
         //POI types
-        BlockEntity barrel = level.getBlockEntity(pos);
+        BlockEntity barrel = level.getBlockEntity(search);
         if (barrel == null) return;
 
         LazyOptional<IItemHandler> handler = barrel.getCapability(ForgeCapabilities.ITEM_HANDLER);

@@ -1,6 +1,7 @@
 package com.natesky9.patina.datagen;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -37,7 +38,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.PIG_FRAGMENT_C);
         simpleItem(ModItems.PIG_FRAGMENT_D);
         handheldItem(ModItems.PIG_SWORD);
-        handheldItem(ModItems.PIG_CROSSBOW);
+        //handheldItem(ModItems.PIG_CROSSBOW);
 
         simpleItem(ModItems.CHARM_CONTRABAND);
         simpleItem(ModItems.CHARM_DETONATION);
@@ -46,8 +47,49 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CHARM_ALCHEMY);
         simpleItem(ModItems.CHARM_FERTILITY);
         simpleItem(ModItems.CHARM_VITALITY);
+        simpleItem(ModItems.CHARM_AMBUSH);
 
         simpleItem(ModItems.CHARM_FRAGMENT);
+
+        orientable(ModBlocks.MACHINE_EVAPORATOR.getId().getPath(),
+                new ResourceLocation(Patina.MODID,"block/evaporator_side"),
+                new ResourceLocation(Patina.MODID,"block/evaporator_front"),
+                new ResourceLocation(Patina.MODID,"block/evaporator_top"));
+        //
+        //withExistingParent(ModItems.POTION_FLASK.getId().getPath(),new ResourceLocation("item/generated"))
+        //        .texture("layer0", new ResourceLocation(Patina.MODID,"item/potion_flask.json"))
+        //        .texture("layer1", new ResourceLocation(Patina.MODID,"item/potion_flask_fluid"));
+        withExistingParent(ModItems.POTION_SALT.getId().getPath(), new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation("item/sugar"))
+                .texture("layer1", new ResourceLocation("item/light"));
+        simpleItem(ModItems.VOID_SALT);
+        simpleItem(ModItems.BISMUTH_NUGGET);
+        simpleItem(ModItems.BISMUTH_INGOT);
+        simpleItem(ModItems.DRAGON_SCALE);
+        //copper tools--------------
+        withExistingParent(ModItems.COPPER_AXE.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/axe"));
+        withExistingParent(ModItems.COPPER_PICK.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/pick"));
+        withExistingParent(ModItems.COPPER_SHOVEL.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/shovel"));
+        withExistingParent(ModItems.COPPER_SWORD.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/sword"));
+        withExistingParent(ModItems.COPPER_HOE.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/hoe"));
+        withExistingParent(ModItems.COPPER_HELMET.getId().getPath(),new ResourceLocation("item/generated"))
+                .texture("layer0",new ResourceLocation("item/iron_helmet"));
+        withExistingParent(ModItems.COPPER_CHESTPLATE.getId().getPath(),new ResourceLocation("item/generated"))
+                .texture("layer0",new ResourceLocation("item/iron_chestplate"));
+        withExistingParent(ModItems.COPPER_LEGGINGS.getId().getPath(),new ResourceLocation("item/generated"))
+                .texture("layer0",new ResourceLocation("item/iron_leggings"));
+        withExistingParent(ModItems.COPPER_BOOTS.getId().getPath(),new ResourceLocation("item/generated"))
+                .texture("layer0",new ResourceLocation("item/iron_boots"));
     }
 
 

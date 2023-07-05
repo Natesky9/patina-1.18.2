@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures":
+  {
+    "layer0": "patina:item/animated/potion_flask_bottle"
+  },
+  "overrides":
+  [
+    {
+      "predicate":
+      {
+        "capacity": 0.33
+      },
+      "model": "patina:item/potion_flask_1"
+    },
+    {
+      "predicate":
+      {
+        "capacity": 0.66
+      },
+      "model": "patina:item/potion_flask_2"
+    },
+    {
+      "predicate":
+      {
+        "capacity": 1.0
+      },
+      "model": "patina:item/potion_flask_3"
+    }
+  ]
+}

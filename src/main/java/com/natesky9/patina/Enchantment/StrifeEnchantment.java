@@ -15,6 +15,20 @@ public class StrifeEnchantment extends Enchantment {
         return Component.translatable(this.getDescriptionId()).append(" WIP").withStyle(ChatFormatting.DARK_PURPLE);
     }
     @Override
+    public boolean isTradeable() {
+        return false;
+    }
+
+    @Override
+    public boolean isTreasureOnly() {
+        return true;
+    }
+
+    @Override
+    public boolean isDiscoverable() {
+        return false;
+    }
+    @Override
     protected boolean checkCompatibility(Enchantment pOther) {
         return !pOther.isCurse();
     }
