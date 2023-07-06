@@ -1,4 +1,4 @@
-package com.natesky9.patina;
+package com.natesky9.patina.Recipe;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;

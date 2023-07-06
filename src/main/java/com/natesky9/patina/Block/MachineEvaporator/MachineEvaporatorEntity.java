@@ -224,7 +224,9 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
         boolean hasFirstSlot = itemStackHandler.getStackInSlot(input).getCount() > 0;
         if (!hasFirstSlot) return false;
         Potion potion = PotionUtils.getPotion(itemStackHandler.getStackInSlot(input));
-        boolean valid = potion.getEffects().size() == 1 || potion == ModPotions.VOLATILE_POTION.get() || potion == Potions.THICK;
+        boolean valid = potion.getEffects().size() == 1
+                || potion == ModPotions.VOLATILE_POTION.get() || potion == Potions.THICK
+                || potion == ModPotions.IRIDESCENT_POTION.get();
         return valid;
     }
 }

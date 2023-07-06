@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -56,11 +57,11 @@ public class ModBlocks {
     //                .strength(3f)));
     //endregion
     public static final RegistryObject<Block> PRISMATIC_ORE = registerBlock("prismatic_ore",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE).strength(3F)));
 
     //register block only
     public static final RegistryObject<Block> BISMUTH_ORE = BLOCKS.register("bismuth_ore",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE)));
+            () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3F).requiresCorrectToolForDrops()));
     //
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block)
     {

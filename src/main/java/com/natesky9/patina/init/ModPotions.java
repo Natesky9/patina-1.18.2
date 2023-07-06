@@ -1,13 +1,8 @@
 package com.natesky9.patina.init;
 
-import com.natesky9.patina.ItemBrewingRecipe;
+import com.natesky9.patina.Recipe.ItemBrewingRecipe;
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.SaltBrewingRecipe;
-import net.minecraft.data.tags.DamageTypeTagsProvider;
-import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
+import com.natesky9.patina.Recipe.SaltBrewingRecipe;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
@@ -15,8 +10,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.brewing.BrewingRecipe;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

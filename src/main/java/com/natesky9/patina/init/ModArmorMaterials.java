@@ -24,7 +24,15 @@ public enum ModArmorMaterials implements ArmorMaterial {
         typeEnumMap.put(ArmorItem.Type.CHESTPLATE,5);
         typeEnumMap.put(ArmorItem.Type.HELMET,2);}),
             10,SoundEvents.ARMOR_EQUIP_GENERIC,0,0,
-            () -> {return Ingredient.of(Items.COPPER_INGOT);});
+            () -> {return Ingredient.of(Items.COPPER_INGOT);}),
+    BRONZE("bronze",24, Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+    {
+        typeEnumMap.put(ArmorItem.Type.BOOTS,4);
+        typeEnumMap.put(ArmorItem.Type.LEGGINGS,6);
+        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,8);
+        typeEnumMap.put(ArmorItem.Type.HELMET,4);}),
+            0,SoundEvents.COPPER_PLACE,2F,0F,
+            () -> {return Ingredient.of(ModItems.BISMUTH_INGOT.get());});
 
 
     //LEATHER("leather", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {

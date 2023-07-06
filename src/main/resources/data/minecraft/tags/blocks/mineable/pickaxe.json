@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values":
+  [
+    "patina:bismuth_ore",
+    "patina:prismatic_ore",
+
+    "patina:machine_evaporator",
+    "patina:machine_foundry",
+    "patina:machine_alembic",
+    "patina:machine_enchanter",
+    "patina:appliance_wardrobe",
+    "patina:appliance_icebox"
+  ]
+}

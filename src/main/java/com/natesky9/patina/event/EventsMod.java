@@ -8,6 +8,7 @@ import com.natesky9.patina.init.ModCreativeModeTab;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModPotions;
 import com.natesky9.patina.init.ModScreens;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -53,13 +54,21 @@ public class EventsMod {
         event.register((pStack, pTintIndex) ->
                 pTintIndex == 0 ? PotionUtils.getColor(pStack) : -1,ModItems.POTION_SALT.get());
         //tint on layer 1
-        event.register(((pStack, pTintIndex) -> pTintIndex == 1 ? RustableItem.getRust(pStack):-1)
-        ,ModItems.COPPER_AXE.get(),ModItems.COPPER_HOE.get(),ModItems.COPPER_SWORD.get(),
+        event.register(((pStack, pTintIndex) -> pTintIndex == 1 ? RustableItem.getRust(pStack):-1),
+                ModItems.COPPER_AXE.get(),ModItems.COPPER_HOE.get(),ModItems.COPPER_SWORD.get(),
                 ModItems.COPPER_PICK.get(),ModItems.COPPER_SHOVEL.get());
+        event.register(((pStack, pTintIndex) ->
+                {return pTintIndex == 1 ? RustableItem.getSheen(Minecraft.getInstance().level) : -1;}),
+                ModItems.BRONZE_AXE.get(),ModItems.BRONZE_HOE.get(),ModItems.BRONZE_SWORD.get(),
+                ModItems.BRONZE_PICK.get(),ModItems.BRONZE_SHOVEL.get());
         //tint on layer 0
         event.register(((pStack, pTintIndex) -> pTintIndex == 0 ? RustableItem.getRust(pStack) : -1),
                 ModItems.COPPER_HELMET.get(),ModItems.COPPER_CHESTPLATE.get(),
                 ModItems.COPPER_LEGGINGS.get(),ModItems.COPPER_BOOTS.get());
+        event.register(((pStack, pTintIndex) ->
+        {return RustableItem.getSheen(Minecraft.getInstance().level);}),
+                ModItems.BRONZE_INGOT.get(),ModItems.BRONZE_HELMET.get(),ModItems.BRONZE_CHESTPLATE.get(),
+                ModItems.BRONZE_LEGGINGS.get(),ModItems.BRONZE_BOOTS.get());
     }
     @SubscribeEvent
     public static void gatherDataEvent(GatherDataEvent event)

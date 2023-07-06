@@ -84,7 +84,7 @@ public class ModItems {
             () -> new ElytraItem(new Item.Properties().rarity(Rarity.RARE)));
     //endregion shards
     //region copper
-    public static final RegistryObject<Item> COPPER_SWORD = ITEMS.register("copper_pickaxe",
+    public static final RegistryObject<Item> COPPER_SWORD = ITEMS.register("copper_sword",
             () -> new SwordItem(ModTiers.COPPER,3,-2.4F, new Item.Properties())
             {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
                     RustableItem.rust(pStack);}
@@ -139,6 +139,26 @@ public class ModItems {
                 @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
                     return false;}});
     //endregion copper
+    //region bronze
+    public static final RegistryObject<Item> BRONZE_SWORD = ITEMS.register("bronze_sword",
+            () -> new SwordItem(ModTiers.BRONZE,3,-2.4F, new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_AXE = ITEMS.register("bronze_axe",
+            () -> new AxeItem(ModTiers.BRONZE,7,-3.0F,new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_SHOVEL = ITEMS.register("bronze_shovel",
+            () -> new ShovelItem(ModTiers.BRONZE,1.5F,-3.0F,new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_PICK = ITEMS.register("bronze_pick",
+            () -> new PickaxeItem(ModTiers.BRONZE,1,-2.8F,new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_HOE = ITEMS.register("bronze_hoe",
+            () -> new HoeItem(ModTiers.BRONZE,0,-2.0F,new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_HELMET = ITEMS.register("bronze_helmet",
+            () -> new ArmorItem(ModArmorMaterials.BRONZE,ArmorItem.Type.HELMET,new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_CHESTPLATE = ITEMS.register("bronze_chestplate",
+            () -> new ArmorItem(ModArmorMaterials.BRONZE,ArmorItem.Type.CHESTPLATE,new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_LEGGINGS = ITEMS.register("bronze_leggings",
+            () -> new ArmorItem(ModArmorMaterials.BRONZE,ArmorItem.Type.LEGGINGS,new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_BOOTS = ITEMS.register("bronze_boots",
+            () -> new ArmorItem(ModArmorMaterials.BRONZE,ArmorItem.Type.BOOTS,new Item.Properties()));
+    //endregion bronze
     //region charms
     public static final RegistryObject<Item> CHARM_AMBUSH = ITEMS.register("charm_ambush",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
@@ -173,6 +193,9 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> BISMUTH_INGOT = ITEMS.register("bismuth_ingot",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> BRONZE_INGOT = ITEMS.register("bronze_ingot",
+            () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<Item> DRAGON_SCALE = ITEMS.register("dragon_scale",
             () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
 

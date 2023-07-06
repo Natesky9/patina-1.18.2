@@ -55,6 +55,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 new ResourceLocation(Patina.MODID,"block/evaporator_side"),
                 new ResourceLocation(Patina.MODID,"block/evaporator_front"),
                 new ResourceLocation(Patina.MODID,"block/evaporator_top"));
+        cubeAll(ModBlocks.BISMUTH_ORE.getId().getPath(),
+                new ResourceLocation(Patina.MODID,"block/bismuth_ore"));
         //
         //withExistingParent(ModItems.POTION_FLASK.getId().getPath(),new ResourceLocation("item/generated"))
         //        .texture("layer0", new ResourceLocation(Patina.MODID,"item/potion_flask.json"))
@@ -65,8 +67,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.VOID_SALT);
         simpleItem(ModItems.BISMUTH_NUGGET);
         simpleItem(ModItems.BISMUTH_INGOT);
+        simpleItem(ModItems.BRONZE_INGOT);
         simpleItem(ModItems.DRAGON_SCALE);
         //copper tools--------------
+        //region copper
         withExistingParent(ModItems.COPPER_AXE.getId().getPath(),new ResourceLocation("item/handheld"))
                 .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
                 .texture("layer1", new ResourceLocation(Patina.MODID,"item/axe"));
@@ -90,6 +94,32 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .texture("layer0",new ResourceLocation("item/iron_leggings"));
         withExistingParent(ModItems.COPPER_BOOTS.getId().getPath(),new ResourceLocation("item/generated"))
                 .texture("layer0",new ResourceLocation("item/iron_boots"));
+        //endregion copper
+        //region bronze
+        withExistingParent(ModItems.BRONZE_AXE.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/axe"));
+        withExistingParent(ModItems.BRONZE_PICK.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/pick"));
+        withExistingParent(ModItems.BRONZE_SHOVEL.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/shovel"));
+        withExistingParent(ModItems.BRONZE_SWORD.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/sword"));
+        withExistingParent(ModItems.BRONZE_HOE.getId().getPath(),new ResourceLocation("item/handheld"))
+                .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
+                .texture("layer1", new ResourceLocation(Patina.MODID,"item/hoe"));
+        withExistingParent(ModItems.BRONZE_HELMET.getId().getPath(),new ResourceLocation("item/generated"))
+                .texture("layer0",new ResourceLocation("item/iron_helmet"));
+        withExistingParent(ModItems.BRONZE_CHESTPLATE.getId().getPath(),new ResourceLocation("item/generated"))
+                .texture("layer0",new ResourceLocation("item/iron_chestplate"));
+        withExistingParent(ModItems.BRONZE_LEGGINGS.getId().getPath(),new ResourceLocation("item/generated"))
+                .texture("layer0",new ResourceLocation("item/iron_leggings"));
+        withExistingParent(ModItems.BRONZE_BOOTS.getId().getPath(),new ResourceLocation("item/generated"))
+                .texture("layer0",new ResourceLocation("item/iron_boots"));
+        //endregion bronze
     }
 
 

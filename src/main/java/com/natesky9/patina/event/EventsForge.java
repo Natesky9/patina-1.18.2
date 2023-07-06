@@ -73,6 +73,7 @@ public class EventsForge {
 
     @SubscribeEvent
     public static void LivingAttackEvent(LivingAttackEvent event) {
+
         LivingEntity entity = event.getEntity();
         DamageSource source = event.getSource();
         if (!(source.getEntity() instanceof Player player)) return;
@@ -92,6 +93,9 @@ public class EventsForge {
     @SubscribeEvent
     public static void LivingHurtEvent(LivingHurtEvent event) {
         //when an entity is attacking
+        //allows you to set the amount
+
+        BismuthPassive.doBismuthEffect(event);
         RetributionEnchantment.doEffect(event);
         LustEnchantment.doEffect(event);
         ModEnchantmentUtil.netherCursePlayer(event);
@@ -138,18 +142,7 @@ public class EventsForge {
 
     @SubscribeEvent
     public static void Interact(PlayerInteractEvent.EntityInteract event) {
-        MerchantOffer offer = new MerchantOffer(new ItemStack(Items.EMERALD, (int) (Math.random() * 30) + 30),
-                new ItemStack(ModItems.CHARM_FERTILITY.get()), 1, 10, 1.0F);
-        Entity entity = event.getTarget();
-        Player player = event.getEntity();
-        if (!(entity instanceof WanderingTrader trader)) return;
-        if (player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_CONTRABAND.get()))) {
-            if (trader.getOffers().size() > 6) return;
-            trader.getOffers().add(offer);
-        } else if (trader.getOffers().size() > 6) {
-            trader.getOffers().remove(6);
-        }
-
+        Charms.contrabandCharm(event);
     }
     @SubscribeEvent
     public static void ShieldBlockEvent(ShieldBlockEvent event)

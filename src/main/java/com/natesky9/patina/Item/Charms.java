@@ -1,6 +1,8 @@
 package com.natesky9.patina.Item;
 
 import com.natesky9.patina.init.ModItems;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -9,15 +11,26 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Charms {
     public static void ambushCharm(LivingHurtEvent event)
@@ -118,7 +131,13 @@ public class Charms {
         if (!(father.level instanceof ServerLevel level)) return;
 
         Animal mother = (Animal) event.getParentB();
-        father.spawnChildFromBreeding(level,mother);
+
+        AgeableMob copy = father.getBreedOffspring(level, mother);
+
+        copy.setBaby(true);
+        copy.moveTo(father.getX(), father.getY(), father.getZ(), 0.0F, 0.0F);
+        level.addFreshEntityWithPassengers(copy);
+        level.broadcastEntityEvent(copy, (byte)18);
 
         level.playSound(null,player.blockPosition(),SoundEvents.CAT_PURREOW,SoundSource.PLAYERS);
     }
@@ -143,6 +162,55 @@ public class Charms {
                 if (!(player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_DETONATION.get())))) return;
                 event.setAmount(event.getAmount()/2);
             }
+        }
+    }
+    private static ItemStack createLootChest(String loot)
+    {
+        ItemStack stack = new ItemStack(Items.CHEST);
+        CompoundTag tag = new CompoundTag();
+        tag.putString("LootTable",loot);
+        stack.getOrCreateTag().put("BlockEntityTag",tag);
+        return stack;
+    }
+    private static ItemStack createSuspiciousLoot(Item block, String loot)
+    {
+        int count = (int)(Math.random()*32);
+        ItemStack stack = new ItemStack(block,count);
+        CompoundTag tag = new CompoundTag();
+        tag.putString("loot_table",loot);
+        stack.getOrCreateTag().put("BlockEntityTag",tag);
+        return stack;
+    }
+    public static void contrabandCharm(PlayerInteractEvent.EntityInteract event)
+    {
+        List<ItemStack> items = List.of(
+            createSuspiciousLoot(Items.SUSPICIOUS_SAND,"minecraft:archaeology/desert_pyramid"),
+            createLootChest("minecraft:chests/simple_dungeon"),
+            createLootChest("minecraft:chests/ancient_city"),
+            createLootChest("minecraft:chests/bastion_other"),
+            createLootChest("minecraft:chests/desert_pyramid"),
+            createLootChest("minecraft:chests/end_city_treasure"),
+            createLootChest("minecraft:chests/jungle_temple"),
+            createLootChest("minecraft:chests/nether_bridge"),
+            createLootChest("minecraft:chests/pillager_outpost"),
+            createLootChest("minecraft:chests/shipwreck_supply"),
+            createLootChest("minecraft:chests/abandoned_mineshaft"),
+            createLootChest("minecraft:chests/stronghold_library"),
+            createLootChest("minecraft:chests/spawn_bonus_chest"),
+            createLootChest("minecraft:chests/woodland_mansion")
+        );
+        int index = (int)(Math.random()* items.size());
+
+        MerchantOffer offer = new MerchantOffer(new ItemStack(Items.EMERALD, (int) (Math.random() * 30) + 30),
+                items.get(index), 1, 10, 1.0F);
+        Entity entity = event.getTarget();
+        Player player = event.getEntity();
+        if (!(entity instanceof WanderingTrader trader)) return;
+        if (player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_CONTRABAND.get()))) {
+            if (trader.getOffers().size() > 6) return;
+            trader.getOffers().add(offer);
+        } else if (trader.getOffers().size() > 6) {
+            trader.getOffers().remove(6);
         }
     }
     public static void spawnFragment(LivingUseTotemEvent event)

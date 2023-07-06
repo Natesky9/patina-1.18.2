@@ -27,6 +27,16 @@
   "item.patina.copper_leggings": "Copper Leggings",
   "item.patina.copper_boots": "Copper Boots",
 
+  "item.patina.bronze_sword": "Bronze Sword",
+  "item.patina.bronze_axe": "Bronze Axe",
+  "item.patina.bronze_shovel": "Bronze Shovel",
+  "item.patina.bronze_pick": "Bronze Pickaxe",
+  "item.patina.bronze_hoe": "Bronze Hoe",
+  "item.patina.bronze_helmet": "Bronze Helmet",
+  "item.patina.bronze_chestplate": "Bronze Chestplate",
+  "item.patina.bronze_leggings": "Bronze Leggings",
+  "item.patina.bronze_boots": "Bronze Boots",
+
   "item.patina.charm_ambush": "Ambush Charm",
   "item.patina.charm_experience": "Experience Charm",
   "item.patina.charm_vitality": "Vitality Charm",
@@ -40,6 +50,10 @@
   "item.patina.potion_flask": "Crystal Flask",
   "item.patina.potion_salt": "Potion Salt",
   "item.patina.void_salt": "Void Salt",
+  "item.patina.dragon_scale": "Dragon Scale",
+  "item.patina.bismuth_nugget": "Bismuth Nugget",
+  "item.patina.bismuth_ingot": "Bismuth Ingot",
+  "item.patina.bronze_ingot": "Bronze Ingot",
 
   "block.patina.appliance_icebox": "Icebox",
   "block.patina.appliance_wardrobe": "Wardrobe",
@@ -47,6 +61,8 @@
   "block.patina.machine_enchanter": "Enchanter",
   "block.patina.machine_evaporator": "Evaporator",
   "block.patina.machine_foundry": "Foundry",
+  "block.patina.prismatic_ore": "Prismatic Ore",
+  "block.patina.bismuth_ore": "Bismuth Ore",
 
   "enchantment.patina.soulbound": "Soulbound",
   "enchantment.patina.envy": "Curse of Envy WIP",
@@ -80,5 +96,24 @@
   "patina.strife_trigger": "Nothing still happened",
   "patina.avarice_trigger": "Payday!",
   "patina.coercion_trigger": "You siphon some health",
-  "patina.humility_trigger": "You land a vicious blow"
+  "patina.humility_trigger": "You land a vicious blow",
+
+  "component.charm_fragment": "A fragment of a powerful artifact",
+  "component.charm_fragment_hint": "As you hold it closer, you hear ",
+  "component.fragment_moon_phase_1": "combined three like pieces...",
+  "component.fragment_moon_phase_2": "...encasing an enchanted apple...",
+  "component.fragment_moon_phase_3": "...known as goldenroot, great for eyesight...",
+  "component.fragment_moon_phase_4": "...often associated with good luck...",
+  "component.fragment_moon_phase_5": "...a phial of knowledge...",
+  "component.fragment_moon_phase_6": "...coveted by villagers...",
+  "component.fragment_moon_phase_7": "...when dispensed, the fireball...",
+  "component.fragment_moon_phase_8": "...tendrils, sensitive to sound....",
+  "component.fragment_sun_phase_1": "...reformed as new, as if it never broke",
+  "component.fragment_sun_phase_2": "...enhanced healing ability",
+  "component.fragment_sun_phase_3": "...would increase the size of their litter",
+  "component.fragment_sun_phase_4": "...protect against ill intention",
+  "component.fragment_sun_phase_5": "...to increase your own",
+  "component.fragment_sun_phase_6": "...this verdant block, prized by merchants",
+  "component.fragment_sun_phase_7": "...protect from and enhance combustion",
+  "component.fragment_sun_phase_8": "...advantage over prey"
 }
