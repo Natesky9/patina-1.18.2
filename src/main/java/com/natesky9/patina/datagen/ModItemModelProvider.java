@@ -6,6 +6,7 @@ import com.natesky9.patina.init.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -18,6 +19,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     public void registerModels() {
+        //region fragments
         simpleItem(ModItems.BEE_FRAGMENT_1);
         simpleItem(ModItems.BEE_FRAGMENT_2);
         simpleItem(ModItems.BEE_FRAGMENT_3);
@@ -38,6 +40,14 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.PIG_FRAGMENT_C);
         simpleItem(ModItems.PIG_FRAGMENT_D);
         handheldItem(ModItems.PIG_SWORD);
+
+        simpleItem(ModItems.WITHER_FRAGMENT_1);
+        simpleItem(ModItems.WITHER_FRAGMENT_2);
+        simpleItem(ModItems.WITHER_FRAGMENT_3);
+        simpleItem(ModItems.WITHER_FRAGMENT_4);
+        handheldItem(ModItems.WITHER_STAFF);
+        //endregion fragments
+
         //handheldItem(ModItems.PIG_CROSSBOW);
 
         simpleItem(ModItems.CHARM_CONTRABAND);
@@ -120,6 +130,14 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.BRONZE_BOOTS.getId().getPath(),new ResourceLocation("item/generated"))
                 .texture("layer0",new ResourceLocation("item/iron_boots"));
         //endregion bronze
+        //region dragon
+        simpleItem(ModItems.DRAGON_HELMET);
+        simpleItem(ModItems.DRAGON_CHESTPLATE);
+        simpleItem(ModItems.DRAGON_LEGGINGS);
+        simpleItem(ModItems.DRAGON_BOOTS);
+        //endregion dragon
+        withExistingParent(ModBlocks.CHORUS_CABLE.getId().getPath(),modLoc("block/chorus_cable"+"_inventory"));
+        withExistingParent(ModBlocks.CHARGE_CABLE.getId().getPath(),modLoc("block/charge_cable"+"_inventory"));;
     }
 
 

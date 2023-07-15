@@ -2,6 +2,10 @@ package com.natesky9.patina.init;
 
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
+import com.natesky9.patina.Block.ChorusCableBlock;
+import com.natesky9.patina.Block.ChorusTeleporter;
+import com.natesky9.patina.Block.CopperCableBlock;
+import com.natesky9.patina.Block.GeneratorBlock;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicBlock;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterBlock;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorBlock;
@@ -24,6 +28,26 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Patina.MODID);
+    //--------------------//
+    public static final RegistryObject<Block> CHORUS_CABLE = registerBlock("chorus_cable",
+            () -> new ChorusCableBlock(BlockBehaviour.Properties.of(Material.PLANT)
+                    .randomTicks()
+                    .color(MaterialColor.COLOR_PURPLE)
+                    .strength(1F)
+                    .noOcclusion()));
+    public static final RegistryObject<Block> CHARGE_CABLE = registerBlock("charge_cable",
+            () -> new CopperCableBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .randomTicks()
+                    .color(MaterialColor.COLOR_ORANGE)
+                    .strength(2F)
+                    .noOcclusion()));
+    public static final RegistryObject<Block> CHORUS_TELEPORTER = registerBlock("chorus_teleporter",
+            () -> new ChorusTeleporter(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(8F)
+                    .color(MaterialColor.COLOR_YELLOW)));
+    public static final RegistryObject<Block> TEST_GENERATOR = registerBlock("test_generator",
+            () -> new GeneratorBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(1000)));
     //region machines
     //liquid to solid
     public static final RegistryObject<Block> MACHINE_EVAPORATOR = registerBlock("machine_evaporator",
@@ -62,7 +86,7 @@ public class ModBlocks {
     //register block only
     public static final RegistryObject<Block> BISMUTH_ORE = BLOCKS.register("bismuth_ore",
             () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3F).requiresCorrectToolForDrops()));
-    //
+    //-----------------------//
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block)
     {
         RegistryObject<T> registeredBlock = BLOCKS.register(name,block);

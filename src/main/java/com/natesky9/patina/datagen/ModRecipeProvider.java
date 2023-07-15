@@ -125,8 +125,27 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         charmCrafting(ModItems.CHARM_EXPERIENCE.get(),Items.EXPERIENCE_BOTTLE,experience_criteria,pWriter);
         charmCrafting(Items.TOTEM_OF_UNDYING,ModItems.CHARM_FRAGMENT.get(),vanilla_totem,pWriter);
         //endregion charms
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION,ModBlocks.CHORUS_TELEPORTER.get())
+                .pattern("PEP").pattern("ENE").pattern("PEP")
+                .define('P',Items.PURPUR_BLOCK)
+                .define('E',Items.END_STONE_BRICK_STAIRS)
+                .define('N',Items.ENDER_EYE)
+                .unlockedBy("has_purpur",has(Items.POPPED_CHORUS_FRUIT))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION,ModBlocks.CHORUS_CABLE.get())
+                .pattern("CPC").pattern("CPC").pattern("CPC")
+                .define('C', ItemTags.WOOL_CARPETS).define('P',Items.POPPED_CHORUS_FRUIT)
+                .unlockedBy("has_purpur",has(Items.POPPED_CHORUS_FRUIT))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.CHARGE_CABLE.get())
+                        .pattern("WCW").pattern("WCW").pattern("WCW")
+                        .define('W',ItemTags.WOOL_CARPETS).define('C',Items.CUT_COPPER)
+                        .unlockedBy("has_copper",has(Items.CUT_COPPER))
+                        .save(pWriter);
         //temporary recipes
-        nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.POTION_SALT.get(),RecipeCategory.MISC,ModItems.VOID_SALT.get());
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.VOID_SALT.get())
+                .requires(ModItems.POTION_SALT.get(),9)
+                        .unlockedBy("has_salt",has(ModItems.POTION_SALT.get())).save(pWriter);
         nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.BISMUTH_NUGGET.get(),RecipeCategory.MISC,ModItems.BISMUTH_INGOT.get());
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.BRONZE_INGOT.get())
                 .requires(ModItems.BISMUTH_INGOT.get()).requires(Items.COPPER_INGOT,3)
@@ -202,57 +221,84 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pWriter);
         //endregion copper
         //region bronze
-
         CriterionTriggerInstance hasBronze = has(ModItems.BRONZE_INGOT.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.BRONZE_AXE.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .define('S', Items.STICK)
                 .pattern("II").pattern("IS").pattern(" S")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.BRONZE_PICK.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .define('S', Items.STICK)
                 .pattern("III").pattern(" S ").pattern(" S ")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.BRONZE_SHOVEL.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .define('S', Items.STICK)
                 .pattern("I").pattern("S").pattern("S")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.BRONZE_SWORD.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .define('S', Items.STICK)
                 .pattern("I").pattern("I").pattern("S")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.BRONZE_HOE.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .define('S', Items.STICK)
                 .pattern("II").pattern(" S").pattern(" S")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.BRONZE_HELMET.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .pattern("III").pattern("I I")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.BRONZE_CHESTPLATE.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .pattern("I I").pattern("III").pattern("III")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.BRONZE_LEGGINGS.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .pattern("III").pattern("I I").pattern("I I")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.BRONZE_BOOTS.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .pattern("I I").pattern("I I")
-                .unlockedBy("has_copper",hasBronze)
+                .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
+        //endregion bronze
+        //region dragon
+        CriterionTriggerInstance hasDragon = has(ModItems.DRAGON_SCALE.get());
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_HELMET.get())
+                .define('I', ModItems.DRAGON_SCALE.get())
+                .define('C', Items.CHAINMAIL_HELMET)
+                .pattern("ICI").pattern("I I")
+                .unlockedBy("has_bronze",hasDragon)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_CHESTPLATE.get())
+                .define('I', ModItems.DRAGON_SCALE.get())
+                .define('C', Items.CHAINMAIL_CHESTPLATE)
+                .pattern("I I").pattern("ICI").pattern("III")
+                .unlockedBy("has_bronze",hasDragon)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_LEGGINGS.get())
+                .define('I', ModItems.DRAGON_SCALE.get())
+                .define('C', Items.CHAINMAIL_LEGGINGS)
+                .pattern("ICI").pattern("I I").pattern("I I")
+                .unlockedBy("has_bronze",hasDragon)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_BOOTS.get())
+                .define('I', ModItems.DRAGON_SCALE.get())
+                .define('C', Items.CHAINMAIL_BOOTS)
+                .pattern("ICI").pattern("I I")
+                .unlockedBy("has_bronze",hasDragon)
+                .save(pWriter);
+        //endregion dragon
     }
 }

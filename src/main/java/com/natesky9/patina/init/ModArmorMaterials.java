@@ -17,6 +17,14 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
+        //name =
+        //durabilityMultiplier
+        //protectionFunctionForType
+        //enchantmentValue
+        //sound
+        //toughness
+        //knockbackResistance
+        //repairIngredient
     COPPER("copper",10, Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
     {
         typeEnumMap.put(ArmorItem.Type.BOOTS,1);
@@ -32,7 +40,14 @@ public enum ModArmorMaterials implements ArmorMaterial {
         typeEnumMap.put(ArmorItem.Type.CHESTPLATE,8);
         typeEnumMap.put(ArmorItem.Type.HELMET,4);}),
             0,SoundEvents.COPPER_PLACE,2F,0F,
-            () -> {return Ingredient.of(ModItems.BISMUTH_INGOT.get());});
+            () -> {return Ingredient.of(ModItems.BISMUTH_INGOT.get());}),
+    DRAGON("dragon",68,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+    {
+        typeEnumMap.put(ArmorItem.Type.HELMET,6);
+        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,6);
+        typeEnumMap.put(ArmorItem.Type.LEGGINGS,6);
+        typeEnumMap.put(ArmorItem.Type.BOOTS,6);}),15,SoundEvents.ENDER_DRAGON_FLAP,2F,0.05F,
+            () -> {return Ingredient.of(ModItems.DRAGON_SCALE.get());});
 
 
     //LEATHER("leather", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {

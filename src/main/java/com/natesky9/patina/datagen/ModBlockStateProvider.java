@@ -1,5 +1,6 @@
 package com.natesky9.patina.datagen;
 
+import com.natesky9.patina.Block.ChorusCableBlock;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.data.DataGenerator;
@@ -8,10 +9,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.PipeBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Function;
 
@@ -36,6 +39,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.MACHINE_FOUNDRY.get());
         simpleBlock(ModBlocks.MACHINE_ENCHANTER.get());
         simpleBlock(ModBlocks.MACHINE_ALEMBIC.get());
+
+        models().cubeAll(ModBlocks.TEST_GENERATOR.getId().getPath(),new ResourceLocation("block/iron_block"));
+        models().withExistingParent(ModBlocks.CHORUS_TELEPORTER.getId().getPath(),"block/cube_bottom_top")
+                .texture("side", modLoc("block/chorus_teleporter_side"))
+                .texture("bottom", new ResourceLocation("block/end_stone_bricks"))
+                .texture("top", modLoc("block/chorus_teleporter_top"));
+        pipeBlock(ModBlocks.CHORUS_CABLE,
+                new ResourceLocation("block/chorus_plant"),
+                new ResourceLocation("block/white_wool"));
+        pipeBlock(ModBlocks.CHARGE_CABLE,
+                new ResourceLocation("block/yellow_wool"),
+                new ResourceLocation("block/copper_block"));
         //done adding blocks
     }
 
@@ -51,63 +66,54 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         getVariantBuilder(block).partialState().addModels(new ConfiguredModel(modelFile));
     }
-    public void makeCrop(CropBlock block, String name) {
-        Function<BlockState, ConfiguredModel[]> function = state -> states(state, block, name);
 
-        getVariantBuilder(block).forAllStates(function);
-    }
 
-    private ConfiguredModel[] states(BlockState state, CropBlock block, String name) {
-        ConfiguredModel[] models = new ConfiguredModel[1];
-        models[0] = new ConfiguredModel(models().crop(name + state.getValue(block.getAgeProperty()),
-                new ResourceLocation(Patina.MODID, "block/plants/" + name + state.getValue(block.getAgeProperty()))));
-
-        return models;
-    }
-
-    public void pipeBlock(PipeBlock block, ResourceLocation nodeTexture, ResourceLocation pipeTexture)
+    public void pipeBlock(RegistryObject<Block> block, ResourceLocation nodeTexture, ResourceLocation pipeTexture)
     {
-        String baseName = block.getName().toString();
-        String texture1 = "node_texture";
-        String texture2 = "pipe_texture";
+        String baseName = block.getId().getPath();
+        String node_string = "node_texture";
+        String pipe_string = "pipe_texture";
 
-        MultiPartBlockStateBuilder multipartBuilder = getMultipartBuilder(block);
-        MultiPartBlockStateBuilder inventoryBuilder = getMultipartBuilder(block);
+        MultiPartBlockStateBuilder builder = getMultipartBuilder(block.get());
 
-        BlockModelBuilder nodeModel = models().getBuilder(baseName+"_node").texture(texture1,nodeTexture);
-        BlockModelBuilder pipeModel = models().getBuilder(baseName+"_pipe").texture(texture2,pipeTexture);
+        BlockModelBuilder nodeModel = models().cubeAll(baseName,new ResourceLocation("block/chorus_plant"))
+                .texture(node_string,nodeTexture)
+                .texture("particle",nodeTexture);
+        builder.part().modelFile(nodeModel);
 
+        BlockModelBuilder pipeModel = models().withExistingParent(baseName+"_pipe","block/block")
+                .texture(pipe_string,pipeTexture)
+                        .texture("particle",pipeTexture);
+                //.getBuilder(baseName+"_pipe").texture(pipe_string,pipeTexture);
+        pipeModel.texture("particle",nodeTexture);
 
-        formNode(nodeModel);
-        formPipe(pipeModel);
-        nodeModel.texture("node",nodeTexture);
-        pipeModel.texture("pipe",pipeTexture);
+        box(nodeModel,5,5,5,11,11,11,node_string);
+        box(pipeModel,6,6,0,10,10,5,pipe_string);
 
-        blockPipe(multipartBuilder,nodeModel,pipeModel);
-
-    }
-    private void formNode(BlockModelBuilder builder)
-    {
-        box(builder,5,5,5,11,11,11);
-    }
-    private void formPipe(BlockModelBuilder builder)
-    {
-        box(builder,6,6,0,10,10,5);
-    }
-
-    public void blockPipe(MultiPartBlockStateBuilder builder, ModelFile node, ModelFile pipe) {
-        builder.part().modelFile(node).addModel();
+        builder.part().modelFile(nodeModel).addModel();
         //6 pipes out
-        builder.part().modelFile(pipe).rotationX(90).addModel().condition(BlockStateProperties.DOWN,true);
-        builder.part().modelFile(pipe).rotationX(270).addModel().condition(BlockStateProperties.UP,true);
-        builder.part().modelFile(pipe).rotationY(0).addModel().condition(BlockStateProperties.NORTH,true);
-        builder.part().modelFile(pipe).rotationY(90).addModel().condition(BlockStateProperties.EAST,true);
-        builder.part().modelFile(pipe).rotationY(180).addModel().condition(BlockStateProperties.SOUTH,true);
-        builder.part().modelFile(pipe).rotationY(270).addModel().condition(BlockStateProperties.WEST,true);
+        builder.part().modelFile(pipeModel).rotationX(90).addModel().condition(BlockStateProperties.DOWN,true);
+        builder.part().modelFile(pipeModel).rotationX(270).addModel().condition(BlockStateProperties.UP,true);
+        builder.part().modelFile(pipeModel).rotationY(0).addModel().condition(BlockStateProperties.NORTH,true);
+        builder.part().modelFile(pipeModel).rotationY(90).addModel().condition(BlockStateProperties.EAST,true);
+        builder.part().modelFile(pipeModel).rotationY(180).addModel().condition(BlockStateProperties.SOUTH,true);
+        builder.part().modelFile(pipeModel).rotationY(270).addModel().condition(BlockStateProperties.WEST,true);
+
+        //itemBuilder.part().modelFile(nodeModel).addModel().end()
+        //        .part().modelFile(pipeModel).addModel().end()
+        //        .part().modelFile(pipeModel).rotationX(180).addModel();
+        BlockModelBuilder item = models().withExistingParent(baseName + "_inventory",modLoc(baseName));
+        box(item,5,5,5,11,11,11,node_string);
+        box(item,0,6,6,5,10,10,pipe_string);
+        box(item,6,6,0,10,10,5,pipe_string);
+        box(item,11,6,6,16,10,10,pipe_string);
+        box(item,6,6,11,10,10,16,pipe_string);
+        item.texture(pipe_string,pipeTexture).texture(node_string,nodeTexture);
     }
+
     //
-    public void box(BlockModelBuilder builder, int x, int y, int z, int xx, int yy, int zz)
+    public void box(BlockModelBuilder builder, int x, int y, int z, int xx, int yy, int zz,String string)
     {
-        builder.element().from(x,y,z).to(xx,yy,zz);
+        builder.element().from(x,y,z).to(xx,yy,zz).textureAll("#" + string);
     }
 }

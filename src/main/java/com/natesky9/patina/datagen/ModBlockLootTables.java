@@ -32,6 +32,10 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.PRISMATIC_ORE.get());
         dropOther(ModBlocks.PRISMATIC_ORE.get(), Items.PRISMARINE_SHARD);
         this.dropSelf(ModBlocks.BISMUTH_ORE.get());
+        this.dropSelf(ModBlocks.CHORUS_CABLE.get());
+        this.dropSelf(ModBlocks.CHARGE_CABLE.get());
+        this.dropSelf(ModBlocks.TEST_GENERATOR.get());
+        this.dropSelf(ModBlocks.CHORUS_TELEPORTER.get());
     }
 
     @Override

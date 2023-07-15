@@ -159,6 +159,17 @@ public class ModItems {
     public static final RegistryObject<Item> BRONZE_BOOTS = ITEMS.register("bronze_boots",
             () -> new ArmorItem(ModArmorMaterials.BRONZE,ArmorItem.Type.BOOTS,new Item.Properties()));
     //endregion bronze
+    //region dragon
+    public static final RegistryObject<Item> DRAGON_HELMET = ITEMS.register("dragon_helmet",
+            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties()));
+    public static final RegistryObject<Item> DRAGON_CHESTPLATE = ITEMS.register("dragon_chestplate",
+            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.CHESTPLATE,new Item.Properties()));
+    public static final RegistryObject<Item> DRAGON_LEGGINGS = ITEMS.register("dragon_leggings",
+            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.LEGGINGS,new Item.Properties()));
+    public static final RegistryObject<Item> DRAGON_BOOTS = ITEMS.register("dragon_boots",
+            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.BOOTS,new Item.Properties()));
+
+    //endregion dragon
     //region charms
     public static final RegistryObject<Item> CHARM_AMBUSH = ITEMS.register("charm_ambush",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));

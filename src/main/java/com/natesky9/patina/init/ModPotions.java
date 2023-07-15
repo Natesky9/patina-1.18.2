@@ -35,7 +35,7 @@ public class ModPotions
     public static final RegistryObject<Potion> LONG_HASTE = MOD_POTIONS.register("long_haste",
             () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED,extended)));
     //
-    public static final RegistryObject<Potion> SWIFTNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_switftness", Potion::new);
+    public static final RegistryObject<Potion> SWIFTNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_swiftness", Potion::new);
     public static final RegistryObject<Potion> ENHANCED_SWIFTNESS = MOD_POTIONS.register("enhanced_swiftness",
             () -> new Potion(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,extended,2)));
     public static final RegistryObject<Potion> SLOWNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_slowness", Potion::new);
@@ -117,10 +117,6 @@ public class ModPotions
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.AWKWARD,Items.WARPED_FUNGUS,Potions.WEAKNESS));
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.STRENGTH,Items.GLOWSTONE_DUST,ModPotions.STRONG_WEAKNESS.get()));
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.WEAKNESS,Items.GLOWSTONE_DUST,Potions.STRONG_STRENGTH));
-
-        //BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.STRENGTH,Items.FERMENTED_SPIDER_EYE,Potions.WEAKNESS));
-        //BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.LONG_STRENGTH,Items.FERMENTED_SPIDER_EYE,Potions.LONG_WEAKNESS));
-        //BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.STRONG_STRENGTH,Items.FERMENTED_SPIDER_EYE,ModPotions.STRONG_WEAKNESS.get()));
 
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.HEALING,Items.GHAST_TEAR,Potions.REGENERATION));
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.STRONG_HEALING,Items.GHAST_TEAR,Potions.STRONG_REGENERATION));

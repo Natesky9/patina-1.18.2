@@ -1,0 +1,35 @@
+{
+
+  "item.minecraft.potion.effect.haste": "Haste",
+  "item.minecraft.potion.effect.long_haste": "Extended Haste",
+  "item.minecraft.potion.effect.strong_haste": "Potent Haste",
+
+  "item.minecraft.potion.effect.strong_wealmess": "Potent Weakness",
+
+
+  "item.minecraft.potion.effect.enhanced_swiftness": "Enhanced Swiftness",
+  "item.minecraft.potion.effect.intermediate_swiftness": "Swiftness Intermediate",
+  "item.minecraft.potion.effect.enhanced_slowness": "Enhanced Slowness",
+  "item.minecraft.potion.effect.intermediate_slowness": "Slowness Intermediate",
+  "item.minecraft.potion.effect.enhanced_jump_boost": "Enhanced Hops",
+  "item.minecraft.potion.effect.intermediate_jump_boost": "Hops Intermediate",
+  "item.minecraft.potion.effect.enhanced_strength": "Enhanced Strength",
+  "item.minecraft.potion.effect.intermediate_strength": "Strength Intermediate",
+  "item.minecraft.potion.effect.enhanced_weakness": "Enhanced Weakness",
+  "item.minecraft.potion.effect.intermediate_weakness": "Weakness Intermediate",
+  "item.minecraft.potion.effect.enhanced_healing": "Enhanced Healing",
+  "item.minecraft.potion.effect.intermediate_healing": "Healing Intermediate",
+  "item.minecraft.potion.effect.enhanced_harming": "Enhanced Harming",
+  "item.minecraft.potion.effect.intermediate_harming": "Harming Intermediate",
+  "item.minecraft.potion.effect.enhanced_poison": "Enhanced Poison",
+  "item.minecraft.potion.effect.intermediate_poison": "Poison Intermediate",
+  "item.minecraft.potion.effect.enhanced_regeneration": "Enhanced Regeneration",
+  "item.minecraft.potion.effect.intermediate_regeneration": "Regeneration Intermediate",
+  "item.minecraft.potion.effect.enhanced_fire_resist": "Enhanced Fire Resist",
+  "item.minecraft.potion.effect.intermediate_fire_resist": "Fire Resist Intermediate",
+  "item.minecraft.potion.effect.enhanced_water_breathing": "Enhanced Water Breathing",
+  "item.minecraft.potion.effect.intermediate_water_breathing": "Water Breathing Intermediate",
+  "item.minecraft.potion.effect.acrid": "Acrid Fluid",
+  "item.minecraft.potion.effect.volatile": "Volatile Fluid",
+  "item.minecraft.potion.effect.iridescent": "Iridescent Fluid"
+}
