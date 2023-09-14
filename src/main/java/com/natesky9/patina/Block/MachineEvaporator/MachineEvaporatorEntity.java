@@ -46,7 +46,7 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
         super(pWorldPosition, pBlockState,slots);
         this.data = createData();
         this.progressMax = 180;
-        outputStackHandler = new ItemStackHandler(slots)
+        this.outputStackHandler = new ItemStackHandler(slots)
         {
             @Override
             public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {

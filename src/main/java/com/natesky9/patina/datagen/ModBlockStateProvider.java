@@ -34,17 +34,28 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 new ResourceLocation(Patina.MODID,"block/evaporator_top"));
         simpleBlock(ModBlocks.PRISMATIC_ORE.get());
         simpleBlock(ModBlocks.BISMUTH_ORE.get());
-        simpleBlock(ModBlocks.APPLIANCE_ICEBOX.get());
-        simpleBlock(ModBlocks.APPLIANCE_WARDROBE.get());
+        horizontalBlock(ModBlocks.APPLIANCE_ICEBOX.get(),
+                new ResourceLocation("block/iron_door_bottom"),
+                new ResourceLocation("block/iron_trapdoor"),
+                new ResourceLocation("block/oak_trapdoor"));
+        horizontalBlock(ModBlocks.APPLIANCE_WARDROBE.get(),
+                new ResourceLocation("block/acacia_door_bottom"),
+                new ResourceLocation("block/dark_oak_door_bottom"),
+                new ResourceLocation("block/dark_oak_planks"));
+        //simpleBlock(ModBlocks.APPLIANCE_ICEBOX.get());
+        //simpleBlock(ModBlocks.APPLIANCE_WARDROBE.get());
         simpleBlock(ModBlocks.MACHINE_FOUNDRY.get());
         simpleBlock(ModBlocks.MACHINE_ENCHANTER.get());
         simpleBlock(ModBlocks.MACHINE_ALEMBIC.get());
 
         models().cubeAll(ModBlocks.TEST_GENERATOR.getId().getPath(),new ResourceLocation("block/iron_block"));
-        models().withExistingParent(ModBlocks.CHORUS_TELEPORTER.getId().getPath(),"block/cube_bottom_top")
-                .texture("side", modLoc("block/chorus_teleporter_side"))
-                .texture("bottom", new ResourceLocation("block/end_stone_bricks"))
-                .texture("top", modLoc("block/chorus_teleporter_top"));
+        getVariantBuilder(ModBlocks.CHORUS_TELEPORTER.get()).partialState().setModels(new ConfiguredModel(
+                models().withExistingParent(ModBlocks.CHORUS_TELEPORTER.getId().getPath(),"block/cube_bottom_top")
+                        .texture("side", modLoc("block/chorus_teleporter_side"))
+                        .texture("bottom", new ResourceLocation("block/end_stone_bricks"))
+                        .texture("top", modLoc("block/chorus_teleporter_top"))
+        ));
+
         pipeBlock(ModBlocks.CHORUS_CABLE,
                 new ResourceLocation("block/chorus_plant"),
                 new ResourceLocation("block/white_wool"));

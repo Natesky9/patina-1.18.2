@@ -28,7 +28,6 @@ public class RustableItem {
         if (level == null) return 0;
         float day = (int)(level.getDayTime() % 24000);
         int sheen = Color.HSBtoRGB((float)(day/240),.5F,1F);
-        System.out.println(sheen);
         return sheen;
     }
 }

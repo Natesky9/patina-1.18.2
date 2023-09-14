@@ -1,7 +1,10 @@
 package com.natesky9.patina.datagen;
 
+import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
+import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlagSet;
@@ -9,6 +12,10 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Set;
@@ -23,7 +30,12 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     protected void generate()
     {
         this.dropSelf(ModBlocks.APPLIANCE_ICEBOX.get());
-        this.dropSelf(ModBlocks.APPLIANCE_WARDROBE.get());
+        //this.dropSelf(ModBlocks.APPLIANCE_WARDROBE.get());
+        this.add(ModBlocks.APPLIANCE_WARDROBE.get(), createSinglePropConditionTable(ModBlocks.APPLIANCE_WARDROBE.get(),
+                ApplianceWardrobeBlock.HALF,DoubleBlockHalf.LOWER));
+        this.add(ModBlocks.APPLIANCE_ICEBOX.get(), createSinglePropConditionTable(ModBlocks.APPLIANCE_ICEBOX.get(),
+                ApplianceIceboxBlock.HALF,DoubleBlockHalf.LOWER));
+
         this.dropSelf(ModBlocks.MACHINE_FOUNDRY.get());
         this.dropSelf(ModBlocks.MACHINE_ENCHANTER.get());
         this.dropSelf(ModBlocks.MACHINE_EVAPORATOR.get());

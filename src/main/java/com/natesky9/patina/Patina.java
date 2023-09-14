@@ -3,6 +3,7 @@ package com.natesky9.patina;
 import com.mojang.logging.LogUtils;
 import com.natesky9.patina.Loot.ModLootModifiers;
 import com.natesky9.patina.init.*;
+import com.natesky9.patina.painting.ModPaintings;
 import net.minecraft.advancements.Advancement;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
@@ -30,6 +31,7 @@ public class Patina
         ModEnchantments.register(eventBus);
         ModLootModifiers.register(eventBus);
         ModPotions.register(eventBus);
+        ModPaintings.register(eventBus);
 
 
 

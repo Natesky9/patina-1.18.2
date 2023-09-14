@@ -35,7 +35,7 @@ public class ModMenuTypes
             registerMenuType(MachineEnchanterMenu::new, "machine_enchanter_menu");
 
     public static final RegistryObject<MenuType<ApplianceWardrobeMenu>> APPLIANCE_WARDROBE_MENU =
-            registerMenuType(ApplianceWardrobeMenu::new, "appliance_wardrove_menu");
+            registerMenuType(ApplianceWardrobeMenu::new, "appliance_wardrobe_menu");
     public static final RegistryObject<MenuType<ApplianceIceboxMenu>> APPLIANCE_ICEBOX_MENU =
             registerMenuType(ApplianceIceboxMenu::new, "appliance_icebox_menu");
 
