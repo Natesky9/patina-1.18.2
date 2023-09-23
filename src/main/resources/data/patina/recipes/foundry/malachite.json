@@ -1,0 +1,16 @@
+{
+  "type": "patina:foundry",
+  "input":
+  {
+    "item": "minecraft:copper_ingot"
+  },
+  "catalyst":
+  {
+    "item": "minecraft:emerald"
+  },
+  "output":
+  {
+    "item": "patina:malachite",
+    "count": 1
+  }
+}

@@ -6,7 +6,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -22,14 +21,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class MachineTemplateEntity extends BlockEntity implements MenuProvider {
-    protected final ItemStackHandler itemStackHandler;
+    protected ItemStackHandler itemStackHandler;
 
 
     protected abstract boolean mySlotValid(int slot, @NotNull ItemStack stack);
 
-    protected LazyOptional<IItemHandler> inputHandler = LazyOptional.empty();
+    protected LazyOptional<IItemHandler> itemCapability = LazyOptional.empty();
 
-    protected final ContainerData data;
+    protected final ContainerData data;;
+
     protected int progress = 0;
     protected int progressMax = 100;
 
@@ -42,7 +42,8 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
             protected void onContentsChanged(int slot)
             {
                 setChanged();
-                myContentsChanged();
+                if (slot != getSlots()-1)//ignore changes in the final slot
+                    myContentsChanged();
             }
 
             @Override
@@ -73,13 +74,13 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
     @Override
     public void onLoad() {
         super.onLoad();
-        inputHandler = LazyOptional.of(() -> itemStackHandler);
+        itemCapability = LazyOptional.of(() -> itemStackHandler);
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
-        inputHandler.invalidate();
+        itemCapability.invalidate();
     }
 
     @Override

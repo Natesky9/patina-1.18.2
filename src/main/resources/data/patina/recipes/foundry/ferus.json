@@ -1,0 +1,16 @@
+{
+  "type": "patina:foundry",
+  "input":
+  {
+    "item": "patina:prime_glass"
+  },
+  "catalyst":
+  {
+    "item": "patina:sinister_shard"
+  },
+  "output":
+  {
+    "item": "patina:ferus_glass",
+    "count": 1
+  }
+}

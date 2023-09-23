@@ -6,7 +6,7 @@ import com.natesky9.patina.Block.MachineAlembic.MachineAlembicMenu;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterMenu;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorMenu;
 import com.natesky9.patina.Block.MachineFoundry.MachineFoundryMenu;
-import com.natesky9.patina.Block.Template.MachineTemplateMenu;
+import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorMenu;
 import com.natesky9.patina.Patina;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -27,12 +27,14 @@ public class ModMenuTypes
 
     public static final RegistryObject<MenuType<MachineEvaporatorMenu>> MACHINE_EVAPORATOR_MENU =
             registerMenuType(MachineEvaporatorMenu::new,"machine_evaporator_menu");
-    public static final RegistryObject<MenuType<MachineAlembicMenu>> MACHINE_ALEMBIC_MENU =
-            registerMenuType(MachineAlembicMenu::new, "machine_alembic_menu");
     public static final RegistryObject<MenuType<MachineFoundryMenu>> MACHINE_FOUNDRY_MENU =
             registerMenuType(MachineFoundryMenu::new, "machine_foundry_menu");
+    public static final RegistryObject<MenuType<MachineMinceratorMenu>> MACHINE_MINCERATOR_MENU =
+            registerMenuType(MachineMinceratorMenu::new, "machine_mincerator_menu");
     public static final RegistryObject<MenuType<MachineEnchanterMenu>> MACHINE_ENCHANTER_MENU =
             registerMenuType(MachineEnchanterMenu::new, "machine_enchanter_menu");
+    public static final RegistryObject<MenuType<MachineAlembicMenu>> MACHINE_ALEMBIC_MENU =
+            registerMenuType(MachineAlembicMenu::new, "machine_alembic_menu");
 
     public static final RegistryObject<MenuType<ApplianceWardrobeMenu>> APPLIANCE_WARDROBE_MENU =
             registerMenuType(ApplianceWardrobeMenu::new, "appliance_wardrobe_menu");

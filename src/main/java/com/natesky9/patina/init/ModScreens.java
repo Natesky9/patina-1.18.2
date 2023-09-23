@@ -6,6 +6,7 @@ import com.natesky9.patina.Block.MachineAlembic.MachineAlembicScreen;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterScreen;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorScreen;
 import com.natesky9.patina.Block.MachineFoundry.MachineFoundryScreen;
+import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 
 public class ModScreens
@@ -18,5 +19,6 @@ public class ModScreens
         MenuScreens.register(ModMenuTypes.MACHINE_EVAPORATOR_MENU.get(), MachineEvaporatorScreen::new);
         MenuScreens.register(ModMenuTypes.MACHINE_ENCHANTER_MENU.get(), MachineEnchanterScreen::new);
         MenuScreens.register(ModMenuTypes.MACHINE_FOUNDRY_MENU.get(), MachineFoundryScreen::new);
+        MenuScreens.register(ModMenuTypes.MACHINE_MINCERATOR_MENU.get(), MachineMinceratorScreen::new);
     }
 }

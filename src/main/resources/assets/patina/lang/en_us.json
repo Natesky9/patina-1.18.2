@@ -53,12 +53,23 @@
   "item.patina.charm_fragment": "Charm Fragment",
 
   "item.patina.potion_flask": "Crystal Flask",
+  "item.patina.potion_flask_impetus": "Impetus Flask WIP",
+  "item.patina.potion_flask_vita": "Semi Vita Flask WIP",
+  "item.patina.potion_flask_magnus": "Magnus Flask WIP",
   "item.patina.potion_salt": "Potion Salt",
   "item.patina.void_salt": "Void Salt",
   "item.patina.dragon_scale": "Dragon Scale",
   "item.patina.bismuth_nugget": "Bismuth Nugget",
   "item.patina.bismuth_ingot": "Bismuth Ingot",
   "item.patina.bronze_ingot": "Bronze Ingot",
+  "item.patina.copper_nugget": "Copper Nugget",
+
+  "item.patina.prime_glass": "Prime Glass",
+  "item.patina.anima_glass": "Anima Glass",
+  "item.patina.ferus_glass": "Ferus Glass",
+  "item.patina.fortus_glass": "Fortus Glass",
+  "item.patina.sinister_shard": "Sinister Shard",
+  "item.patina.malachite": "Malachite",
 
   "block.patina.appliance_icebox": "Icebox",
   "block.patina.appliance_wardrobe": "Wardrobe",

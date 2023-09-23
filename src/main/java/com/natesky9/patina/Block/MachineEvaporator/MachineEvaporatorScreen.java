@@ -18,6 +18,12 @@ public class MachineEvaporatorScreen extends AbstractContainerScreen<MachineEvap
     }
 
     @Override
+    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+        renderTooltip(pPoseStack, pMouseX, pMouseY);
+    }
+
+    @Override
     protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F,1.0F,1.0F,1.0F);

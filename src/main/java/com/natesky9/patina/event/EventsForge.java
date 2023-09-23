@@ -5,6 +5,8 @@ import com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil;
 import com.natesky9.patina.Item.BeeShieldItem;
 import com.natesky9.patina.Item.Charms;
 import com.natesky9.patina.Item.PigWeaponItem;
+import com.natesky9.patina.Item.flasks.ImpetusFlask;
+import com.natesky9.patina.Item.flasks.SemiVitaFlask;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.Block.GravestoneBlock;
 import com.natesky9.patina.init.ModItems;
@@ -57,7 +59,11 @@ public class EventsForge {
 
     @SubscribeEvent
     public static void LivingDamageEvent(LivingDamageEvent event) {
-        //when an entity is damaged
+        //just before damage is applied
+
+        ImpetusFlask.trigger(event);
+        SemiVitaFlask.trigger(event);
+
         ApathyEnchantment.doEffect(event);
         WrathEnchantment.doEffect(event);
         PrideEnchantment.doEffect(event);
@@ -73,6 +79,7 @@ public class EventsForge {
 
     @SubscribeEvent
     public static void LivingAttackEvent(LivingAttackEvent event) {
+        //when an entity is being attacked
 
         LivingEntity entity = event.getEntity();
         DamageSource source = event.getSource();

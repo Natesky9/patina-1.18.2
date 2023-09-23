@@ -18,6 +18,7 @@ public class MachineEvaporatorMenu extends AbstractContainerMenu {
     final MachineEvaporatorEntity blockEntity;
     final Level level;
     final ContainerData data;
+
     public MachineEvaporatorMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId,inv,inv.player.level.getBlockEntity(extraData.readBlockPos()),
                 new SimpleContainerData(MachineEvaporatorEntity.dataSlots));

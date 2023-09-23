@@ -14,9 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MachineAlembicEntity extends MachineTemplateEntity {
-    public static final int slots = 3;
     public MachineAlembicEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(pWorldPosition, pBlockState, slots);
+        super(pWorldPosition, pBlockState,0);
     }
 
     @Override

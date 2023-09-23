@@ -32,6 +32,8 @@ public class Patina
         ModLootModifiers.register(eventBus);
         ModPotions.register(eventBus);
         ModPaintings.register(eventBus);
+        ModRecipeTypes.register(eventBus);
+        ModRecipeSerializers.register(eventBus);
 
 
 

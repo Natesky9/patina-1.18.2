@@ -27,7 +27,7 @@ public class ApplianceWardrobeScreen extends AbstractContainerScreen<ApplianceWa
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         xMouse = pMouseX;
         yMouse = pMouseY;
-        renderTooltip(pPoseStack,getGuiLeft()+width/2,getGuiTop());
+        renderTooltip(pPoseStack,getGuiLeft()+width,getGuiTop());
     }
 
     @Override

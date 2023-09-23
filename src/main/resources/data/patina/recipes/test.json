@@ -1,0 +1,12 @@
+{
+  "type": "patina:evaporator",
+  "input":
+  {
+    "item": "minecraft:potion"
+  },
+  "output":
+  {
+    "item": "patina:potion_salt",
+    "count": 1
+  }
+}

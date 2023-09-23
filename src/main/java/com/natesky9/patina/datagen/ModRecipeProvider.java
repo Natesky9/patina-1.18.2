@@ -147,17 +147,35 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(ModItems.POTION_SALT.get(),9)
                         .unlockedBy("has_salt",has(ModItems.POTION_SALT.get())).save(pWriter);
         nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.BISMUTH_NUGGET.get(),RecipeCategory.MISC,ModItems.BISMUTH_INGOT.get());
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.BRONZE_INGOT.get())
-                .requires(ModItems.BISMUTH_INGOT.get()).requires(Items.COPPER_INGOT,3)
-                .unlockedBy("has_bismuth",has(ModItems.BISMUTH_INGOT.get()))
-                .save(pWriter);
+        //ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.BRONZE_INGOT.get())
+        //        .requires(ModItems.BISMUTH_INGOT.get()).requires(Items.COPPER_INGOT,3)
+        //        .unlockedBy("has_bismuth",has(ModItems.BISMUTH_INGOT.get()))
+        //        .save(pWriter);
+        //region flasks
+
+        CriterionTriggerInstance glass = has(ModItems.PRIME_GLASS.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.POTION_FLASK.get())
-                .define('C',Items.COPPER_BLOCK).define('P',Items.PRISMARINE_CRYSTALS)
-                .pattern(" C ")
-                .pattern("P P")
-                .pattern("PPP")
-                .unlockedBy("unlocked_flask",has(Items.PRISMARINE_CRYSTALS))
+                .define('P', ModItems.PRIME_GLASS.get())
+                .pattern(" P ").pattern("P P").pattern("PPP")
+                .unlockedBy("prime_flask",glass)
                 .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.VITA_FLASK.get())
+                .define('P', ModItems.ANIMA_GLASS.get())
+                .pattern(" P ").pattern("P P").pattern("PPP")
+                .unlockedBy("vita_flask",glass)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.IMPETUS_FLASK.get())
+                .define('P', ModItems.FERUS_GLASS.get())
+                .pattern(" P ").pattern("P P").pattern("PPP")
+                .unlockedBy("impetus_flask",glass)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.MAGNA_FLASK.get())
+                .define('P', ModItems.FORTIS_GLASS.get())
+                .pattern(" P ").pattern("P P").pattern("PPP")
+                .unlockedBy("fortis_flask",glass)
+                .save(pWriter);
+
+        //endregion flasks
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.MACHINE_EVAPORATOR.get())
                 .define('C',Items.COPPER_INGOT)
                 .define('K',Items.CAULDRON)
@@ -168,6 +186,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("unlocked_evaporator",has(Items.SOUL_CAMPFIRE))
                 .save(pWriter);
         //region copper
+        nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.COPPER_NUGGET.get(),RecipeCategory.MISC,Items.COPPER_INGOT);
         CriterionTriggerInstance hasCopper = has(Items.COPPER_INGOT);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.COPPER_AXE.get())
                 .define('I', Items.COPPER_INGOT)

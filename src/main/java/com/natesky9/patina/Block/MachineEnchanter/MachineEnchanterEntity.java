@@ -14,9 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MachineEnchanterEntity extends MachineTemplateEntity {
-    public static final int slots = 3;
     public MachineEnchanterEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(pWorldPosition, pBlockState, slots);
+        super(pWorldPosition, pBlockState,0);
     }
 
     @Override

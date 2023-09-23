@@ -10,6 +10,7 @@ import com.natesky9.patina.Block.MachineAlembic.MachineAlembicBlock;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterBlock;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorBlock;
 import com.natesky9.patina.Block.MachineFoundry.MachineFoundryBlock;
+import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorBlock;
 import com.natesky9.patina.Patina;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -60,6 +61,9 @@ public class ModBlocks {
     //solid to liquid
     public static final RegistryObject<Block> MACHINE_FOUNDRY = registerBlock("machine_foundry",
             () -> new MachineFoundryBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+                    .strength(4f)));
+    public static final RegistryObject<Block> MACHINE_MINCERATOR = registerBlock("machine_mincerator",
+            () -> new MachineMinceratorBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
                     .strength(4f)));
     //liquid to liquid
     public static final RegistryObject<Block> MACHINE_ALEMBIC = registerBlock("machine_alembic",

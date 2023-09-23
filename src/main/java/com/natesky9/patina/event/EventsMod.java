@@ -1,6 +1,6 @@
 package com.natesky9.patina.event;
 
-import com.natesky9.patina.Item.PotionFlaskItem;
+import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.datagen.DataGenerators;
@@ -9,16 +9,12 @@ import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModPotions;
 import com.natesky9.patina.init.ModScreens;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.item.ItemColor;
-import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -26,8 +22,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegistryBuilder;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {

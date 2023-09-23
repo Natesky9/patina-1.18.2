@@ -1,0 +1,16 @@
+{
+  "type": "patina:foundry",
+  "input":
+  {
+    "item": "patina:prime_glass"
+  },
+  "catalyst":
+  {
+    "item": "minecraft:soul_sand"
+  },
+  "output":
+  {
+    "item": "patina:anima_glass",
+    "count": 1
+  }
+}

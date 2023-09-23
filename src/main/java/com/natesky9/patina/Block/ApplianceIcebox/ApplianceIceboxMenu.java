@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
@@ -44,7 +45,7 @@ public class ApplianceIceboxMenu extends AbstractContainerMenu {
                          public boolean mayPlace(@NotNull ItemStack stack)
                          {
                              Potion potion = PotionUtils.getPotion(stack);
-                             return stack.isEdible() || !(PotionUtils.getPotion(stack) == Potions.EMPTY);
+                             return stack.isEdible() || stack.getItem() instanceof PotionItem;
                          }
                      }
                 );

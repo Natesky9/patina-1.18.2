@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,7 +36,7 @@ public class ApplianceIceboxEntity extends BlockEntity implements MenuProvider {
         {
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                return stack.isEdible() || !(PotionUtils.getPotion(stack) == Potions.EMPTY);
+                return stack.isEdible() || stack.getItem() instanceof PotionItem;
             }
         };
     }

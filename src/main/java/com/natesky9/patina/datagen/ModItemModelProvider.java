@@ -71,6 +71,15 @@ public class ModItemModelProvider extends ItemModelProvider {
         //withExistingParent(ModItems.POTION_FLASK.getId().getPath(),new ResourceLocation("item/generated"))
         //        .texture("layer0", new ResourceLocation(Patina.MODID,"item/potion_flask.json"))
         //        .texture("layer1", new ResourceLocation(Patina.MODID,"item/potion_flask_fluid"));
+        simpleItem(ModItems.IMPETUS_FLASK);
+        simpleItem(ModItems.VITA_FLASK);
+        simpleItem(ModItems.MAGNA_FLASK);
+        simpleItem(ModItems.PRIME_GLASS);
+        simpleItem(ModItems.ANIMA_GLASS);
+        simpleItem(ModItems.FERUS_GLASS);
+        simpleItem(ModItems.FORTIS_GLASS);
+        simpleItem(ModItems.MALACHITE);
+        simpleItem(ModItems.SINISTER_SHARD);
         withExistingParent(ModItems.POTION_SALT.getId().getPath(), new ResourceLocation("item/generated"))
                 .texture("layer0", new ResourceLocation("item/sugar"))
                 .texture("layer1", new ResourceLocation("item/light"));

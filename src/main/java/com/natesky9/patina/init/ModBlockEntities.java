@@ -6,6 +6,7 @@ import com.natesky9.patina.Block.MachineAlembic.MachineAlembicEntity;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterEntity;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorEntity;
 import com.natesky9.patina.Block.MachineFoundry.MachineFoundryEntity;
+import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorEntity;
 import com.natesky9.patina.Patina;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,29 +26,33 @@ public class ModBlockEntities {
     //
     public static final RegistryObject<BlockEntityType<MachineEvaporatorEntity>> MACHINE_EVAPORATOR_ENTITY =
             BLOCK_ENTITIES.register("machine_evaporator_entity",
-                    () -> BlockEntityType.Builder.of(MachineEvaporatorEntity::new,
-                    ModBlocks.MACHINE_EVAPORATOR.get()).build(null));
+            () -> BlockEntityType.Builder.of(MachineEvaporatorEntity::new,
+            ModBlocks.MACHINE_EVAPORATOR.get()).build(null));
     public static final RegistryObject<BlockEntityType<MachineFoundryEntity>> MACHINE_FOUNDRY_ENTITY =
             BLOCK_ENTITIES.register("machine_foundry_entity",
-                    () -> BlockEntityType.Builder.of(MachineFoundryEntity::new,
-                            ModBlocks.MACHINE_FOUNDRY.get()).build(null));
+            () -> BlockEntityType.Builder.of(MachineFoundryEntity::new,
+            ModBlocks.MACHINE_FOUNDRY.get()).build(null));
+    public static final RegistryObject<BlockEntityType<MachineMinceratorEntity>> MACHINE_MINCERATOR_ENTITY =
+            BLOCK_ENTITIES.register("machine_mincerator_entity",
+            () -> BlockEntityType.Builder.of(MachineMinceratorEntity::new,
+            ModBlocks.MACHINE_MINCERATOR.get()).build(null));
     public static final RegistryObject<BlockEntityType<MachineAlembicEntity>> MACHINE_ALEMBIC_ENTITY =
             BLOCK_ENTITIES.register("machine_alembic_entity",
-                    () -> BlockEntityType.Builder.of(MachineAlembicEntity::new,
-                            ModBlocks.MACHINE_ALEMBIC.get()).build(null));
+            () -> BlockEntityType.Builder.of(MachineAlembicEntity::new,
+            ModBlocks.MACHINE_ALEMBIC.get()).build(null));
     public static final RegistryObject<BlockEntityType<MachineEnchanterEntity>> MACHINE_ENCHANTER_ENTITY =
             BLOCK_ENTITIES.register("machine_enchanter_entity",
-                    () -> BlockEntityType.Builder.of(MachineEnchanterEntity::new,
-                            ModBlocks.MACHINE_ENCHANTER.get()).build(null));
+            () -> BlockEntityType.Builder.of(MachineEnchanterEntity::new,
+            ModBlocks.MACHINE_ENCHANTER.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<ApplianceWardrobeEntity>> APPLIANCE_WARDROBE_ENTITY =
             BLOCK_ENTITIES.register("appliance_wardrobe_entity",
-                    () -> BlockEntityType.Builder.of(ApplianceWardrobeEntity::new,
-                            ModBlocks.APPLIANCE_WARDROBE.get()).build(null));
+            () -> BlockEntityType.Builder.of(ApplianceWardrobeEntity::new,
+            ModBlocks.APPLIANCE_WARDROBE.get()).build(null));
     public static final RegistryObject<BlockEntityType<ApplianceIceboxEntity>> APPLIANCE_ICEBOX_ENTITY =
             BLOCK_ENTITIES.register("appliance_icebox_entity",
-                    () -> BlockEntityType.Builder.of(ApplianceIceboxEntity::new,
-                            ModBlocks.APPLIANCE_ICEBOX.get()).build(null));
+            () -> BlockEntityType.Builder.of(ApplianceIceboxEntity::new,
+            ModBlocks.APPLIANCE_ICEBOX.get()).build(null));
 
     //--------------------------------------------------//
     public static void register(IEventBus eventBus)

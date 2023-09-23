@@ -1,6 +1,5 @@
 package com.natesky9.patina.Block.ApplianceIcebox;
 
-import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,10 +21,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
@@ -47,7 +43,8 @@ public class ApplianceIceboxBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (pPlayer instanceof ServerPlayer player)
         {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
+            BlockPos pos = pState.getValue(HALF) == DoubleBlockHalf.LOWER ? pPos:pPos.below();
+            BlockEntity entity = pLevel.getBlockEntity(pos);
             if (entity instanceof ApplianceIceboxEntity icebox)
             {
                 NetworkHooks.openScreen(player, icebox, pPos);
@@ -74,13 +71,16 @@ public class ApplianceIceboxBlock extends BaseEntityBlock {
     @Override
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos)
     {
-        if (pState.getValue(HALF) == DoubleBlockHalf.LOWER)
-        {
+        DoubleBlockHalf half = pState.getValue(HALF);
+        if (half == DoubleBlockHalf.LOWER)
+        {//if it's the lower half
             return super.canSurvive(pState, pLevel, pPos);
         }
-        BlockState below = pLevel.getBlockState(pPos.below());
-        if (pState.getBlock() != this) return false;
-        return below.is(this) && below.getValue(HALF) == DoubleBlockHalf.LOWER;
+        else
+        {
+            BlockState below = pLevel.getBlockState(pPos.below());
+            return below.is(this) && below.getValue(HALF) == DoubleBlockHalf.LOWER;
+        }
     }
     @Nullable
     @Override
@@ -88,10 +88,15 @@ public class ApplianceIceboxBlock extends BaseEntityBlock {
     {
         Level level = pContext.getLevel();
         BlockPos pos = pContext.getClickedPos();
-        boolean top = level.getBlockState(pos.below()).is(this);
-
-        return defaultBlockState().setValue(HALF,top ? DoubleBlockHalf.UPPER : DoubleBlockHalf.LOWER)
+        BlockState below = level.getBlockState(pos.below());
+        boolean top = below.is(this) && below.getValue(HALF) == DoubleBlockHalf.LOWER;
+        BlockState state = defaultBlockState()
+                .setValue(HALF,top ? DoubleBlockHalf.UPPER : DoubleBlockHalf.LOWER)
                 .setValue(FACING,pContext.getHorizontalDirection().getOpposite());
+
+        return pos.getY() < level.getMaxBuildHeight() - 1
+                && level.getBlockState(pos.above()).canBeReplaced(pContext)
+                ? state : null;
     }
     @Override
     public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
@@ -112,10 +117,11 @@ public class ApplianceIceboxBlock extends BaseEntityBlock {
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (pState.getBlock() != pNewState.getBlock())
         {
-            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof ApplianceIceboxEntity wardrobe)
+            BlockPos pos = pState.getValue(HALF) == DoubleBlockHalf.LOWER ? pPos : pPos.below();
+            BlockEntity blockEntity = pLevel.getBlockEntity(pos);
+            if (blockEntity instanceof ApplianceIceboxEntity icebox)
             {
-                ItemStackHandler itemStackHandler = wardrobe.handler;
+                ItemStackHandler itemStackHandler = icebox.handler;
                 SimpleContainer inventory = new SimpleContainer(itemStackHandler.getSlots());
                 for (int i=0;i < itemStackHandler.getSlots();i++)
                 {
@@ -124,6 +130,7 @@ public class ApplianceIceboxBlock extends BaseEntityBlock {
                 Containers.dropContents(pLevel,pPos,inventory);
             }
         }
+        super.onRemove(pState,pLevel,pPos,pNewState,pIsMoving);
     }
 
     @Override

@@ -1,10 +1,11 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Item.*;
+import com.natesky9.patina.Item.flasks.ImpetusFlask;
+import com.natesky9.patina.Item.flasks.PotionFlaskItem;
+import com.natesky9.patina.Item.flasks.SemiVitaFlask;
 import com.natesky9.patina.Patina;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -206,12 +207,38 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> BRONZE_INGOT = ITEMS.register("bronze_ingot",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> COPPER_NUGGET = ITEMS.register("copper_nugget",
+            () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> DRAGON_SCALE = ITEMS.register("dragon_scale",
             () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> POTION_FLASK = ITEMS.register("potion_flask",
-            () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)));
+            () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .durability(3)));
+    public static final RegistryObject<Item> IMPETUS_FLASK = ITEMS.register("potion_flask_impetus",
+            () -> new ImpetusFlask(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .durability(4)));
+    public static final RegistryObject<Item> VITA_FLASK = ITEMS.register("potion_flask_vita",
+            () -> new SemiVitaFlask(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .durability(4)));
+    public static final RegistryObject<Item> MAGNA_FLASK = ITEMS.register("potion_flask_magna",
+            () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .durability(5)));
+
+    public static final RegistryObject<Item> PRIME_GLASS = ITEMS.register("prime_glass",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> ANIMA_GLASS = ITEMS.register("anima_glass",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> FERUS_GLASS = ITEMS.register("ferus_glass",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> FORTIS_GLASS = ITEMS.register("fortis_glass",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SINISTER_SHARD = ITEMS.register("sinister_shard",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> MALACHITE = ITEMS.register("malachite",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     //
     public static void register(IEventBus eventBus)
     {ITEMS.register(eventBus);}

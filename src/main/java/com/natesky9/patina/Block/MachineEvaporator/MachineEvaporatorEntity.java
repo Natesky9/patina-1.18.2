@@ -1,24 +1,21 @@
 package com.natesky9.patina.Block.MachineEvaporator;
 
 import com.natesky9.patina.Block.Template.MachineTemplateEntity;
+import com.natesky9.patina.Recipe.EvaporatorRecipe;
 import com.natesky9.patina.init.ModItems;
-import com.natesky9.patina.init.ModPotions;
+import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -29,22 +26,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 public class MachineEvaporatorEntity extends MachineTemplateEntity implements MenuProvider {
-    public static final int slots = 3;
-    public final ContainerData data;
     public static final int dataSlots = 3;
     private int heat;
     private LazyOptional<IItemHandler> outputHandler = LazyOptional.empty();
     protected final ItemStackHandler outputStackHandler;
+    private Optional<EvaporatorRecipe> recipe = Optional.empty();
 
+    public static final int slots = 3;
     final int input = 0;
     final int fuel = 1;
     final int output = 2;
 
     public MachineEvaporatorEntity(BlockPos pWorldPosition, BlockState pBlockState) {
-        super(pWorldPosition, pBlockState,slots);
-        this.data = createData();
+        super(pWorldPosition, pBlockState, slots);
         this.progressMax = 180;
         this.outputStackHandler = new ItemStackHandler(slots)
         {
@@ -75,11 +72,11 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     {
         return switch (slot)
                 {
-                    case input -> stack.is(Items.POTION) || stack.is(Items.GLASS_BOTTLE);
+                    case input -> stack.is(Items.POTION) || stack.is(Items.GLASS_BOTTLE) || stack.is(Items.SAND);
                     case fuel -> stack.is(ItemTags.LOGS) || stack.is(Items.CHARCOAL)
                             || stack.is(Items.BLAZE_ROD) || stack.is(Items.NETHER_STAR);
                     case output -> stack.is(ModItems.POTION_SALT.get()) || stack.is(Items.GUNPOWDER)
-                            || stack.is(ModItems.BISMUTH_NUGGET.get());
+                            || stack.is(ModItems.BISMUTH_NUGGET.get()) || stack.is(Items.GLASS);
                     default -> false;
                 };
     }
@@ -115,8 +112,24 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     }
 
     @Override
-    protected void myContentsChanged() {
-
+    protected void myContentsChanged()
+    {
+        SimpleContainer container = new SimpleContainer(itemStackHandler.getStackInSlot(input));
+        Optional<EvaporatorRecipe> tempRecipe = recipe;
+        recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get(),container,level);
+        if (!hasRecipe())
+        {
+            recipe = Optional.empty();
+            resetProgress();
+            return;
+        }
+        if (tempRecipe.isPresent() && recipe.isPresent())
+        {
+            if (tempRecipe.get() != recipe.get())
+            {
+                resetProgress();
+            }
+        }
     }
 
     @Override
@@ -148,7 +161,7 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
         {
             if (side == Direction.DOWN)
                 return outputHandler.cast();
-            return inputHandler.cast();
+            return itemCapability.cast();
         }
         return super.getCapability(cap,side);
     }
@@ -158,7 +171,7 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     protected void MachineTick()
     {
         if (heat > 0) heat--;
-        if (hasRecipe() && hasNotReachedStackLimit() && heat > 0)
+        if (hasRecipe() && heat > 0)
         {
             progress++;
             if (progress >= progressMax)
@@ -198,35 +211,43 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     }
     void craftItem()
     {
-        ItemStack potion = itemStackHandler.extractItem(input,1,false);
-        itemStackHandler.insertItem(input,new ItemStack(Items.GLASS_BOTTLE),false);
-        ItemStack result;
-        if (PotionUtils.getPotion(potion) == Potions.THICK)
-        {result = new ItemStack(Items.BONE_MEAL,9);}
-        else if (PotionUtils.getPotion(potion)== ModPotions.VOLATILE_POTION.get())
-        {result = new ItemStack(Items.GUNPOWDER,9);}
-        else if (PotionUtils.getPotion(potion) == ModPotions.IRIDESCENT_POTION.get())
-        {result = new ItemStack(ModItems.BISMUTH_NUGGET.get());}
-        else
-        {
-            result = new ItemStack(ModItems.POTION_SALT.get());
-            PotionUtils.setPotion(result, PotionUtils.getPotion(potion));
-        }
-        itemStackHandler.insertItem(output,result,false);
+        if (recipe.isEmpty()) return;
+        //we have a recipe, craft it
+        itemStackHandler.insertItem(output,recipe.get().getResultItem(level.registryAccess()), false);
+        itemStackHandler.extractItem(input,1,false);
+
+        //ItemStack potion = itemStackHandler.extractItem(input,1,false);
+        //itemStackHandler.insertItem(input,new ItemStack(Items.GLASS_BOTTLE),false);
+        //ItemStack result;
+        //if (PotionUtils.getPotion(potion) == Potions.THICK)
+        //{result = new ItemStack(Items.BONE_MEAL,9);}
+        //else if (PotionUtils.getPotion(potion)== ModPotions.VOLATILE_POTION.get())
+        //{result = new ItemStack(Items.GUNPOWDER,9);}
+        //else if (PotionUtils.getPotion(potion) == ModPotions.IRIDESCENT_POTION.get())
+        //{result = new ItemStack(ModItems.BISMUTH_NUGGET.get());}
+        //else
+        //{
+        //    result = new ItemStack(ModItems.POTION_SALT.get());
+        //    PotionUtils.setPotion(result, PotionUtils.getPotion(potion));
+        //}
+        //itemStackHandler.insertItem(output,result,false);
     }
     private boolean hasNotReachedStackLimit()
     {
-        return itemStackHandler.getStackInSlot(output).getCount() == 0;
+        ItemStack stack = itemStackHandler.getStackInSlot(output);
+        int count = recipe.get().output.getCount();
+        return stack.getCount() < stack.getMaxStackSize()-count;
     }
 
     private boolean hasRecipe()
     {
-        boolean hasFirstSlot = itemStackHandler.getStackInSlot(input).getCount() > 0;
-        if (!hasFirstSlot) return false;
-        Potion potion = PotionUtils.getPotion(itemStackHandler.getStackInSlot(input));
-        boolean valid = potion.getEffects().size() == 1
-                || potion == ModPotions.VOLATILE_POTION.get() || potion == Potions.THICK
-                || potion == ModPotions.IRIDESCENT_POTION.get();
-        return valid;
+        return recipe.isPresent() && hasNotReachedStackLimit();
+        //boolean hasFirstSlot = itemStackHandler.getStackInSlot(input).getCount() > 0;
+        //if (!hasFirstSlot) return false;
+        //Potion potion = PotionUtils.getPotion(itemStackHandler.getStackInSlot(input));
+        //boolean valid = potion.getEffects().size() == 1
+        //        || potion == ModPotions.VOLATILE_POTION.get() || potion == Potions.THICK
+        //        || potion == ModPotions.IRIDESCENT_POTION.get();
+        //return valid;
     }
 }
