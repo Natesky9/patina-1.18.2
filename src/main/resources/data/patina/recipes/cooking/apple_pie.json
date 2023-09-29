@@ -4,11 +4,11 @@
           [
             {"tag": "patina:sweet"},
             {"tag": "patina:grain"},
-            {"item": "minecraft:chorus_fruit"},
-            {"item": "minecraft:cocoa_beans"}
+            {"tag": "forge:eggs"},
+            {"item": "minecraft:apple"}
           ],
   "output":
   {
-    "item": "patina:blink_brownie"
+    "item": "patina:apple_pie"
   }
 }

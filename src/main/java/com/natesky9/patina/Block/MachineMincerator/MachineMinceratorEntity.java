@@ -1,6 +1,7 @@
 package com.natesky9.patina.Block.MachineMincerator;
 
 import com.natesky9.patina.Block.Template.MachineTemplateEntity;
+import com.natesky9.patina.Item.PotionSaltItem;
 import com.natesky9.patina.Recipe.MinceratorRecipe;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -17,6 +18,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -25,10 +29,11 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 public class MachineMinceratorEntity extends MachineTemplateEntity implements MenuProvider {
-    public static final int slots = 5;
+    public static final int slots = 6;
     public int progressMax = 100;
 
 
@@ -41,7 +46,7 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     @Override
     protected boolean mySlotValid(int slot, @NotNull ItemStack stack) {
         return switch (slot) {
-            case 0, 1, 2, 3, 4 -> true;
+            case 0, 1, 2, 3, 4, 5 -> true;
             default -> false;
         };
     }
@@ -81,9 +86,25 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
         {
             inventory.setItem(i,this.itemStackHandler.getStackInSlot(i));
         }
-        Optional<MinceratorRecipe> match = level.getRecipeManager()
-                .getRecipeFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get(), inventory, level);
-        return match;
+        //
+            RecipeManager manager = level.getRecipeManager();
+            Optional<MinceratorRecipe> winner = Optional.empty();
+            int highest = 0;
+            List<MinceratorRecipe> recipes = manager.getAllRecipesFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get());
+            for (MinceratorRecipe recipe: recipes)
+            {
+                boolean fits = recipe.matches(inventory, level);
+                if (fits && MinceratorRecipe.match > highest)
+                {
+                    highest = MinceratorRecipe.match;
+                    winner = Optional.of(recipe);
+                }
+            }
+            return winner;
+
+        //Optional<MinceratorRecipe> match = level.getRecipeManager()
+        //        .getRecipeFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get(), inventory, level);
+        //return match;
     }
     @Override
     protected void myContentsChanged()
@@ -122,11 +143,22 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     @Override
     protected void MachineTick()
     {
-        //System.out.println("machine tick");
-        if (hasRecipe())
+        if (itemStackHandler.getStackInSlot(5).isEmpty())
         {
-            //System.out.println("craft");
-            craftItem();
+            if (hasRecipe()) {
+                //System.out.println("craft");
+                craftItem();
+            }
+        }
+        else
+        {
+            ItemStack food = itemStackHandler.getStackInSlot(4);
+            ItemStack augment = itemStackHandler.getStackInSlot(5);
+            if (augment.getItem() instanceof PotionSaltItem)
+            {
+                PotionUtils.setPotion(food,PotionUtils.getPotion(augment));
+                itemStackHandler.extractItem(5,1,false);
+            }
         }
 
     }
@@ -175,44 +207,49 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     Optional<MinceratorRecipe> recipe = getRecipe();
     if (recipe.isPresent())
         {
-        int hunger = 0;
-        float saturation = 0;
+            ItemStack stack = recipe.get().getResultItem(level.registryAccess());
+        //int hunger = 0;
+        //float saturation = 0;
 
-        String food1 = itemStackHandler.getStackInSlot(0).getDisplayName().getString();
-        String food2 = itemStackHandler.getStackInSlot(1).getDisplayName().getString();
-        String food3 = itemStackHandler.getStackInSlot(2).getDisplayName().getString();
-        String food4 = itemStackHandler.getStackInSlot(3).getDisplayName().getString();
+        //String food1 = itemStackHandler.getStackInSlot(0).getDisplayName().getString();
+        //String food2 = itemStackHandler.getStackInSlot(1).getDisplayName().getString();
+        //String food3 = itemStackHandler.getStackInSlot(2).getDisplayName().getString();
+        //String food4 = itemStackHandler.getStackInSlot(3).getDisplayName().getString();
 
 
-        for (int i=0;i<4;i++)
-        {
-            ItemStack get = itemStackHandler.extractItem(i,1,false);
+        //for (int i=0;i<4;i++)
+        //{
+        //    ItemStack get = itemStackHandler.extractItem(i,1,false);
 
-            if (get.getFoodProperties(null) == null)
-            {
-                //handle the non-foods here
-                if (get.getItem() == Items.SUGAR) saturation += .5f;
-                if (get.getItem() == Items.COCOA_BEANS) saturation += 1f;
-                if (get.getItem() == Items.WHEAT_SEEDS) hunger += 1;
-                if (get.getItem() == Items.PUMPKIN_SEEDS) hunger += 2;
-                if (get.getItem() == Items.SNOWBALL) saturation += 1f;
-                if (get.getItem() == Items.BEETROOT_SEEDS) hunger += 1;
-                if (get.getItem() == Items.EGG) hunger +=2;
-                if (get.getItem() == Items.DRAGON_BREATH) saturation += 2f;
-                if (get.getItem() == Items.GLOW_LICHEN) saturation += 1f;
-                continue;
-            }
-            hunger += get.getFoodProperties(null).getNutrition();
-            saturation += get.getFoodProperties(null).getSaturationModifier();
-        }
-        ItemStack stack = new ItemStack(Items.SUSPICIOUS_STEW);
-        SuspiciousStewItem.saveMobEffect(stack, MobEffects.ABSORPTION,200);
+        //    if (get.getFoodProperties(null) == null)
+        //    {
+        //        //handle the non-foods here
+        //        if (get.getItem() == Items.SUGAR) saturation += .5f;
+        //        if (get.getItem() == Items.COCOA_BEANS) saturation += 1f;
+        //        if (get.getItem() == Items.WHEAT_SEEDS) hunger += 1;
+        //        if (get.getItem() == Items.PUMPKIN_SEEDS) hunger += 2;
+        //        if (get.getItem() == Items.SNOWBALL) saturation += 1f;
+        //        if (get.getItem() == Items.BEETROOT_SEEDS) hunger += 1;
+        //        if (get.getItem() == Items.EGG) hunger +=2;
+        //        if (get.getItem() == Items.DRAGON_BREATH) saturation += 2f;
+        //        if (get.getItem() == Items.GLOW_LICHEN) saturation += 1f;
+        //        continue;
+        //    }
+        //    hunger += get.getFoodProperties(null).getNutrition();
+        //    saturation += get.getFoodProperties(null).getSaturationModifier();
+        //}
+        //ItemStack stack = new ItemStack(Items.SUSPICIOUS_STEW);
+        //SuspiciousStewItem.saveMobEffect(stack, MobEffects.ABSORPTION,200);
         //CustomFood.setFoodProperties(food,hunger,saturation);
         //CustomFood.setIngredients(food,food1,food2,food3,food4);
         //
             //ItemStack stack = new ItemStack(recipe.get().getResultItem().getItem());
 
             itemStackHandler.insertItem(4,stack,false);
+            for (int i=0;i < 4;i++)
+            {
+                itemStackHandler.extractItem(i,1,false);
+            }
         }
 
 

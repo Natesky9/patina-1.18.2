@@ -1,0 +1,13 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"tag": "patina:meat"},
+            {"tag": "patina:vegetable"},
+            {"item": "minecraft:blaze_powder"}
+          ],
+  "output":
+  {
+    "item": "patina:chili"
+  }
+}

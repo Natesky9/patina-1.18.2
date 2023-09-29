@@ -1,0 +1,12 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"tag": "patina:meat", "count": 2},
+            {"item": "minecraft:sugar"}
+          ],
+  "output":
+  {
+    "item": "patina:honey_nuggets"
+  }
+}

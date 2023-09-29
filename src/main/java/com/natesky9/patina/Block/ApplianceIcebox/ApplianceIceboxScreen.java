@@ -48,7 +48,8 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1,1,1,1);
-        RenderSystem.setShaderTexture(0,FOOD);
+
+        //
 
         imageWidth = 175;
         imageHeight = 183;
@@ -59,6 +60,10 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
 
         if (this.hoveredSlot != null && this.hoveredSlot.hasItem())
         {
+            //draw the tooltip off to the side
+
+            //renderTooltip(pPoseStack,hoveredSlot.getItem(),getGuiLeft()+imageWidth,getGuiTop());
+
             int yoffset = 0;
             ItemStack stack = hoveredSlot.getItem();
             MobEffectTextureManager mobeffecttexturemanager = this.minecraft.getMobEffectTextures();
@@ -72,6 +77,7 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
             //check if food
             if (stack.getFoodProperties(minecraft.player) != null)
             {
+                RenderSystem.setShaderTexture(0,FOOD);
                 y += 8;
                 //draw the hunger haunches
                 int hunger = stack.getFoodProperties(minecraft.player).getNutrition();

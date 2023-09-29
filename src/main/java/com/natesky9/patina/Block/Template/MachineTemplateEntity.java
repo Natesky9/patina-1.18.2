@@ -31,10 +31,12 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
     protected final ContainerData data;;
 
     protected int progress = 0;
-    protected int progressMax = 100;
+    protected int progressMax = 20;
+    protected int machineSlots = 0;
 
     public MachineTemplateEntity(BlockPos pWorldPosition, BlockState pBlockState, int slots) {
         super(((MachineTemplateBlock)pBlockState.getBlock()).getBlockEntityType(),pWorldPosition, pBlockState);
+        machineSlots = slots;
         //create the handler
         itemStackHandler = new ItemStackHandler(slots)
         {
@@ -42,8 +44,7 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
             protected void onContentsChanged(int slot)
             {
                 setChanged();
-                if (slot != getSlots()-1)//ignore changes in the final slot
-                    myContentsChanged();
+                myContentsChanged();
             }
 
             @Override
@@ -93,6 +94,11 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
     public void load(CompoundTag tag) {
         super.load(tag);
         itemStackHandler.deserializeNBT(tag.getCompound("inventory"));
+        if (itemStackHandler.getSlots() != machineSlots)
+        {
+            System.out.println("Slots do not match! setting to correct now!");
+            itemStackHandler.setSize(machineSlots);
+        }
         progress = tag.getInt("progress");
     }
 

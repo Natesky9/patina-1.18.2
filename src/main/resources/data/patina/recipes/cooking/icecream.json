@@ -1,0 +1,13 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"tag": "patina:fruit"},
+            {"tag": "patina:sweet"},
+            {"item": "minecraft:snow_block"}
+          ],
+  "output":
+  {
+    "item": "patina:icecream"
+  }
+}

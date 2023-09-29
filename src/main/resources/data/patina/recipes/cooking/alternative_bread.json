@@ -2,10 +2,8 @@
   "type": "patina:smoker_grindstone",
   "ingredients":
           [
-            {"item": "minecraft:wheat"},
-            {"item": "minecraft:wheat"},
-            {"item": "minecraft:sugar"},
-            {"item": "minecraft:bone_meal"}
+            {"tag": "patina:grain", "count": 2},
+            {"tag": "forge:egg"}
           ],
   "output":
   {

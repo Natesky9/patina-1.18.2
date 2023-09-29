@@ -2,14 +2,12 @@
   "type": "patina:smoker_grindstone",
   "ingredients":
           [
-            {"item": "minecraft:carrot"},
-            {"item": "minecraft:wheat"},
+            {"tag": "patina:vegetable"},
             {"item": "minecraft:sugar"},
             {"item": "minecraft:egg"}
           ],
   "output":
   {
-    "item": "patina:carrot_cake"
-  },
-  "credit": "Natesky9"
+    "item": "minecraft:pumpkin_pie"
+  }
 }

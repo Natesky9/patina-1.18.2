@@ -5,6 +5,7 @@ import com.natesky9.patina.Loot.ModLootModifiers;
 import com.natesky9.patina.init.*;
 import com.natesky9.patina.painting.ModPaintings;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;

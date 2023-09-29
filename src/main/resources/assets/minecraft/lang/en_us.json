@@ -31,5 +31,10 @@
   "item.minecraft.potion.effect.intermediate_water_breathing": "Water Breathing Intermediate",
   "item.minecraft.potion.effect.acrid": "Acrid Fluid",
   "item.minecraft.potion.effect.volatile": "Volatile Fluid",
-  "item.minecraft.potion.effect.iridescent": "Iridescent Fluid"
+  "item.minecraft.potion.effect.iridescent": "Iridescent Fluid",
+
+  "item.minecraft.potion.effect.void_healing": "Overloaded Healing",
+  "item.minecraft.potion.effect.void_strength": "Overloaded Strength",
+  "item.minecraft.potion.effect.void_swiftness": "Overloaded Swiftness",
+  "item.minecraft.potion.effect.void_harming": "Overloaded Harming"
 }

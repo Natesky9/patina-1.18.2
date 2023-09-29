@@ -1,0 +1,9 @@
+{
+  "type": "patina:evaporator",
+  "potion": "patina:iridescent_potion",
+  "output":
+  {
+    "item": "patina:bismuth_nugget",
+    "count": 3
+  }
+}

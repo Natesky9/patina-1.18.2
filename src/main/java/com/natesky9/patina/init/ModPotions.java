@@ -29,57 +29,84 @@ public class ModPotions
             () -> new Potion(new MobEffectInstance(MobEffects.WEAKNESS, shorter,1)));
     //my potions
     public static final RegistryObject<Potion> HASTE = MOD_POTIONS.register("haste",
-            () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED,normal)));
+            () -> new Potion("haste",new MobEffectInstance(MobEffects.DIG_SPEED,normal)));
     public static final RegistryObject<Potion> STRONG_HASTE = MOD_POTIONS.register("strong_haste",
-            () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED, shorter,1)));
+            () -> new Potion("strong_haste",new MobEffectInstance(MobEffects.DIG_SPEED, shorter,1)));
     public static final RegistryObject<Potion> LONG_HASTE = MOD_POTIONS.register("long_haste",
-            () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED,extended)));
-    //
-    public static final RegistryObject<Potion> SWIFTNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_swiftness", Potion::new);
+            () -> new Potion("long_haste",new MobEffectInstance(MobEffects.DIG_SPEED,extended)));
+    //region intermediates and enhanced
+    public static final RegistryObject<Potion> SWIFTNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_swiftness",
+            () -> new Potion("intermediate_swiftness"));
     public static final RegistryObject<Potion> ENHANCED_SWIFTNESS = MOD_POTIONS.register("enhanced_swiftness",
-            () -> new Potion(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,extended,2)));
-    public static final RegistryObject<Potion> SLOWNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_slowness", Potion::new);
+            () -> new Potion("enhanced_swiftness",new MobEffectInstance(MobEffects.MOVEMENT_SPEED,extended,2)));
+    public static final RegistryObject<Potion> SLOWNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_slowness",
+            () -> new Potion("intermediate_slowness"));
     public static final RegistryObject<Potion> ENHANCED_SLOWNESS = MOD_POTIONS.register("enhanced_slowness",
-            () -> new Potion(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, brief,4)));
-    public static final RegistryObject<Potion> LEAPING_INTERMEDIATE = MOD_POTIONS.register("intermediate_jump_boost", Potion::new);
+            () -> new Potion("enhanced_slowness",new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, brief,4)));
+    public static final RegistryObject<Potion> LEAPING_INTERMEDIATE = MOD_POTIONS.register("intermediate_jump_boost",
+            () -> new Potion("intermediate_jump_boost"));
     public static final RegistryObject<Potion> ENHANCED_LEAPING = MOD_POTIONS.register("enhanced_jump_boost",
-            () -> new Potion(new MobEffectInstance(MobEffects.JUMP,extended,2)));
-    public static final RegistryObject<Potion> STRENGTH_INTERMEDIATE = MOD_POTIONS.register("intermediate_strength", Potion::new);
+            () -> new Potion("enhanced_jump_boost",new MobEffectInstance(MobEffects.JUMP,extended,2)));
+    public static final RegistryObject<Potion> STRENGTH_INTERMEDIATE = MOD_POTIONS.register("intermediate_strength",
+            () -> new Potion("intermediate_strength"));
     public static final RegistryObject<Potion> ENHANCED_STRENGTH = MOD_POTIONS.register("enhanced_strength",
-            () -> new Potion(new MobEffectInstance(MobEffects.DAMAGE_BOOST,extended,2)));
-    public static final RegistryObject<Potion> WEAKNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_weakness", Potion::new);
+            () -> new Potion("enhanced_strength",new MobEffectInstance(MobEffects.DAMAGE_BOOST,extended,2)));
+    public static final RegistryObject<Potion> WEAKNESS_INTERMEDIATE = MOD_POTIONS.register("intermediate_weakness",
+            () -> new Potion("intermediate_weakness"));
     public static final RegistryObject<Potion> ENHANCED_WEAKNESS = MOD_POTIONS.register("enhanced_weakness",
-            () -> new Potion(new MobEffectInstance(MobEffects.WEAKNESS,shorter,2)));
-    public static final RegistryObject<Potion> HEALING_INTERMEDIATE = MOD_POTIONS.register("intermediate_healing", Potion::new);
+            () -> new Potion("enhanced_weakness",new MobEffectInstance(MobEffects.WEAKNESS,shorter,2)));
+    public static final RegistryObject<Potion> HEALING_INTERMEDIATE = MOD_POTIONS.register("intermediate_healing",
+            () -> new Potion("intermediate_healing"));
     public static final RegistryObject<Potion> ENHANCED_HEALING = MOD_POTIONS.register("enhanced_healing",
-            () -> new Potion(new MobEffectInstance(MobEffects.HEAL,1,2)));
-    public static final RegistryObject<Potion> HARMING_INTERMEDIATE = MOD_POTIONS.register("intermediate_harming", Potion::new);
+            () -> new Potion("enhanced_healing",new MobEffectInstance(MobEffects.HEAL,1,2)));
+    public static final RegistryObject<Potion> HARMING_INTERMEDIATE = MOD_POTIONS.register("intermediate_harming",
+            () -> new Potion("intermediate_harming"));
     public static final RegistryObject<Potion> ENHANCED_HARMING = MOD_POTIONS.register("enhanced_harming",
-            () -> new Potion(new MobEffectInstance(MobEffects.HEAL,1,2)));
-    public static final RegistryObject<Potion> POISON_INTERMEDIATE = MOD_POTIONS.register("intermediate_poison", Potion::new);
+            () -> new Potion("enhanced_harming",new MobEffectInstance(MobEffects.HARM,1,2)));
+    public static final RegistryObject<Potion> POISON_INTERMEDIATE = MOD_POTIONS.register("intermediate_poison",
+            () -> new Potion("intermediate_poison"));
     public static final RegistryObject<Potion> ENHANCED_POISON = MOD_POTIONS.register("enhanced_poison",
-            () -> new Potion(new MobEffectInstance(MobEffects.POISON,shorter,2)));
-    public static final RegistryObject<Potion> REGENERATION_INTERMEDIATE = MOD_POTIONS.register("intermediate_regeneration", Potion::new);
+            () -> new Potion("enhanced_poison",new MobEffectInstance(MobEffects.POISON,shorter,2)));
+    public static final RegistryObject<Potion> REGENERATION_INTERMEDIATE = MOD_POTIONS.register("intermediate_regeneration",
+            () -> new Potion("intermediate_regeneration"));
     public static final RegistryObject<Potion> ENHANCED_REGENERATION = MOD_POTIONS.register("enhanced_regeneration",
-            () -> new Potion(new MobEffectInstance(MobEffects.REGENERATION,shorter,2)));
-    public static final RegistryObject<Potion> FIRE_RESIST_INTERMEDIATE = MOD_POTIONS.register("intermediate_fire_resist", Potion::new);
+            () -> new Potion("enhanced_regeneration",new MobEffectInstance(MobEffects.REGENERATION,shorter,2)));
+    //endregion
+    public static final RegistryObject<Potion> FIRE_RESIST_INTERMEDIATE = MOD_POTIONS.register("intermediate_fire_resist",
+            () -> new Potion("intermediate_fire_resist"));
     public static final RegistryObject<Potion> ENHANCED_FIRE_RESIST = MOD_POTIONS.register("enhanced_fire_resist",
-            () -> new Potion(new MobEffectInstance(MobEffects.REGENERATION,19200,1)));
-    public static final RegistryObject<Potion> WATER_BREATHING_INTERMEDIATE = MOD_POTIONS.register("intermediate_water_breathing", Potion::new);
+            () -> new Potion("enhanced_fire_resist",new MobEffectInstance(MobEffects.REGENERATION,19200,1)));
+    public static final RegistryObject<Potion> WATER_BREATHING_INTERMEDIATE = MOD_POTIONS.register("intermediate_water_breathing",
+            () -> new Potion("intermediate_water_breathing"));
     public static final RegistryObject<Potion> ENHANCED_WATER_BREATHING = MOD_POTIONS.register("enhanced_water_breathing",
-            () -> new Potion(new MobEffectInstance(MobEffects.WATER_BREATHING,19200,1)));
+            () -> new Potion("enhanced_water_breathing",new MobEffectInstance(MobEffects.WATER_BREATHING,19200,1)));
     //didn't feel like finishing these
     //public static final RegistryObject<Potion> NIGHT_VISION_INTERMEDIATE = MOD_POTIONS.register("intermediate_night_vision", Potion::new);
     //public static final RegistryObject<Potion> INVISIBILITY_INTERMEDIATE = MOD_POTIONS.register("intermediate_invisibility", Potion::new);
     //public static final RegistryObject<Potion> SLOW_FALLING_INTERMEDIATE = MOD_POTIONS.register("intermediate_slow_falling", Potion::new);
     //mundane potions
     public static final RegistryObject<Potion> ACRID_POTION = MOD_POTIONS.register("acrid_potion",
-            Potion::new);
+            () -> new Potion("acrid_potion"));
     public static final RegistryObject<Potion> VOLATILE_POTION = MOD_POTIONS.register("volatile_potion",
-            Potion::new);
+            () -> new Potion("volatile_potion"));
     //bismuth blend
     public static final RegistryObject<Potion> IRIDESCENT_POTION = MOD_POTIONS.register("iridescent_potion",
-            Potion::new);
+            () -> new Potion("iridescent_potion"));
+
+    //region void potions
+    public static final RegistryObject<Potion> VOID_HEALING = MOD_POTIONS.register("void_healing",
+            () -> new Potion("void_healing", new MobEffectInstance(MobEffects.HEAL,1,3),
+                    new MobEffectInstance(MobEffects.WITHER,300)));
+    public static final RegistryObject<Potion> VOID_STRENGTH = MOD_POTIONS.register("void_strength",
+            () -> new Potion("void_strength", new MobEffectInstance(MobEffects.DAMAGE_BOOST,shorter,3),
+                    new MobEffectInstance(MobEffects.WITHER,300)));
+    public static final RegistryObject<Potion> VOID_SWIFTNESS = MOD_POTIONS.register("void_swiftness",
+            () -> new Potion("void_swiftness", new MobEffectInstance(MobEffects.MOVEMENT_SPEED,shorter,3),
+                    new MobEffectInstance(MobEffects.WITHER,300)));
+    public static final RegistryObject<Potion> VOID_HARMING = MOD_POTIONS.register("void_harming",
+            () -> new Potion("void_harming", new MobEffectInstance(MobEffects.HARM,shorter,3),
+                    new MobEffectInstance(MobEffects.WITHER,300)));
+    //endregion
     //
     public static void register(IEventBus eventBus)
     {
@@ -184,5 +211,12 @@ public class ModPotions
         BrewingRecipeRegistry.addRecipe(new SaltBrewingRecipe(Potions.LONG_WATER_BREATHING,MobEffects.WATER_BREATHING,ModPotions.WATER_BREATHING_INTERMEDIATE.get()));
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(ModPotions.WATER_BREATHING_INTERMEDIATE.get(),Items.DRIED_KELP_BLOCK,ModPotions.ENHANCED_WATER_BREATHING.get()));
 
+    }
+    public static void addVoidPotions()
+    {
+        BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(ModPotions.ENHANCED_HEALING.get(), ModItems.VOID_SALT.get(), ModPotions.VOID_HEALING.get()));
+        BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(ModPotions.ENHANCED_STRENGTH.get(), ModItems.VOID_SALT.get(), ModPotions.VOID_STRENGTH.get()));
+        BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(ModPotions.ENHANCED_SWIFTNESS.get(), ModItems.VOID_SALT.get(), ModPotions.VOID_SWIFTNESS.get()));
+        BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(ModPotions.ENHANCED_HARMING.get(), ModItems.VOID_SALT.get(), ModPotions.VOID_HARMING.get()));
     }
 }

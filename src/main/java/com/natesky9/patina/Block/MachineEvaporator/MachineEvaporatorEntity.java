@@ -214,7 +214,8 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
         if (recipe.isEmpty()) return;
         //we have a recipe, craft it
         itemStackHandler.insertItem(output,recipe.get().getResultItem(level.registryAccess()), false);
-        itemStackHandler.extractItem(input,1,false);
+        itemStackHandler.setStackInSlot(input,new ItemStack(Items.GLASS_BOTTLE));
+        //itemStackHandler.extractItem(input,1,false);
 
         //ItemStack potion = itemStackHandler.extractItem(input,1,false);
         //itemStackHandler.insertItem(input,new ItemStack(Items.GLASS_BOTTLE),false);

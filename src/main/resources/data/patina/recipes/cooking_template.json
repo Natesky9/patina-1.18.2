@@ -1,0 +1,12 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"tag": ""},
+            {"item": ""}
+          ],
+  "output":
+  {
+    "item": ""
+  }
+}

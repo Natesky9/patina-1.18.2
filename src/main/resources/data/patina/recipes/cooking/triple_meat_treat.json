@@ -1,0 +1,12 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"tag": "patina:meat", "count": 3},
+            {"tag": "patina:sweet"}
+          ],
+  "output":
+  {
+    "item": "patina:triple_meat_treat"
+  }
+}

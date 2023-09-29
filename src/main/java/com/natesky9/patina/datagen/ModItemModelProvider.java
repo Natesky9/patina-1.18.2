@@ -79,7 +79,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.FERUS_GLASS);
         simpleItem(ModItems.FORTIS_GLASS);
         simpleItem(ModItems.MALACHITE);
-        simpleItem(ModItems.SINISTER_SHARD);
         withExistingParent(ModItems.POTION_SALT.getId().getPath(), new ResourceLocation("item/generated"))
                 .texture("layer0", new ResourceLocation("item/sugar"))
                 .texture("layer1", new ResourceLocation("item/light"));
@@ -146,7 +145,23 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.DRAGON_BOOTS);
         //endregion dragon
         withExistingParent(ModBlocks.CHORUS_CABLE.getId().getPath(),modLoc("block/chorus_cable"+"_inventory"));
-        withExistingParent(ModBlocks.CHARGE_CABLE.getId().getPath(),modLoc("block/charge_cable"+"_inventory"));;
+        withExistingParent(ModBlocks.CHARGE_CABLE.getId().getPath(),modLoc("block/charge_cable"+"_inventory"));
+
+        simpleItem(ModItems.SLEET_WHEAT);
+
+        simpleItem(ModItems.FOOD_MEATBALLS);
+        simpleItem(ModItems.FOOD_HONEY_NUGGETS);
+        simpleItem(ModItems.FOOD_CHILI);
+        simpleItem(ModItems.FOOD_ICECREAM);
+        simpleItem(ModItems.FOOD_BURGER);
+        simpleItem(ModItems.FOOD_SKEWERS);
+        simpleItem(ModItems.FOOD_SWEETS);
+        simpleItem(ModItems.FOOD_APPLE_PIE);
+        simpleItem(ModItems.FOOD_BLINK_BROWNIE);
+        simpleItem(ModItems.FOOD_TRIPLE_MEAT_TREAT);
+        simpleItem(ModItems.FOOD_PIEROGI);
+        simpleItem(ModItems.FOOD_OMELETTE);
+        simpleItem(ModItems.FOOD_LOAF);
     }
 
 

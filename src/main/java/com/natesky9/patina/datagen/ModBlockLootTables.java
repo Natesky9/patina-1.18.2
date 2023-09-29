@@ -40,6 +40,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.MACHINE_ENCHANTER.get());
         this.dropSelf(ModBlocks.MACHINE_EVAPORATOR.get());
         this.dropSelf(ModBlocks.MACHINE_ALEMBIC.get());
+        this.dropSelf(ModBlocks.MACHINE_MINCERATOR.get());
 
         this.dropSelf(ModBlocks.PRISMATIC_ORE.get());
         dropOther(ModBlocks.PRISMATIC_ORE.get(), Items.PRISMARINE_SHARD);

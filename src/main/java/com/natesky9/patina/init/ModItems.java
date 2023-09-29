@@ -195,6 +195,7 @@ public class ModItems {
     //charm of blessing
     //TODO add charms
     //endregion charms
+    //region potions/ores
     public static final RegistryObject<Item> POTION_SALT = ITEMS.register("potion_salt",
             () -> new PotionSaltItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> VOID_SALT = ITEMS.register("void_salt",
@@ -224,7 +225,7 @@ public class ModItems {
                     .durability(4)));
     public static final RegistryObject<Item> MAGNA_FLASK = ITEMS.register("potion_flask_magna",
             () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON)
-                    .durability(5)));
+                    .durability(6)));
 
     public static final RegistryObject<Item> PRIME_GLASS = ITEMS.register("prime_glass",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
@@ -234,11 +235,46 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> FORTIS_GLASS = ITEMS.register("fortis_glass",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> SINISTER_SHARD = ITEMS.register("sinister_shard",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    //public static final RegistryObject<Item> SINISTER_SHARD = ITEMS.register("sinister_shard",
+    //        () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> MALACHITE = ITEMS.register("malachite",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    //endregion potion/ores
+    //region food
+    public static final RegistryObject<Item> FOOD_MEATBALLS = ITEMS.register("meatballs",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_HONEY_NUGGETS = ITEMS.register("honey_nuggets",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_CHILI = ITEMS.register("chili",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_ICECREAM = ITEMS.register("icecream",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_BURGER = ITEMS.register("borger",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_SKEWERS = ITEMS.register("skewers",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_SWEETS = ITEMS.register("sweets",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_APPLE_PIE = ITEMS.register("apple_pie",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_BLINK_BROWNIE = ITEMS.register("blink_brownie",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_TRIPLE_MEAT_TREAT = ITEMS.register("triple_meat_treat",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_PIEROGI = ITEMS.register("pierogi",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> FOOD_OMELETTE = ITEMS.register("omelette",
+            () -> new Item(new Item.Properties()));
+    //test for tier 2 foods?
+    public static final RegistryObject<Item> FOOD_LOAF = ITEMS.register("loaf",
+            () -> new Item(new Item.Properties()));
+
+
+    public static final RegistryObject<Item> SLEET_WHEAT = ITEMS.register("sleet_wheat",
+            () -> new Item(new Item.Properties()));
+
+    //endregion food
     //
     public static void register(IEventBus eventBus)
     {ITEMS.register(eventBus);}

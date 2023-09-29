@@ -75,6 +75,7 @@ public class EventsMod {
         ModPotions.removePotions();
         ModPotions.addNormalPotions();
         ModPotions.addSaltPotions();
+        ModPotions.addVoidPotions();
     }
     @SubscribeEvent
     public static void doClientStuff(FMLClientSetupEvent event)

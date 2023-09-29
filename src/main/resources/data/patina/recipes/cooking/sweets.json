@@ -1,0 +1,13 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"tag": "patina:fruit"},
+            {"tag": "forge:dyes"},
+            {"tag": "patina:sweet", "count": 2}
+          ],
+  "output":
+  {
+    "item": "patina:sweets"
+  }
+}

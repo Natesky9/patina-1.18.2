@@ -24,7 +24,7 @@ public class MachineMinceratorMenu extends AbstractContainerMenu {
     public MachineMinceratorMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data)
     {
         super(ModMenuTypes.MACHINE_MINCERATOR_MENU.get(), pContainerId);
-        checkContainerSize(inv, 5);
+        checkContainerSize(inv, 6);
         blockEntity = ((MachineMinceratorEntity) entity);
         this.level = inv.player.level;
         this.data = data;
@@ -39,6 +39,7 @@ public class MachineMinceratorMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(handler,2,28,47));
             this.addSlot(new SlotItemHandler(handler,3,60,47));
             this.addSlot(new OutputSlotHandler(handler,4,126,32));
+            this.addSlot(new SlotItemHandler(handler,5,126,8));
         });
         addDataSlots(data);
     }

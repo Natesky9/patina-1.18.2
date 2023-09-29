@@ -1,13 +1,15 @@
 package com.natesky9.patina.datagen;
 
-import com.natesky9.patina.datagen.ModBlockStateProvider;
-import com.natesky9.patina.datagen.ModItemModelProvider;
-import com.natesky9.patina.datagen.ModLootTableProvider;
-import com.natesky9.patina.datagen.ModRecipeProvider;
+import com.natesky9.patina.Patina;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.TagsProvider;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
+
+import java.util.concurrent.CompletableFuture;
 
 public class DataGenerators {
     public static void gatherData(GatherDataEvent event)
@@ -15,10 +17,14 @@ public class DataGenerators {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         ExistingFileHelper helper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(true, new ModRecipeProvider(packOutput));
         generator.addProvider(true, ModLootTableProvider.create(packOutput));
         generator.addProvider(true, new ModBlockStateProvider(packOutput,helper));
         generator.addProvider(true, new ModItemModelProvider(packOutput, helper));
+        BlockTagsProvider blockTagsProvider = new ModBlockTagsProvider(packOutput, lookupProvider, Patina.MODID, helper);
+        generator.addProvider(true, blockTagsProvider);
+        generator.addProvider(true, new ModItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), Patina.MODID, helper));
     }
 }

@@ -1,0 +1,11 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"tag": "forge:eggs", "count": 2}
+          ],
+  "output":
+  {
+    "item": "patina:omelette"
+  }
+}
