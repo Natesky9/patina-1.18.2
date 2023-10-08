@@ -42,7 +42,7 @@ public class ModEnchantmentUtil {
     {
         //nether curse items when hurt by wither skeleton
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        if (!(player.getLevel().dimension() == Level.NETHER)) return;
+        if (!(player.level().dimension() == Level.NETHER)) return;
         if (!(event.getSource().getEntity() instanceof WitherSkeleton)) return;
         if (player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_WARDING.get())))
         {
@@ -69,7 +69,7 @@ public class ModEnchantmentUtil {
             {
                 item.enchant(curse, 1);
                 for (float i = 0;i < 5;i++)
-                    player.level.playSound(null,player.blockPosition(), SoundEvents.SILVERFISH_AMBIENT, SoundSource.PLAYERS,
+                    player.level().playSound(null,player.blockPosition(), SoundEvents.SILVERFISH_AMBIENT, SoundSource.PLAYERS,
                             .5F,i/10);
 
                 break;

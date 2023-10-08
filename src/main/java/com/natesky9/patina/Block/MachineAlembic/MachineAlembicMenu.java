@@ -15,7 +15,7 @@ public class MachineAlembicMenu extends AbstractContainerMenu {
 
     public MachineAlembicMenu(int pContainerId, Inventory inv, FriendlyByteBuf buf)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(buf.readBlockPos()));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(buf.readBlockPos()));
     }
     public MachineAlembicMenu(int pContainerId, Inventory inv, BlockEntity entity)
     {

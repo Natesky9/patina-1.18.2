@@ -40,7 +40,7 @@ public class PrideEnchantment extends Enchantment {
         //10% chance to trigger
         if (Math.random() > 0.10) return;
         player.displayClientMessage(Component.translatable("patina.pride_trigger"),true);
-        player.level.playSound(null,player.blockPosition(), SoundEvents.CHICKEN_HURT,
+        player.level().playSound(null,player.blockPosition(), SoundEvents.CHICKEN_HURT,
                 SoundSource.PLAYERS,0.5F,0.5F);
 
         for (ItemStack stack: entity.getArmorSlots())

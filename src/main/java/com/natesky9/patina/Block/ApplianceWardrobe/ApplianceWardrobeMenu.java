@@ -33,13 +33,13 @@ public class ApplianceWardrobeMenu extends AbstractContainerMenu {
 
     public ApplianceWardrobeMenu(int pContainerId, Inventory inv, FriendlyByteBuf buf)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(buf.readBlockPos()));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(buf.readBlockPos()));
     }
     public ApplianceWardrobeMenu(int pContainerId, Inventory inv, BlockEntity entity)
     {
         super(ModMenuTypes.APPLIANCE_WARDROBE_MENU.get(), pContainerId);
         blockEntity = (ApplianceWardrobeEntity) entity;
-        level = inv.player.getLevel();
+        level = inv.player.level();
         //add wardrobe slots
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER,null).ifPresent(handler ->
         {

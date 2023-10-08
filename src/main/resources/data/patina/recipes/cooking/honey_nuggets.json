@@ -2,7 +2,9 @@
   "type": "patina:smoker_grindstone",
   "ingredients":
           [
-            {"tag": "patina:meat", "count": 2},
+            {"tag": "patina:meat"},
+            {"tag": "patina:meat"},
+            {"tag": "patina:grain"},
             {"item": "minecraft:sugar"}
           ],
   "output":

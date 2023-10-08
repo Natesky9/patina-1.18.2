@@ -2,42 +2,26 @@ package com.natesky9.patina.datagen;
 
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
-import net.minecraft.advancements.AdvancementList;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.advancements.AdvancementProvider;
-import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.data.recipes.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.PlayerAdvancements;
-import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.datafix.fixes.AdvancementsFix;
-import net.minecraft.util.datafix.fixes.AdvancementsRenameFix;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-
-import java.util.function.Consumer;
+import org.jetbrains.annotations.NotNull;
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
     public ModRecipeProvider(PackOutput output) {
         super(output);
     }
 
-    private void smithingTable(Item result,Item template,Item item1, Item item2, Consumer<FinishedRecipe> pWriter)
+    private void smithingTable(Item result,Item template,Item item1, Item item2, RecipeOutput pWriter)
     {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(template),
                         Ingredient.of(item1),
@@ -47,7 +31,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlocks(item2.getDescriptionId(),has(item2))
                 .save(pWriter,result.getDescriptionId());
     }
-    private void charmCrafting(Item result, Item catalyst, CriterionTriggerInstance criteria, Consumer<FinishedRecipe> pWriter)
+    private void charmCrafting(Item result, Item catalyst, Criterion<?> criteria, RecipeOutput pWriter)
     {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.CHARM_FRAGMENT.get()),
                         Ingredient.of(catalyst),
@@ -58,7 +42,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
     @Override
-    public void buildRecipes(Consumer<FinishedRecipe> pWriter) {
+    public void buildRecipes(@NotNull RecipeOutput pWriter) {
         //region fragment weapons
         smithingTable(ModItems.PIG_FRAGMENT_A.get(),
                 ModItems.CHARM_FRAGMENT.get(), ModItems.PIG_FRAGMENT_1.get(), ModItems.PIG_FRAGMENT_2.get()
@@ -100,20 +84,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         //
         //endregion fragment weapons
         //region charms
-        CriterionTriggerInstance alchemy_criteria = EffectsChangedTrigger.TriggerInstance//has these effects
-                .hasEffects(MobEffectsPredicate.effects().and(MobEffects.MOVEMENT_SPEED).and(MobEffects.DAMAGE_BOOST).and(MobEffects.REGENERATION).and(MobEffects.ABSORPTION));
-        CriterionTriggerInstance fertility_criteria = BredAnimalsTrigger.TriggerInstance//bred these animals
+        Criterion<EffectsChangedTrigger.TriggerInstance> alchemy_criteria = EffectsChangedTrigger.TriggerInstance//has these effects
+                .hasEffects(MobEffectsPredicate.Builder.effects().and(MobEffects.MOVEMENT_SPEED).and(MobEffects.DAMAGE_BOOST).and(MobEffects.REGENERATION).and(MobEffects.ABSORPTION));
+        Criterion<BredAnimalsTrigger.TriggerInstance> fertility_criteria = BredAnimalsTrigger.TriggerInstance//bred these animals
                         .bredAnimals(EntityPredicate.Builder.entity().of(EntityType.SHEEP).of(EntityType.PIG).of(EntityType.COW).of(EntityType.BEE).of(EntityType.CHICKEN).of(EntityType.RABBIT));
-        CriterionTriggerInstance ambush_criteria = PlayerTrigger.TriggerInstance.avoidVibration();
-        CriterionTriggerInstance vitality_criteria = has(Items.ENCHANTED_GOLDEN_APPLE);
-        CriterionTriggerInstance detonation_criteria = KilledTrigger.TriggerInstance
+        Criterion<PlayerTrigger.TriggerInstance> ambush_criteria = PlayerTrigger.TriggerInstance.avoidVibration();
+        Criterion<InventoryChangeTrigger.TriggerInstance> vitality_criteria = has(Items.ENCHANTED_GOLDEN_APPLE);
+        Criterion<KilledTrigger.TriggerInstance> detonation_criteria = KilledTrigger.TriggerInstance
                         .playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.CREEPER), DamageSourcePredicate.Builder.damageType().tag(TagPredicate.is(DamageTypeTags.IS_EXPLOSION)));
-        CriterionTriggerInstance contraband_criteria = EffectsChangedTrigger.TriggerInstance.hasEffects(MobEffectsPredicate.effects()
+        Criterion<EffectsChangedTrigger.TriggerInstance> contraband_criteria = EffectsChangedTrigger.TriggerInstance.hasEffects(MobEffectsPredicate.Builder.effects()
                 .and(MobEffects.CONDUIT_POWER).and(MobEffects.WITHER).and(MobEffects.LEVITATION).and(MobEffects.WEAKNESS).and(MobEffects.BLINDNESS));
-        CriterionTriggerInstance warding_criteria = has(Items.RABBIT_FOOT);
-        CriterionTriggerInstance experience_criteria = KilledTrigger.TriggerInstance
+        Criterion<InventoryChangeTrigger.TriggerInstance> warding_criteria = has(Items.RABBIT_FOOT);
+        Criterion<KilledTrigger.TriggerInstance> experience_criteria = KilledTrigger.TriggerInstance
                 .playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.ENDER_DRAGON));
-        CriterionTriggerInstance vanilla_totem = KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.EVOKER));
+        Criterion<KilledTrigger.TriggerInstance> vanilla_totem = KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.EVOKER));
         //this needs to be reworked for the new system
         charmCrafting(ModItems.CHARM_ALCHEMY.get(),Items.BREWING_STAND,alchemy_criteria,pWriter);
         charmCrafting(ModItems.CHARM_AMBUSH.get(),Items.SCULK_SENSOR,ambush_criteria,pWriter);
@@ -147,31 +131,31 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(ModItems.POTION_SALT.get(),9)
                         .unlockedBy("has_salt",has(ModItems.POTION_SALT.get())).save(pWriter);
         nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.BISMUTH_NUGGET.get(),RecipeCategory.MISC,ModItems.BISMUTH_INGOT.get());
-        //ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.BRONZE_INGOT.get())
-        //        .requires(ModItems.BISMUTH_INGOT.get()).requires(Items.COPPER_INGOT,3)
-        //        .unlockedBy("has_bismuth",has(ModItems.BISMUTH_INGOT.get()))
-        //        .save(pWriter);
         //region flasks
 
-        CriterionTriggerInstance glass = has(ModItems.PRIME_GLASS.get());
+        Criterion<InventoryChangeTrigger.TriggerInstance> glass = has(ModItems.PRIME_GLASS.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.POTION_FLASK.get())
                 .define('P', ModItems.PRIME_GLASS.get())
-                .pattern(" P ").pattern("P P").pattern("PPP")
+                .define('C', ModItems.COPPER_NUGGET.get())
+                .pattern(" C ").pattern("P P").pattern(" P ")
                 .unlockedBy("prime_flask",glass)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.VITA_FLASK.get())
                 .define('P', ModItems.ANIMA_GLASS.get())
-                .pattern(" P ").pattern("P P").pattern("PPP")
+                .define('C', ModItems.COPPER_NUGGET.get())
+                .pattern(" C ").pattern("P P").pattern(" P ")
                 .unlockedBy("vita_flask",glass)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.IMPETUS_FLASK.get())
                 .define('P', ModItems.FERUS_GLASS.get())
-                .pattern(" P ").pattern("P P").pattern("PPP")
+                .define('C', ModItems.COPPER_NUGGET.get())
+                .pattern(" C ").pattern("P P").pattern(" P ")
                 .unlockedBy("impetus_flask",glass)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.MAGNA_FLASK.get())
                 .define('P', ModItems.FORTIS_GLASS.get())
-                .pattern(" P ").pattern("P P").pattern("PPP")
+                .define('C', ModItems.COPPER_NUGGET.get())
+                .pattern(" C ").pattern("P P").pattern(" P ")
                 .unlockedBy("fortis_flask",glass)
                 .save(pWriter);
 
@@ -187,7 +171,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pWriter);
         //region copper
         nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.COPPER_NUGGET.get(),RecipeCategory.MISC,Items.COPPER_INGOT);
-        CriterionTriggerInstance hasCopper = has(Items.COPPER_INGOT);
+        Criterion<InventoryChangeTrigger.TriggerInstance> hasCopper = has(Items.COPPER_INGOT);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.COPPER_AXE.get())
                 .define('I', Items.COPPER_INGOT)
                 .define('S', Items.STICK)
@@ -240,7 +224,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pWriter);
         //endregion copper
         //region bronze
-        CriterionTriggerInstance hasBronze = has(ModItems.BRONZE_INGOT.get());
+        Criterion<InventoryChangeTrigger.TriggerInstance> hasBronze = has(ModItems.BRONZE_INGOT.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.BRONZE_AXE.get())
                 .define('I', ModItems.BRONZE_INGOT.get())
                 .define('S', Items.STICK)
@@ -293,7 +277,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pWriter);
         //endregion bronze
         //region dragon
-        CriterionTriggerInstance hasDragon = has(ModItems.DRAGON_SCALE.get());
+        Criterion<InventoryChangeTrigger.TriggerInstance> hasDragon = has(ModItems.DRAGON_SCALE.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_HELMET.get())
                 .define('I', ModItems.DRAGON_SCALE.get())
                 .define('C', Items.CHAINMAIL_HELMET)

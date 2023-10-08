@@ -54,7 +54,7 @@ public class RetributionEnchantment extends Enchantment{
             //10% chance to trigger
             if (Math.random() > 0.1) return;
             //player.displayClientMessage(Component.translatable("patina.retribution_trigger"),true);
-            player.level.playSound(null,player.blockPosition(), SoundEvents.PIGLIN_BRUTE_ANGRY,
+            player.level().playSound(null,player.blockPosition(), SoundEvents.PIGLIN_BRUTE_ANGRY,
                     SoundSource.PLAYERS,0.5F,0.5F);
 
             if (!retaliatemap.containsKey(player)) return;

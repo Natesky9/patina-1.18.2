@@ -18,14 +18,14 @@ public class MachineTemplateMenu extends AbstractContainerMenu {
     private final Level level;
     public MachineTemplateMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()));
     }
     public MachineTemplateMenu(int pContainerId, Inventory inv, BlockEntity entity)
     {
         super(null, pContainerId);
         checkContainerSize(inv, 3);
         blockEntity = ((MachineTemplateEntity) entity);
-        this.level = inv.player.level;
+        this.level = inv.player.level();
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);

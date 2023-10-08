@@ -4,6 +4,7 @@
           [
             {"tag": "patina:fruit"},
             {"tag": "patina:sweet"},
+            {"item": "minecraft:snow_block"},
             {"item": "minecraft:snow_block"}
           ],
   "output":

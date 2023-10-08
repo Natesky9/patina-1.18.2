@@ -27,13 +27,13 @@ public class ApplianceIceboxMenu extends AbstractContainerMenu {
     final ApplianceIceboxEntity blockentity;
     public ApplianceIceboxMenu(int pContainerId, Inventory inv, FriendlyByteBuf buf)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(buf.readBlockPos()));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(buf.readBlockPos()));
     }
     public ApplianceIceboxMenu(int pContainerId, Inventory inv, BlockEntity entity)
     {
         super(ModMenuTypes.APPLIANCE_ICEBOX_MENU.get(), pContainerId);
         blockentity = (ApplianceIceboxEntity) entity;
-        level = inv.player.level;
+        level = inv.player.level();
         //add slots
         this.blockentity.getCapability(ForgeCapabilities.ITEM_HANDLER,null).ifPresent(handler ->
         {

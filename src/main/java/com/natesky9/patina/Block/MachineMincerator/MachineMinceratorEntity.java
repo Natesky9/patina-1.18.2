@@ -9,18 +9,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -37,7 +34,7 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     public int progressMax = 100;
 
 
-    private Optional<MinceratorRecipe> recipe = Optional.empty();
+    private Optional<RecipeHolder<MinceratorRecipe>> recipe = Optional.empty();
 
     public MachineMinceratorEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(pWorldPosition, pBlockState,slots);
@@ -89,16 +86,11 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
         //
             RecipeManager manager = level.getRecipeManager();
             Optional<MinceratorRecipe> winner = Optional.empty();
-            int highest = 0;
-            List<MinceratorRecipe> recipes = manager.getAllRecipesFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get());
-            for (MinceratorRecipe recipe: recipes)
+            List<RecipeHolder<MinceratorRecipe>> recipes = manager.getAllRecipesFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get());
+            for (RecipeHolder<MinceratorRecipe> recipe: recipes)
             {
-                boolean fits = recipe.matches(inventory, level);
-                if (fits && MinceratorRecipe.match > highest)
-                {
-                    highest = MinceratorRecipe.match;
-                    winner = Optional.of(recipe);
-                }
+                boolean fits = recipe.value().matches(inventory, level);
+                if (fits) winner = Optional.of(recipe.value());
             }
             return winner;
 
@@ -112,7 +104,7 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
         SimpleContainer container = new SimpleContainer(
                 itemStackHandler.getStackInSlot(0),itemStackHandler.getStackInSlot(1),
                 itemStackHandler.getStackInSlot(2),itemStackHandler.getStackInSlot(3));
-        Optional<MinceratorRecipe> tempRecipe = recipe;
+        Optional<RecipeHolder<MinceratorRecipe>> tempRecipe = recipe;
         recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get(), container, level);
         if (!hasRecipe())
         {
@@ -163,44 +155,40 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
 
     }
 
-    private boolean noDuplicates()
-    {
-        ItemStackHandler handler = itemStackHandler;
+    //private boolean noDuplicates()
+    //{
+    //    ItemStackHandler handler = itemStackHandler;
+    //    Item slot1 = handler.getStackInSlot(0).getItem();
+    //    Item slot2 = handler.getStackInSlot(1).getItem();
+    //    Item slot3 = handler.getStackInSlot(2).getItem();
+    //    Item slot4 = handler.getStackInSlot(3).getItem();
+    //    //all the slots are different
+    //    return slot1 != slot2
+    //            && slot1 != slot3
+    //            && slot1 != slot4
+    //            && slot2 != slot3
+    //            && slot2 != slot4
+    //            && slot3 != slot4;
+    //}
+    //private boolean twoFoods()
+    //{
+    //    int foodCount = 0;
+    //    if (itemStackHandler.getStackInSlot(0).isEdible()) foodCount++;
+    //    if (itemStackHandler.getStackInSlot(1).isEdible()) foodCount++;
+    //    if (itemStackHandler.getStackInSlot(2).isEdible()) foodCount++;
+    //    if (itemStackHandler.getStackInSlot(3).isEdible()) foodCount++;
+    //    return foodCount >= 2;
+    //}
 
-        Item slot1 = handler.getStackInSlot(0).getItem();
-        Item slot2 = handler.getStackInSlot(1).getItem();
-        Item slot3 = handler.getStackInSlot(2).getItem();
-        Item slot4 = handler.getStackInSlot(3).getItem();
-        //all the slots are different
-        return slot1 != slot2
-                && slot1 != slot3
-                && slot1 != slot4
-                && slot2 != slot3
-                && slot2 != slot4
-                && slot3 != slot4;
-
-    }
-    private boolean twoFoods()
-    {
-        int foodCount = 0;
-        if (itemStackHandler.getStackInSlot(0).isEdible()) foodCount++;
-        if (itemStackHandler.getStackInSlot(1).isEdible()) foodCount++;
-        if (itemStackHandler.getStackInSlot(2).isEdible()) foodCount++;
-        if (itemStackHandler.getStackInSlot(3).isEdible()) foodCount++;
-        return foodCount >= 2;
-    }
-
-    private boolean inputsPopulated()
-    {
-        boolean hasFirstSlot = !itemStackHandler.getStackInSlot(0).isEmpty();
-        boolean hasSecondSlot = !itemStackHandler.getStackInSlot(1).isEmpty();
-        boolean hasThirdSlot = !itemStackHandler.getStackInSlot(2).isEmpty();
-        boolean hasFourthSlot = !itemStackHandler.getStackInSlot(3).isEmpty();
-
-        boolean outputEmpty = itemStackHandler.getStackInSlot(4).isEmpty();
-
-        return hasFirstSlot && hasSecondSlot && hasThirdSlot && hasFourthSlot && outputEmpty;
-    }
+    //private boolean inputsPopulated()
+    //{
+    //    boolean hasFirstSlot = !itemStackHandler.getStackInSlot(0).isEmpty();
+    //    boolean hasSecondSlot = !itemStackHandler.getStackInSlot(1).isEmpty();
+    //    boolean hasThirdSlot = !itemStackHandler.getStackInSlot(2).isEmpty();
+    //    boolean hasFourthSlot = !itemStackHandler.getStackInSlot(3).isEmpty();
+    //    boolean outputEmpty = itemStackHandler.getStackInSlot(4).isEmpty();
+    //    return hasFirstSlot && hasSecondSlot && hasThirdSlot && hasFourthSlot && outputEmpty;
+    //}
     private void craftItem()
     {
 

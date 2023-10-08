@@ -2,7 +2,9 @@
   "type": "patina:smoker_grindstone",
   "ingredients":
           [
-            {"tag": "patina:grain", "count": 2},
+            {"tag": "patina:grain"},
+            {"tag": "patina:grain"},
+            {"tag": "patina:grain"},
             {"tag": "forge:egg"}
           ],
   "output":

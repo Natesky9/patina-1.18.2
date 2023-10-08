@@ -37,7 +37,7 @@ public class BrimfulEnchantment extends Enchantment {
             if (!gluttonyBlessed) return;
 
             player.displayClientMessage(Component.translatable("patina.brimful_trigger"),true);
-            player.level.playSound(null,player.blockPosition(),SoundEvents.PIG_AMBIENT,
+            player.level().playSound(null,player.blockPosition(),SoundEvents.PIG_AMBIENT,
                     SoundSource.PLAYERS,0.5F,0.5F);
 
             player.addEffect(brimful);

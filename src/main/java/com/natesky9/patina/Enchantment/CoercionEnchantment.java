@@ -32,7 +32,7 @@ public class CoercionEnchantment extends Enchantment {
         if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.BLESSINGLUST.get(), player) == 0) return;
 
         player.displayClientMessage(Component.translatable("patina.coercion_trigger"),true);
-        player.level.playSound(null,player.blockPosition(),SoundEvents.BREWING_STAND_BREW,
+        player.level().playSound(null,player.blockPosition(),SoundEvents.BREWING_STAND_BREW,
                 SoundSource.PLAYERS,0.5F,0.5F);
 
         LivingEntity target = event.getEntity();

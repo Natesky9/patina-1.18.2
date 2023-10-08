@@ -28,7 +28,7 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
 
     protected LazyOptional<IItemHandler> itemCapability = LazyOptional.empty();
 
-    protected final ContainerData data;;
+    protected final ContainerData data;
 
     protected int progress = 0;
     protected int progressMax = 20;

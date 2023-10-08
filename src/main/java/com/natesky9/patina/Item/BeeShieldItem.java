@@ -46,7 +46,7 @@ public class BeeShieldItem extends ShieldItem {
     public static void trigger(ShieldBlockEvent event)
     {
         Player player = (Player)event.getEntity();
-        if (!(player.level instanceof ServerLevel level)) return;
+        if (!(player.level() instanceof ServerLevel level)) return;
         ItemStack stack = player.getItemInHand(player.getUsedItemHand());
         Entity entity = event.getDamageSource().getEntity();
         if (entity == null) return;

@@ -3,6 +3,7 @@ package com.natesky9.patina.Block.MachineFoundry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.natesky9.patina.Patina;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -17,24 +18,24 @@ public class MachineFoundryScreen extends AbstractContainerScreen<MachineFoundry
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-        this.renderTooltip(pPoseStack,pMouseX,pMouseY);
+    public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(graphics, pMouseX, pMouseY, pPartialTick);
+        this.renderTooltip(graphics,pMouseX,pMouseY);
     }
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics graphics, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1,1,1,1);
         RenderSystem.setShaderTexture(0,TEXTURE);
         int x = (width-imageWidth)/2;
         int y = (height-imageHeight)/2;
 
-        blit(pPoseStack,x,y,0,0,imageWidth,imageHeight);
+        graphics.blit(TEXTURE,x,y,0,0,imageWidth,imageHeight);
         if (menu.isCrafting())
         {
             int progress = menu.getProgress();
-            blit(pPoseStack,x+79,y+35,176,14,progress+1,17);
+            graphics.blit(TEXTURE,x+79,y+35,176,14,progress+1,17);
         }
     }
 }

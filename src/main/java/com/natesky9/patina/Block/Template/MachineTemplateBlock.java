@@ -2,7 +2,6 @@ package com.natesky9.patina.Block.Template;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +21,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class MachineTemplateBlock extends BaseEntityBlock
@@ -52,7 +51,7 @@ public abstract class MachineTemplateBlock extends BaseEntityBlock
 
     //Block Entity stuff
     @Override
-    public RenderShape getRenderShape(BlockState pState)
+    public @NotNull RenderShape getRenderShape(BlockState pState)
     {//needed to apply the model
         return RenderShape.MODEL;
     }
@@ -72,14 +71,14 @@ public abstract class MachineTemplateBlock extends BaseEntityBlock
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide())
+    public @NotNull InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        if (pPlayer instanceof ServerPlayer player)
         {//open the gui when clicked
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof MachineTemplateEntity machine)
             {
                 if (pPlayer.getDirection().getOpposite() == pState.getValue(FACING))
-                NetworkHooks.openScreen(((ServerPlayer) pPlayer), machine, pPos);
+                player.openMenu(machine,pPos);
                 else pLevel.playSound(null,pPos, SoundEvents.STONE_BUTTON_CLICK_OFF, SoundSource.BLOCKS);
             }
             else

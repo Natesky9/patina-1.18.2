@@ -1,9 +1,0 @@
-{
-  "type": "patina:evaporator",
-  "potion": "minecraft:strong_swiftness",
-  "output":
-  {
-    "item": "minecraft:sugar",
-    "count": 3
-  }
-}

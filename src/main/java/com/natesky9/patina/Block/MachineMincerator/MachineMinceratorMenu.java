@@ -19,14 +19,14 @@ public class MachineMinceratorMenu extends AbstractContainerMenu {
     private final ContainerData data;
     public MachineMinceratorMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
     public MachineMinceratorMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data)
     {
         super(ModMenuTypes.MACHINE_MINCERATOR_MENU.get(), pContainerId);
         checkContainerSize(inv, 6);
         blockEntity = ((MachineMinceratorEntity) entity);
-        this.level = inv.player.level;
+        this.level = inv.player.level();
         this.data = data;
 
         addPlayerInventory(inv);

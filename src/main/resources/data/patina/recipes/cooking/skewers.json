@@ -4,6 +4,7 @@
           [
             {"tag": "patina:meat"},
             {"tag": "patina:vegetable"},
+            {"tag": "patina:vegetable"},
             {"item": "minecraft:stick"}
           ],
   "output":

@@ -2,6 +2,7 @@
   "type": "patina:smoker_grindstone",
   "ingredients":
           [
+            {"item": "minecraft:pumpkin"},
             {"tag": "patina:vegetable"},
             {"item": "minecraft:sugar"},
             {"item": "minecraft:egg"}

@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class ApplianceWardrobeBlock extends BaseEntityBlock {
@@ -48,7 +47,7 @@ public class ApplianceWardrobeBlock extends BaseEntityBlock {
             BlockEntity entity = pLevel.getBlockEntity(pos);
             if (entity instanceof ApplianceWardrobeEntity wardrobe)
             {
-                NetworkHooks.openScreen(player, wardrobe, pos);
+                player.openMenu(wardrobe, pos);
             }
             else
             {

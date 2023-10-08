@@ -1,18 +1,15 @@
 package com.natesky9.patina.Recipe;
 
-import com.google.gson.JsonObject;
-import com.natesky9.patina.init.ModPotions;
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.natesky9.patina.init.ModRecipeSerializers;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.crafting.*;
@@ -23,41 +20,43 @@ public class EvaporatorRecipe implements Recipe<SimpleContainer> {
     public static String name = "evaporator";
     private final RecipeType<?> type = ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get();
 
-    private final ResourceLocation id;
     public final ItemStack output;
-    public final Ingredient input;
+    public final Ingredient inputIngredient;
     public final Potion inputPotion;
     //
-    public EvaporatorRecipe(ResourceLocation id, ItemStack output,
-                            Ingredient input)
+    public EvaporatorRecipe(ItemStack output, Either<Ingredient,Potion> either)
     {
-        this.id = id;
         this.output = output;
-        this.input = input;
+        this.inputIngredient = either.left().isPresent() ? either.left().get() : null;
+        this.inputPotion = either.right().isPresent() ? either.right().get() : null;
+    }
+    public EvaporatorRecipe(ItemStack output, Ingredient input)
+    {
+        this.output = output;
+        this.inputIngredient = input;
         this.inputPotion = null;
     }
-    public EvaporatorRecipe(ResourceLocation id, ItemStack output,
-                            Potion inputPotion)
-    {//for specific potions
-        this.id = id;
+    public EvaporatorRecipe(ItemStack output, Potion input)
+    {
         this.output = output;
-        this.input = null;
-        this.inputPotion = inputPotion;
+        this.inputIngredient = null;
+        this.inputPotion = input;
     }
-    //
+
+
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
         if (inputPotion == null)
         {
 
-            boolean flag = input.test(pContainer.getItem(0));
+            boolean flag = inputIngredient.test(pContainer.getItem(0));
             ItemStack potion = pContainer.getItem(0);
             boolean test = PotionUtils.getPotion(potion).getEffects().stream().allMatch((effectInstance -> effectInstance.getAmplifier() == 0));
             boolean effect = PotionUtils.getPotion(potion).getEffects().size() == 1;
             if (flag && effect && test) assemble(pContainer,pLevel.registryAccess());
             return flag && effect && test;
         }
-        if (input == null)
+        if (inputIngredient == null)
         {
             Potion potion = PotionUtils.getPotion(pContainer.getItem(0));
             boolean flag = potion == inputPotion;
@@ -65,25 +64,6 @@ public class EvaporatorRecipe implements Recipe<SimpleContainer> {
             return flag;
         }
         return false;
-        //we don't have anything here yet
-
-        //ItemStack potion = itemStackHandler.extractItem(input,1,false);
-        //itemStackHandler.insertItem(input,new ItemStack(Items.GLASS_BOTTLE),false);
-        //ItemStack result;
-        //if (PotionUtils.getPotion(potion) == Potions.THICK)
-        //{result = new ItemStack(Items.BONE_MEAL,9);}
-        //else if (PotionUtils.getPotion(potion)== ModPotions.VOLATILE_POTION.get())
-        //{result = new ItemStack(Items.GUNPOWDER,9);}
-        //else if (PotionUtils.getPotion(potion) == ModPotions.IRIDESCENT_POTION.get())
-        //{result = new ItemStack(ModItems.BISMUTH_NUGGET.get());}
-        //else
-        //{
-        //    result = new ItemStack(ModItems.POTION_SALT.get());
-        //    PotionUtils.setPotion(result, PotionUtils.getPotion(potion));
-        //}
-
-        //
-        //boolean first = input.test(pContainer.getItem(0));
     }
 
     @Override
@@ -105,10 +85,6 @@ public class EvaporatorRecipe implements Recipe<SimpleContainer> {
         return output.copy();
     }
 
-    @Override
-    public ResourceLocation getId() {
-        return id;
-    }
 
     @Override
     public RecipeType<?> getType() {
@@ -121,40 +97,41 @@ public class EvaporatorRecipe implements Recipe<SimpleContainer> {
     }
     public static class Serializer implements RecipeSerializer<EvaporatorRecipe>
     {
+        public static final Codec<Either<Ingredient,Potion>> ITEM_OR_POTION_CODEC =
+                Codec.either(Ingredient.CODEC, BuiltInRegistries.POTION.byNameCodec());
+
+        final Codec<EvaporatorRecipe> CODEC = RecordCodecBuilder.create((instance) ->
+
+            instance.group(
+                    CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
+                    ITEM_OR_POTION_CODEC.fieldOf("input").forGetter((getter) ->
+                            getter.inputIngredient != null ? Either.left(getter.inputIngredient) : Either.right(getter.inputPotion))
+            ).apply(instance, EvaporatorRecipe::new)
+        );
+
+
         @Override
-        public EvaporatorRecipe fromJson(ResourceLocation id, JsonObject json) {
-            boolean specific = json.has("potion");
-            if (specific)
-            {
-                Potion potion = Potion.byName(GsonHelper.getAsString(json,"potion"));
-                ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json,"output"));
-                return new EvaporatorRecipe(id,output,potion);
-            }
-            else
-            {
-                Ingredient input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
-                ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
-                return new EvaporatorRecipe(id, output, input);
-            }
+        public Codec<EvaporatorRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public @Nullable EvaporatorRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+        public @Nullable EvaporatorRecipe fromNetwork(FriendlyByteBuf buffer) {
             boolean specific = buffer.readBoolean();
             if (specific)
             {
                 Potion potion = buffer.readById(BuiltInRegistries.POTION);
                 ItemStack output = buffer.readItem();
-                return new EvaporatorRecipe(id, output, potion);
+                return new EvaporatorRecipe(output, potion);
             }
             Ingredient input = Ingredient.fromNetwork(buffer);
             ItemStack output = buffer.readItem();
-            return new EvaporatorRecipe(id, output, input);
+            return new EvaporatorRecipe(output, input);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, EvaporatorRecipe recipe) {
-            boolean specific = recipe.input == null;
+            boolean specific = recipe.inputIngredient == null;
             buffer.writeBoolean(specific);
             if (specific)
             {
@@ -162,7 +139,7 @@ public class EvaporatorRecipe implements Recipe<SimpleContainer> {
                 buffer.writeItemStack(recipe.output,false);
                 return;
             }
-            recipe.input.toNetwork(buffer);
+            recipe.inputIngredient.toNetwork(buffer);
             buffer.writeItemStack(recipe.output,false);
         }
     }

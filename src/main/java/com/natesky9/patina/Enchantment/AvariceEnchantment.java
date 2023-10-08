@@ -27,6 +27,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 public class AvariceEnchantment extends Enchantment {
     public AvariceEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
@@ -50,38 +51,38 @@ public class AvariceEnchantment extends Enchantment {
 
 
         player.displayClientMessage(Component.translatable("patina.avarice_trigger"),true);
-        entity.level.playSound(null,entity.blockPosition(),SoundEvents.AMETHYST_BLOCK_CHIME,
+        entity.level().playSound(null,entity.blockPosition(),SoundEvents.AMETHYST_BLOCK_CHIME,
                 SoundSource.PLAYERS,0.5F,0.5F);
 
         //double the drops?
         Collection<ItemEntity> drops = event.getDrops();
-        if (drops.isEmpty())
-        {
-            //I don't know if I like this
-            //maybe I should just access transform the method in LivingEntity, and use that
-            ResourceLocation resourcelocation = mob.getLootTable();
-            LootTable loottable = mob.level.getServer().getLootTables().get(resourcelocation);
-            LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)mob.level))
-                    .withRandom(RandomSource.create()).withParameter(LootContextParams.THIS_ENTITY, mob)
-                    .withParameter(LootContextParams.ORIGIN, mob.position())
-                    .withParameter(LootContextParams.DAMAGE_SOURCE, event.getSource())
-                    .withOptionalParameter(LootContextParams.KILLER_ENTITY, event.getSource().getEntity())
-                    .withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, event.getSource().getDirectEntity());
-
-            LootContext ctx = lootcontext$builder.create(LootContextParamSets.ENTITY);
-            int i = 0;
-            do
-            {
-                i++;
-                for (ItemStack item: loottable.getRandomItems(ctx))
-                {
-                    i = 10;
-                    mob.spawnAtLocation(item);
-                }
-            }
-            while(i < 10);
-            return;
-        }
+        //if (drops.isEmpty())
+        //{
+        //    //I don't know if I like this
+        //    //maybe I should just access transform the method in LivingEntity, and use that
+        //    ResourceLocation resourcelocation = mob.getLootTable();
+        //    LootTable loottable = mob.level().getServer().getLootData().getLootTable(resourcelocation);
+        //    LootContext.Builder lootcontext$builder = (new LootContext.Builder)
+        //            .withRandom(RandomSource.create()).withParameter(LootContextParams.THIS_ENTITY, mob)
+        //            .withParameter(LootContextParams.ORIGIN, mob.position())
+        //            .withParameter(LootContextParams.DAMAGE_SOURCE, event.getSource())
+        //            .withOptionalParameter(LootContextParams.KILLER_ENTITY, event.getSource().getEntity())
+        //            .withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, event.getSource().getDirectEntity());
+//
+        //    LootContext ctx = lootcontext$builder.create(Optional.of(resourcelocation));
+        //    int i = 0;
+        //    do
+        //    {
+        //        i++;
+        //        for (ItemStack item: loottable.getRandomItems(ctx))
+        //        {
+        //            i = 10;
+        //            mob.spawnAtLocation(item);
+        //        }
+        //    }
+        //    while(i < 10);
+        //    return;
+        //}
         Collection<ItemEntity> greed = new ArrayList<>();
         for (ItemEntity item:drops)
         {

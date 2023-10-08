@@ -31,13 +31,5 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.SWEET)
                 .add(Items.SUGAR).add(Items.HONEYCOMB).add(Items.HONEY_BOTTLE);
         //
-        this.tag(ModTags.Items.SUPERFRUIT)
-                .add(Items.MELON);
-        this.tag(ModTags.Items.SUPERVEGETABLE)
-                .add(Items.PUMPKIN);
-        this.tag(ModTags.Items.SUPERSWEET)
-                .add(Items.HONEY_BLOCK).add(Items.HONEYCOMB_BLOCK);
-        this.tag(ModTags.Items.SUPERGRAIN)
-                .add(ModItems.SLEET_WHEAT.get());
     }
 }

@@ -3,6 +3,7 @@ package com.natesky9.patina.Block.ApplianceWardrobe;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.natesky9.patina.Patina;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -23,16 +24,11 @@ public class ApplianceWardrobeScreen extends AbstractContainerScreen<ApplianceWa
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+    public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(graphics, pMouseX, pMouseY, pPartialTick);
         xMouse = pMouseX;
         yMouse = pMouseY;
-        renderTooltip(pPoseStack,getGuiLeft()+width,getGuiTop());
-    }
-
-    @Override
-    protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
-
+        renderTooltip(graphics, getGuiLeft() + width, getGuiTop());
     }
 
     @Override
@@ -47,17 +43,18 @@ public class ApplianceWardrobeScreen extends AbstractContainerScreen<ApplianceWa
     }
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics graphics, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1,1,1,1);
         RenderSystem.setShaderTexture(0,TEXTURE);
         int x = (width-imageWidth)/2;
         int y = (height-imageHeight)/2;
 
-        blit(pPoseStack,x,y,0,0,imageWidth,imageHeight);
-
-        renderEntityInInventoryFollowsMouse(pPoseStack, x + 51, y + 75, 30,
-                (float)(x + 51) - this.xMouse, (float)(y + 75 - 50) - this.yMouse, this.minecraft.player);
+        graphics.blit(TEXTURE,x,y,0,0,imageWidth,imageHeight);
+        if (this.minecraft.player != null)
+            renderEntityInInventoryFollowsMouse(graphics, x + 51, y + 75, 30,
+                (x + 51) - this.xMouse, (y + 75 - 50) - this.yMouse,
+                0,0,0, this.minecraft.player);
 
     }
 }

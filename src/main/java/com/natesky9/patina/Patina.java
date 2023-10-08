@@ -35,6 +35,7 @@ public class Patina
         ModPaintings.register(eventBus);
         ModRecipeTypes.register(eventBus);
         ModRecipeSerializers.register(eventBus);
+        ModCreativeTabs.register(eventBus);
 
 
 

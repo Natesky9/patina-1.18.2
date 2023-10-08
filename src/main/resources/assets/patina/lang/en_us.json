@@ -54,8 +54,8 @@
 
   "item.patina.potion_flask": "Crystal Flask",
   "item.patina.potion_flask_impetus": "Impetus Flask WIP",
-  "item.patina.potion_flask_vita": "Semi Vita Flask WIP",
-  "item.patina.potion_flask_magnus": "Magnus Flask WIP",
+  "item.patina.potion_flask_vita": "Vita Flask",
+  "item.patina.potion_flask_magna": "Magnus Flask",
   "item.patina.potion_salt": "Potion Salt",
   "item.patina.void_salt": "Void Salt",
   "item.patina.dragon_scale": "Dragon Scale",
@@ -67,8 +67,7 @@
   "item.patina.prime_glass": "Prime Glass",
   "item.patina.anima_glass": "Anima Glass",
   "item.patina.ferus_glass": "Ferus Glass",
-  "item.patina.fortus_glass": "Fortus Glass",
-  "item.patina.sinister_shard": "Sinister Shard",
+  "item.patina.fortis_glass": "Fortis Glass",
   "item.patina.malachite": "Malachite",
 
   "block.patina.appliance_icebox": "Icebox",
@@ -96,8 +95,9 @@
   "enchantment.patina.retribution": "Blessing of Retribution",
   "enchantment.patina.strife": "Blessing of Strife",
 
-  "creativemodetab.patina_tab": "Patina General Tab",
-  "creativemodetab.salt_tab": "Patina Salts",
+  "itemGroup.main_tab": "Patina all items",
+  "itemGroup.tool_tab": "Patina Tools and Armor",
+  "itemGroup.potion_tab": "Patina Potions",
 
   "patina.wrath_trigger": "Your wrath burns you",
   "patina.sloth_trigger": "Slothfulness consumes you",

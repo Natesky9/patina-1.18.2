@@ -37,7 +37,7 @@ public class GreedEnchantment extends Enchantment {
             //10% chance to trigger
             if (Math.random() > 0.1) return;
             player.displayClientMessage(Component.translatable("patina.apathy_trigger"),true);
-            player.level.playSound(null,player.blockPosition(), SoundEvents.SHIELD_BLOCK,
+            player.level().playSound(null,player.blockPosition(), SoundEvents.SHIELD_BLOCK,
                     SoundSource.PLAYERS,0.5F,0.5F);
 
             Collection<ItemEntity> collection = event.getDrops();

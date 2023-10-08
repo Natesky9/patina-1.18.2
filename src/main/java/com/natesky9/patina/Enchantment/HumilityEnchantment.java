@@ -31,7 +31,7 @@ public class HumilityEnchantment extends Enchantment {
         //10% chance to trigger
         if (Math.random() > 0.10) return;
         player.displayClientMessage(Component.translatable("patina.humility_trigger"),true);
-        player.level.playSound(null,player.blockPosition(),SoundEvents.ENDER_DRAGON_GROWL,
+        player.level().playSound(null,player.blockPosition(),SoundEvents.ENDER_DRAGON_GROWL,
                 SoundSource.PLAYERS,0.5F,0.5F);
 
         LivingEntity entity = event.getEntity();

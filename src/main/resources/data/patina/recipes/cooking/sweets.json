@@ -4,7 +4,8 @@
           [
             {"tag": "patina:fruit"},
             {"tag": "forge:dyes"},
-            {"tag": "patina:sweet", "count": 2}
+            {"tag": "patina:sweet"},
+            {"tag": "patina:sweet"}
           ],
   "output":
   {

@@ -33,7 +33,7 @@ public class SlothEnchantment extends Enchantment {
             //10% chance to trigger
             if (Math.random() > 0.1) return;
             if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.CURSESLOTH.get(), player) == 0) return;
-            player.level.playSound(null,player.blockPosition(), SoundEvents.WOOL_PLACE,
+            player.level().playSound(null,player.blockPosition(), SoundEvents.WOOL_PLACE,
                     SoundSource.PLAYERS,0.5F,0.5F);
             player.displayClientMessage(Component.translatable("patina.sloth_trigger"),true);
             //heal half for low amounts

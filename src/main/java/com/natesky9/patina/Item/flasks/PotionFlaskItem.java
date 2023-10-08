@@ -92,7 +92,7 @@ public class PotionFlaskItem extends PotionItem {
                 PotionUtils.setPotion(pStack,PotionUtils.getPotion(pOther));
                 setUses(pStack,current+transfer);
                 setUses(pOther,otherCurrent-transfer);
-                pPlayer.level.playSound(null,pPlayer, SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS,1,1);
+                pPlayer.level().playSound(null,pPlayer, SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS,1,1);
                 return true;
             }
             if (pOther.getItem() instanceof PotionItem)
@@ -100,7 +100,7 @@ public class PotionFlaskItem extends PotionItem {
                 PotionUtils.setPotion(pStack,other);
                 setUses(pStack,getUses(pStack)+1);
                 pAccess.set(new ItemStack(Items.GLASS_BOTTLE));
-                pPlayer.level.playSound(null,pPlayer, SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS,1,1);
+                pPlayer.level().playSound(null,pPlayer, SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS,1,1);
                 return true;
             }
         }
@@ -114,8 +114,13 @@ public class PotionFlaskItem extends PotionItem {
     }
 
     @Override
-    public String getDescriptionId() {
-        return Util.makeDescriptionId("item", BuiltInRegistries.ITEM.getKey(this));
+    public Component getName(ItemStack p_41458_) {
+        return Component.translatable(getDescriptionId());
+    }
+
+    @Override
+    public boolean isBarVisible(ItemStack p_150899_) {
+        return false;
     }
 
     @Override

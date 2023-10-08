@@ -1,22 +1,24 @@
 package com.natesky9.patina.event;
 
-import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.Item.RustableItem;
+import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.datagen.DataGenerators;
-import com.natesky9.patina.init.ModCreativeModeTab;
+import com.natesky9.patina.init.ModCreativeTabs;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModPotions;
 import com.natesky9.patina.init.ModScreens;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,24 +28,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {
     @SubscribeEvent
-    public static void CreativeMenu(CreativeModeTabEvent.BuildContents event)
-    {
-        ModCreativeModeTab.addItem(event);
-
-    }
-
-    @SubscribeEvent
-    public static void Tab(CreativeModeTabEvent.Register event)
-    {
-        ModCreativeModeTab.registerCreativeModeTabs(event);
-    }
-    @SubscribeEvent
     public static void ColorHandlerEvent(final RegisterColorHandlersEvent.Item event)
     {
         //potion flask
         event.register((pStack, pTintIndex) ->
                 pTintIndex == 1 ? PotionUtils.getColor(pStack) : -1
-            ,ModItems.POTION_FLASK.get());
+            ,ModItems.POTION_FLASK.get(),ModItems.IMPETUS_FLASK.get(),
+                ModItems.VITA_FLASK.get(),ModItems.MAGNA_FLASK.get());
         //salts
         event.register((pStack, pTintIndex) ->
                 pTintIndex == 0 ? PotionUtils.getColor(pStack) : -1,ModItems.POTION_SALT.get());
@@ -94,7 +85,16 @@ public class EventsMod {
                 (itemStack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == itemStack && !CrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F);
         ItemProperties.register(ModItems.PIG_CROSSBOW.get(), new ResourceLocation("charged"),
                 (itemStack, level, entity, seed) -> CrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F);
-        ItemProperties.register(ModItems.POTION_FLASK.get(), new ResourceLocation("capacity"),
+
+        registerPotionCapacityProperty(ModItems.POTION_FLASK.get());
+        registerPotionCapacityProperty(ModItems.VITA_FLASK.get());
+        registerPotionCapacityProperty(ModItems.IMPETUS_FLASK.get());
+        registerPotionCapacityProperty(ModItems.MAGNA_FLASK.get());
+
+    }
+    static void registerPotionCapacityProperty(Item item)
+    {
+        ItemProperties.register(item, new ResourceLocation("capacity"),
                 ((pStack, pLevel, pEntity, pSeed) -> PotionFlaskItem.percentFull(pStack)));
     }
     @SubscribeEvent

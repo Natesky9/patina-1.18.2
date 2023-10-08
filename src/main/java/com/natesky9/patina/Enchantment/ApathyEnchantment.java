@@ -32,7 +32,7 @@ public class ApathyEnchantment extends Enchantment {
         if (Math.random() > 0.1) return;
         //do the stuff here
         player.displayClientMessage(Component.translatable("patina.apathy_trigger"),true);
-        entity.level.playSound(null,entity.blockPosition(),SoundEvents.SHIELD_BLOCK,
+        entity.level().playSound(null,entity.blockPosition(),SoundEvents.SHIELD_BLOCK,
                 SoundSource.PLAYERS,0.5F,0.5F);
         //cancel the damage like twitter cancels celebrities
         event.setCanceled(true);

@@ -4,7 +4,8 @@
           [
             {"tag": "patina:meat"},
             {"tag": "patina:vegetable"},
-            {"item": "minecraft:blaze_powder"}
+            {"item": "minecraft:blaze_powder"},
+            {"item": "minecraft:bowl"}
           ],
   "output":
   {

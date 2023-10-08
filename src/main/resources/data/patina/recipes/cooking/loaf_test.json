@@ -2,8 +2,10 @@
   "type": "patina:smoker_grindstone",
   "ingredients":
           [
-            {"tag": "patina:grain", "count": 3},
-            {"tag": "patina:vegetable", "count": 3}
+            {"tag": "patina:grain"},
+            {"tag": "patina:grain"},
+            {"tag": "patina:grain"},
+            {"tag": "patina:vegetable"}
           ],
   "output":
   {

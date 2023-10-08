@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public class MachineEnchanterMenu extends AbstractContainerMenu {
     public MachineEnchanterMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData)
     {
-        this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()));
     }
     public MachineEnchanterMenu(int pContainerId, Inventory inv, BlockEntity entity) {
         super(ModMenuTypes.MACHINE_ENCHANTER_MENU.get(), pContainerId);

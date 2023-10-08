@@ -16,6 +16,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -26,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.Optional;
 
 public class MachineEvaporatorEntity extends MachineTemplateEntity implements MenuProvider {
@@ -33,7 +35,7 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     private int heat;
     private LazyOptional<IItemHandler> outputHandler = LazyOptional.empty();
     protected final ItemStackHandler outputStackHandler;
-    private Optional<EvaporatorRecipe> recipe = Optional.empty();
+    private Optional<RecipeHolder<EvaporatorRecipe>> recipe = Optional.empty();
 
     public static final int slots = 3;
     final int input = 0;
@@ -115,7 +117,8 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     protected void myContentsChanged()
     {
         SimpleContainer container = new SimpleContainer(itemStackHandler.getStackInSlot(input));
-        Optional<EvaporatorRecipe> tempRecipe = recipe;
+        Optional<RecipeHolder<EvaporatorRecipe>> tempRecipe = recipe;
+        List<RecipeHolder<EvaporatorRecipe>> recipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get());
         recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get(),container,level);
         if (!hasRecipe())
         {
@@ -213,7 +216,7 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     {
         if (recipe.isEmpty()) return;
         //we have a recipe, craft it
-        itemStackHandler.insertItem(output,recipe.get().getResultItem(level.registryAccess()), false);
+        itemStackHandler.insertItem(output,recipe.get().value().getResultItem(level.registryAccess()), false);
         itemStackHandler.setStackInSlot(input,new ItemStack(Items.GLASS_BOTTLE));
         //itemStackHandler.extractItem(input,1,false);
 
@@ -236,7 +239,7 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     private boolean hasNotReachedStackLimit()
     {
         ItemStack stack = itemStackHandler.getStackInSlot(output);
-        int count = recipe.get().output.getCount();
+        int count = recipe.get().value().output.getCount();
         return stack.getCount() < stack.getMaxStackSize()-count;
     }
 

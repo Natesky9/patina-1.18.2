@@ -22,7 +22,7 @@ public class MachineFoundryMenu extends AbstractContainerMenu {
 
     public MachineFoundryMenu(int pContainerId, Inventory inv, FriendlyByteBuf buf)
     {
-        this(pContainerId,inv,inv.player.level.getBlockEntity(buf.readBlockPos()),
+        this(pContainerId,inv,inv.player.level().getBlockEntity(buf.readBlockPos()),
                 new SimpleContainerData(MachineFoundryEntity.dataSlots));
 
     }
@@ -31,7 +31,7 @@ public class MachineFoundryMenu extends AbstractContainerMenu {
         super(ModMenuTypes.MACHINE_FOUNDRY_MENU.get(), pContainerId);
         checkContainerSize(inv, MachineFoundryEntity.slots);
         blockEntity = (MachineFoundryEntity) entity;
-        this.level = inv.player.level;
+        this.level = inv.player.level();
         this.data = data;
         addDataSlots(data);
         addPlayerInventory(inv);

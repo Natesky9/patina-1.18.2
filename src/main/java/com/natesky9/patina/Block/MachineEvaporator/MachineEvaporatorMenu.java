@@ -20,7 +20,7 @@ public class MachineEvaporatorMenu extends AbstractContainerMenu {
     final ContainerData data;
 
     public MachineEvaporatorMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId,inv,inv.player.level.getBlockEntity(extraData.readBlockPos()),
+        this(pContainerId,inv,inv.player.level().getBlockEntity(extraData.readBlockPos()),
                 new SimpleContainerData(MachineEvaporatorEntity.dataSlots));
     }
     public MachineEvaporatorMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data)
@@ -28,7 +28,7 @@ public class MachineEvaporatorMenu extends AbstractContainerMenu {
         super(ModMenuTypes.MACHINE_EVAPORATOR_MENU.get(), pContainerId);
         checkContainerSize(inv, MachineEvaporatorEntity.slots);
         blockEntity = (MachineEvaporatorEntity) entity;
-        this.level = inv.player.level;
+        this.level = inv.player.level();
         this.data = data;
         addDataSlots(data);
         addPlayerInventory(inv);

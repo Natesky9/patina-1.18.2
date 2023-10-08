@@ -90,7 +90,7 @@ public class PigWeaponItem extends SwordItem {
     @Override
     public int getBarWidth(ItemStack pStack) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player.getUseItem().sameItem(pStack))
+        if (player.getUseItem() == pStack)
         {
             float duration = Math.min(1,player.getTicksUsingItem()/60F);
             System.out.println("duration: " + duration);
@@ -103,7 +103,7 @@ public class PigWeaponItem extends SwordItem {
     public boolean isBarVisible(ItemStack pStack) {
 
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player.getUseItem().sameItem(pStack))
+        if (player.getUseItem() == pStack)
             return player.getTicksUsingItem() > 0;
         return false;
     }

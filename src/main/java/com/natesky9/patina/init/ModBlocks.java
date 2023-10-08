@@ -17,8 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -31,28 +30,29 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, Patina.MODID);
     //--------------------//
     public static final RegistryObject<Block> CHORUS_CABLE = registerBlock("chorus_cable",
-            () -> new ChorusCableBlock(BlockBehaviour.Properties.of(Material.PLANT)
-                    .randomTicks()
-                    .color(MaterialColor.COLOR_PURPLE)
+            () -> new ChorusCableBlock(BlockBehaviour.Properties.of()
                     .strength(1F)
-                    .noOcclusion()));
-    public static final RegistryObject<Block> CHARGE_CABLE = registerBlock("charge_cable",
-            () -> new CopperCableBlock(BlockBehaviour.Properties.of(Material.METAL)
                     .randomTicks()
-                    .color(MaterialColor.COLOR_ORANGE)
+                    .mapColor(MapColor.COLOR_PURPLE)
+                    .noOcclusion()
+            ));
+    public static final RegistryObject<Block> CHARGE_CABLE = registerBlock("charge_cable",
+            () -> new CopperCableBlock(BlockBehaviour.Properties.of()
+                    .randomTicks()
+                    .mapColor(MapColor.COLOR_ORANGE)
                     .strength(2F)
                     .noOcclusion()));
     public static final RegistryObject<Block> CHORUS_TELEPORTER = registerBlock("chorus_teleporter",
-            () -> new ChorusTeleporter(BlockBehaviour.Properties.of(Material.STONE)
+            () -> new ChorusTeleporter(BlockBehaviour.Properties.of()
                     .strength(8F)
-                    .color(MaterialColor.COLOR_YELLOW)));
+                    .mapColor(MapColor.COLOR_YELLOW)));
     public static final RegistryObject<Block> TEST_GENERATOR = registerBlock("test_generator",
-            () -> new GeneratorBlock(BlockBehaviour.Properties.of(Material.METAL)
+            () -> new GeneratorBlock(BlockBehaviour.Properties.of()
                     .strength(1000)));
     //region machines
     //liquid to solid
     public static final RegistryObject<Block> MACHINE_EVAPORATOR = registerBlock("machine_evaporator",
-            () -> new MachineEvaporatorBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+            () -> new MachineEvaporatorBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
     //solid to solid
     //public static final RegistryObject<Block> MACHINE_SAWMILL = registerBlock("machine_sawmill",
@@ -60,25 +60,25 @@ public class ModBlocks {
     //                .strength(4f)));
     //solid to liquid
     public static final RegistryObject<Block> MACHINE_FOUNDRY = registerBlock("machine_foundry",
-            () -> new MachineFoundryBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+            () -> new MachineFoundryBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
     public static final RegistryObject<Block> MACHINE_MINCERATOR = registerBlock("machine_mincerator",
-            () -> new MachineMinceratorBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+            () -> new MachineMinceratorBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
     //liquid to liquid
     public static final RegistryObject<Block> MACHINE_ALEMBIC = registerBlock("machine_alembic",
-            () -> new MachineAlembicBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+            () -> new MachineAlembicBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
     //enchanting
     public static final RegistryObject<Block> MACHINE_ENCHANTER = registerBlock("machine_enchanter",
-            () -> new MachineEnchanterBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
+            () -> new MachineEnchanterBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
     //appliances
     public static final RegistryObject<Block> APPLIANCE_WARDROBE = registerBlock("appliance_wardrobe",
-            () -> new ApplianceWardrobeBlock(BlockBehaviour.Properties.of(Material.WOOD)
+            () -> new ApplianceWardrobeBlock(BlockBehaviour.Properties.of()
                     .strength(3f)));
     public static final RegistryObject<Block> APPLIANCE_ICEBOX = registerBlock("appliance_icebox",
-            () -> new ApplianceIceboxBlock(BlockBehaviour.Properties.of(Material.WOOD)
+            () -> new ApplianceIceboxBlock(BlockBehaviour.Properties.of()
                     .strength(3f)));
     //public static final RegistryObject<Block> APPLIANCE_TOOLRACK = registerBlock("appliance_toolrack",
     //        () -> new ApplianceToolrackBlock(BlockBehaviour.Properties.of(Material.WOOD)
@@ -89,7 +89,8 @@ public class ModBlocks {
 
     //register block only
     public static final RegistryObject<Block> BISMUTH_ORE = BLOCKS.register("bismuth_ore",
-            () -> new Block(BlockBehaviour.Properties.of(Material.STONE).strength(3F).requiresCorrectToolForDrops()));
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(3F).requiresCorrectToolForDrops()));
     //-----------------------//
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block)
     {

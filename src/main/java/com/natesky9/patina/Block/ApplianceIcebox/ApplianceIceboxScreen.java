@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.natesky9.patina.Patina;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -44,8 +45,8 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+    public void render(GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(graphics, pMouseX, pMouseY, pPartialTick);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1,1,1,1);
 
@@ -83,9 +84,9 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
                 int hunger = stack.getFoodProperties(minecraft.player).getNutrition();
                 for (int i = 0; i < hunger; i += 2) {
                     if (i != hunger - 1)
-                        blit(pPoseStack, x + i * 4, y, fullx, fully, 8,8);
+                        graphics.blit(FOOD, x + i * 4, y, fullx, fully, 8,8);
                     else
-                        blit(pPoseStack, x + i * 4, y, halfx, halfy, 8,8);
+                        graphics.blit(FOOD, x + i * 4, y, halfx, halfy, 8,8);
                 }
                 //check if food effects
                 List<Pair<MobEffectInstance, Float>> effects = stack.getFoodProperties(minecraft.player).getEffects();
@@ -97,8 +98,8 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
                         float chance = pair.getSecond()*100;
                         TextureAtlasSprite textureAtlasSprite = mobeffecttexturemanager.get(effect);
                         RenderSystem.setShaderTexture(0, textureAtlasSprite.atlasLocation());
-                        blit(pPoseStack, x, y + yoffset+ i * 16, 0, 16, 16, textureAtlasSprite);
-                        drawString(pPoseStack,font,chance + "%",x+16+4,y+yoffset+i * 16+4, Color.WHITE.getRGB());
+                        graphics.blit(x, y + yoffset+ i * 16, 0, 16, 16, textureAtlasSprite);
+                        graphics.drawString(font,chance + "%",x+16+4,y+yoffset+i * 16+4, Color.WHITE.getRGB());
                         i++;
                     }
                 }
@@ -116,12 +117,12 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
                     RenderSystem.setShaderTexture(0,textureAtlasSprite.atlasLocation());
                     int p;
                     for (p = 0;p < potency+1;p++) {
-                        blit(pPoseStack, x+p*4, y + yoffset + i * 16, 0, 16, 16, textureAtlasSprite);
+                        graphics.blit(x+p*4, y + yoffset + i * 16, 0, 16, 16, textureAtlasSprite);
                     }
 
                     if (!instance.getEffect().isInstantenous()) {
                         String duration = StringUtil.formatTickDuration(instance.getDuration());
-                        drawString(pPoseStack, font, duration, x+p*4+20, y + yoffset + i * 16 +4, 16777215);
+                        graphics.drawString(font, duration, x+p*4+20, y + yoffset + i * 16 +4, 16777215);
                     }
                     i++;
                 }
@@ -130,13 +131,13 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
     }
 
     @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics graphics, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1,1,1,1);
         RenderSystem.setShaderTexture(0,TEXTURE);
         int x = (width-imageWidth)/2;
         int y = (height-imageHeight)/2;
         //draw the background
-        blit(pPoseStack,x,y,0,0,imageWidth,imageHeight);
+        graphics.blit(TEXTURE,x,y,0,0,imageWidth,imageHeight);
     }
 }

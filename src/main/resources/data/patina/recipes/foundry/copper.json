@@ -1,5 +1,10 @@
 {
   "type": "patina:foundry",
+  "output":
+  {
+    "item": "patina:copper_nugget",
+    "count": 12
+  },
   "input":
   {
     "item": "minecraft:raw_copper"
@@ -7,10 +12,5 @@
   "catalyst":
   {
     "item": "minecraft:fire_charge"
-  },
-  "output":
-  {
-    "item": "patina:copper_nugget",
-    "count": 12
   }
 }

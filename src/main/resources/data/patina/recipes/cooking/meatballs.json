@@ -1,11 +1,14 @@
 {
   "type": "patina:smoker_grindstone",
-  "ingredients":
-          [
-            {"tag": "patina:meat", "count": 2}
-          ],
   "output":
   {
     "item": "patina:meatballs"
-  }
+  },
+  "ingredients":
+          [
+            {"tag": "patina:meat"},
+            {"tag": "patina:meat"},
+            {"tag": "patina:vegetable"},
+            {"item": "minecraft:bread"}
+          ]
 }

@@ -1,5 +1,10 @@
 {
   "type": "patina:foundry",
+  "output":
+  {
+    "item": "patina:bronze_ingot",
+    "count": 1
+  },
   "input":
   {
     "item": "minecraft:copper_ingot"
@@ -7,10 +12,5 @@
   "catalyst":
   {
     "item": "patina:bismuth_ingot"
-  },
-  "output":
-  {
-    "item": "patina:bronze_ingot",
-    "count": 1
   }
 }

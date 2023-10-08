@@ -3,6 +3,7 @@
   "ingredients":
           [
             {"tag": "patina:meat"},
+            {"tag": "patina:meat"},
             {"tag": "patina:vegetable"},
             {"item": "minecraft:bread"}
           ],

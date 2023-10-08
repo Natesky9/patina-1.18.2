@@ -1,9 +1,9 @@
 {
   "type": "patina:evaporator",
-  "potion": "patina:volatile_potion",
   "output":
   {
     "item": "minecraft:gunpowder",
     "count": 3
-  }
+  },
+  "input": "patina:volatile_potion"
 }

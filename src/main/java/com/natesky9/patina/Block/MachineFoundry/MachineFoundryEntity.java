@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -34,7 +35,7 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
     public static final int catalyst = 1;
     public static final int fuel = 2;
     public static final int output = 3;
-    private Optional<FoundryRecipe> recipe = Optional.empty();
+    private Optional<RecipeHolder<FoundryRecipe>> recipe = Optional.empty();
     public MachineFoundryEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(pWorldPosition, pBlockState,slots);
         this.data = createData();
@@ -123,7 +124,7 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
         if (recipe.isEmpty()) return false;
         ItemStack slot = itemStackHandler.getStackInSlot(output);
         if (slot.isEmpty()) return true;
-        ItemStack result = recipe.get().getResultItem(level.registryAccess());
+        ItemStack result = recipe.get().value().getResultItem(level.registryAccess());
         boolean stack = ItemHandlerHelper.canItemStacksStack(slot,result);
         boolean limit = slot.getCount() + result.getCount() <= slot.getMaxStackSize();
         return stack && limit;
@@ -134,7 +135,7 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
     }
     private void craftItem()
     {
-        ItemStack stack = recipe.get().getResultItem(level.registryAccess());
+        ItemStack stack = recipe.get().value().getResultItem(level.registryAccess());
         itemStackHandler.extractItem(input,1,false);
         itemStackHandler.extractItem(catalyst,1,false);
         itemStackHandler.insertItem(output,stack,false);

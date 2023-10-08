@@ -29,29 +29,29 @@ public class GravestoneBlock {
     public static void create(LivingDropsEvent event)
     {
         if (!(event.getEntity() instanceof Player player)) return;
-        Level level = event.getEntity().getLevel();
+        Level level = event.getEntity().level();
         BlockPos pos = event.getEntity().blockPosition();
         //first height check
-        while (!player.level.isInWorldBounds(pos))
+        while (!player.level().isInWorldBounds(pos))
             {
-                boolean above = pos.getY() >= player.level.getMaxBuildHeight();
-                boolean below = pos.getY() < player.level.getMinBuildHeight();
+                boolean above = pos.getY() >= player.level().getMaxBuildHeight();
+                boolean below = pos.getY() < player.level().getMinBuildHeight();
                 pos = pos.relative(Direction.Axis.Y,(below? 1:0)-(above ? 1:0));
             }
         BlockPos search = pos;
-        while (pos.getY() < player.level.getMaxBuildHeight())
+        while (pos.getY() < player.level().getMaxBuildHeight())
         {
             Iterator<BlockPos.MutableBlockPos> iterator = BlockPos.spiralAround
                     (pos, 8, Direction.NORTH, Direction.EAST).iterator();
 
             search = iterator.next();
 
-            while ((!player.level.getBlockState(search).canBeReplaced()
-                    || player.level.isFluidAtPosition(search, FluidState::isSource))
+            while ((!player.level().getBlockState(search).canBeReplaced()
+                    || player.level().isFluidAtPosition(search, FluidState::isSource))
                     && iterator.hasNext())
                 search = iterator.next();
-            if (player.level.getBlockState(search).canBeReplaced()
-                    && !player.level.isFluidAtPosition(search, FluidState::isSource))
+            if (player.level().getBlockState(search).canBeReplaced()
+                    && !player.level().isFluidAtPosition(search, FluidState::isSource))
                 break;
             pos = pos.above(1);
         }

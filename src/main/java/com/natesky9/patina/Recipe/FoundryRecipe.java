@@ -1,6 +1,8 @@
 package com.natesky9.patina.Recipe;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.natesky9.patina.init.ModRecipeSerializers;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.RegistryAccess;
@@ -18,15 +20,13 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
     private final RecipeType<?> type = ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get();
     private final RecipeSerializer<?> serializer = ModRecipeSerializers.FOUNDRY_SERIALIZER.get();
 
-    private final ResourceLocation id;
-    private final Ingredient input;
-    private final Ingredient catalyst;
-    private final ItemStack output;
+    final Ingredient input;
+    final Ingredient catalyst;
+    final ItemStack output;
     //
-    public FoundryRecipe(ResourceLocation id, ItemStack output,
+    public FoundryRecipe(ItemStack output,
                          Ingredient input, Ingredient catalyst)
     {
-        this.id = id;
         this.output = output;
         this.input = input;
         this.catalyst = catalyst;
@@ -57,11 +57,6 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ResourceLocation getId() {
-        return id;
-    }
-
-    @Override
     public RecipeType<?> getType() {
         return type;
     }
@@ -72,20 +67,25 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
     }
     public static class Serializer implements RecipeSerializer<FoundryRecipe>
     {
+        final static Codec<FoundryRecipe> CODEC = RecordCodecBuilder.create((instance) ->
+                instance.group(
+                        CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
+                        Ingredient.CODEC.fieldOf("input").forGetter((getter) -> getter.input),
+                        Ingredient.CODEC.fieldOf("catalyst").forGetter((getter) -> getter.catalyst)
+                ).apply(instance, FoundryRecipe::new)
+        );
+
         @Override
-        public FoundryRecipe fromJson(ResourceLocation id, JsonObject json) {
-            Ingredient input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json,"input"));
-            Ingredient catalyst = Ingredient.fromJson(GsonHelper.getAsJsonObject(json,"catalyst"));
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json,"output"));
-            return new FoundryRecipe(id,output,input,catalyst);
+        public Codec<FoundryRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public @Nullable FoundryRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+        public @Nullable FoundryRecipe fromNetwork(FriendlyByteBuf buffer) {
             Ingredient input = Ingredient.fromNetwork(buffer);
             Ingredient catalyst = Ingredient.fromNetwork(buffer);
             ItemStack output = buffer.readItem();
-            return new FoundryRecipe(id, output, input, catalyst);
+            return new FoundryRecipe(output, input, catalyst);
         }
 
         @Override

@@ -48,7 +48,7 @@ public class Charms {
         //change the fall distance
         player.fallDistance = 0;
         LivingEntity entity = event.getEntity();
-        entity.level.playSound(null,entity.blockPosition(),SoundEvents.GOAT_RAM_IMPACT, SoundSource.PLAYERS,1F,1F);
+        entity.level().playSound(null,entity.blockPosition(),SoundEvents.GOAT_RAM_IMPACT, SoundSource.PLAYERS,1F,1F);
 
 
     }
@@ -128,7 +128,7 @@ public class Charms {
         //duplicate the baby
         //congratulations, it's twins!
         if (!(event.getParentA() instanceof Animal father)) return;
-        if (!(father.level instanceof ServerLevel level)) return;
+        if (!(father.level() instanceof ServerLevel level)) return;
 
         Animal mother = (Animal) event.getParentB();
 

@@ -25,7 +25,7 @@ public class PigCrossbowItem extends CrossbowItem {
             return InteractionResultHolder.consume(itemstack);
         } else if (!pPlayer.getProjectile(itemstack).isEmpty()) {
             if (!isCharged(itemstack)) {
-                this.startSoundPlayed = false; this.midLoadSoundPlayed = false;
+                //this.startSoundPlayed = false; this.midLoadSoundPlayed = false;
                 pPlayer.startUsingItem(pHand);
             }
             return InteractionResultHolder.consume(itemstack);
