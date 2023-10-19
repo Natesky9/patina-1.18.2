@@ -35,12 +35,14 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                 ApplianceWardrobeBlock.HALF,DoubleBlockHalf.LOWER));
         this.add(ModBlocks.APPLIANCE_ICEBOX.get(), createSinglePropConditionTable(ModBlocks.APPLIANCE_ICEBOX.get(),
                 ApplianceIceboxBlock.HALF,DoubleBlockHalf.LOWER));
+        this.dropSelf(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get());
 
         this.dropSelf(ModBlocks.MACHINE_FOUNDRY.get());
         this.dropSelf(ModBlocks.MACHINE_ENCHANTER.get());
         this.dropSelf(ModBlocks.MACHINE_EVAPORATOR.get());
         this.dropSelf(ModBlocks.MACHINE_ALEMBIC.get());
         this.dropSelf(ModBlocks.MACHINE_MINCERATOR.get());
+        this.dropSelf(ModBlocks.ADDON_ALEMBIC.get());
 
         this.dropSelf(ModBlocks.PRISMATIC_ORE.get());
         dropOther(ModBlocks.PRISMATIC_ORE.get(), Items.PRISMARINE_SHARD);

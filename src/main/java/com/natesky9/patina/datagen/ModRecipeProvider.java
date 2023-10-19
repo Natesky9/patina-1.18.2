@@ -3,6 +3,7 @@ package com.natesky9.patina.datagen;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -14,7 +15,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
     public ModRecipeProvider(PackOutput output) {
@@ -43,6 +47,39 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     public void buildRecipes(@NotNull RecipeOutput pWriter) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.MACHINE_ALEMBIC.get())
+                .pattern("AAA").pattern("BBB").pattern("CCC")
+                .define('A', ModItems.PRIME_GLASS.get())
+                .define('B', Items.BREWING_STAND)
+                .define('C', Items.CUT_COPPER_SLAB)
+                .unlockedBy("unlock_alembic", BrewedPotionTrigger.TriggerInstance.brewedPotion())
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.ADDON_ALEMBIC.get())
+                .pattern("GIP").pattern("IBI").pattern("I I")
+                .define('G', Items.GOLD_INGOT)
+                .define('I', Items.IRON_INGOT)
+                .define('P', ModItems.PRIME_GLASS.get())
+                .define('B', Items.BUCKET)
+                .unlockedBy("unlock_alembic_addon", RecipeCraftedTrigger.TriggerInstance
+                        .craftedItem(ModBlocks.MACHINE_ALEMBIC.getId()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModBlocks.MACHINE_MINCERATOR.get())
+                .pattern("AAA").pattern("AGA").pattern("ASA")
+                .define('A', Items.CUT_COPPER_SLAB)
+                .define('G', Items.GRINDSTONE)
+                .define('S', Items.SMOKER)
+                //unlocked by curing a zombie?
+                .unlockedBy("unlock_mincerator", PlayerInteractTrigger.TriggerInstance
+                        .itemUsedOnEntity(ItemPredicate.Builder.item().of(Items.GOLDEN_APPLE),
+                        Optional.of(EntityPredicate.wrap(EntityPredicate.Builder.entity().of(EntityType.ZOMBIE_VILLAGER)))))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get())
+                .pattern("ABA").pattern("BCB").pattern("ABA")
+                .define('A', Items.CUT_COPPER_STAIRS)
+                .define('B', Items.LAPIS_BLOCK)
+                .define('C', Items.DISPENSER)
+                .unlockedBy("unlock_consolidator", EnchantedItemTrigger.TriggerInstance.enchantedItem())
+                .save(pWriter);
         //region fragment weapons
         smithingTable(ModItems.PIG_FRAGMENT_A.get(),
                 ModItems.CHARM_FRAGMENT.get(), ModItems.PIG_FRAGMENT_1.get(), ModItems.PIG_FRAGMENT_2.get()

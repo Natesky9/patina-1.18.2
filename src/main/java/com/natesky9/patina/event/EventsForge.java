@@ -4,6 +4,7 @@ import com.natesky9.patina.Enchantment.*;
 import com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil;
 import com.natesky9.patina.Item.BeeShieldItem;
 import com.natesky9.patina.Item.Charms;
+import com.natesky9.patina.Item.EssenceItem;
 import com.natesky9.patina.Item.PigWeaponItem;
 import com.natesky9.patina.Item.flasks.ImpetusFlask;
 import com.natesky9.patina.Item.flasks.SemiVitaFlask;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -35,16 +37,28 @@ import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Optional;
+
 import static com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil.curseItem;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge {
+    @SubscribeEvent
+    public static void experienceEvent(LivingExperienceDropEvent event)
+    {
+
+        event.setCanceled(EssenceItem.shouldCreate(event));
+    }
     @SubscribeEvent
     public static void LivingDropsEvent(LivingDropsEvent event) {
         GravestoneBlock.create(event);
         AvariceEnchantment.doEffect(event);
         GreedEnchantment.doEffect(event);
         SoulboundEnchantment.store(event);
+
+        EssenceItem.create(event);
+
+
     }
     @SubscribeEvent
     public static void PlayerXpEvent(PlayerXpEvent.PickupXp event)

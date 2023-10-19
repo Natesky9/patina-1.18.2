@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class MachineMinceratorScreen extends AbstractContainerScreen<MachineMinceratorMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MODID,"textures/gui/machine_smoker_grindstone_gui.png");
+            new ResourceLocation(Patina.MODID,"textures/gui/machine_mincerator_gui.png");
 
     public MachineMinceratorScreen(MachineMinceratorMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);

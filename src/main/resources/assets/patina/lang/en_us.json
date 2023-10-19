@@ -70,12 +70,17 @@
   "item.patina.fortis_glass": "Fortis Glass",
   "item.patina.malachite": "Malachite",
 
+  "item.patina.essence": "Essence",
+
   "block.patina.appliance_icebox": "Icebox",
   "block.patina.appliance_wardrobe": "Wardrobe",
+  "block.patina.appliance_arcane_consolidator": "Arcane Consolidator",
   "block.patina.machine_alembic": "Alembic",
+  "block.patina.addon_alembic": "Alembic Addon",
   "block.patina.machine_enchanter": "Enchanter",
   "block.patina.machine_evaporator": "Evaporator",
   "block.patina.machine_foundry": "Foundry",
+  "block.patina.machine_mincerator": "Mincerator",
   "block.patina.prismatic_ore": "Prismatic Ore",
   "block.patina.bismuth_ore": "Bismuth Ore",
 
@@ -98,6 +103,7 @@
   "itemGroup.main_tab": "Patina all items",
   "itemGroup.tool_tab": "Patina Tools and Armor",
   "itemGroup.potion_tab": "Patina Potions",
+  "itemGroup.machine_tab": "Patina Machines",
 
   "patina.wrath_trigger": "Your wrath burns you",
   "patina.sloth_trigger": "Slothfulness consumes you",

@@ -34,6 +34,11 @@ public class MachineEnchanterEntity extends MachineTemplateEntity {
     }
 
     @Override
+    protected int mySlotLimit(int slot) {
+        return 1;
+    }
+
+    @Override
     public Component getDisplayName() {
         return Component.translatable("block.patina.machine_enchanter");
     }

@@ -20,14 +20,12 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class MachineFoundryEntity extends MachineTemplateEntity implements MenuProvider {
-    protected final ContainerData data;
     public static final int dataSlots = 2;
     public static final int slots = 4;
 
@@ -38,7 +36,6 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
     private Optional<RecipeHolder<FoundryRecipe>> recipe = Optional.empty();
     public MachineFoundryEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(pWorldPosition, pBlockState,slots);
-        this.data = createData();
         this.progressMax = 20;
         //this.itemStackHandler = new ItemStackHandler(slots);
     }
@@ -85,6 +82,11 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
         recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get(),container,level);
         if (recipe.isEmpty())
             resetProgress();
+    }
+
+    @Override
+    protected int mySlotLimit(int slot) {
+        return 64;
     }
 
     @Override
@@ -142,7 +144,7 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
+    public void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
         pTag.putInt("progress",progress);
         pTag.putInt("progressMax",progressMax);

@@ -1,5 +1,6 @@
 package com.natesky9.patina.init;
 
+import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorEntity;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxEntity;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeEntity;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicEntity;
@@ -53,6 +54,10 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("appliance_icebox_entity",
             () -> BlockEntityType.Builder.of(ApplianceIceboxEntity::new,
             ModBlocks.APPLIANCE_ICEBOX.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ApplianceConsolidatorEntity>> APPLIANCE_CONSOLIDATOR_ENTITY =
+            BLOCK_ENTITIES.register("appliance_arcane_consolidator_entity",
+            () -> BlockEntityType.Builder.of(ApplianceConsolidatorEntity::new,
+            ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get()).build(null));
 
     //--------------------------------------------------//
     public static void register(IEventBus eventBus)

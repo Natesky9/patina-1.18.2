@@ -6,6 +6,7 @@ import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.MenuProvider;
@@ -136,6 +137,16 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     }
 
     @Override
+    protected int mySlotLimit(int slot) {
+        return switch (slot)
+        {
+            case input, output -> 1;
+            case fuel -> 64;
+            default -> 0;
+        };
+    }
+
+    @Override
     public void onLoad() {
         super.onLoad();
         outputHandler = LazyOptional.of(() -> outputStackHandler);
@@ -253,5 +264,17 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
         //        || potion == ModPotions.VOLATILE_POTION.get() || potion == Potions.THICK
         //        || potion == ModPotions.IRIDESCENT_POTION.get();
         //return valid;
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
+        pTag.putInt("heat", heat);
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        heat = tag.getInt("heat");
     }
 }

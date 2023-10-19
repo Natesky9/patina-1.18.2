@@ -1,6 +1,7 @@
 package com.natesky9.patina.Block.Template;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
@@ -14,6 +15,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -22,20 +25,23 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class MachineTemplateEntity extends BlockEntity implements MenuProvider {
     protected ItemStackHandler itemStackHandler;
+    protected ItemStackHandler automationHandler;
 
 
     protected abstract boolean mySlotValid(int slot, @NotNull ItemStack stack);
 
     protected LazyOptional<IItemHandler> itemCapability = LazyOptional.empty();
+    protected LazyOptional<IItemHandler> automationCapability = LazyOptional.empty();
 
     protected final ContainerData data;
 
     protected int progress = 0;
     protected int progressMax = 20;
-    protected int machineSlots = 0;
+    protected int machineSlots;
 
     public MachineTemplateEntity(BlockPos pWorldPosition, BlockState pBlockState, int slots) {
         super(((MachineTemplateBlock)pBlockState.getBlock()).getBlockEntityType(),pWorldPosition, pBlockState);
+
         machineSlots = slots;
         //create the handler
         itemStackHandler = new ItemStackHandler(slots)
@@ -48,8 +54,21 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
             }
 
             @Override
+            public int getSlotLimit(int slot) {
+                return mySlotLimit(slot);
+            }
+
+            @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
                 return super.extractItem(slot, amount, simulate);
+            }
+
+            @Override
+            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+                return super.insertItem(slot, stack, simulate);
+                //if (mySlotValid(slot, stack))
+                //    return stack;
+                //else return ItemStack.EMPTY;
             }
 
             @Override
@@ -57,11 +76,31 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
                 return mySlotValid(slot,stack);
             }
         };
-        data = createData();
+        automationHandler = new ItemStackHandler(slots)
+        {
+            @Override
+            public int getSlotLimit(int slot) {
+                return itemStackHandler.getSlotLimit(slot);
+            }
+
+            @Override
+            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+                if (!mySlotValid(slot, itemStackHandler.getStackInSlot(slot)))
+                    return itemStackHandler.extractItem(slot, amount, simulate);
+                else return ItemStack.EMPTY;
+            }
+
+            @Override
+            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+                return itemStackHandler.insertItem(slot, stack, simulate);
+            }
+        };
+        this.data = createData();
     }
     //creates the data slots to read/write
     protected abstract ContainerData createData();
 
+    protected abstract int mySlotLimit(int slot);
     protected abstract void myContentsChanged();
 
     @Override
@@ -71,35 +110,46 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
     @Override
     public abstract AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer);
 
+    @Override
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER)
+        {
+            return side == null ? itemCapability.cast() : automationCapability.cast();
+        }
+        return super.getCapability(cap, side);
+    }
 
     @Override
     public void onLoad() {
         super.onLoad();
         itemCapability = LazyOptional.of(() -> itemStackHandler);
+        automationCapability = LazyOptional.of(() -> automationHandler);
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
         itemCapability.invalidate();
+        automationCapability.invalidate();
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        pTag.put("inventory",itemStackHandler.serializeNBT());
-        pTag.putInt("progress",progress);
+    public void saveAdditional(CompoundTag pTag)
+    {
+        //we only save inventory in the parent class
+        pTag.put("inventory", itemStackHandler.serializeNBT());
         super.saveAdditional(pTag);
     }
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
+        //load the inventory but also set the inventory size if we changed it since last update
         itemStackHandler.deserializeNBT(tag.getCompound("inventory"));
         if (itemStackHandler.getSlots() != machineSlots)
         {
             System.out.println("Slots do not match! setting to correct now!");
             itemStackHandler.setSize(machineSlots);
         }
-        progress = tag.getInt("progress");
     }
 
     public void drops()

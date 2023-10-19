@@ -16,6 +16,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModCreativeTabs {
@@ -39,7 +40,7 @@ public class ModCreativeTabs {
     public static final RegistryObject<CreativeModeTab> TOOL_TAB = TABS.register("tool_tab",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.tool_tab"))
-                    .icon(ModItems.POTION_FLASK.get()::getDefaultInstance)
+                    .icon(ModItems.BEE_SWORD.get()::getDefaultInstance)
                     .displayItems((params, output) ->
                     {
                         output.accept(ModItems.BEE_SWORD.get());
@@ -58,6 +59,73 @@ public class ModCreativeTabs {
                         output.accept(ModItems.BRONZE_SHOVEL.get());
                         output.accept(ModItems.BRONZE_SWORD.get());
                         output.accept(ModItems.BRONZE_HOE.get());
+
+                        output.accept(ModItems.COPPER_HELMET.get());
+                        output.accept(ModItems.COPPER_CHESTPLATE.get());
+                        output.accept(ModItems.COPPER_LEGGINGS.get());
+                        output.accept(ModItems.COPPER_BOOTS.get());
+                        output.accept(ModItems.COPPER_AXE.get());
+                        output.accept(ModItems.COPPER_PICK.get());
+                        output.accept(ModItems.COPPER_SHOVEL.get());
+                        output.accept(ModItems.COPPER_SWORD.get());
+                        output.accept(ModItems.COPPER_HOE.get());
+
+                        output.accept(ModItems.DRAGON_HELMET.get());
+                        output.accept(ModItems.DRAGON_CHESTPLATE.get());
+                        output.accept(ModItems.DRAGON_LEGGINGS.get());
+                        output.accept(ModItems.DRAGON_BOOTS.get());
+
+                        output.accept(ModItems.CHARM_ALCHEMY.get());
+                        output.accept(ModItems.CHARM_AMBUSH.get());
+                        output.accept(ModItems.CHARM_CONTRABAND.get());
+                        output.accept(ModItems.CHARM_DETONATION.get());
+                        output.accept(ModItems.CHARM_FERTILITY.get());
+                        output.accept(ModItems.CHARM_EXPERIENCE.get());
+                        output.accept(ModItems.CHARM_VITALITY.get());
+                        output.accept(ModItems.CHARM_WARDING.get());
+                        output.accept(ModItems.CHARM_FRAGMENT.get());
+                    })
+                    .build());
+    public static final RegistryObject<CreativeModeTab> MACHINE_TAB = TABS.register("machine_tab",
+            () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.machine_tab"))
+                    .icon(ModBlocks.MACHINE_ALEMBIC.get().asItem()::getDefaultInstance)
+                    .displayItems((params, output) ->
+                    {
+                        output.accept(ModBlocks.MACHINE_ALEMBIC.get());
+                        output.accept(ModBlocks.ADDON_ALEMBIC.get());
+                        output.accept(ModBlocks.MACHINE_EVAPORATOR.get());
+                        output.accept(ModBlocks.MACHINE_FOUNDRY.get());
+                        output.accept(ModBlocks.MACHINE_MINCERATOR.get());
+                        output.accept(ModBlocks.MACHINE_ENCHANTER.get());
+                        output.accept(ModBlocks.APPLIANCE_ICEBOX.get());
+                        output.accept(ModBlocks.APPLIANCE_WARDROBE.get());
+                        output.accept(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get());
+                        output.accept(ModBlocks.CHORUS_TELEPORTER.get());
+                        output.accept(ModBlocks.CHORUS_CABLE.get());
+
+                        output.accept(ModItems.BISMUTH_INGOT.get());
+                        output.accept(ModItems.BRONZE_INGOT.get());
+                        output.accept(ModItems.MALACHITE.get());
+                        output.accept(ModItems.PRIME_GLASS.get());
+                        output.accept(ModItems.ANIMA_GLASS.get());
+                        output.accept(ModItems.FERUS_GLASS.get());
+                        output.accept(ModItems.FORTIS_GLASS.get());
+
+                        output.accept(ModItems.VOID_SALT.get());
+                        List<Potion> potions = new ArrayList<>();
+                        for (Potion potion:BuiltInRegistries.POTION)
+                        {
+                            //only potions with one effect
+                            if (!(potion.getEffects().size() == 1)) continue;
+                            if (potions.stream().anyMatch(search -> search.getEffects().contains(potion.getEffects().get(0))))
+                                continue;
+                            potions.add(potion);
+                        }
+                        for (Potion potion:potions)
+                        {//add all the unique potions to salt
+                            output.accept(PotionUtils.setPotion(new ItemStack(ModItems.POTION_SALT.get()),potion));
+                        }
                     })
                     .build());
     //endregion

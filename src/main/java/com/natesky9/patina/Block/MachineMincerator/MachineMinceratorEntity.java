@@ -6,6 +6,7 @@ import com.natesky9.patina.Recipe.MinceratorRecipe;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -118,6 +119,12 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
                 resetProgress();
         }
     }
+
+    @Override
+    protected int mySlotLimit(int slot) {
+        return 1;
+    }
+
     private boolean hasRecipe()
     {
         return recipe.isPresent() && hasNotReachedStackLimit();
@@ -255,5 +262,10 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
             return itemCapability.cast();
         }
         return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag pTag) {
+        super.saveAdditional(pTag);
     }
 }

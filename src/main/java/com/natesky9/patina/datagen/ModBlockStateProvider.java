@@ -1,16 +1,20 @@
 package com.natesky9.patina.datagen;
 
+import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorBlock;
 import com.natesky9.patina.Block.ChorusCableBlock;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.init.ModBlocks;
+import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -44,9 +48,24 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 new ResourceLocation("block/dark_oak_planks"));
         //simpleBlock(ModBlocks.APPLIANCE_ICEBOX.get());
         //simpleBlock(ModBlocks.APPLIANCE_WARDROBE.get());
+        //
+        getVariantBuilder(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get()).forAllStates(state -> {
+            boolean powered = state.getValue(ApplianceConsolidatorBlock.ACTIVE);
+            ModelFile off = models().cubeAll("consolidator_off",
+                    new ResourceLocation("block/lapis_block"));
+            ModelFile on = models().cubeAll("consolidator_on",
+                    new ResourceLocation("block/gold_block"));
+
+            return ConfiguredModel.builder()
+                    .modelFile(powered ? off : on)
+                    .build();
+        });
+
+        //
         simpleBlock(ModBlocks.MACHINE_FOUNDRY.get());
         simpleBlock(ModBlocks.MACHINE_ENCHANTER.get());
         simpleBlock(ModBlocks.MACHINE_ALEMBIC.get());
+        simpleBlock(ModBlocks.ADDON_ALEMBIC.get());
 
         models().cubeAll(ModBlocks.TEST_GENERATOR.getId().getPath(),new ResourceLocation("block/iron_block"));
         getVariantBuilder(ModBlocks.CHORUS_TELEPORTER.get()).partialState().setModels(new ConfiguredModel(

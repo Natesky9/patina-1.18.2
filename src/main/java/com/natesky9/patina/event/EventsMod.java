@@ -1,5 +1,6 @@
 package com.natesky9.patina.event;
 
+import com.natesky9.patina.Item.EssenceItem;
 import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.Patina;
@@ -90,6 +91,9 @@ public class EventsMod {
         registerPotionCapacityProperty(ModItems.VITA_FLASK.get());
         registerPotionCapacityProperty(ModItems.IMPETUS_FLASK.get());
         registerPotionCapacityProperty(ModItems.MAGNA_FLASK.get());
+
+        ItemProperties.register(ModItems.ESSENCE.get(), new ResourceLocation("crude"),
+                (itemstack, level, entity, seed) -> EssenceItem.isCrude(itemstack) ? 0.0F : 1.0F);
 
     }
     static void registerPotionCapacityProperty(Item item)

@@ -27,7 +27,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.VEGETABLE)
                 .add(Items.POTATO,Items.CARROT,Items.BEETROOT,Items.PUMPKIN,Items.DRIED_KELP,Items.CHORUS_FRUIT);
         this.tag(ModTags.Items.GRAIN)
-                .add(Items.WHEAT).add(ModItems.SLEET_WHEAT.get());
+                .add(Items.WHEAT);
         this.tag(ModTags.Items.SWEET)
                 .add(Items.SUGAR).add(Items.HONEYCOMB).add(Items.HONEY_BOTTLE);
         //

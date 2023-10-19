@@ -6,9 +6,11 @@ import com.natesky9.patina.init.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -16,7 +18,6 @@ public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Patina.MODID, existingFileHelper);
     }
-
     @Override
     public void registerModels() {
         //region fragments
@@ -61,10 +62,34 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         simpleItem(ModItems.CHARM_FRAGMENT);
 
+        //TODO: make this better
         orientable(ModBlocks.MACHINE_EVAPORATOR.getId().getPath(),
                 new ResourceLocation(Patina.MODID,"block/evaporator_side"),
                 new ResourceLocation(Patina.MODID,"block/evaporator_front"),
                 new ResourceLocation(Patina.MODID,"block/evaporator_top"));
+        cubeColumn(ModBlocks.MACHINE_ALEMBIC.getId().getPath(),
+                mcLoc("block/iron_block"),modLoc("block/machine_alembic"));
+        cubeColumn(ModBlocks.ADDON_ALEMBIC.getId().getPath(),
+                mcLoc("block/cauldron_top"),
+                modLoc("block/addon_alembic"));
+        orientable(ModBlocks.MACHINE_FOUNDRY.getId().getPath(),
+                modLoc("block/evaporator_side"),
+                mcLoc("block/blast_furnace_front"),
+                mcLoc("block/cauldron_top"));
+        cubeColumn(ModBlocks.APPLIANCE_ICEBOX.getId().getPath(),
+                mcLoc("block/iron_block"),
+                mcLoc("block/iron_trapdoor"));
+        cubeColumn(ModBlocks.APPLIANCE_WARDROBE.getId().getPath(),
+                mcLoc("block/barrel_side"),
+                mcLoc("block/spruce_trapdoor"));
+        cubeTop(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.getId().getPath(),
+                mcLoc("block/furnace_side"),
+                mcLoc("block/gold_block"));
+        orientable(ModBlocks.MACHINE_MINCERATOR.getId().getPath(),
+                mcLoc("block/piston_top"),
+                mcLoc("block/note_block"),
+                mcLoc("block/magenta_terracotta"));
+
         cubeAll(ModBlocks.BISMUTH_ORE.getId().getPath(),
                 new ResourceLocation(Patina.MODID,"block/bismuth_ore"));
         //
@@ -87,6 +112,14 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.BISMUTH_INGOT);
         simpleItem(ModItems.BRONZE_INGOT);
         simpleItem(ModItems.DRAGON_SCALE);
+        simpleItem(ModItems.ESSENCE);
+
+        withExistingParent(ModItems.ESSENCE.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(Patina.MODID, ModItems.ESSENCE.getId().getPath()).withPrefix("item/"))
+                .override().predicate(new ResourceLocation("crude"),1.0F).model(withExistingParent("essence_refined",
+                        new ResourceLocation("item/generated")).texture("layer0",
+                        new ResourceLocation(Patina.MODID,"item/essence_refined"))).end();
         //copper tools--------------
         //region copper
         simpleItem(ModItems.COPPER_NUGGET);
@@ -148,8 +181,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModBlocks.CHORUS_CABLE.getId().getPath(),modLoc("block/chorus_cable"+"_inventory"));
         withExistingParent(ModBlocks.CHARGE_CABLE.getId().getPath(),modLoc("block/charge_cable"+"_inventory"));
 
-        simpleItem(ModItems.SLEET_WHEAT);
-
         simpleItem(ModItems.FOOD_MEATBALLS);
         simpleItem(ModItems.FOOD_HONEY_NUGGETS);
         simpleItem(ModItems.FOOD_CHILI);
@@ -164,7 +195,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.FOOD_OMELETTE);
         simpleItem(ModItems.FOOD_LOAF);
     }
-
 
     private void simpleItem(RegistryObject<Item> item)
     {

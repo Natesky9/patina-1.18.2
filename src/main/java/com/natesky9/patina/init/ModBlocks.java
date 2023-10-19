@@ -1,5 +1,6 @@
 package com.natesky9.patina.init;
 
+import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorBlock;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
 import com.natesky9.patina.Block.ChorusCableBlock;
@@ -69,6 +70,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> MACHINE_ALEMBIC = registerBlock("machine_alembic",
             () -> new MachineAlembicBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
+    public static final RegistryObject<Block> ADDON_ALEMBIC = registerBlock("addon_alembic",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f)));
     //enchanting
     public static final RegistryObject<Block> MACHINE_ENCHANTER = registerBlock("machine_enchanter",
             () -> new MachineEnchanterBlock(BlockBehaviour.Properties.of()
@@ -80,6 +84,10 @@ public class ModBlocks {
     public static final RegistryObject<Block> APPLIANCE_ICEBOX = registerBlock("appliance_icebox",
             () -> new ApplianceIceboxBlock(BlockBehaviour.Properties.of()
                     .strength(3f)));
+    public static final RegistryObject<Block> APPLIANCE_ARCANE_CONSOLIDATOR = registerBlock("appliance_arcane_consolidator",
+            () -> new ApplianceConsolidatorBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)
+                    .speedFactor(0.5F)));
     //public static final RegistryObject<Block> APPLIANCE_TOOLRACK = registerBlock("appliance_toolrack",
     //        () -> new ApplianceToolrackBlock(BlockBehaviour.Properties.of(Material.WOOD)
     //                .strength(3f)));

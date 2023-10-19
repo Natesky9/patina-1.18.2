@@ -190,11 +190,11 @@ public class ModItems {
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
     public static final RegistryObject<Item> CHARM_FRAGMENT = ITEMS.register("charm_fragment",
             CharmFragmentItem::makeFragment);
-    //charm of pounce
-    //charm of warding
-    //charm of blessing
-    //TODO add charms
-    //endregion charms
+    //region magic
+    public static final RegistryObject<Item> ESSENCE = ITEMS.register("essence",
+            () -> new EssenceItem(new Item.Properties()
+                    .rarity(Rarity.UNCOMMON).fireResistant().stacksTo(1)));
+    //endregion magic
     //region potions/ores
     public static final RegistryObject<Item> POTION_SALT = ITEMS.register("potion_salt",
             () -> new PotionSaltItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
@@ -268,9 +268,6 @@ public class ModItems {
     public static final RegistryObject<Item> FOOD_LOAF = ITEMS.register("loaf",
             () -> new Item(new Item.Properties()));
 
-
-    public static final RegistryObject<Item> SLEET_WHEAT = ITEMS.register("sleet_wheat",
-            () -> new Item(new Item.Properties()));
 
     //endregion food
     //
