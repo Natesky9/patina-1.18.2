@@ -112,12 +112,15 @@ public class ModCreativeTabs {
                         output.accept(ModItems.FERUS_GLASS.get());
                         output.accept(ModItems.FORTIS_GLASS.get());
 
+                        output.accept(ModItems.SMITHING_FLUX.get());
+
                         output.accept(ModItems.VOID_SALT.get());
                         List<Potion> potions = new ArrayList<>();
                         for (Potion potion:BuiltInRegistries.POTION)
                         {
                             //only potions with one effect
                             if (!(potion.getEffects().size() == 1)) continue;
+                            //only potions whose effects aren't already considered
                             if (potions.stream().anyMatch(search -> search.getEffects().contains(potion.getEffects().get(0))))
                                 continue;
                             potions.add(potion);

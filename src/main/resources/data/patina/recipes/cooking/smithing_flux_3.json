@@ -1,0 +1,15 @@
+{
+  "type": "patina:smoker_grindstone",
+  "ingredients":
+          [
+            {"item": "minecraft:honeycomb"},
+            {"item": "minecraft:calcite"},
+            {"item": "minecraft:fire_charge"},
+            {"item": "minecraft:tuff"}
+          ],
+  "output":
+  {
+    "item": "patina:smithing_flux",
+    "count": 4
+  }
+}

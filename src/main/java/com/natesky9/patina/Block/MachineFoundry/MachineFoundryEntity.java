@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -23,6 +24,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 public class MachineFoundryEntity extends MachineTemplateEntity implements MenuProvider {
@@ -42,7 +44,15 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
 
     @Override
     protected boolean mySlotValid(int slot, @NotNull ItemStack stack) {
-        return true;
+        List<RecipeHolder<FoundryRecipe>> recipes = level.getRecipeManager()
+                .getAllRecipesFor(ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get());
+        return switch (slot)
+        {
+            case input, catalyst -> recipes.stream().anyMatch(foundryRecipeRecipeHolder ->
+                    foundryRecipeRecipeHolder.value().getIngredients().get(slot).test(stack));
+            case fuel -> stack.is(Items.BLAZE_POWDER);
+            default -> false;
+        };
     }
 
     @Override

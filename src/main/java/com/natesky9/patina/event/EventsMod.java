@@ -5,21 +5,27 @@ import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.datagen.DataGenerators;
-import com.natesky9.patina.init.ModCreativeTabs;
-import com.natesky9.patina.init.ModItems;
-import com.natesky9.patina.init.ModPotions;
-import com.natesky9.patina.init.ModScreens;
+import com.natesky9.patina.entity.*;
+import com.natesky9.patina.entity.BearPrince.BearPrince;
+import com.natesky9.patina.entity.BearPrince.BearPrinceModel;
+import com.natesky9.patina.entity.BearPrince.BearPrinceRenderer;
+import com.natesky9.patina.entity.BeePrincess.BeePrincess;
+import com.natesky9.patina.entity.BeePrincess.BeePrincessModel;
+import com.natesky9.patina.entity.BeePrincess.BeePrincessRenderer;
+import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
+import com.natesky9.patina.entity.SpiderQueen.SpiderQueenModel;
+import com.natesky9.patina.entity.SpiderQueen.SpiderQueenRenderer;
+import com.natesky9.patina.init.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -104,16 +110,27 @@ public class EventsMod {
     @SubscribeEvent
     public static void addEntityAttributes(EntityAttributeCreationEvent event)
     {
-
+        event.put(ModEntityTypes.BEAR_BOSS.get(), BearPrince.createAttributes().build());
+        event.put(ModEntityTypes.BEE_BOSS.get(), BeePrincess.createAttributes().build());
+        event.put(ModEntityTypes.PIGLIN_BOSS.get(), PiglinBaron.createAttributes().build());
+        event.put(ModEntityTypes.SLIME_BOSS.get(), SlimeKnight.createAttributes().build());
+        event.put(ModEntityTypes.SANDWORM_BOSS.get(), SandwormKing.createAttributes().build());
+        event.put(ModEntityTypes.SPIDER_BOSS.get(), SpiderQueen.createAttributes().build());
     }
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
     {
-
+        event.registerLayerDefinition(BeePrincessModel.LAYER_LOCATION, BeePrincessModel::createBodyLayer);
+        event.registerLayerDefinition(BearPrinceModel.LAYER_LOCATION, BearPrinceModel::createBodyLayer);
+        event.registerLayerDefinition(SpiderQueenModel.LAYER_LOCATION, SpiderQueenModel::createBodyLayer);
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
+        event.registerEntityRenderer(ModEntityTypes.BEE_BOSS.get(), BeePrincessRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.BEAR_BOSS.get(), BearPrinceRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.SPIDER_BOSS.get(), SpiderQueenRenderer::new);
 
+        event.registerEntityRenderer(ModEntityTypes.BEAR_STAR.get(), ThrownItemRenderer::new);
     }
 }

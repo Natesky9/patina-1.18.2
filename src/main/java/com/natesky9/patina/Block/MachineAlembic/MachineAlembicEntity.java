@@ -4,9 +4,13 @@ import com.natesky9.patina.Block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -31,6 +35,9 @@ import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.*;
+import java.util.stream.Stream;
+
 public class MachineAlembicEntity extends MachineTemplateEntity {
     final int inputPotion = 0;
     final int inputIngredient = 1;
@@ -43,6 +50,16 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
     public Item reagent;
     public static final int dataSlots = 5;
     public static final int slots = 3;
+
+    static List<Direction> horizontal = new ArrayList<>();
+    static {
+        horizontal.add(Direction.NORTH);
+        horizontal.add(Direction.EAST);
+        horizontal.add(Direction.SOUTH);
+        horizontal.add(Direction.WEST);
+    }
+
+
 
     //private LazyOptional<IItemHandler> outputHandler = LazyOptional.empty();
     public MachineAlembicEntity(BlockPos pos, BlockState state) {
@@ -59,7 +76,6 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
     protected boolean mySlotValid(int slot, @NotNull ItemStack stack) {
         return switch (slot)
         {
-            //if it matches the potion or it's the first in
             case inputPotion -> BrewingRecipeRegistry.hasOutput(stack,new ItemStack(reagent))
                     || reagent == Items.AIR && BrewingRecipeRegistry.isValidInput(stack);
             case inputIngredient -> BrewingRecipeRegistry.isValidIngredient(stack);
@@ -141,7 +157,8 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
             if (ingredient.hasCraftingRemainingItem())
             {
                 itemStackHandler.setStackInSlot(inputIngredient, ingredient.getCraftingRemainingItem());
-                setChanged();
+                level.playSound(null, worldPosition, SoundEvents.POINTED_DRIPSTONE_DRIP_WATER, SoundSource.BLOCKS, .5F, .5F);
+                //setChanged();
             }
             else ingredient.shrink(1);
             leftover += 3 + connected;
@@ -156,8 +173,19 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
                 //do the actual crafting
                 itemStackHandler.setStackInSlot(inputPotion, BrewingRecipeRegistry.getOutput(potion, addition));
                 leftover--;
-                BlockPos pos = getBlockPos();
-                Block block = ModBlocks.MACHINE_ALEMBIC.get();
+                //trigger the addons randomly
+                int delay = 0;
+                Collections.shuffle(horizontal);
+                for (Direction direction: horizontal)
+                {
+                    BlockPos pos = worldPosition.relative(direction);
+                    if (level.getBlockState(pos).is(ModBlocks.ADDON_ALEMBIC.get()))
+                    {
+                        delay += 8;
+                        level.scheduleTick(pos, ModBlocks.ADDON_ALEMBIC.get(), delay);
+                    }
+                }
+                level.playSound(null, worldPosition, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, .5F, .5F);
                 progress = 0;
             }
         }
@@ -196,6 +224,7 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
         pTag.putInt("connected", connected);
         pTag.putInt("fuel", fuel);
         pTag.putInt("leftover", leftover);
+        pTag.putInt("reagent", BuiltInRegistries.ITEM.getId(reagent));
     }
 
     @Override
@@ -205,6 +234,7 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
         connected = tag.getInt("connected");
         fuel = tag.getInt("fuel");
         leftover = tag.getInt("leftover");
+        reagent = BuiltInRegistries.ITEM.byId(tag.getInt("reagent"));
     }
 
     @Override

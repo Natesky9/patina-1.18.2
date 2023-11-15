@@ -7,9 +7,11 @@ import com.natesky9.patina.Block.ChorusCableBlock;
 import com.natesky9.patina.Block.ChorusTeleporter;
 import com.natesky9.patina.Block.CopperCableBlock;
 import com.natesky9.patina.Block.GeneratorBlock;
+import com.natesky9.patina.Block.MachineAlembic.AddonAlembicBlock;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicBlock;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterBlock;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorBlock;
+import com.natesky9.patina.Block.MachineFoundry.AddonFoundryBlock;
 import com.natesky9.patina.Block.MachineFoundry.MachineFoundryBlock;
 import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorBlock;
 import com.natesky9.patina.Patina;
@@ -63,6 +65,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> MACHINE_FOUNDRY = registerBlock("machine_foundry",
             () -> new MachineFoundryBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
+    public static final RegistryObject<Block> ADDON_FOUNDRY = registerBlock("addon_foundry",
+            () -> new AddonFoundryBlock(BlockBehaviour.Properties.of()
+                    .strength(4f)));
     public static final RegistryObject<Block> MACHINE_MINCERATOR = registerBlock("machine_mincerator",
             () -> new MachineMinceratorBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
@@ -71,7 +76,7 @@ public class ModBlocks {
             () -> new MachineAlembicBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
     public static final RegistryObject<Block> ADDON_ALEMBIC = registerBlock("addon_alembic",
-            () -> new Block(BlockBehaviour.Properties.of()
+            () -> new AddonAlembicBlock(BlockBehaviour.Properties.of()
                     .strength(4f)));
     //enchanting
     public static final RegistryObject<Block> MACHINE_ENCHANTER = registerBlock("machine_enchanter",

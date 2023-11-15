@@ -105,6 +105,9 @@
   "itemGroup.potion_tab": "Patina Potions",
   "itemGroup.machine_tab": "Patina Machines",
 
+  "entity.patina.bee_princess": "Bee Princess",
+  "entity.patina.bear_prince": "Bear Prince",
+
   "patina.wrath_trigger": "Your wrath burns you",
   "patina.sloth_trigger": "Slothfulness consumes you",
   "patina.gluttony_trigger": "You feel insatiated",

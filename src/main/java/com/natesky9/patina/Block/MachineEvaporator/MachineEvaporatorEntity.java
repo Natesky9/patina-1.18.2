@@ -2,6 +2,7 @@ package com.natesky9.patina.Block.MachineEvaporator;
 
 import com.natesky9.patina.Block.Template.MachineTemplateEntity;
 import com.natesky9.patina.Recipe.EvaporatorRecipe;
+import com.natesky9.patina.Recipe.FoundryRecipe;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -73,9 +74,11 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     @Override
     public boolean mySlotValid(int slot, @NotNull ItemStack stack)
     {
+        List<RecipeHolder<EvaporatorRecipe>> recipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get());
         return switch (slot)
                 {
-                    case input -> stack.is(Items.POTION) || stack.is(Items.GLASS_BOTTLE) || stack.is(Items.SAND);
+                    case input -> recipes.stream().anyMatch(foundryRecipeRecipeHolder ->
+                            foundryRecipeRecipeHolder.value().getIngredients().get(slot).test(stack));
                     case fuel -> stack.is(ItemTags.LOGS) || stack.is(Items.CHARCOAL)
                             || stack.is(Items.BLAZE_ROD) || stack.is(Items.NETHER_STAR);
                     case output -> stack.is(ModItems.POTION_SALT.get()) || stack.is(Items.GUNPOWDER)

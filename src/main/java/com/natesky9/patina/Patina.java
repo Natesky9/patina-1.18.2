@@ -37,6 +37,8 @@ public class Patina
         ModRecipeSerializers.register(eventBus);
         ModCreativeTabs.register(eventBus);
 
+        ModEntityTypes.register(eventBus);
+
 
 
         // Register ourselves for server and other game events we are interested in
