@@ -5,13 +5,17 @@ package com.natesky9.patina.entity.BearPrince;// Made with Blockbench 4.7.4
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 public class BearPrinceModel<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -70,8 +74,18 @@ public class BearPrinceModel<T extends Entity> extends EntityModel<T> {
 
 	}
 
+
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		standing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		Player player = Minecraft.getInstance().player;
+		if (player.hasEffect(MobEffects.NIGHT_VISION))
+		{
+			System.out.println("has vision");
+			standing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		}
+		else
+		{
+			standing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, .1f);
+		}
 	}
 }

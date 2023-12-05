@@ -22,7 +22,6 @@ import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public class EssenceItem extends Item {
     public EssenceItem(Properties p_41383_) {
@@ -32,8 +31,9 @@ public class EssenceItem extends Item {
     {
         //essence drop
         if (!(event.getEntity() instanceof Player player)) return;
-
         if (player.experienceLevel < 15) return;
+        if (!player.getInventory().hasAnyMatching(item -> item.is(ModItems.ESSENCE.get()))) return;
+
         int value = 0;
         for (int i = 0; i < player.experienceLevel-1; i++)
         {
@@ -41,12 +41,21 @@ public class EssenceItem extends Item {
         }
         player.experienceLevel = 0;
         player.experienceProgress = 0;
-        ItemStack stack = new ItemStack(ModItems.ESSENCE.get());
-        //crude essence is 1 level less efficient
-        setValue(stack, value);
-        setCrude(stack, true);
-        ItemEntity entity = player.spawnAtLocation(stack);
-        event.getDrops().add(entity);
+
+        for (ItemEntity entity:event.getDrops())
+        {
+            ItemStack stack = entity.getItem();
+            if (!stack.is(ModItems.ESSENCE.get())) continue;
+            int oldValue = getValue(stack);
+            setValue(stack,oldValue+value);
+
+        }
+
+        //ItemStack stack = new ItemStack(ModItems.ESSENCE.get());
+        //setValue(stack, value);
+        //setCrude(stack, true);
+        //ItemEntity entity = player.spawnAtLocation(stack);
+        //event.getDrops().add(entity);
 
     }
     public static boolean shouldCreate(LivingExperienceDropEvent event)
@@ -58,10 +67,11 @@ public class EssenceItem extends Item {
         {
             value += EssenceItem.valuePerLevel(i);
         }
-
+        //this fixes the "6 levels max" when dying
         event.setDroppedExperience(value);
         //only create essence after lv 15
-        return player.experienceLevel >= 15;
+        return player.getInventory().hasAnyMatching(item -> item.is(ModItems.ESSENCE.get()));
+        //return player.experienceLevel >= 15;
     }
     public static int valuePerLevel(int level)
     {

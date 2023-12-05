@@ -4,10 +4,12 @@ import com.natesky9.patina.Item.*;
 import com.natesky9.patina.Item.flasks.ImpetusFlask;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.Item.flasks.SemiVitaFlask;
+import com.natesky9.patina.Item.pouches.DustPouchItem;
+import com.natesky9.patina.Item.pouches.GemPouchItem;
+import com.natesky9.patina.Item.pouches.LighterItem;
+import com.natesky9.patina.Item.pouches.SeedPouchItem;
 import com.natesky9.patina.Patina;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -40,6 +42,27 @@ public class ModItems {
                     new Item.Properties().rarity(Rarity.RARE))));
     public static final RegistryObject<Item> BEE_SHIELD = ITEMS.register("bee_shield",
             () -> new BeeShieldItem(new Item.Properties().rarity(Rarity.RARE).stacksTo(1)));
+    //spider
+    public static final RegistryObject<Item> SPIDER_FRAGMENT_1 = ITEMS.register("spider_fragment_1",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_FRAGMENT_2 = ITEMS.register("spider_fragment_2",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_FRAGMENT_3 = ITEMS.register("spider_fragment_3",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_FRAGMENT_4 = ITEMS.register("spider_fragment_4",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_FRAGMENT_A = ITEMS.register("spider_fragment_a",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_FRAGMENT_B = ITEMS.register("spider_fragment_b",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_FRAGMENT_C = ITEMS.register("spider_fragment_c",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_FRAGMENT_D = ITEMS.register("spider_fragment_d",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_WEAPON = ITEMS.register("spider_weapon",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SPIDER_ARMOR = ITEMS.register("spider_armor",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     //oink
     public static final RegistryObject<Item> PIG_FRAGMENT_1= ITEMS.register("pig_fragment_1",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
@@ -62,6 +85,28 @@ public class ModItems {
                     new Item.Properties().rarity(Rarity.RARE))));
     public static final RegistryObject<Item> PIG_CROSSBOW = ITEMS.register("pig_crossbow",
             () -> new PigCrossbowItem(new Item.Properties().rarity(Rarity.RARE).stacksTo(1)));
+    //bear
+
+    public static final RegistryObject<Item> BEAR_FRAGMENT_1 = ITEMS.register("bear_fragment_1",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_FRAGMENT_2 = ITEMS.register("bear_fragment_2",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_FRAGMENT_3 = ITEMS.register("bear_fragment_3",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_FRAGMENT_4 = ITEMS.register("bear_fragment_4",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_FRAGMENT_A = ITEMS.register("bear_fragment_a",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_FRAGMENT_B = ITEMS.register("bear_fragment_b",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_FRAGMENT_C = ITEMS.register("bear_fragment_c",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_FRAGMENT_D = ITEMS.register("bear_fragment_d",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_WEAPON = ITEMS.register("bear_weapon",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BEAR_ARMOR = ITEMS.register("bear_armor",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     //spooky
     public static final RegistryObject<Item>  WITHER_FRAGMENT_1 = ITEMS.register("wither_fragment_1",
             () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
@@ -85,61 +130,36 @@ public class ModItems {
             () -> new ElytraItem(new Item.Properties().rarity(Rarity.RARE)));
     //endregion shards
     //region copper
+    //removing the rust aspect for now
     public static final RegistryObject<Item> COPPER_SWORD = ITEMS.register("copper_sword",
-            () -> new SwordItem(ModTiers.COPPER,3,-2.4F, new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                    RustableItem.rust(pStack);}
-            @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new SwordItem(ModTiers.COPPER,3,-2.4F, new Item.Properties()));
     public static final RegistryObject<Item> COPPER_AXE = ITEMS.register("copper_axe",
-            () -> new AxeItem(ModTiers.COPPER,7,-3.0F,new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                RustableItem.rust(pStack);}
-                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new AxeItem(ModTiers.COPPER,7,-3.0F,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_SHOVEL = ITEMS.register("copper_shovel",
-            () -> new ShovelItem(ModTiers.COPPER,1.5F,-3.0F,new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                RustableItem.rust(pStack);}
-                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new ShovelItem(ModTiers.COPPER,1.5F,-3.0F,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_PICK = ITEMS.register("copper_pick",
-            () -> new PickaxeItem(ModTiers.COPPER,1,-2.8F,new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                RustableItem.rust(pStack);}
-                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new PickaxeItem(ModTiers.COPPER,1,-2.8F,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_HOE = ITEMS.register("copper_hoe",
-            () -> new HoeItem(ModTiers.COPPER,0,-2.0F,new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                RustableItem.rust(pStack);}
-                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new HoeItem(ModTiers.COPPER,0,-2.0F,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_HELMET = ITEMS.register("copper_helmet",
-            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.HELMET,new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                RustableItem.rust(pStack);}
-                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.HELMET,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_CHESTPLATE = ITEMS.register("copper_chestplate",
-            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.CHESTPLATE,new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                RustableItem.rust(pStack);}
-                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.CHESTPLATE,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_LEGGINGS = ITEMS.register("copper_leggings",
-            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.LEGGINGS,new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                RustableItem.rust(pStack);}
-                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.LEGGINGS,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_BOOTS = ITEMS.register("copper_boots",
-            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.BOOTS,new Item.Properties())
-            {@Override public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-                RustableItem.rust(pStack);}
-                @Override public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-                    return false;}});
+            () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.BOOTS,new Item.Properties()));
     //endregion copper
+    //region glass
+    public static final RegistryObject<Item> GLASS_AXE = ITEMS.register("glass_axe",
+            () -> new AxeItem(ModTiers.GLASS,7,-2.4F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> GLASS_SHOVEL = ITEMS.register("glass_shovel",
+            () -> new ShovelItem(ModTiers.GLASS, 2, -2.4F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> GLASS_PICK = ITEMS.register("glass_pick",
+            () -> new PickaxeItem(ModTiers.GLASS, 2,-2.4F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> GLASS_HOE = ITEMS.register("glass_hoe",
+            () -> new HoeItem(ModTiers.GLASS, 2, -2.4F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    //endregion glass
     //region bronze
     public static final RegistryObject<Item> BRONZE_SWORD = ITEMS.register("bronze_sword",
             () -> new SwordItem(ModTiers.BRONZE,3,-2.4F, new Item.Properties()));
@@ -162,13 +182,13 @@ public class ModItems {
     //endregion bronze
     //region dragon
     public static final RegistryObject<Item> DRAGON_HELMET = ITEMS.register("dragon_helmet",
-            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties()));
+            () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties()));
     public static final RegistryObject<Item> DRAGON_CHESTPLATE = ITEMS.register("dragon_chestplate",
-            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.CHESTPLATE,new Item.Properties()));
+            () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.CHESTPLATE,new Item.Properties()));
     public static final RegistryObject<Item> DRAGON_LEGGINGS = ITEMS.register("dragon_leggings",
-            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.LEGGINGS,new Item.Properties()));
+            () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.LEGGINGS,new Item.Properties()));
     public static final RegistryObject<Item> DRAGON_BOOTS = ITEMS.register("dragon_boots",
-            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.BOOTS,new Item.Properties()));
+            () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.BOOTS,new Item.Properties()));
 
     //endregion dragon
     //region charms
@@ -195,6 +215,20 @@ public class ModItems {
             () -> new EssenceItem(new Item.Properties()
                     .rarity(Rarity.UNCOMMON).fireResistant().stacksTo(1)));
     //endregion magic
+    //region tech
+    public static final RegistryObject<Item> LIGHTER = ITEMS.register("lighter",
+            () -> new LighterItem(new Item.Properties()
+                    .rarity(Rarity.UNCOMMON).stacksTo(1)));
+    public static final RegistryObject<Item> DUST_POUCH = ITEMS.register("dust_pouch",
+            () -> new DustPouchItem(new Item.Properties()
+                    .rarity(Rarity.UNCOMMON).stacksTo(1)));
+    public static final RegistryObject<Item> GEM_POUCH = ITEMS.register("gem_pouch",
+            () -> new GemPouchItem(new Item.Properties()
+                    .rarity(Rarity.UNCOMMON).stacksTo(1)));
+    public static final RegistryObject<Item> SEED_POUCH = ITEMS.register("seed_pouch",
+            () -> new SeedPouchItem(new Item.Properties()
+                    .rarity(Rarity.UNCOMMON).stacksTo(1)));
+    //endregion tech
     //region potions/ores
     public static final RegistryObject<Item> POTION_SALT = ITEMS.register("potion_salt",
             () -> new PotionSaltItem(new Item.Properties().rarity(Rarity.UNCOMMON)));

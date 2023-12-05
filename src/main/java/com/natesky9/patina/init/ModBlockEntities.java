@@ -3,6 +3,7 @@ package com.natesky9.patina.init;
 import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorEntity;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxEntity;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeEntity;
+import com.natesky9.patina.Block.GravestoneBlockEntity;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicEntity;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterEntity;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorEntity;
@@ -58,6 +59,11 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("appliance_arcane_consolidator_entity",
             () -> BlockEntityType.Builder.of(ApplianceConsolidatorEntity::new,
             ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<GravestoneBlockEntity>> GRAVESTONE_ENTITY =
+            BLOCK_ENTITIES.register("gravestone_entity",
+            () -> BlockEntityType.Builder.of(GravestoneBlockEntity::new,
+            ModBlocks.GRAVESTONE.get()).build(null));
 
     //--------------------------------------------------//
     public static void register(IEventBus eventBus)

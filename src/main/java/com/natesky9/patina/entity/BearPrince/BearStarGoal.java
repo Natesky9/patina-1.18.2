@@ -27,7 +27,9 @@ public class BearStarGoal extends Goal {
         bear.attackCounter++;
         BearStarEntity star = new BearStarEntity(ModEntityTypes.BEAR_STAR.get(), bear.level());
         star.setPos(bear.position().add(0,7,0));
-        star.setDeltaMovement((bear.getRandom().nextFloat()-.5f),0,(bear.getRandom().nextFloat()-.5f));
+        star.setDeltaMovement((bear.getRandom().nextFloat()-.5f)*1.5,
+                (6-bear.hpbar)*-.1,
+                (bear.getRandom().nextFloat()-.5f)*1.5);
         star.setOwner(bear);
         bear.level().addFreshEntity(star);
     }
@@ -49,6 +51,6 @@ public class BearStarGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return attackTimer < 40-bear.hpbar;
+        return attackTimer < 20;
     }
 }

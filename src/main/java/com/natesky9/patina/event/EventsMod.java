@@ -5,17 +5,26 @@ import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.datagen.DataGenerators;
-import com.natesky9.patina.entity.*;
+import com.natesky9.patina.entity.Armor.TemplateArmorModel;
 import com.natesky9.patina.entity.BearPrince.BearPrince;
 import com.natesky9.patina.entity.BearPrince.BearPrinceModel;
 import com.natesky9.patina.entity.BearPrince.BearPrinceRenderer;
 import com.natesky9.patina.entity.BeePrincess.BeePrincess;
 import com.natesky9.patina.entity.BeePrincess.BeePrincessModel;
 import com.natesky9.patina.entity.BeePrincess.BeePrincessRenderer;
+import com.natesky9.patina.entity.PiglinBaron;
+import com.natesky9.patina.entity.SandwormKing;
+import com.natesky9.patina.entity.SlimeKnight;
+import com.natesky9.patina.entity.SpiderNest.SpiderNestModel;
+import com.natesky9.patina.entity.SpiderNest.SpiderNestRenderer;
+import com.natesky9.patina.entity.SpiderNest.Spidernest;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenModel;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenRenderer;
-import com.natesky9.patina.init.*;
+import com.natesky9.patina.init.ModEntityTypes;
+import com.natesky9.patina.init.ModItems;
+import com.natesky9.patina.init.ModPotions;
+import com.natesky9.patina.init.ModScreens;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -100,7 +109,6 @@ public class EventsMod {
 
         ItemProperties.register(ModItems.ESSENCE.get(), new ResourceLocation("crude"),
                 (itemstack, level, entity, seed) -> EssenceItem.isCrude(itemstack) ? 0.0F : 1.0F);
-
     }
     static void registerPotionCapacityProperty(Item item)
     {
@@ -116,6 +124,7 @@ public class EventsMod {
         event.put(ModEntityTypes.SLIME_BOSS.get(), SlimeKnight.createAttributes().build());
         event.put(ModEntityTypes.SANDWORM_BOSS.get(), SandwormKing.createAttributes().build());
         event.put(ModEntityTypes.SPIDER_BOSS.get(), SpiderQueen.createAttributes().build());
+        event.put(ModEntityTypes.SPIDER_NEST.get(), Spidernest.createAttributes().build());
     }
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
@@ -123,6 +132,10 @@ public class EventsMod {
         event.registerLayerDefinition(BeePrincessModel.LAYER_LOCATION, BeePrincessModel::createBodyLayer);
         event.registerLayerDefinition(BearPrinceModel.LAYER_LOCATION, BearPrinceModel::createBodyLayer);
         event.registerLayerDefinition(SpiderQueenModel.LAYER_LOCATION, SpiderQueenModel::createBodyLayer);
+        event.registerLayerDefinition(SpiderNestModel.LAYER_LOCATION, SpiderNestModel::createBodyLayer);
+
+        //armor stuff
+        event.registerLayerDefinition(TemplateArmorModel.LAYER_LOCATION, TemplateArmorModel::createBodyLayer);
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event)
@@ -132,5 +145,7 @@ public class EventsMod {
         event.registerEntityRenderer(ModEntityTypes.SPIDER_BOSS.get(), SpiderQueenRenderer::new);
 
         event.registerEntityRenderer(ModEntityTypes.BEAR_STAR.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.SPIDER_NEST.get(), SpiderNestRenderer::new);
+
     }
 }

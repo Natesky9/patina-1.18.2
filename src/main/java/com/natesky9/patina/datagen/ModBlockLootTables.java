@@ -3,19 +3,11 @@ package com.natesky9.patina.datagen;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
 import com.natesky9.patina.init.ModBlocks;
-import com.natesky9.patina.init.ModItems;
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
-import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Set;
@@ -43,6 +35,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.MACHINE_ALEMBIC.get());
         this.dropSelf(ModBlocks.MACHINE_MINCERATOR.get());
         this.dropSelf(ModBlocks.ADDON_ALEMBIC.get());
+        this.dropSelf(ModBlocks.ADDON_FOUNDRY.get());
+        this.add(ModBlocks.GRAVESTONE.get(),noDrop());
 
         this.dropSelf(ModBlocks.PRISMATIC_ORE.get());
         dropOther(ModBlocks.PRISMATIC_ORE.get(), Items.PRISMARINE_SHARD);

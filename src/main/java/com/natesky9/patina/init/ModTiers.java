@@ -13,4 +13,6 @@ public class ModTiers {
             BlockTags.NEEDS_DIAMOND_TOOL, () -> Ingredient.of(ModItems.BRONZE_INGOT.get()));
     public static final ForgeTier BOSS = new ForgeTier(3, 1000, 7.0F, 2.5F, 20,
             BlockTags.NEEDS_IRON_TOOL, () -> Ingredient.of(Items.NETHER_STAR));
+    public static final ForgeTier GLASS = new ForgeTier(3, 999, 9.0F, 4.0F, 15,
+            BlockTags.NEEDS_IRON_TOOL, () -> Ingredient.of(ModItems.PRIME_GLASS.get()));
 }

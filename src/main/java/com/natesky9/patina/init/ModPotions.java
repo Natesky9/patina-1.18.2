@@ -92,6 +92,8 @@ public class ModPotions
     //bismuth blend
     public static final RegistryObject<Potion> IRIDESCENT_POTION = MOD_POTIONS.register("iridescent_potion",
             () -> new Potion("iridescent_potion"));
+    public static final RegistryObject<Potion> KNOWLEDGE_POTION = MOD_POTIONS.register("knowledge_potion",
+            () -> new Potion("knowledge_potion"));
 
     //region void potions
     public static final RegistryObject<Potion> VOID_HEALING = MOD_POTIONS.register("void_healing",
@@ -159,6 +161,7 @@ public class ModPotions
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(ModPotions.VOLATILE_POTION.get(),Items.COAL,ModPotions.VOLATILE_POTION.get()));
         //bismuth
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.MUNDANE,ModItems.BISMUTH_ORE.get(),ModPotions.IRIDESCENT_POTION.get()));
+        BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(ModPotions.IRIDESCENT_POTION.get(), Items.EMERALD,ModPotions.KNOWLEDGE_POTION.get()));
     }
     public static void addSaltPotions()
     {

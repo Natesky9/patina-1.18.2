@@ -6,11 +6,8 @@ import com.natesky9.patina.init.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -31,6 +28,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.BEE_FRAGMENT_D);
         handheldItem(ModItems.BEE_SWORD);
         handheldItem(ModItems.BEE_SHIELD);
+
 
         simpleItem(ModItems.PIG_FRAGMENT_1);
         simpleItem(ModItems.PIG_FRAGMENT_2);
@@ -113,6 +111,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.BRONZE_INGOT);
         simpleItem(ModItems.DRAGON_SCALE);
         simpleItem(ModItems.ESSENCE);
+        simpleItem(ModItems.DUST_POUCH);
+        simpleItem(ModItems.GEM_POUCH);
+        simpleItem(ModItems.SEED_POUCH);
 
         withExistingParent(ModItems.ESSENCE.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",

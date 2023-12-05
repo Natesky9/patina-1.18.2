@@ -1,5 +1,6 @@
 package com.natesky9.patina.event;
 
+import com.natesky9.patina.Block.Gravestone;
 import com.natesky9.patina.Enchantment.*;
 import com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil;
 import com.natesky9.patina.Item.BeeShieldItem;
@@ -9,7 +10,6 @@ import com.natesky9.patina.Item.PigWeaponItem;
 import com.natesky9.patina.Item.flasks.ImpetusFlask;
 import com.natesky9.patina.Item.flasks.SemiVitaFlask;
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.Block.GravestoneBlock;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,12 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
@@ -37,8 +32,6 @@ import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Optional;
-
 import static com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil.curseItem;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -51,7 +44,8 @@ public class EventsForge {
     }
     @SubscribeEvent
     public static void LivingDropsEvent(LivingDropsEvent event) {
-        GravestoneBlock.create(event);
+        Gravestone.create(event);
+        //GravestoneBlock.create(event);
         AvariceEnchantment.doEffect(event);
         GreedEnchantment.doEffect(event);
         SoulboundEnchantment.store(event);

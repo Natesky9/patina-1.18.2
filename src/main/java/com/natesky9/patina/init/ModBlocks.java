@@ -1,12 +1,9 @@
 package com.natesky9.patina.init;
 
+import com.natesky9.patina.Block.*;
 import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorBlock;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
-import com.natesky9.patina.Block.ChorusCableBlock;
-import com.natesky9.patina.Block.ChorusTeleporter;
-import com.natesky9.patina.Block.CopperCableBlock;
-import com.natesky9.patina.Block.GeneratorBlock;
 import com.natesky9.patina.Block.MachineAlembic.AddonAlembicBlock;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicBlock;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterBlock;
@@ -104,6 +101,10 @@ public class ModBlocks {
     public static final RegistryObject<Block> BISMUTH_ORE = BLOCKS.register("bismuth_ore",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(3F).requiresCorrectToolForDrops()));
+
+    public static final RegistryObject<Block> GRAVESTONE = BLOCKS.register("gravestone",
+            () -> new Gravestone(BlockBehaviour.Properties.of()
+                    .strength(1F)));
     //-----------------------//
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block)
     {

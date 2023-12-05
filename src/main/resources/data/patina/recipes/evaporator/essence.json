@@ -1,0 +1,8 @@
+{
+  "type": "patina:evaporator",
+  "output":
+  {
+    "item": "patina:essence"
+  },
+  "input": "patina:knowledge_potion"
+}

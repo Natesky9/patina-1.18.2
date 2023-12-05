@@ -77,7 +77,7 @@ public class BearPrince extends Monster {
         if (source.getEntity() instanceof Player player && player.hasEffect(MobEffects.NIGHT_VISION)
         || source.getDirectEntity() instanceof BearStarEntity star && star.getOwner() != this)
             done =  super.hurt(source, amount);
-        if (hpbar != (int)Math.ceil((getHealth()/getMaxHealth()*6)))
+        if (hpbar != (int)Math.ceil((getHealth()/getMaxHealth()*6)) && getHealth() > 0)
         {//roar, clearing the field
             List<Entity> entities = this.level().getEntitiesOfClass(Entity.class,this.getBoundingBox().inflate(16));
             for (Entity entity:entities)

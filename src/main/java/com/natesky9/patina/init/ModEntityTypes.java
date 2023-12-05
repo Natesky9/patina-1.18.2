@@ -5,6 +5,7 @@ import com.natesky9.patina.entity.*;
 import com.natesky9.patina.entity.BearPrince.BearPrince;
 import com.natesky9.patina.entity.BearPrince.BearStarEntity;
 import com.natesky9.patina.entity.BeePrincess.BeePrincess;
+import com.natesky9.patina.entity.SpiderNest.Spidernest;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -59,11 +60,17 @@ public class ModEntityTypes {
                     () -> EntityType.Builder.of(SinisterApothecary::new, MobCategory.MONSTER)
                             .sized(3,3)
                             .build(new ResourceLocation(Patina.MODID, "apothecary").toString()));
+    //
     public static final RegistryObject<EntityType<BearStarEntity>> BEAR_STAR =
             ENTITY_TYPES.register("bear_star",
-                    () -> EntityType.Builder.of(BearStarEntity::new, MobCategory.AMBIENT)
+                    () -> EntityType.Builder.of(BearStarEntity::new, MobCategory.MISC)
                             .sized(.95f,.95f)
                             .build(new ResourceLocation(Patina.MODID, "bear_star").toString()));
+    public static final RegistryObject<EntityType<Spidernest>> SPIDER_NEST =
+            ENTITY_TYPES.register("spider_nest",
+                    () -> EntityType.Builder.of(Spidernest::new, MobCategory.MONSTER)
+                            .sized(1,1)
+                            .build(new ResourceLocation(Patina.MODID, "spider_nest").toString()));
     //endregion entities
     public static void register(IEventBus eventBus)
     {

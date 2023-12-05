@@ -71,6 +71,10 @@
   "item.patina.malachite": "Malachite",
 
   "item.patina.essence": "Essence",
+  "item.patina.lighter": "Strange Device",
+  "item.patina.dust_pouch": "Powder Pouch",
+  "item.patina.gem_pouch": "Gem Bag",
+  "item.patina.seed_pouch": "Seed Sack",
 
   "block.patina.appliance_icebox": "Icebox",
   "block.patina.appliance_wardrobe": "Wardrobe",
