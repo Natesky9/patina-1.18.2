@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.natesky9.patina.init.ModRecipeSerializers;
 import com.natesky9.patina.init.ModRecipeTypes;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -43,6 +44,10 @@ public class EvaporatorRecipe implements Recipe<SimpleContainer> {
         this.inputPotion = input;
     }
 
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return NonNullList.of(Ingredient.EMPTY,inputIngredient);
+    }
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {

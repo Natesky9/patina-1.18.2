@@ -8,7 +8,7 @@
           [
             {"tag": "patina:meat"},
             {"tag": "patina:meat"},
-            {"tag": "patina:vegetable"},
+            {"item": "minecraft:egg"},
             {"item": "minecraft:bread"}
           ]
 }

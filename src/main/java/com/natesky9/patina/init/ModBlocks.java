@@ -11,6 +11,7 @@ import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorBlock;
 import com.natesky9.patina.Block.MachineFoundry.AddonFoundryBlock;
 import com.natesky9.patina.Block.MachineFoundry.MachineFoundryBlock;
 import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorBlock;
+import com.natesky9.patina.Block.MachineTextiler.MachineTextilerBlock;
 import com.natesky9.patina.Patina;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -40,11 +41,11 @@ public class ModBlocks {
             () -> new CopperCableBlock(BlockBehaviour.Properties.of()
                     .randomTicks()
                     .mapColor(MapColor.COLOR_ORANGE)
-                    .strength(2F)
+                    .strength(1F)
                     .noOcclusion()));
     public static final RegistryObject<Block> CHORUS_TELEPORTER = registerBlock("chorus_teleporter",
             () -> new ChorusTeleporter(BlockBehaviour.Properties.of()
-                    .strength(8F)
+                    .strength(1F)
                     .mapColor(MapColor.COLOR_YELLOW)));
     public static final RegistryObject<Block> TEST_GENERATOR = registerBlock("test_generator",
             () -> new GeneratorBlock(BlockBehaviour.Properties.of()
@@ -53,7 +54,7 @@ public class ModBlocks {
     //liquid to solid
     public static final RegistryObject<Block> MACHINE_EVAPORATOR = registerBlock("machine_evaporator",
             () -> new MachineEvaporatorBlock(BlockBehaviour.Properties.of()
-                    .strength(4f)));
+                    .strength(1f)));
     //solid to solid
     //public static final RegistryObject<Block> MACHINE_SAWMILL = registerBlock("machine_sawmill",
     //        () -> new MachineSawmillBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL)
@@ -61,24 +62,27 @@ public class ModBlocks {
     //solid to liquid
     public static final RegistryObject<Block> MACHINE_FOUNDRY = registerBlock("machine_foundry",
             () -> new MachineFoundryBlock(BlockBehaviour.Properties.of()
-                    .strength(4f)));
+                    .strength(1f)));
     public static final RegistryObject<Block> ADDON_FOUNDRY = registerBlock("addon_foundry",
             () -> new AddonFoundryBlock(BlockBehaviour.Properties.of()
-                    .strength(4f)));
+                    .strength(1f)));
     public static final RegistryObject<Block> MACHINE_MINCERATOR = registerBlock("machine_mincerator",
             () -> new MachineMinceratorBlock(BlockBehaviour.Properties.of()
-                    .strength(4f)));
+                    .strength(1f)));
     //liquid to liquid
     public static final RegistryObject<Block> MACHINE_ALEMBIC = registerBlock("machine_alembic",
             () -> new MachineAlembicBlock(BlockBehaviour.Properties.of()
-                    .strength(4f)));
+                    .strength(1f)));
     public static final RegistryObject<Block> ADDON_ALEMBIC = registerBlock("addon_alembic",
             () -> new AddonAlembicBlock(BlockBehaviour.Properties.of()
-                    .strength(4f)));
+                    .strength(1f)));
     //enchanting
     public static final RegistryObject<Block> MACHINE_ENCHANTER = registerBlock("machine_enchanter",
             () -> new MachineEnchanterBlock(BlockBehaviour.Properties.of()
-                    .strength(4f)));
+                    .strength(1f)));
+    //loom
+    public static final RegistryObject<Block> MACHINE_TEXTILER = registerBlock("machine_textiler",
+            () -> new MachineTextilerBlock(BlockBehaviour.Properties.copy(Blocks.LOOM).strength(1)));
     //appliances
     public static final RegistryObject<Block> APPLIANCE_WARDROBE = registerBlock("appliance_wardrobe",
             () -> new ApplianceWardrobeBlock(BlockBehaviour.Properties.of()

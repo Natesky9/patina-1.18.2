@@ -13,35 +13,31 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class FoundryRecipe implements Recipe<SimpleContainer> {
-    public static String name = "foundry";
-    private final RecipeType<?> type = ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get();
-    private final RecipeSerializer<?> serializer = ModRecipeSerializers.FOUNDRY_SERIALIZER.get();
+public class TextilerRecipe implements Recipe<SimpleContainer> {
+    public static String name = "textiler";
+    private final RecipeType<?> type = ModRecipeTypes.TEXTILER_RECIPE_TYPE.get();
+    private final RecipeSerializer<?> serializer = ModRecipeSerializers.TEXTILER_SERIALIZER.get();
 
     final Ingredient input;
-    final Ingredient catalyst;
     final ItemStack output;
     //
-    public FoundryRecipe(ItemStack output,
-                         Ingredient input, Ingredient catalyst)
+    public TextilerRecipe(ItemStack output, Ingredient input)
     {
         this.output = output;
         this.input = input;
-        this.catalyst = catalyst;
     }
-    //
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return NonNullList.of(Ingredient.EMPTY,input,catalyst);
+        return NonNullList.of(Ingredient.EMPTY,input);
     }
 
+    //
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
         boolean first = input.test(pContainer.getItem(0));
-        boolean second = catalyst.test(pContainer.getItem(1));
-        if (first && second) assemble(pContainer,pLevel.registryAccess());
-        return first && second;
+        if (first) assemble(pContainer,pLevel.registryAccess());
+        return first;
     }
 
     @Override
@@ -69,33 +65,30 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
     public RecipeSerializer<?> getSerializer() {
         return serializer;
     }
-    public static class Serializer implements RecipeSerializer<FoundryRecipe>
+    public static class Serializer implements RecipeSerializer<TextilerRecipe>
     {
-        final static Codec<FoundryRecipe> CODEC = RecordCodecBuilder.create((instance) ->
+        final static Codec<TextilerRecipe> CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(
                         CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
-                        Ingredient.CODEC.fieldOf("input").forGetter((getter) -> getter.input),
-                        Ingredient.CODEC.fieldOf("catalyst").forGetter((getter) -> getter.catalyst)
-                ).apply(instance, FoundryRecipe::new)
+                        Ingredient.CODEC.fieldOf("input").forGetter((getter) -> getter.input)
+                ).apply(instance, TextilerRecipe::new)
         );
 
         @Override
-        public Codec<FoundryRecipe> codec() {
+        public Codec<TextilerRecipe> codec() {
             return CODEC;
         }
 
         @Override
-        public @Nullable FoundryRecipe fromNetwork(FriendlyByteBuf buffer) {
+        public @Nullable TextilerRecipe fromNetwork(FriendlyByteBuf buffer) {
             Ingredient input = Ingredient.fromNetwork(buffer);
-            Ingredient catalyst = Ingredient.fromNetwork(buffer);
             ItemStack output = buffer.readItem();
-            return new FoundryRecipe(output, input, catalyst);
+            return new TextilerRecipe(output, input);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, FoundryRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buffer, TextilerRecipe recipe) {
             recipe.input.toNetwork(buffer);
-            recipe.catalyst.toNetwork(buffer);
             buffer.writeItemStack(recipe.output,false);
         }
     }

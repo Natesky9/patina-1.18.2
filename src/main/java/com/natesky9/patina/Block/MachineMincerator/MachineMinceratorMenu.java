@@ -1,6 +1,5 @@
 package com.natesky9.patina.Block.MachineMincerator;
 
-import com.natesky9.patina.OutputSlotHandler;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -38,7 +37,7 @@ public class MachineMinceratorMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(handler,1,60,15));
             this.addSlot(new SlotItemHandler(handler,2,28,47));
             this.addSlot(new SlotItemHandler(handler,3,60,47));
-            this.addSlot(new OutputSlotHandler(handler,4,126,32));
+            this.addSlot(new SlotItemHandler(handler,4,126,32));
             this.addSlot(new SlotItemHandler(handler,5,126,8));
         });
         addDataSlots(data);

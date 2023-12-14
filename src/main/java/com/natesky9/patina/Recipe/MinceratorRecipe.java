@@ -1,49 +1,41 @@
 package com.natesky9.patina.Recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.mojang.datafixers.types.templates.Tag;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.natesky9.patina.init.ModRecipeSerializers;
 import com.natesky9.patina.init.ModRecipeTypes;
-import com.natesky9.patina.init.ModTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.ExtraCodecs;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.tags.ITagManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 public class MinceratorRecipe implements Recipe<SimpleContainer> {
     public static final String name = "smoker_grindstone";
     private final ItemStack output;
-    private final ArrayList<Ingredient> recipeItems;
+    private final NonNullList<Ingredient> recipeItems;
     public static int match;
 
     public MinceratorRecipe(ItemStack output,
-                            ArrayList<Ingredient> recipeItems)
+                            NonNullList<Ingredient> recipeItems)
     {
         this.output = output;
         this.recipeItems = recipeItems;
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return recipeItems;
     }
 
     @Override
@@ -57,10 +49,12 @@ public class MinceratorRecipe implements Recipe<SimpleContainer> {
             suppliedItems.add(stack);
         }
         if (suppliedItems.size() < recipeItems.size()) return false;
-        boolean matches = false;//have to initialize or else it yells at me
+        boolean matches = true;//have to initialize or else it yells at me
         ItemStack holder;
         for (int i = 0;i < recipeItems.size();i++)
         {
+            if (recipeItems.get(i).test(suppliedItems.get(i))) continue;
+            matches = false;
             for (int r = i; r < suppliedItems.size();r++)
             {
                 if (recipeItems.get(i).test(suppliedItems.get(r)))
@@ -68,9 +62,11 @@ public class MinceratorRecipe implements Recipe<SimpleContainer> {
                     holder = suppliedItems.get(i);
                     suppliedItems.set(i,suppliedItems.get(r));
                     suppliedItems.set(r,holder);
+                    matches = true;
                     break;
                 }
             }
+            //is this line needed anymore?
             if (!matches) return false;
         }
         return true;
@@ -113,12 +109,13 @@ public class MinceratorRecipe implements Recipe<SimpleContainer> {
                         Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(
                                 (map) ->
                                 {
-                                    Ingredient[] list = map.stream().filter((ingredient -> !ingredient.isEmpty())).toArray(Ingredient[]::new);
-                                    if (list.length != 4)
+                                    NonNullList<Ingredient> list = NonNullList.create();
+                                    list.addAll(map);
+                                    if (list.size() != 4)
                                     {
                                         return DataResult.error(() -> "recipe does not adhere to 4 items!");
                                     }
-                                    return DataResult.success(new ArrayList<>(Arrays.stream(list).toList()));
+                                    return DataResult.success(list);
                                 }, DataResult::success).forGetter((getter) -> getter.recipeItems
                         )
                 ).apply(instance, MinceratorRecipe::new));
@@ -154,7 +151,7 @@ public class MinceratorRecipe implements Recipe<SimpleContainer> {
         @Nullable
         @Override
         public MinceratorRecipe fromNetwork(FriendlyByteBuf buffer) {
-            ArrayList<Ingredient> inputs = new ArrayList<>();
+            NonNullList<Ingredient> inputs = NonNullList.withSize(4,Ingredient.EMPTY);
 
             int size = buffer.readInt();
             for (int i = 0; i < size; i++) {

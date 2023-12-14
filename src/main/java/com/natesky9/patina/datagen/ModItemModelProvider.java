@@ -102,6 +102,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.FERUS_GLASS);
         simpleItem(ModItems.FORTIS_GLASS);
         simpleItem(ModItems.MALACHITE);
+        simpleItem(ModItems.SMITHING_FLUX);
+        simpleItem(ModItems.SILK);
         withExistingParent(ModItems.POTION_SALT.getId().getPath(), new ResourceLocation("item/generated"))
                 .texture("layer0", new ResourceLocation("item/sugar"))
                 .texture("layer1", new ResourceLocation("item/light"));
@@ -111,6 +113,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.BRONZE_INGOT);
         simpleItem(ModItems.DRAGON_SCALE);
         simpleItem(ModItems.ESSENCE);
+        //lighter is done through json
         simpleItem(ModItems.DUST_POUCH);
         simpleItem(ModItems.GEM_POUCH);
         simpleItem(ModItems.SEED_POUCH);

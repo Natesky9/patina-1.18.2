@@ -9,6 +9,7 @@ import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterEntity;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorEntity;
 import com.natesky9.patina.Block.MachineFoundry.MachineFoundryEntity;
 import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorEntity;
+import com.natesky9.patina.Block.MachineTextiler.MachineTextilerEntity;
 import com.natesky9.patina.Patina;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -46,6 +47,10 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("machine_enchanter_entity",
             () -> BlockEntityType.Builder.of(MachineEnchanterEntity::new,
             ModBlocks.MACHINE_ENCHANTER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<MachineTextilerEntity>> MACHINE_TEXTILER_ENTITY =
+            BLOCK_ENTITIES.register("machine_textiler_entity",
+            () -> BlockEntityType.Builder.of(MachineTextilerEntity::new,
+            ModBlocks.MACHINE_TEXTILER.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<ApplianceWardrobeEntity>> APPLIANCE_WARDROBE_ENTITY =
             BLOCK_ENTITIES.register("appliance_wardrobe_entity",

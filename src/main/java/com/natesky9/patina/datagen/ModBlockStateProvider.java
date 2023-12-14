@@ -1,26 +1,15 @@
 package com.natesky9.patina.datagen;
 
 import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorBlock;
-import com.natesky9.patina.Block.ChorusCableBlock;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.init.ModBlocks;
-import net.minecraft.core.Direction;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ButtonBlock;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.PipeBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.function.Function;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput packOutput, ExistingFileHelper exFileHelper)
@@ -66,6 +55,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.MACHINE_ENCHANTER.get());
         simpleBlock(ModBlocks.MACHINE_ALEMBIC.get());
         simpleBlock(ModBlocks.ADDON_ALEMBIC.get());
+        simpleBlock(ModBlocks.MACHINE_TEXTILER.get());
 
         models().cubeAll(ModBlocks.TEST_GENERATOR.getId().getPath(),new ResourceLocation("block/iron_block"));
         getVariantBuilder(ModBlocks.CHORUS_TELEPORTER.get()).partialState().setModels(new ConfiguredModel(

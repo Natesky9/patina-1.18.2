@@ -9,6 +9,8 @@ import com.natesky9.patina.Item.pouches.GemPouchItem;
 import com.natesky9.patina.Item.pouches.LighterItem;
 import com.natesky9.patina.Item.pouches.SeedPouchItem;
 import com.natesky9.patina.Patina;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -245,9 +247,6 @@ public class ModItems {
     public static final RegistryObject<Item> COPPER_NUGGET = ITEMS.register("copper_nugget",
             () -> new Item(new Item.Properties()));
 
-    public static final RegistryObject<Item> DRAGON_SCALE = ITEMS.register("dragon_scale",
-            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
-
     public static final RegistryObject<Item> POTION_FLASK = ITEMS.register("potion_flask",
             () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON)
                     .durability(3)));
@@ -261,6 +260,9 @@ public class ModItems {
             () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON)
                     .durability(6)));
 
+    public static final RegistryObject<Item> DRAGON_SCALE = ITEMS.register("dragon_scale",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+
     public static final RegistryObject<Item> PRIME_GLASS = ITEMS.register("prime_glass",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> ANIMA_GLASS = ITEMS.register("anima_glass",
@@ -271,38 +273,44 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> SMITHING_FLUX = ITEMS.register("smithing_flux",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SILK = ITEMS.register("silk",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16)));
+
+    public static final RegistryObject<Item> CLOTH_BOOTS = ITEMS.register("cloth_boots",
+            () -> new CustomArmorItem(ArmorItem.Type.BOOTS,new Item.Properties(), Attributes.MOVEMENT_SPEED,
+                    new AttributeModifier(CustomArmorItem.swiftness,"Boot speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
 
     public static final RegistryObject<Item> MALACHITE = ITEMS.register("malachite",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     //endregion potion/ores
     //region food
     public static final RegistryObject<Item> FOOD_MEATBALLS = ITEMS.register("meatballs",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.MEATBALLS)));
     public static final RegistryObject<Item> FOOD_HONEY_NUGGETS = ITEMS.register("honey_nuggets",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.HONEY_NUGGETS)));
     public static final RegistryObject<Item> FOOD_CHILI = ITEMS.register("chili",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.CHILI)));
     public static final RegistryObject<Item> FOOD_ICECREAM = ITEMS.register("icecream",
-            () -> new Item(new Item.Properties()));
+            () -> new ColdFoodItem(new Item.Properties().food(ModFoods.ICECREAM)));
     public static final RegistryObject<Item> FOOD_BURGER = ITEMS.register("borger",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.BURGER)));
     public static final RegistryObject<Item> FOOD_SKEWERS = ITEMS.register("skewers",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.SKEWERS)));
     public static final RegistryObject<Item> FOOD_SWEETS = ITEMS.register("sweets",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.SWEETS)));
     public static final RegistryObject<Item> FOOD_APPLE_PIE = ITEMS.register("apple_pie",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.APPLE_PIE)));
     public static final RegistryObject<Item> FOOD_BLINK_BROWNIE = ITEMS.register("blink_brownie",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.BROWNIE)));
     public static final RegistryObject<Item> FOOD_TRIPLE_MEAT_TREAT = ITEMS.register("triple_meat_treat",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.TRIPLE)));
     public static final RegistryObject<Item> FOOD_PIEROGI = ITEMS.register("pierogi",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.PIEROGI)));
     public static final RegistryObject<Item> FOOD_OMELETTE = ITEMS.register("omelette",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.OMLETTE)));
     //test for tier 2 foods?
     public static final RegistryObject<Item> FOOD_LOAF = ITEMS.register("loaf",
-            () -> new Item(new Item.Properties()));
+            () -> new FoodItem(new Item.Properties().food(ModFoods.LOAF)));
 
 
     //endregion food

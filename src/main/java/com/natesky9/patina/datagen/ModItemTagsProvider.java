@@ -24,7 +24,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.FRUIT)
                 .add(Items.APPLE).add(Items.GLOW_BERRIES).add(Items.SWEET_BERRIES).add(Items.MELON_SLICE);
         this.tag(ModTags.Items.MEAT)
-                .add(Items.BEEF,Items.PORKCHOP,Items.CHICKEN,Items.MUTTON,Items.RABBIT,Items.COD,Items.SALMON,Items.TROPICAL_FISH);
+                .add(Items.BEEF,Items.PORKCHOP,Items.CHICKEN,Items.MUTTON,Items.RABBIT,Items.COD,Items.SALMON,Items.TROPICAL_FISH)
+                .add(Items.COOKED_BEEF).add(Items.COOKED_CHICKEN).add(Items.COOKED_COD).add(Items.COOKED_PORKCHOP)
+                .add(Items.COOKED_MUTTON).add(Items.COOKED_RABBIT).add(Items.COOKED_SALMON);
         this.tag(ModTags.Items.VEGETABLE)
                 .add(Items.POTATO,Items.CARROT,Items.BEETROOT,Items.PUMPKIN,Items.DRIED_KELP,Items.CHORUS_FRUIT);
         this.tag(ModTags.Items.GRAIN)

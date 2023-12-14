@@ -7,6 +7,7 @@ import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterMenu;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorMenu;
 import com.natesky9.patina.Block.MachineFoundry.MachineFoundryMenu;
 import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorMenu;
+import com.natesky9.patina.Block.MachineTextiler.MachineTextilerMenu;
 import com.natesky9.patina.Patina;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -35,6 +36,8 @@ public class ModMenuTypes
             registerMenuType(MachineEnchanterMenu::new, "machine_enchanter_menu");
     public static final RegistryObject<MenuType<MachineAlembicMenu>> MACHINE_ALEMBIC_MENU =
             registerMenuType(MachineAlembicMenu::new, "machine_alembic_menu");
+    public static final RegistryObject<MenuType<MachineTextilerMenu>> MACHINE_TEXTILER_MENU =
+            registerMenuType(MachineTextilerMenu::new, "machine_textiler_menu");
 
     public static final RegistryObject<MenuType<ApplianceWardrobeMenu>> APPLIANCE_WARDROBE_MENU =
             registerMenuType(ApplianceWardrobeMenu::new, "appliance_wardrobe_menu");

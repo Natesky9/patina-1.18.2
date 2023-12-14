@@ -34,6 +34,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.MACHINE_EVAPORATOR.get());
         this.dropSelf(ModBlocks.MACHINE_ALEMBIC.get());
         this.dropSelf(ModBlocks.MACHINE_MINCERATOR.get());
+        this.dropSelf(ModBlocks.MACHINE_TEXTILER.get());
         this.dropSelf(ModBlocks.ADDON_ALEMBIC.get());
         this.dropSelf(ModBlocks.ADDON_FOUNDRY.get());
         this.add(ModBlocks.GRAVESTONE.get(),noDrop());

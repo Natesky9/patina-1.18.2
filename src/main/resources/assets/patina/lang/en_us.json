@@ -52,6 +52,20 @@
   "item.patina.charm_warding": "Warding Charm",
   "item.patina.charm_fragment": "Charm Fragment",
 
+  "item.patina.meatballs": "Meatballs",
+  "item.patina.honey_nuggets": "Honey Nuggets",
+  "item.patina.chili": "Chili",
+  "item.patina.icecream": "Icecream",
+  "item.patina.borger": "Borger",
+  "item.patina.skewers": "Skewers",
+  "item.patina.sweets": "Sweets",
+  "item.patina.apple_pie": "Apple Pie",
+  "item.patina.blink_brownie": "Blink Brownie",
+  "item.patina.triple_meat_treat": "Triple Meat Treat",
+  "item.patina.pierogi": "Pierogi",
+  "item.patina.omelette": "Omelette",
+  "item.patina.loaf": "Loaf",
+
   "item.patina.potion_flask": "Crystal Flask",
   "item.patina.potion_flask_impetus": "Impetus Flask WIP",
   "item.patina.potion_flask_vita": "Vita Flask",
@@ -69,6 +83,9 @@
   "item.patina.ferus_glass": "Ferus Glass",
   "item.patina.fortis_glass": "Fortis Glass",
   "item.patina.malachite": "Malachite",
+  "item.patina.smithing_flux": "Smithing Flux",
+  "item.patina.silk": "Silk",
+  "item.patina.cloth_boots": "Cloth Boots",
 
   "item.patina.essence": "Essence",
   "item.patina.lighter": "Strange Device",
@@ -85,6 +102,7 @@
   "block.patina.machine_evaporator": "Evaporator",
   "block.patina.machine_foundry": "Foundry",
   "block.patina.machine_mincerator": "Mincerator",
+  "block.patina.machine_textiler": "Textiler",
   "block.patina.prismatic_ore": "Prismatic Ore",
   "block.patina.bismuth_ore": "Bismuth Ore",
 

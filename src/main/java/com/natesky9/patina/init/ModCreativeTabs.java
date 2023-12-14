@@ -10,8 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -75,6 +73,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.DRAGON_LEGGINGS.get());
                         output.accept(ModItems.DRAGON_BOOTS.get());
 
+                        output.accept(ModItems.CLOTH_BOOTS.get());
+
                         output.accept(ModItems.CHARM_ALCHEMY.get());
                         output.accept(ModItems.CHARM_AMBUSH.get());
                         output.accept(ModItems.CHARM_CONTRABAND.get());
@@ -97,6 +97,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.MACHINE_EVAPORATOR.get());
                         output.accept(ModBlocks.MACHINE_FOUNDRY.get());
                         output.accept(ModBlocks.MACHINE_MINCERATOR.get());
+                        output.accept(ModBlocks.MACHINE_TEXTILER.get());
                         output.accept(ModBlocks.MACHINE_ENCHANTER.get());
                         output.accept(ModBlocks.APPLIANCE_ICEBOX.get());
                         output.accept(ModBlocks.APPLIANCE_WARDROBE.get());
@@ -113,6 +114,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.FORTIS_GLASS.get());
 
                         output.accept(ModItems.SMITHING_FLUX.get());
+                        output.accept(ModItems.SILK.get());
 
                         output.accept(ModItems.VOID_SALT.get());
                         List<Potion> potions = new ArrayList<>();

@@ -4,6 +4,7 @@ import com.natesky9.patina.Recipe.EvaporatorRecipe;
 import com.natesky9.patina.Recipe.FoundryRecipe;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.Recipe.MinceratorRecipe;
+import com.natesky9.patina.Recipe.TextilerRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -20,6 +21,7 @@ public class ModRecipeTypes
     public static final RegistryObject<RecipeType<EvaporatorRecipe>> EVAPORATOR_RECIPE_TYPE = create(EvaporatorRecipe.name);
     public static final RegistryObject<RecipeType<FoundryRecipe>> FOUNDRY_RECIPE_TYPE = create(FoundryRecipe.name);
     public static final RegistryObject<RecipeType<MinceratorRecipe>> MINCERATOR_RECIPE_TYPE = create(MinceratorRecipe.name);
+    public static final RegistryObject<RecipeType<TextilerRecipe>> TEXTILER_RECIPE_TYPE = create(TextilerRecipe.name);
     //
     static <T extends Recipe<?>> RegistryObject<RecipeType<T>> create(final String id)
     {

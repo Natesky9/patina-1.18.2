@@ -3,10 +3,11 @@ package com.natesky9.patina.datagen;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.packs.BundleRecipeProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffects;
@@ -15,7 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -47,39 +47,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     public void buildRecipes(@NotNull RecipeOutput pWriter) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.MACHINE_ALEMBIC.get())
-                .pattern("AAA").pattern("BBB").pattern("CCC")
-                .define('A', ModItems.PRIME_GLASS.get())
-                .define('B', Items.BREWING_STAND)
-                .define('C', Items.CUT_COPPER_SLAB)
-                .unlockedBy("unlock_alembic", BrewedPotionTrigger.TriggerInstance.brewedPotion())
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.ADDON_ALEMBIC.get())
-                .pattern("GIP").pattern("IBI").pattern("I I")
-                .define('G', Items.GOLD_INGOT)
-                .define('I', Items.IRON_INGOT)
-                .define('P', ModItems.PRIME_GLASS.get())
-                .define('B', Items.BUCKET)
-                .unlockedBy("unlock_alembic_addon", RecipeCraftedTrigger.TriggerInstance
-                        .craftedItem(ModBlocks.MACHINE_ALEMBIC.getId()))
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModBlocks.MACHINE_MINCERATOR.get())
-                .pattern("AAA").pattern("AGA").pattern("ASA")
-                .define('A', Items.CUT_COPPER_SLAB)
-                .define('G', Items.GRINDSTONE)
-                .define('S', Items.SMOKER)
-                //unlocked by curing a zombie?
-                .unlockedBy("unlock_mincerator", PlayerInteractTrigger.TriggerInstance
-                        .itemUsedOnEntity(ItemPredicate.Builder.item().of(Items.GOLDEN_APPLE),
-                        Optional.of(EntityPredicate.wrap(EntityPredicate.Builder.entity().of(EntityType.ZOMBIE_VILLAGER)))))
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get())
-                .pattern("ABA").pattern("BCB").pattern("ABA")
-                .define('A', Items.CUT_COPPER_STAIRS)
-                .define('B', Items.LAPIS_BLOCK)
-                .define('C', Items.DISPENSER)
-                .unlockedBy("unlock_consolidator", EnchantedItemTrigger.TriggerInstance.enchantedItem())
-                .save(pWriter);
         //region fragment weapons
         smithingTable(ModItems.PIG_FRAGMENT_A.get(),
                 ModItems.CHARM_FRAGMENT.get(), ModItems.PIG_FRAGMENT_1.get(), ModItems.PIG_FRAGMENT_2.get()
@@ -146,27 +113,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         charmCrafting(ModItems.CHARM_EXPERIENCE.get(),Items.EXPERIENCE_BOTTLE,experience_criteria,pWriter);
         charmCrafting(Items.TOTEM_OF_UNDYING,ModItems.CHARM_FRAGMENT.get(),vanilla_totem,pWriter);
         //endregion charms
-        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION,ModBlocks.CHORUS_TELEPORTER.get())
-                .pattern("PEP").pattern("ENE").pattern("PEP")
-                .define('P',Items.PURPUR_BLOCK)
-                .define('E',Items.END_STONE_BRICK_STAIRS)
-                .define('N',Items.ENDER_EYE)
-                .unlockedBy("has_purpur",has(Items.POPPED_CHORUS_FRUIT))
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION,ModBlocks.CHORUS_CABLE.get())
-                .pattern("CPC").pattern("CPC").pattern("CPC")
-                .define('C', ItemTags.WOOL_CARPETS).define('P',Items.POPPED_CHORUS_FRUIT)
-                .unlockedBy("has_purpur",has(Items.POPPED_CHORUS_FRUIT))
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.CHARGE_CABLE.get())
-                        .pattern("WCW").pattern("WCW").pattern("WCW")
-                        .define('W',ItemTags.WOOL_CARPETS).define('C',Items.CUT_COPPER)
-                        .unlockedBy("has_copper",has(Items.CUT_COPPER))
-                        .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.CLOTH_BOOTS.get())
+            .define('A',ModItems.SILK.get())
+            .pattern("A A").pattern("A A")
+            .unlockedBy("unlocked_silk",has(ModItems.SILK.get()))
+            .save(pWriter);
         //temporary recipes
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.VOID_SALT.get())
                 .requires(ModItems.POTION_SALT.get(),9)
-                        .unlockedBy("has_salt",has(ModItems.POTION_SALT.get())).save(pWriter);
+                .unlockedBy("has_salt",has(ModItems.POTION_SALT.get())).save(pWriter);
         nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.BISMUTH_NUGGET.get(),RecipeCategory.MISC,ModItems.BISMUTH_INGOT.get());
         //region flasks
 
@@ -195,8 +150,44 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern(" C ").pattern("P P").pattern(" P ")
                 .unlockedBy("fortis_flask",glass)
                 .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.SEED_POUCH.get())
+                .define('A', Items.LEATHER)
+                .define('B',Items.STRING)
+                .define('C',ModItems.COPPER_NUGGET.get())
+                .pattern("BAC").pattern("A A").pattern("AAA")
+                .unlockedBy("bundle",RecipeCraftedTrigger.TriggerInstance
+                        .craftedItem(new ResourceLocation(BundleRecipeProvider.getItemName(Items.BUNDLE))))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.DUST_POUCH.get())
+                .define('A', Items.LEATHER)
+                .define('B',Items.STRING)
+                .define('C',Items.IRON_NUGGET)
+                .pattern("BAC").pattern("A A").pattern("AAA")
+                .unlockedBy("bundle",RecipeCraftedTrigger.TriggerInstance
+                        .craftedItem(new ResourceLocation(BundleRecipeProvider.getItemName(Items.BUNDLE))))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.GEM_POUCH.get())
+                .define('A', Items.LEATHER)
+                .define('B',Items.STRING)
+                .define('C',Items.GOLD_NUGGET)
+                .pattern("BAC").pattern("A A").pattern("AAA")
+                .unlockedBy("bundle",RecipeCraftedTrigger.TriggerInstance
+                        .craftedItem(new ResourceLocation(BundleRecipeProvider.getItemName(Items.BUNDLE))))
+                .save(pWriter);
+        //todo:make a list of items to unlock, until I create the research aspect
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.LIGHTER.get())
+                .define('A', Items.DAYLIGHT_DETECTOR)
+                .define('B', Items.COMPARATOR)
+                .define('C', Items.DISPENSER)
+                .define('D', Items.LEVER)
+                .define('E', ModItems.COPPER_NUGGET.get())
+                .pattern("EAE").pattern("BCD").pattern("E E")
+                .unlockedBy("unlock_lighter",has(Items.DAYLIGHT_DETECTOR))
+                .save(pWriter);
+
 
         //endregion flasks
+        //region machines
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.MACHINE_EVAPORATOR.get())
                 .define('C',Items.COPPER_INGOT)
                 .define('K',Items.CAULDRON)
@@ -206,6 +197,81 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("CCC")
                 .unlockedBy("unlocked_evaporator",has(Items.SOUL_CAMPFIRE))
                 .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.MACHINE_FOUNDRY.get())
+                .define('A',Items.BLAST_FURNACE)
+                .define('B',Items.NETHER_BRICK)
+                .define('C',Items.CAULDRON)
+                .pattern("BCB")
+                .pattern("BAB")
+                .pattern("BBB")
+                .unlockedBy("unlocked_foundry",has(Items.NETHER_BRICK))
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.MACHINE_ALEMBIC.get())
+                .pattern("AAA").pattern("BBB").pattern("CCC")
+                .define('A', ModItems.PRIME_GLASS.get())
+                .define('B', Items.BREWING_STAND)
+                .define('C', Items.CUT_COPPER_SLAB)
+                .unlockedBy("unlock_alembic", BrewedPotionTrigger.TriggerInstance.brewedPotion())
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.ADDON_ALEMBIC.get())
+                .pattern("GIP").pattern("IBI").pattern("I I")
+                .define('G', Items.GOLD_INGOT)
+                .define('I', Items.IRON_INGOT)
+                .define('P', ModItems.PRIME_GLASS.get())
+                .define('B', Items.BUCKET)
+                .unlockedBy("unlock_alembic_addon", RecipeCraftedTrigger.TriggerInstance
+                        .craftedItem(ModBlocks.MACHINE_ALEMBIC.getId()))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModBlocks.MACHINE_MINCERATOR.get())
+                .pattern("AAA").pattern("AGA").pattern("ASA")
+                .define('A', Items.CUT_COPPER_SLAB)
+                .define('G', Items.GRINDSTONE)
+                .define('S', Items.SMOKER)
+                //unlocked by curing a zombie?
+                .unlockedBy("unlock_mincerator", PlayerInteractTrigger.TriggerInstance
+                        .itemUsedOnEntity(ItemPredicate.Builder.item().of(Items.GOLDEN_APPLE),
+                                Optional.of(EntityPredicate.wrap(EntityPredicate.Builder.entity().of(EntityType.ZOMBIE_VILLAGER)))))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.APPLIANCE_ICEBOX.get())
+                .define('A',Items.CUT_COPPER_SLAB)
+                .define('B',Items.IRON_DOOR)
+                .define('C',Items.SNOW_BLOCK)
+                .pattern("AAA").pattern("ACB").pattern("AAA")
+                .unlockedBy("unlocked_fridge",has(Items.SNOWBALL))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.APPLIANCE_WARDROBE.get())
+                .define('A',ItemTags.WOODEN_SLABS)
+                .define('B',Items.ARMOR_STAND)
+                .define('C',ItemTags.WOODEN_DOORS)
+                .pattern("AAA").pattern("ABC").pattern("AAA")
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get())
+                .pattern("ABA").pattern("BCB").pattern("ABA")
+                .define('A', Items.CUT_COPPER_STAIRS)
+                .define('B', Items.LAPIS_BLOCK)
+                .define('C', Items.DISPENSER)
+                .unlockedBy("unlock_consolidator", EnchantedItemTrigger.TriggerInstance.enchantedItem())
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION,ModBlocks.CHORUS_TELEPORTER.get())
+                .pattern("PEP").pattern("ENE").pattern("PEP")
+                .define('P',Items.PURPUR_BLOCK)
+                .define('E',Items.END_STONE_BRICK_STAIRS)
+                .define('N',Items.ENDER_EYE)
+                .unlockedBy("has_purpur",has(Items.POPPED_CHORUS_FRUIT))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION,ModBlocks.CHORUS_CABLE.get())
+                .pattern("CPC").pattern("CPC").pattern("CPC")
+                .define('C', ItemTags.WOOL_CARPETS).define('P',Items.POPPED_CHORUS_FRUIT)
+                .unlockedBy("has_purpur",has(Items.POPPED_CHORUS_FRUIT))
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.CHARGE_CABLE.get())
+                .pattern("WCW").pattern("WCW").pattern("WCW")
+                .define('W',ItemTags.WOOL_CARPETS).define('C',Items.CUT_COPPER)
+                .unlockedBy("has_copper",has(Items.CUT_COPPER))
+                .save(pWriter);
+        //endregion machines
         //region copper
         nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.COPPER_NUGGET.get(),RecipeCategory.MISC,Items.COPPER_INGOT);
         Criterion<InventoryChangeTrigger.TriggerInstance> hasCopper = has(Items.COPPER_INGOT);

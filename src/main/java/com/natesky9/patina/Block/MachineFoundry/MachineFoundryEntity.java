@@ -51,6 +51,7 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
             case input, catalyst -> recipes.stream().anyMatch(foundryRecipeRecipeHolder ->
                     foundryRecipeRecipeHolder.value().getIngredients().get(slot).test(stack));
             case fuel -> stack.is(Items.BLAZE_POWDER);
+            case output -> true;
             default -> false;
         };
     }

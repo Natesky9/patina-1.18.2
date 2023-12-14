@@ -40,9 +40,9 @@ public class LighterItem extends PouchItem {
         boolean dark = brightness < 5;
         boolean empty = state.isAir() || state.is(BlockTags.REPLACEABLE);
         boolean sturdy = level.getBlockState(pos.below()).isFaceSturdy(level,pos, Direction.UP);
-        if (dark && empty && sturdy)
+        if (dark && empty && sturdy && getCount(stack) > 0)
         {
-
+            addCount(stack,-1);
             level.playSound(null,pos, SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundSource.PLAYERS,.5f,.5f);
             level.setBlockAndUpdate(pos, Blocks.TORCH.defaultBlockState());
         }
@@ -53,9 +53,11 @@ public class LighterItem extends PouchItem {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Direction face = context.getClickedFace();
+        ItemStack stack = context.getItemInHand();
         boolean sturdy = level.getBlockState(pos).isFaceSturdy(level,pos,face);
-        if (sturdy)
+        if (sturdy && getCount(stack) > 0)
         {
+            addCount(stack,-1);
             BlockPlaceContext blockContext = new BlockPlaceContext(context);
             BlockState state = face == Direction.UP ? Blocks.TORCH.getStateForPlacement(blockContext) : Blocks.WALL_TORCH.getStateForPlacement(blockContext);
             level.setBlockAndUpdate(pos.relative(face),state);

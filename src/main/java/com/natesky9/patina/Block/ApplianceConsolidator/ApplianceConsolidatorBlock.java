@@ -1,15 +1,14 @@
 package com.natesky9.patina.Block.ApplianceConsolidator;
 
 import com.natesky9.patina.MultiBlockQuad;
+import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +23,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
@@ -126,6 +124,7 @@ public class ApplianceConsolidatorBlock extends BaseEntityBlock {
             for (BlockPos blockPos : Arrays.asList(pos, MultiBlockQuad.getTwo(pos, corner),
                     MultiBlockQuad.getThree(pos, corner), MultiBlockQuad.getFour(pos, corner)))
             {
+                if (!level.getBlockState(blockPos).is(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get())) return;
                 BlockState loop = level.getBlockState(blockPos);
                 if (loop.getValue(CORNER) == MultiBlockQuad.NORTHWEST)
                     level.scheduleTick(blockPos, this, 10);
@@ -156,7 +155,10 @@ public class ApplianceConsolidatorBlock extends BaseEntityBlock {
             //set all 4 to inactive
             for (BlockPos blockPos : Arrays.asList(pos, MultiBlockQuad.getTwo(pos, corner),
                     MultiBlockQuad.getThree(pos, corner), MultiBlockQuad.getFour(pos, corner)))
-            {level.setBlock(blockPos, level.getBlockState(blockPos).setValue(ACTIVE, false),3);}
+            {
+                if (!level.getBlockState(blockPos).is(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get())) return;
+                level.setBlock(blockPos, level.getBlockState(blockPos).setValue(ACTIVE, false),3);
+            }
             //level.setBlock(pos, state.setValue(ACTIVE,false),3);
             level.scheduleTick(pos, this, 42);
             return;

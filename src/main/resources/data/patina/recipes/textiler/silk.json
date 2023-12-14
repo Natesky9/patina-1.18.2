@@ -1,0 +1,12 @@
+{
+  "type": "patina:textiler",
+  "input":
+  {
+    "item": "minecraft:string",
+    "count": 9
+  },
+  "output":
+  {
+    "item": "patina:silk"
+  }
+}
