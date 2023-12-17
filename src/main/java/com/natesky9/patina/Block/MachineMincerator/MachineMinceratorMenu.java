@@ -1,11 +1,14 @@
 package com.natesky9.patina.Block.MachineMincerator;
 
 import com.natesky9.patina.init.ModBlocks;
+import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModMenuTypes;
+import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,8 +31,6 @@ public class MachineMinceratorMenu extends AbstractContainerMenu {
         this.level = inv.player.level();
         this.data = data;
 
-        addPlayerInventory(inv);
-        addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler ->
         {
@@ -40,6 +41,8 @@ public class MachineMinceratorMenu extends AbstractContainerMenu {
             this.addSlot(new SlotItemHandler(handler,4,126,32));
             this.addSlot(new SlotItemHandler(handler,5,126,8));
         });
+        addPlayerInventory(inv);
+        addPlayerHotbar(inv);
         addDataSlots(data);
     }
 
@@ -68,35 +71,42 @@ public class MachineMinceratorMenu extends AbstractContainerMenu {
 
         @Override
         public ItemStack quickMoveStack(Player playerIn, int index) {
-            Slot sourceSlot = slots.get(index);
-            if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
-            ItemStack sourceStack = sourceSlot.getItem();
-            ItemStack copyOfSourceStack = sourceStack.copy();
-
-            // Check if the slot clicked is one of the vanilla container slots
-            if (index < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-                // This is a vanilla container slot so merge the stack into the tile inventory
-                if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                        + TE_INVENTORY_SLOT_COUNT, false)) {
-                    return ItemStack.EMPTY;  // EMPTY_ITEM
-                }
-            } else if (index < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-                // This is a TE slot so merge the stack into the players inventory
-                if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+            ItemStack temp;
+            if (index >= 0 && index < 6)//click inside machine
+            {
+                temp = slots.get(index).getItem();
+                if (temp.isEmpty()) return ItemStack.EMPTY;
+                playerIn.addItem(temp);
+                slots.get(index).getItem().shrink(1);
+            }
+            if (index >= 6)
+            {//clicking in inventory
+                temp = slots.get(index).getItem();
+                if (temp.is(ModItems.POTION_SALT.get()))
+                {//unique case for salts
+                    if (slots.get(5).hasItem()) return ItemStack.EMPTY;
+                    slots.get(5).set(temp.copyWithCount(1));
+                    slots.get(index).getItem().shrink(1);
                     return ItemStack.EMPTY;
                 }
-            } else {
-                System.out.println("Invalid slotIndex:" + index);
-                return ItemStack.EMPTY;
+                Item finalTemp = temp.getItem();
+                if (level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get()).stream().anyMatch(recipe ->
+                        recipe.value().getResultItem(level.registryAccess()).is(finalTemp)))
+                {
+                    if (slots.get(4).hasItem()) return ItemStack.EMPTY;
+                    slots.get(4).set(temp.copyWithCount(1));
+                    slots.get(index).getItem().shrink(1);
+                    return ItemStack.EMPTY;
+                }
+                for (int i=0;i < 4;i++)
+                {//fill the first empty input slot
+                    if (slots.get(i).hasItem()) continue;
+                    slots.get(i).set(temp.copyWithCount(1));
+                    slots.get(index).getItem().shrink(1);
+                    return ItemStack.EMPTY;
+                }
             }
-            // If stack size == 0 (the entire stack was moved) set slot contents to null
-            if (sourceStack.getCount() == 0) {
-                sourceSlot.set(ItemStack.EMPTY);
-            } else {
-                sourceSlot.setChanged();
-            }
-            sourceSlot.onTake(playerIn, sourceStack);
-            return copyOfSourceStack;
+            return ItemStack.EMPTY;
         }
     //
 

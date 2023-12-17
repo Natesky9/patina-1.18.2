@@ -1,12 +1,10 @@
 package com.natesky9.patina.Block.ApplianceWardrobe;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.natesky9.patina.Patina;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -52,9 +50,12 @@ public class ApplianceWardrobeScreen extends AbstractContainerScreen<ApplianceWa
 
         graphics.blit(TEXTURE,x,y,0,0,imageWidth,imageHeight);
         if (this.minecraft.player != null)
-            renderEntityInInventoryFollowsMouse(graphics, x + 51, y + 75, 30,
-                (x + 51) - this.xMouse, (y + 75 - 50) - this.yMouse,
-                0,0,0, this.minecraft.player);
+
+            renderEntityInInventoryFollowsMouse(graphics, x + 26, y + 8, x + 75, y + 78, 30, 0.0625F, this.xMouse, this.yMouse, this.minecraft.player);
+
+            //renderEntityInInventoryFollowsMouse(graphics, x + 51, y + 75, 30,
+            //    (x + 51) - this.xMouse, (y + 75 - 50) - this.yMouse,
+            //    0,0,0, this.minecraft.player);
 
     }
 }

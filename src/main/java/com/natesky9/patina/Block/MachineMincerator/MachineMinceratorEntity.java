@@ -140,19 +140,18 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     @Override
     protected void MachineTick()
     {
-        if (itemStackHandler.getStackInSlot(5).isEmpty())
-        {
-            if (hasRecipe()) {
-                //System.out.println("craft");
-                craftItem();
-            }
+        if (hasRecipe()) {
+            //System.out.println("craft");
+            craftItem();
         }
-        else
+
+        if (!itemStackHandler.getStackInSlot(5).isEmpty())
         {
             ItemStack food = itemStackHandler.getStackInSlot(4);
             ItemStack augment = itemStackHandler.getStackInSlot(5);
             if (augment.getItem() instanceof PotionSaltItem)
             {
+                if (PotionUtils.getPotion(food) == PotionUtils.getPotion(augment)) return;
                 PotionUtils.setPotion(food,PotionUtils.getPotion(augment));
                 itemStackHandler.extractItem(5,1,false);
             }

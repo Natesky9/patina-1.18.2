@@ -17,8 +17,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.PotionItem;
-import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -78,10 +76,8 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
         List<RecipeHolder<EvaporatorRecipe>> recipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get());
         return switch (slot)
                 {
-                    case input -> recipes.stream().anyMatch(foundryRecipeRecipeHolder ->
-                            foundryRecipeRecipeHolder.value().getIngredients().get(slot).test(stack))
-                    || recipes.stream().anyMatch(holder ->
-                    holder.value().inputPotion == PotionUtils.getPotion(stack)) && stack.getItem() instanceof PotionItem;
+                    case input -> recipes.stream().anyMatch(evaporatorRecipeRecipeHolder ->
+                            evaporatorRecipeRecipeHolder.value().getIngredients().get(slot).test(stack));
                     case fuel -> stack.is(ItemTags.LOGS) || stack.is(Items.CHARCOAL)
                             || stack.is(Items.BLAZE_ROD) || stack.is(Items.NETHER_STAR);
                     case output -> stack.is(ModItems.POTION_SALT.get()) || stack.is(Items.GUNPOWDER)

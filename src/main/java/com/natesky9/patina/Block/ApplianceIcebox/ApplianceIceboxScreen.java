@@ -1,7 +1,6 @@
 package com.natesky9.patina.Block.ApplianceIcebox;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import com.natesky9.patina.Patina;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SuspiciousStewItem;
@@ -23,15 +21,15 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 
 import java.awt.*;
-import java.sql.Time;
-import java.time.Clock;
 import java.util.List;
 
 public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceboxMenu> {
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(Patina.MODID,"textures/gui/appliance_icebox.png");
     private static final ResourceLocation FOOD =
-            new ResourceLocation("textures/gui/icons.png");
+            new ResourceLocation("hud/food_full");
+    private static final ResourceLocation FOOD_HALF =
+            new ResourceLocation("hud/food_half");
     //food icon coords
     final int fullx = 52;
     final int fully = 27;
@@ -50,17 +48,14 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1,1,1,1);
 
-        //
-
         imageWidth = 175;
         imageHeight = 183;
         int x = (width-imageWidth)/2+8;
         int y = (height-imageHeight)/2+8;
-        //draw the background
-        //blit(pPoseStack,x,y,0,0,imageWidth,imageHeight);
 
         if (this.hoveredSlot != null && this.hoveredSlot.hasItem())
         {
+            graphics.drawString(font,hoveredSlot.getItem().getItem().getName(hoveredSlot.getItem()),x,y-4, Color.WHITE.getRGB());
             //draw the tooltip off to the side
 
             //renderTooltip(pPoseStack,hoveredSlot.getItem(),getGuiLeft()+imageWidth,getGuiTop());
@@ -84,9 +79,10 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
                 int hunger = stack.getFoodProperties(minecraft.player).getNutrition();
                 for (int i = 0; i < hunger; i += 2) {
                     if (i != hunger - 1)
-                        graphics.blit(FOOD, x + i * 4, y, fullx, fully, 8,8);
+                        graphics.blitSprite(FOOD,x + i * 4, y, 9,9);
+                        //graphics.blit(FOOD, x + i * 4, y, fullx, fully, 8,8);
                     else
-                        graphics.blit(FOOD, x + i * 4, y, halfx, halfy, 8,8);
+                        graphics.blitSprite(FOOD, x + i * 4, y, 9,9);//8,8);
                 }
                 //check if food effects
                 List<Pair<MobEffectInstance, Float>> effects = stack.getFoodProperties(minecraft.player).getEffects();

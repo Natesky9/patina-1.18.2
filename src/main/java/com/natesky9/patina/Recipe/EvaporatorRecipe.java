@@ -11,6 +11,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.crafting.*;
@@ -46,7 +47,9 @@ public class EvaporatorRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return NonNullList.of(Ingredient.EMPTY,inputIngredient);
+        if (inputIngredient != null)
+            return NonNullList.of(Ingredient.EMPTY,inputIngredient);
+        return NonNullList.of(Ingredient.EMPTY,Ingredient.of(Items.POTION));
     }
 
     @Override

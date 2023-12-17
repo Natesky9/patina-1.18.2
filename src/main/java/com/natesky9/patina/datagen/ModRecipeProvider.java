@@ -245,6 +245,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B',Items.ARMOR_STAND)
                 .define('C',ItemTags.WOODEN_DOORS)
                 .pattern("AAA").pattern("ABC").pattern("AAA")
+                .unlockedBy("unlocked_wardrobe",has(Items.ARMOR_STAND))
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get())
                 .pattern("ABA").pattern("BCB").pattern("ABA")
