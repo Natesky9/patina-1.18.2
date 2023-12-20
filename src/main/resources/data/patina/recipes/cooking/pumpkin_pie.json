@@ -1,5 +1,6 @@
 {
   "type": "patina:smoker_grindstone",
+  "category": "mincerator",
   "ingredients":
           [
             {"item": "minecraft:pumpkin"},

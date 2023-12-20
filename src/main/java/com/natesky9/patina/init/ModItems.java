@@ -246,6 +246,8 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> COPPER_NUGGET = ITEMS.register("copper_nugget",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> POTION_FLASK = ITEMS.register("potion_flask",
             () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON)
@@ -275,11 +277,21 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> SILK = ITEMS.register("silk",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16)));
+    public static final RegistryObject<Item> UMBRA = ITEMS.register("umbra",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> CLOTH_BOOTS = ITEMS.register("cloth_boots",
             () -> new CustomArmorItem(ArmorItem.Type.BOOTS,new Item.Properties(), Attributes.MOVEMENT_SPEED,
                     new AttributeModifier(CustomArmorItem.swiftness,"Boot speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
-
+    public static final RegistryObject<Item> UMBRA_HAT = ITEMS.register("umbra_hat",
+            () -> new CustomArmorItem(ArmorItem.Type.HELMET,new Item.Properties(),Attributes.FLYING_SPEED,
+                    new AttributeModifier(CustomArmorItem.fly,"Fly speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
+    public static final RegistryObject<Item> UMBRA_TOP = ITEMS.register("umbra_top",
+            () -> new CustomArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties(),Attributes.FLYING_SPEED,
+                    new AttributeModifier(CustomArmorItem.fly,"Fly speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
+    public static final RegistryObject<Item> UMBRA_BOTTOM = ITEMS.register("umbra_bottom",
+            () -> new CustomArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties(),Attributes.FLYING_SPEED,
+                    new AttributeModifier(CustomArmorItem.fly,"Fly speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> MALACHITE = ITEMS.register("malachite",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     //endregion potion/ores

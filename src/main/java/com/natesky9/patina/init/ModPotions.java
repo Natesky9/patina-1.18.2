@@ -89,6 +89,8 @@ public class ModPotions
             () -> new Potion("acrid_potion"));
     public static final RegistryObject<Potion> VOLATILE_POTION = MOD_POTIONS.register("volatile_potion",
             () -> new Potion("volatile_potion"));
+    public static final RegistryObject<Potion> LUMINOUS_POTION = MOD_POTIONS.register("luminous_potion",
+            () -> new Potion("luminous_potion",new MobEffectInstance(MobEffects.GLOWING,shorter)));
     //bismuth blend
     public static final RegistryObject<Potion> IRIDESCENT_POTION = MOD_POTIONS.register("iridescent_potion",
             () -> new Potion("iridescent_potion"));
@@ -162,6 +164,9 @@ public class ModPotions
         //bismuth
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.MUNDANE,ModItems.BISMUTH_ORE.get(),ModPotions.IRIDESCENT_POTION.get()));
         BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(ModPotions.IRIDESCENT_POTION.get(), Items.EMERALD,ModPotions.KNOWLEDGE_POTION.get()));
+        //glowstone
+        BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.THICK,Items.GLOW_BERRIES,LUMINOUS_POTION.get()));
+        BrewingRecipeRegistry.addRecipe(new ItemBrewingRecipe(Potions.THICK,Items.GLOW_INK_SAC,LUMINOUS_POTION.get()));
     }
     public static void addSaltPotions()
     {

@@ -1,5 +1,6 @@
 {
   "type": "patina:smoker_grindstone",
+  "category": "mincerator",
   "ingredients":
           [
             {"tag": "patina:fruit"},

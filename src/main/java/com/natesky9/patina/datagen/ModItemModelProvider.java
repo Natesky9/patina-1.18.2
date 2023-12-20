@@ -104,6 +104,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.MALACHITE);
         simpleItem(ModItems.SMITHING_FLUX);
         simpleItem(ModItems.SILK);
+        simpleItem(ModItems.UMBRA);
         withExistingParent(ModItems.POTION_SALT.getId().getPath(), new ResourceLocation("item/generated"))
                 .texture("layer0", new ResourceLocation("item/sugar"))
                 .texture("layer1", new ResourceLocation("item/light"));
@@ -127,6 +128,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         //copper tools--------------
         //region copper
         simpleItem(ModItems.COPPER_NUGGET);
+        simpleItem(ModItems.NETHERITE_NUGGET);
         withExistingParent(ModItems.COPPER_AXE.getId().getPath(),new ResourceLocation("item/handheld"))
                 .texture("layer0", new ResourceLocation(Patina.MODID,"item/handle"))
                 .texture("layer1", new ResourceLocation(Patina.MODID,"item/axe"));

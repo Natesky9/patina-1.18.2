@@ -1,11 +1,14 @@
 {
   "type": "patina:smoker_grindstone",
-  "output": {"item": "patina:pierogi"},
+  "category": "mincerator",
   "ingredients":
           [
             {"tag": "patina:meat"},
             {"tag": "patina:vegetable"},
             {"tag": "forge:eggs"},
             {"tag": "patina:grain"}
-          ]
+          ],
+  "output": {
+    "item": "patina:pierogi"
+  }
 }

@@ -118,6 +118,23 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             .pattern("A A").pattern("A A")
             .unlockedBy("unlocked_silk",has(ModItems.SILK.get()))
             .save(pWriter);
+        //umbral
+        Criterion<InventoryChangeTrigger.TriggerInstance> hasUmbral = has(ModItems.UMBRA.get());
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_HAT.get())
+                .define('A',ModItems.UMBRA.get())
+                .pattern("AAA").pattern("A A")
+                .unlockedBy("unlocked_umbra", hasUmbral)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_TOP.get())
+                .define('A',ModItems.UMBRA.get())
+                .pattern("A A").pattern("AAA").pattern("AAA")
+                .unlockedBy("unlocked_umbra", hasUmbral)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_BOTTOM.get())
+                .define('A',ModItems.UMBRA.get())
+                .pattern("AAA").pattern("A A").pattern("A A")
+                .unlockedBy("unlocked_umbra", hasUmbral)
+                .save(pWriter);
         //temporary recipes
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.VOID_SALT.get())
                 .requires(ModItems.POTION_SALT.get(),9)

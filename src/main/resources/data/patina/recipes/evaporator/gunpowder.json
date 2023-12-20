@@ -1,5 +1,6 @@
 {
   "type": "patina:evaporator",
+  "category": "evaporator",
   "output":
   {
     "item": "minecraft:gunpowder",

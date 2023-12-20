@@ -1,5 +1,6 @@
 {
   "type": "patina:evaporator",
+  "category": "evaporator",
   "input": "patina:iridescent_potion",
   "output":
   {

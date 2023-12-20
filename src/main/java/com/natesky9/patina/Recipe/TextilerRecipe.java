@@ -48,7 +48,7 @@ public class TextilerRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return false;
+        return true;
     }
 
     @Override

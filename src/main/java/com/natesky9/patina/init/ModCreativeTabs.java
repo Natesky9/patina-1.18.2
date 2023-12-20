@@ -74,6 +74,9 @@ public class ModCreativeTabs {
                         output.accept(ModItems.DRAGON_BOOTS.get());
 
                         output.accept(ModItems.CLOTH_BOOTS.get());
+                        output.accept(ModItems.UMBRA_HAT.get());
+                        output.accept(ModItems.UMBRA_TOP.get());
+                        output.accept(ModItems.UMBRA_BOTTOM.get());
 
                         output.accept(ModItems.CHARM_ALCHEMY.get());
                         output.accept(ModItems.CHARM_AMBUSH.get());
@@ -112,9 +115,12 @@ public class ModCreativeTabs {
                         output.accept(ModItems.ANIMA_GLASS.get());
                         output.accept(ModItems.FERUS_GLASS.get());
                         output.accept(ModItems.FORTIS_GLASS.get());
+                        output.accept(ModItems.COPPER_NUGGET.get());
+                        output.accept(ModItems.NETHERITE_NUGGET.get());
 
                         output.accept(ModItems.SMITHING_FLUX.get());
                         output.accept(ModItems.SILK.get());
+                        output.accept(ModItems.UMBRA.get());
 
                         output.accept(ModItems.VOID_SALT.get());
                         List<Potion> potions = new ArrayList<>();

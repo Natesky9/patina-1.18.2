@@ -1,5 +1,6 @@
 {
   "type": "patina:foundry",
+  "category": "foundry",
   "output":
   {
     "item": "patina:bronze_ingot",

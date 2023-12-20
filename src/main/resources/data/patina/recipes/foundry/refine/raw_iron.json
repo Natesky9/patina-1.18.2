@@ -1,8 +1,9 @@
 {
   "type": "patina:foundry",
+  "category": "foundry",
   "input":
   {
-    "item": "minecraft:raw_gold"
+    "item": "minecraft:raw_iron"
   },
   "catalyst":
   {
@@ -10,7 +11,7 @@
   },
   "output":
   {
-    "item": "minecraft:gold_nugget",
+    "item": "minecraft:iron_nugget",
     "count": 12
   }
 }

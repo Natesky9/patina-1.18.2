@@ -1,0 +1,13 @@
+{
+  "type": "patina:foundry",
+  "category": "foundry",
+  "input":
+  {
+    "item": "patina:bismuth_nugget",
+    "count": 9
+  },
+  "output":
+  {
+    "item": "patina:bismuth_ingot"
+  }
+}

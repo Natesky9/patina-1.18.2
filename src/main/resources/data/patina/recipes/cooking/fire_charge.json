@@ -3,13 +3,14 @@
   "category": "mincerator",
   "ingredients":
           [
-            {"tag": "patina:meat"},
-            {"tag": "patina:vegetable"},
+            {"tag": "minecraft:coals"},
             {"item": "minecraft:blaze_powder"},
-            {"item": "minecraft:bowl"}
+            {"item": "minecraft:gunpowder"},
+            {"item": "minecraft:paper"}
           ],
   "output":
   {
-    "item": "patina:chili"
+    "item": "minecraft:fire_charge",
+    "count": 4
   }
 }

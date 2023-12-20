@@ -1,8 +1,10 @@
 {
   "type": "patina:foundry",
+  "category": "foundry",
   "input":
   {
-    "item": "minecraft:copper_ingot"
+    "item": "minecraft:copper_ingot",
+    "count": 3
   },
   "catalyst":
   {

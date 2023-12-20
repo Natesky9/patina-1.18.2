@@ -1,11 +1,12 @@
 {
   "type": "patina:smoker_grindstone",
+  "category": "mincerator",
   "ingredients":
           [
+            {"tag": "patina:calcium"},
             {"item": "minecraft:honeycomb"},
-            {"item": "minecraft:calcite"},
-            {"item": "minecraft:blaze_powder"},
-            {"item": "minecraft:pointed_dripstone"}
+            {"item": "minecraft:fire_charge"},
+            {"item": "minecraft:tuff"}
           ],
   "output":
   {

@@ -3,11 +3,10 @@
   "category": "textiler",
   "input":
   {
-    "item": "minecraft:string",
-    "count": 9
+    "item": "minecraft:phantom_membrane"
   },
   "output":
   {
-    "item": "patina:silk"
+    "item": "patina:umbra"
   }
 }

@@ -1,5 +1,6 @@
 {
   "type": "patina:foundry",
+  "category": "foundry",
   "input":
   {
     "item": "patina:prime_glass"

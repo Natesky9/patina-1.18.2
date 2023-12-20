@@ -18,12 +18,12 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
     private final RecipeType<?> type = ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get();
     private final RecipeSerializer<?> serializer = ModRecipeSerializers.FOUNDRY_SERIALIZER.get();
 
-    final Ingredient input;
+    final ItemStack input;
     final Ingredient catalyst;
     final ItemStack output;
     //
     public FoundryRecipe(ItemStack output,
-                         Ingredient input, Ingredient catalyst)
+                         ItemStack input, Ingredient catalyst)
     {
         this.output = output;
         this.input = input;
@@ -31,17 +31,34 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
     }
     //
 
+
+    public ItemStack getInput() {
+        return input;
+    }
+
+    public Ingredient getCatalyst() {
+        return catalyst;
+    }
+
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return NonNullList.of(Ingredient.EMPTY,input,catalyst);
+        return NonNullList.of(Ingredient.EMPTY,Ingredient.of(input),catalyst);
     }
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        boolean first = input.test(pContainer.getItem(0));
+        //compare itemstack sizes
+        ItemStack inputStack = pContainer.getItem(0);
+        boolean first = inputStack.is(input.getItem()) && inputStack.getCount() >= input.getCount();
         boolean second = catalyst.test(pContainer.getItem(1));
         if (first && second) assemble(pContainer,pLevel.registryAccess());
         return first && second;
+    }
+
+    @Override
+    public boolean isIncomplete() {
+        //have to set this to false or else the empty ingredient will mess up recipe book
+        return false;
     }
 
     @Override
@@ -52,7 +69,7 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public boolean canCraftInDimensions(int pWidth, int pHeight) {
-        return false;
+        return true;
     }
 
     @Override
@@ -73,9 +90,9 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
     {
         final static Codec<FoundryRecipe> CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(
-                        CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
-                        Ingredient.CODEC.fieldOf("input").forGetter((getter) -> getter.input),
-                        Ingredient.CODEC.fieldOf("catalyst").forGetter((getter) -> getter.catalyst)
+                        CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("output").forGetter((getter) ->  getter.output),
+                        CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("input").forGetter((getter) -> getter.input),
+                        Ingredient.CODEC.optionalFieldOf("catalyst",Ingredient.EMPTY).forGetter((getter) -> getter.catalyst)
                 ).apply(instance, FoundryRecipe::new)
         );
 
@@ -86,7 +103,7 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
 
         @Override
         public @Nullable FoundryRecipe fromNetwork(FriendlyByteBuf buffer) {
-            Ingredient input = Ingredient.fromNetwork(buffer);
+            ItemStack input = buffer.readItem();
             Ingredient catalyst = Ingredient.fromNetwork(buffer);
             ItemStack output = buffer.readItem();
             return new FoundryRecipe(output, input, catalyst);
@@ -94,7 +111,7 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, FoundryRecipe recipe) {
-            recipe.input.toNetwork(buffer);
+            buffer.writeItemStack(recipe.input,false);
             recipe.catalyst.toNetwork(buffer);
             buffer.writeItemStack(recipe.output,false);
         }

@@ -1,0 +1,17 @@
+{
+  "type": "patina:foundry",
+  "category": "foundry",
+  "output":
+  {
+    "item": "patina:netherite_nugget",
+    "count": 3
+  },
+  "input":
+  {
+    "item": "minecraft:netherite_scrap"
+  },
+  "catalyst":
+  {
+    "item": "minecraft:gold_ingot"
+  }
+}

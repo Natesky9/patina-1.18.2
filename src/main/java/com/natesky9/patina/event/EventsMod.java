@@ -3,6 +3,7 @@ package com.natesky9.patina.event;
 import com.natesky9.patina.Item.EssenceItem;
 import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
+import com.natesky9.patina.ModRecipeBookType;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.datagen.DataGenerators;
 import com.natesky9.patina.entity.Armor.TemplateArmorModel;
@@ -21,10 +22,7 @@ import com.natesky9.patina.entity.SpiderNest.Spidernest;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenModel;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenRenderer;
-import com.natesky9.patina.init.ModEntityTypes;
-import com.natesky9.patina.init.ModItems;
-import com.natesky9.patina.init.ModPotions;
-import com.natesky9.patina.init.ModScreens;
+import com.natesky9.patina.init.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -34,6 +32,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -41,8 +40,26 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {
+    @SubscribeEvent
+    public static void RegisterRecipeBookCategoriesEvent(RegisterRecipeBookCategoriesEvent event)
+    {
+        event.registerRecipeCategoryFinder(ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get(),recipe -> ModRecipeBookType.FOUNDRY_CATEGORY);
+        event.registerBookCategories(ModRecipeBookType.FOUNDRY, List.of(ModRecipeBookType.FOUNDRY_CATEGORY));
+
+        event.registerRecipeCategoryFinder(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get(),recipe -> ModRecipeBookType.MINCERATOR_CATEGORY);
+        event.registerBookCategories(ModRecipeBookType.MINCERATOR, List.of(ModRecipeBookType.MINCERATOR_CATEGORY));
+
+        event.registerRecipeCategoryFinder(ModRecipeTypes.TEXTILER_RECIPE_TYPE.get(), recipe -> ModRecipeBookType.TEXTILER_CATEGORY);
+        event.registerBookCategories(ModRecipeBookType.TEXTILER, List.of(ModRecipeBookType.TEXTILER_CATEGORY));
+
+        event.registerRecipeCategoryFinder(ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get(), recipe -> ModRecipeBookType.EVAPORATOR_CATEGORY);
+        event.registerBookCategories(ModRecipeBookType.EVAPORATOR, List.of(ModRecipeBookType.EVAPORATOR_CATEGORY));
+
+    }
     @SubscribeEvent
     public static void ColorHandlerEvent(final RegisterColorHandlersEvent.Item event)
     {

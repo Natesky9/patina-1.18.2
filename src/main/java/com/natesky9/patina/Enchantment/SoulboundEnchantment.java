@@ -20,8 +20,6 @@ public class SoulboundEnchantment extends Enchantment {
     public SoulboundEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
         super(pRarity, pCategory, pApplicableSlots);
     }
-    //
-    //TODO:This broke, fix pls
     protected static Map<UUID,List<ItemStack>> soulboundItems = new HashMap<>();
     public static void store(LivingDropsEvent event)
     {
@@ -41,7 +39,6 @@ public class SoulboundEnchantment extends Enchantment {
                 }
             }
             //prevent the items from dropping?
-            //TODO check if this works
             drops.removeAll(items);
             soulboundItems.put(player.getUUID(),itemstacks);
         }

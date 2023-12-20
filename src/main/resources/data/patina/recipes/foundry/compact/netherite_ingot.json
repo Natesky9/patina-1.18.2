@@ -1,0 +1,13 @@
+{
+  "type": "patina:foundry",
+  "category": "foundry",
+  "input":
+  {
+    "item": "patina:netherite_nugget",
+    "count": 9
+  },
+  "output":
+  {
+    "item": "minecraft:netherite_ingot"
+  }
+}

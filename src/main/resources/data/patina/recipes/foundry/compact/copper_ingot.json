@@ -1,0 +1,13 @@
+{
+  "type": "patina:foundry",
+  "category": "foundry",
+  "input":
+  {
+    "item": "patina:copper_nugget",
+    "count": 9
+  },
+  "output":
+  {
+    "item": "minecraft:copper_ingot"
+  }
+}

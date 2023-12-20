@@ -1,0 +1,13 @@
+{
+  "type": "patina:foundry",
+  "category": "foundry",
+  "input":
+  {
+    "item": "minecraft:gold_ingot",
+    "count": 9
+  },
+  "output":
+  {
+    "item": "minecraft:gold_block"
+  }
+}

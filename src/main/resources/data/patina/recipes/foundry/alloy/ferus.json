@@ -1,16 +1,17 @@
 {
   "type": "patina:foundry",
+  "category": "foundry",
   "input":
   {
     "item": "patina:prime_glass"
   },
   "catalyst":
   {
-    "item": "minecraft:netherite_scrap"
+    "item": "minecraft:goat_horn"
   },
   "output":
   {
-    "item": "patina:fortis_glass",
+    "item": "patina:ferus_glass",
     "count": 1
   }
 }

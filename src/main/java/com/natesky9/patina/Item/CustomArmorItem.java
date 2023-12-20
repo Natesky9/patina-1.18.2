@@ -15,6 +15,8 @@ public class CustomArmorItem extends ArmorItem {
     private final Multimap<Attribute,AttributeModifier> customModifiers;
 
     public static final UUID swiftness = UUID.fromString("65497140-f35b-4f21-8fc2-fa6fa7b67ad8");
+    //TODO:these need uuids per slot
+    public static final UUID fly = UUID.fromString("473bf47c-11c8-4f82-917e-02ddc9ca1f9c");
 
     public CustomArmorItem(Type p_266831_, Properties p_40388_, Attribute attribute, AttributeModifier modifier) {
         //attributes don't matter since we're supplying our own

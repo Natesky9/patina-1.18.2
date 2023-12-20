@@ -1,12 +1,16 @@
 package com.natesky9.patina.Block.MachineTextiler;
 
+import com.natesky9.patina.ModRecipeBookType;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -16,7 +20,7 @@ import static com.natesky9.patina.Block.MachineTextiler.MachineTextilerEntity.in
 import static com.natesky9.patina.Block.MachineTextiler.MachineTextilerEntity.output;
 
 
-public class MachineTextilerMenu extends AbstractContainerMenu {
+public class MachineTextilerMenu extends RecipeBookMenu<CraftingContainer> {
     final MachineTextilerEntity blockEntity;
     final Level level;
     final ContainerData data;
@@ -68,5 +72,50 @@ public class MachineTextilerMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
+    }
+
+    @Override
+    public void fillCraftSlotsStackedContents(StackedContents p_40117_) {
+
+    }
+
+    @Override
+    public void clearCraftingContent() {
+
+    }
+
+    @Override
+    public boolean recipeMatches(RecipeHolder<? extends Recipe<CraftingContainer>> p_297792_) {
+        return false;
+    }
+
+    @Override
+    public int getResultSlotIndex() {
+        return 1;
+    }
+
+    @Override
+    public int getGridWidth() {
+        return 1;
+    }
+
+    @Override
+    public int getGridHeight() {
+        return 1;
+    }
+
+    @Override
+    public int getSize() {
+        return 1;
+    }
+
+    @Override
+    public RecipeBookType getRecipeBookType() {
+        return ModRecipeBookType.TEXTILER;
+    }
+
+    @Override
+    public boolean shouldMoveToInventory(int p_150635_) {
+        return false;
     }
 }

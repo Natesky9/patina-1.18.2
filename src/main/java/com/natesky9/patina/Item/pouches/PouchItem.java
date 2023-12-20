@@ -1,5 +1,6 @@
 package com.natesky9.patina.Item.pouches;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
@@ -8,7 +9,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public abstract class PouchItem extends Item {
     public PouchItem(Properties p_41383_) {
@@ -45,13 +45,15 @@ public abstract class PouchItem extends Item {
     }
     Item getItem(ItemStack stack)
     {
+        String string = stack.getOrCreateTag().getString("item");
         ResourceLocation location = new ResourceLocation(stack.getOrCreateTag().getString("item"));
-        Item item =  ForgeRegistries.ITEMS.getValue(location);
+        Item item = BuiltInRegistries.ITEM.get(location);
         return item;
     }
     void setItem(ItemStack stack, Item item)
     {
-        stack.getOrCreateTag().putString("item", item.toString());
+        String string = BuiltInRegistries.ITEM.getKey(item).toString();
+        stack.getOrCreateTag().putString("item", string);
     }
     int getCount(ItemStack stack)
     {

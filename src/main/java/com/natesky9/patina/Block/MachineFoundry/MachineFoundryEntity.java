@@ -149,7 +149,8 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
     private void craftItem()
     {
         ItemStack stack = recipe.get().value().getResultItem(level.registryAccess());
-        itemStackHandler.extractItem(input,1,false);
+        FoundryRecipe toCraft = recipe.get().value();
+        itemStackHandler.extractItem(input,toCraft.getInput().getCount(),false);
         itemStackHandler.extractItem(catalyst,1,false);
         itemStackHandler.insertItem(output,stack,false);
     }

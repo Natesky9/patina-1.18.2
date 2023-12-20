@@ -120,7 +120,7 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
 
     @Override
     protected int mySlotLimit(int slot) {
-        return 1;
+        return 64;
     }
 
     private boolean hasRecipe()
@@ -140,11 +140,6 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     @Override
     protected void MachineTick()
     {
-        if (hasRecipe()) {
-            //System.out.println("craft");
-            craftItem();
-        }
-
         if (!itemStackHandler.getStackInSlot(5).isEmpty())
         {
             ItemStack food = itemStackHandler.getStackInSlot(4);
@@ -156,7 +151,16 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
                 itemStackHandler.extractItem(5,1,false);
             }
         }
+        if (hasRecipe() && outputEmpty()) {
+            //System.out.println("craft");
+            craftItem();
+        }
 
+
+    }
+    boolean outputEmpty()
+    {
+        return itemStackHandler.getStackInSlot(5).isEmpty();
     }
 
     //private boolean noDuplicates()

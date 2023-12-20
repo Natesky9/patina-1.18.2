@@ -7,6 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -33,14 +34,20 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .add(Items.WHEAT);
         this.tag(ModTags.Items.SWEET)
                 .add(Items.SUGAR).add(Items.HONEYCOMB).add(Items.HONEY_BOTTLE);
-
+        this.tag(ModTags.Items.CALCIUM)
+                .add(Blocks.CALCITE.asItem())
+                .add(Blocks.BONE_BLOCK.asItem())
+                .add(Blocks.SKELETON_SKULL.asItem())
+                .add(Blocks.WITHER_SKELETON_SKULL.asItem());
         this.tag(Tags.Items.DUSTS)
                 .remove(Items.PRISMARINE_SHARD)
                 .add(ModItems.POTION_SALT.get())
                 .add(ModItems.VOID_SALT.get())
                 .add(Items.GUNPOWDER);
         this.tag(Tags.Items.SEEDS)
-                .add(Items.COCOA_BEANS).add(Items.NETHER_WART);
+                .add(Items.COCOA_BEANS).add(Items.NETHER_WART)
+                .add(Items.TORCHFLOWER_SEEDS);
         //
+
     }
 }

@@ -1,5 +1,6 @@
 {
   "type": "patina:textiler",
+  "category": "textiler",
   "input":
   {
     "item": "minecraft:rabbit_hide"
