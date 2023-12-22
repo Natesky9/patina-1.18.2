@@ -90,8 +90,8 @@ public class FoundryRecipe implements Recipe<SimpleContainer> {
     {
         final static Codec<FoundryRecipe> CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(
-                        CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("output").forGetter((getter) ->  getter.output),
-                        CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("input").forGetter((getter) -> getter.input),
+                        ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("output").forGetter((getter) ->  getter.output),
+                        ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("input").forGetter((getter) -> getter.input),
                         Ingredient.CODEC.optionalFieldOf("catalyst",Ingredient.EMPTY).forGetter((getter) -> getter.catalyst)
                 ).apply(instance, FoundryRecipe::new)
         );

@@ -1,5 +1,6 @@
 package com.natesky9.patina.Block.ApplianceConsolidator;
 
+import com.mojang.serialization.MapCodec;
 import com.natesky9.patina.MultiBlockQuad;
 import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -34,10 +35,16 @@ import java.util.List;
 public class ApplianceConsolidatorBlock extends BaseEntityBlock {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final EnumProperty<MultiBlockQuad> CORNER = EnumProperty.create("corner", MultiBlockQuad.class);
+    public static final MapCodec<ApplianceConsolidatorBlock> CODEC = simpleCodec(ApplianceConsolidatorBlock::new);
     public ApplianceConsolidatorBlock(Properties p_49795_) {
         super(p_49795_);
         this.registerDefaultState(this.getStateDefinition().any().setValue(ACTIVE,false)
                 .setValue(CORNER,MultiBlockQuad.NORTHEAST));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override

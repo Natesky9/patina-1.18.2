@@ -1,5 +1,6 @@
 package com.natesky9.patina.Block.ApplianceIcebox;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,8 +30,14 @@ import org.jetbrains.annotations.Nullable;
 public class ApplianceIceboxBlock extends BaseEntityBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final MapCodec<ApplianceIceboxBlock> CODEC = simpleCodec(ApplianceIceboxBlock::new);
     public ApplianceIceboxBlock(Properties pProperties) {
         super(pProperties);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable

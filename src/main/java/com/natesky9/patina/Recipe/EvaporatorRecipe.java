@@ -111,7 +111,7 @@ public class EvaporatorRecipe implements Recipe<SimpleContainer> {
         final Codec<EvaporatorRecipe> CODEC = RecordCodecBuilder.create((instance) ->
 
             instance.group(
-                    CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
+                    ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
                     ITEM_OR_POTION_CODEC.fieldOf("input").forGetter((getter) ->
                             getter.inputIngredient != null ? Either.left(getter.inputIngredient) : Either.right(getter.inputPotion))
             ).apply(instance, EvaporatorRecipe::new)

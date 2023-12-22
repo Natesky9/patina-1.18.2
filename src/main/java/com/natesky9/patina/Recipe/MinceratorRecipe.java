@@ -105,7 +105,7 @@ public class MinceratorRecipe implements Recipe<SimpleContainer> {
 
         Codec<MinceratorRecipe> CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(
-                        CraftingRecipeCodecs.ITEMSTACK_OBJECT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
+                        ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
                         Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(
                                 (map) ->
                                 {

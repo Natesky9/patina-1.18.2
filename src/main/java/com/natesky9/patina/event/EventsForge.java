@@ -187,7 +187,7 @@ public class EventsForge {
     @SubscribeEvent
     public static void ExplosionEvent(ExplosionEvent event)
     {
-        Entity entity = event.getExplosion().getExploder();
+        Entity entity = event.getExplosion().getIndirectSourceEntity();
         if (!(entity instanceof  Player player)) return;
         if (!(player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_DETONATION.get())))) return;
         Explosion explosion = event.getExplosion();

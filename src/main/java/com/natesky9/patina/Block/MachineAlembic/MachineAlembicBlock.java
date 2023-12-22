@@ -1,32 +1,30 @@
 package com.natesky9.patina.Block.MachineAlembic;
 
+import com.mojang.serialization.MapCodec;
 import com.natesky9.patina.Block.Template.MachineTemplateBlock;
 import com.natesky9.patina.Block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.Nullable;
 
 public class MachineAlembicBlock extends MachineTemplateBlock {
+    public static final MapCodec<MachineAlembicBlock> CODEC = simpleCodec(MachineAlembicBlock::new);
     public MachineAlembicBlock(Properties p_49224_) {
         super(p_49224_);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override

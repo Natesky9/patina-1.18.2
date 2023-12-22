@@ -82,7 +82,7 @@ public class ModBlocks {
                     .strength(1f)));
     //loom
     public static final RegistryObject<Block> MACHINE_TEXTILER = registerBlock("machine_textiler",
-            () -> new MachineTextilerBlock(BlockBehaviour.Properties.copy(Blocks.LOOM).strength(1)));
+            () -> new MachineTextilerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LOOM).strength(1)));
     //appliances
     public static final RegistryObject<Block> APPLIANCE_WARDROBE = registerBlock("appliance_wardrobe",
             () -> new ApplianceWardrobeBlock(BlockBehaviour.Properties.of()
@@ -99,7 +99,7 @@ public class ModBlocks {
     //                .strength(3f)));
     //endregion
     public static final RegistryObject<Block> PRISMATIC_ORE = registerBlock("prismatic_ore",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE).strength(3F)));
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_ORE).strength(3F)));
 
     //register block only
     public static final RegistryObject<Block> BISMUTH_ORE = BLOCKS.register("bismuth_ore",

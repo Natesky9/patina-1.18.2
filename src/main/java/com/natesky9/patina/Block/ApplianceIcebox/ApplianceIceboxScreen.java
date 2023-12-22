@@ -117,7 +117,7 @@ public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceb
                     }
 
                     if (!instance.getEffect().isInstantenous()) {
-                        String duration = StringUtil.formatTickDuration(instance.getDuration());
+                        String duration = StringUtil.formatTickDuration(instance.getDuration(),this.minecraft.level.tickRateManager().tickrate());
                         graphics.drawString(font, duration, x+p*4+20, y + yoffset + i * 16 +4, 16777215);
                     }
                     i++;

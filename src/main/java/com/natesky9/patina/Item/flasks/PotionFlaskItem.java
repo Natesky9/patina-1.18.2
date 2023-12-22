@@ -1,7 +1,5 @@
 package com.natesky9.patina.Item.flasks;
 
-import net.minecraft.Util;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -110,7 +108,7 @@ public class PotionFlaskItem extends PotionItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("sips: " + getUses(stack)));
-        PotionUtils.addPotionTooltip(stack,pTooltipComponents,1);
+        PotionUtils.addPotionTooltip(stack,pTooltipComponents,1,20);
     }
 
     @Override

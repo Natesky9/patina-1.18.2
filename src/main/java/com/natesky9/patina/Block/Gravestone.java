@@ -1,5 +1,6 @@
 package com.natesky9.patina.Block;
 
+import com.mojang.serialization.MapCodec;
 import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,8 +20,14 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Gravestone extends BaseEntityBlock {
+    public static final MapCodec<Gravestone> CODEC = simpleCodec(Gravestone::new);
     public Gravestone(Properties p_49795_) {
         super(p_49795_);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Nullable

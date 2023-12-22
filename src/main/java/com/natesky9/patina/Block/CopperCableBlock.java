@@ -1,6 +1,6 @@
 package com.natesky9.patina.Block;
 
-import net.minecraft.client.renderer.texture.Tickable;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,11 +13,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.jetbrains.annotations.Nullable;
 
 public class CopperCableBlock extends PipeBlock {
+    public static final MapCodec<CopperCableBlock> CODEC = simpleCodec(CopperCableBlock::new);
     public CopperCableBlock(Properties pProperties) {
         super(.25F, pProperties);
     }
@@ -72,5 +72,10 @@ public class CopperCableBlock extends PipeBlock {
                 pLevel.setBlock(pPos.relative(direction),neighbor.setValue(CHARGE,neighborCharge+1),2);
             }
         }
+    }
+
+    @Override
+    protected MapCodec<? extends PipeBlock> codec() {
+        return CODEC;
     }
 }
