@@ -1,15 +1,11 @@
 package com.natesky9.patina.init;
 
-import com.natesky9.patina.Patina;
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
-import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -41,13 +37,29 @@ public enum ModArmorMaterials implements ArmorMaterial {
         typeEnumMap.put(ArmorItem.Type.HELMET,4);}),
             0,SoundEvents.COPPER_PLACE,2F,0F,
             () -> {return Ingredient.of(ModItems.BISMUTH_INGOT.get());}),
+    GLASS("glass",30, Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+    {
+        typeEnumMap.put(ArmorItem.Type.BOOTS,4);
+        typeEnumMap.put(ArmorItem.Type.LEGGINGS,7);
+        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,9);
+        typeEnumMap.put(ArmorItem.Type.HELMET,4);}),
+            0,SoundEvents.AMETHYST_BLOCK_CHIME,2F,0F,
+            () -> {return Ingredient.of(ModItems.PRIME_GLASS.get());}),
     DRAGON("dragon",68,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
     {
         typeEnumMap.put(ArmorItem.Type.HELMET,6);
         typeEnumMap.put(ArmorItem.Type.CHESTPLATE,6);
         typeEnumMap.put(ArmorItem.Type.LEGGINGS,6);
         typeEnumMap.put(ArmorItem.Type.BOOTS,6);}),15,SoundEvents.ENDER_DRAGON_FLAP,2F,0.05F,
-            () -> {return Ingredient.of(ModItems.DRAGON_SCALE.get());});
+            () -> {return Ingredient.of(ModItems.DRAGON_SCALE.get());}),
+    UMBRA("umbra",9,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+    {
+        typeEnumMap.put(ArmorItem.Type.HELMET,1);
+        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,1);
+        typeEnumMap.put(ArmorItem.Type.LEGGINGS,1);
+        typeEnumMap.put(ArmorItem.Type.BOOTS,1);
+    }),25,SoundEvents.PHANTOM_FLAP,0.1f,0,
+            () -> {return Ingredient.of(ModItems.UMBRA.get());});
 
 
     //LEATHER("leather", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {

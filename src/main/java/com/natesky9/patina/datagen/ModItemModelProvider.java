@@ -113,6 +113,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.BISMUTH_INGOT);
         simpleItem(ModItems.BRONZE_INGOT);
         simpleItem(ModItems.DRAGON_SCALE);
+        simpleItem(ModItems.CLAW);
         simpleItem(ModItems.ESSENCE);
         //lighter is done through json
         simpleItem(ModItems.DUST_POUCH);

@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "patina:item/cloth_boots",
-		"particle": "patina:item/cloth_boots"
+		"0": "patina:item/aarmor_cloth_boots",
+		"particle": "patina:item/aarmor_cloth_boots"
 	},
 	"elements": [
 		{

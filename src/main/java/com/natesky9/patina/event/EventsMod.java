@@ -7,6 +7,7 @@ import com.natesky9.patina.ModRecipeBookType;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.datagen.DataGenerators;
 import com.natesky9.patina.entity.Armor.TemplateArmorModel;
+import com.natesky9.patina.entity.Armor.UmbraArmorModel;
 import com.natesky9.patina.entity.BearPrince.BearPrince;
 import com.natesky9.patina.entity.BearPrince.BearPrinceModel;
 import com.natesky9.patina.entity.BearPrince.BearPrinceRenderer;
@@ -153,6 +154,7 @@ public class EventsMod {
 
         //armor stuff
         event.registerLayerDefinition(TemplateArmorModel.LAYER_LOCATION, TemplateArmorModel::createBodyLayer);
+        event.registerLayerDefinition(UmbraArmorModel.LAYER_LOCATION, UmbraArmorModel::createBodyLayer);
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event)

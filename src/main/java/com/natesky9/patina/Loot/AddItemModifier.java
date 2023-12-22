@@ -26,14 +26,14 @@ public class AddItemModifier extends LootModifier {
      *
      * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
      */
-    protected AddItemModifier(LootItemCondition[] conditionsIn, Item item) {
+    public AddItemModifier(LootItemCondition[] conditionsIn, Item item) {
         super(conditionsIn);
         this.item = item;
     }
 
     @Override
-    protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        if (context.getRandom().nextFloat() >= .95F)
+    public @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+        //if (context.getRandom().nextFloat() >= .95F)
             generatedLoot.add(new ItemStack(item));
         return generatedLoot;
     }

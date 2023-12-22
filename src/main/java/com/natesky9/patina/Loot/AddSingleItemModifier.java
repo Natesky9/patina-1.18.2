@@ -21,19 +21,15 @@ public class AddSingleItemModifier extends LootModifier {
             () -> RecordCodecBuilder.create(instance -> codecStart(instance).and(ForgeRegistries.ITEMS.getCodec()
                     .fieldOf("item").forGetter(m -> m.item)).apply(instance, AddSingleItemModifier::new)));
     private final Item item;
-    /**
-     * Constructs a LootModifier.
-     *
-     * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
-     */
-    protected AddSingleItemModifier(LootItemCondition[] conditionsIn, Item item) {
+
+    public AddSingleItemModifier(LootItemCondition[] conditionsIn, Item item) {
         super(conditionsIn);
         this.item = item;
     }
 
     @Override
-    protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        generatedLoot.add(new ItemStack(item));
+    public @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+        generatedLoot.add(new ItemStack(this.item));
         return generatedLoot;
     }
 

@@ -1,4 +1,4 @@
-package com.natesky9.patina.entity.Armor;// Made with Blockbench 4.8.3
+package com.natesky9.patina.entity.Armor;// Made with Blockbench 4.9.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -14,11 +14,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
-public class TemplateArmorModel<T extends Entity> extends HumanoidModel<LivingEntity> {
+public class UmbraArmorModel<T extends Entity> extends HumanoidModel<LivingEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "armor_template"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "umbra_armor"), "main");
 
-	public TemplateArmorModel(ModelPart root) {
+	public UmbraArmorModel(ModelPart root) {
 		super(root);
 	}
 
@@ -43,9 +43,9 @@ public class TemplateArmorModel<T extends Entity> extends HumanoidModel<LivingEn
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
-
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		hat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

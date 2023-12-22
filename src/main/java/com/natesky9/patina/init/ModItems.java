@@ -12,6 +12,7 @@ import com.natesky9.patina.Patina;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -281,19 +282,21 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> CLOTH_BOOTS = ITEMS.register("cloth_boots",
-            () -> new CustomArmorItem(ArmorItem.Type.BOOTS,new Item.Properties(), Attributes.MOVEMENT_SPEED,
+            () -> new CustomArmorItem(ArmorMaterials.LEATHER,ArmorItem.Type.BOOTS,new Item.Properties(), Attributes.MOVEMENT_SPEED,
                     new AttributeModifier(CustomArmorItem.swiftness,"Boot speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> UMBRA_HAT = ITEMS.register("umbra_hat",
-            () -> new CustomArmorItem(ArmorItem.Type.HELMET,new Item.Properties(),Attributes.FLYING_SPEED,
-                    new AttributeModifier(CustomArmorItem.fly,"Fly speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
+            () -> new UmbraArmorItem(ArmorItem.Type.HELMET,new Item.Properties(), ForgeMod.ENTITY_GRAVITY.get(),
+                    new AttributeModifier(CustomArmorItem.gravity_head,"Gravity",-.25,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> UMBRA_TOP = ITEMS.register("umbra_top",
-            () -> new CustomArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties(),Attributes.FLYING_SPEED,
-                    new AttributeModifier(CustomArmorItem.fly,"Fly speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
+            () -> new UmbraArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties(),ForgeMod.ENTITY_GRAVITY.get(),
+                    new AttributeModifier(CustomArmorItem.gravity_body,"Gravity",-.25,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> UMBRA_BOTTOM = ITEMS.register("umbra_bottom",
-            () -> new CustomArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties(),Attributes.FLYING_SPEED,
-                    new AttributeModifier(CustomArmorItem.fly,"Fly speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
+            () -> new UmbraArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties(),ForgeMod.ENTITY_GRAVITY.get(),
+                    new AttributeModifier(CustomArmorItem.gravity_legs,"Gravity",-.25,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> MALACHITE = ITEMS.register("malachite",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> CLAW = ITEMS.register("claw",
+            () -> new ClawItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)));
     //endregion potion/ores
     //region food
     public static final RegistryObject<Item> FOOD_MEATBALLS = ITEMS.register("meatballs",

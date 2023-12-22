@@ -34,7 +34,7 @@ public class AddMinMax extends LootModifier {
      *
      * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
      */
-    protected AddMinMax(LootItemCondition[] conditionsIn, int min, int max, Item item) {
+    public AddMinMax(LootItemCondition[] conditionsIn, int min, int max, Item item) {
         super(conditionsIn);
         this.min = min;
         this.max = max;

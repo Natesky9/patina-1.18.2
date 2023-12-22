@@ -7,20 +7,16 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class ApplianceIceboxMenu extends AbstractContainerMenu {
     final Level level;
@@ -83,18 +79,6 @@ public class ApplianceIceboxMenu extends AbstractContainerMenu {
             boolean flag = moveItemStackTo(this.getSlot(pIndex).getItem(),0,19,false);
             //slot.set(ItemStack.EMPTY);
             return ItemStack.EMPTY;
-
-            //for (int i = 0;i < 20;i++)
-            //{
-            //    ItemStack inSlot = blockentity.handler.getStackInSlot(i);
-            //    if (!ItemHandlerHelper.canItemStacksStack(temp,inSlot)) continue;
-            //    inSlot.grow(1);
-            //    temp.shrink(1);
-//
-            //    break;
-            //    //temp = blockentity.handler.insertItem(i,temp,false);
-            //    //if (temp.getCount() <= 0) break;
-            //}
         }
         return ItemStack.EMPTY;
     }

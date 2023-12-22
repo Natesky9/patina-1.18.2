@@ -52,7 +52,6 @@ public class EventsForge {
 
         EssenceItem.create(event);
 
-
     }
     @SubscribeEvent
     public static void PlayerXpEvent(PlayerXpEvent.PickupXp event)
