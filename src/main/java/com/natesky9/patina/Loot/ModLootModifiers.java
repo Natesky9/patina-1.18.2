@@ -18,6 +18,8 @@ public class ModLootModifiers {
             LOOT_MODIFIER_SERIALIZERS.register("add_single_item", AddSingleItemModifier.CODEC);
     public static final RegistryObject<Codec<? extends IGlobalLootModifier>> ADD_MIN_MAX =
             LOOT_MODIFIER_SERIALIZERS.register("add_min_max", AddMinMax.CODEC);
+    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> REPLACE_ITEM =
+            LOOT_MODIFIER_SERIALIZERS.register("replace_item", ReplaceItemModifier.CODEC);
     //
     public static void register(IEventBus eventBus)
     {

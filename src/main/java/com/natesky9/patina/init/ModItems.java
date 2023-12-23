@@ -9,6 +9,7 @@ import com.natesky9.patina.Item.pouches.GemPouchItem;
 import com.natesky9.patina.Item.pouches.LighterItem;
 import com.natesky9.patina.Item.pouches.SeedPouchItem;
 import com.natesky9.patina.Patina;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
@@ -185,13 +186,20 @@ public class ModItems {
     //endregion bronze
     //region dragon
     public static final RegistryObject<Item> DRAGON_HELMET = ITEMS.register("dragon_helmet",
-            () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties()));
+            () -> new CustomArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties(),
+                    Attributes.MAX_HEALTH,new AttributeModifier(CustomArmorItem.health_head,
+                    "Health",2, AttributeModifier.Operation.ADDITION)));
     public static final RegistryObject<Item> DRAGON_CHESTPLATE = ITEMS.register("dragon_chestplate",
-            () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.CHESTPLATE,new Item.Properties()));
+            () -> new CustomArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.CHESTPLATE,new Item.Properties(),
+                    Attributes.MAX_HEALTH,new AttributeModifier(CustomArmorItem.health_body,
+                    "Health",2, AttributeModifier.Operation.ADDITION)));
     public static final RegistryObject<Item> DRAGON_LEGGINGS = ITEMS.register("dragon_leggings",
-            () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.LEGGINGS,new Item.Properties()));
-    public static final RegistryObject<Item> DRAGON_BOOTS = ITEMS.register("dragon_boots",
-            () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.BOOTS,new Item.Properties()));
+            () -> new CustomArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.LEGGINGS,new Item.Properties(),
+                    Attributes.MAX_HEALTH,new AttributeModifier(CustomArmorItem.health_legs,
+                    "Health",2, AttributeModifier.Operation.ADDITION)));
+    //the world doesn't deserve dragon boots
+    //public static final RegistryObject<Item> DRAGON_BOOTS = ITEMS.register("dragon_boots",
+    //        () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.BOOTS,new Item.Properties()));
 
     //endregion dragon
     //region charms
@@ -283,20 +291,36 @@ public class ModItems {
 
     public static final RegistryObject<Item> CLOTH_BOOTS = ITEMS.register("cloth_boots",
             () -> new CustomArmorItem(ArmorMaterials.LEATHER,ArmorItem.Type.BOOTS,new Item.Properties(), Attributes.MOVEMENT_SPEED,
-                    new AttributeModifier(CustomArmorItem.swiftness,"Boot speed",.1,AttributeModifier.Operation.MULTIPLY_BASE)));
+                    new AttributeModifier(CustomArmorItem.swiftness,
+                            "Boot speed", .1,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> UMBRA_HAT = ITEMS.register("umbra_hat",
             () -> new UmbraArmorItem(ArmorItem.Type.HELMET,new Item.Properties(), ForgeMod.ENTITY_GRAVITY.get(),
-                    new AttributeModifier(CustomArmorItem.gravity_head,"Gravity",-.25,AttributeModifier.Operation.MULTIPLY_BASE)));
+                    new AttributeModifier(CustomArmorItem.gravity_head,
+                            "Gravity", -.25,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> UMBRA_TOP = ITEMS.register("umbra_top",
             () -> new UmbraArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties(),ForgeMod.ENTITY_GRAVITY.get(),
-                    new AttributeModifier(CustomArmorItem.gravity_body,"Gravity",-.25,AttributeModifier.Operation.MULTIPLY_BASE)));
+                    new AttributeModifier(CustomArmorItem.gravity_body,
+                            "Gravity", -.25,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> UMBRA_BOTTOM = ITEMS.register("umbra_bottom",
             () -> new UmbraArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties(),ForgeMod.ENTITY_GRAVITY.get(),
-                    new AttributeModifier(CustomArmorItem.gravity_legs,"Gravity",-.25,AttributeModifier.Operation.MULTIPLY_BASE)));
+                    new AttributeModifier(CustomArmorItem.gravity_legs,
+                            "Gravity", -.25,AttributeModifier.Operation.MULTIPLY_BASE)));
     public static final RegistryObject<Item> MALACHITE = ITEMS.register("malachite",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> CLAW = ITEMS.register("claw",
-            () -> new ClawItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)));
+            () -> new ClawItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1),
+                    EquipmentSlot.OFFHAND,ForgeMod.BLOCK_REACH.get(),new AttributeModifier(ClawItem.block_reach,
+                    "Block reach",1, AttributeModifier.Operation.ADDITION)));
+    public static final RegistryObject<Item> COPPER_CLAW = ITEMS.register("copper_claw",
+            () -> new ClawItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1),
+                    EquipmentSlot.OFFHAND,ForgeMod.BLOCK_REACH.get(),new AttributeModifier(ClawItem.block_reach,
+                    "Block reach",2,AttributeModifier.Operation.ADDITION)));
+    public static final RegistryObject<Item> DRAGON_CLAW = ITEMS.register("dragon_claw",
+            () -> new ClawItem(new Item.Properties().rarity(Rarity.RARE).stacksTo(1),
+                    EquipmentSlot.OFFHAND,ForgeMod.ENTITY_REACH.get(),new AttributeModifier(ClawItem.entity_reach,
+                    "Entity reach",2,AttributeModifier.Operation.ADDITION),
+                    Attributes.ATTACK_DAMAGE,new AttributeModifier(ClawItem.strength,
+                    "Strength",1,AttributeModifier.Operation.ADDITION)));
     //endregion potion/ores
     //region food
     public static final RegistryObject<Item> FOOD_MEATBALLS = ITEMS.register("meatballs",

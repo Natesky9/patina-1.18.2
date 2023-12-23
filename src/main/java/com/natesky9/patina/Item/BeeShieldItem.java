@@ -57,9 +57,10 @@ public class BeeShieldItem extends ShieldItem {
             stack.getOrCreateTag().putInt("stored",stored-1);
             Bee bee = EntityType.BEE.spawn(level,player.blockPosition(), MobSpawnType.REINFORCEMENT);
             bee.setPersistentAngerTarget(entity.getUUID());
+            bee.setAggressive(true);
             bee.startPersistentAngerTimer();
             bee.moveRelative(1,player.getLookAngle());
-
+            //add a return to shield goal
         }
     }
 

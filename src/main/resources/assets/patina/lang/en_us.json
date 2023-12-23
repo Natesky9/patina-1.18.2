@@ -17,6 +17,13 @@
   "item.patina.pig_weapon": "Pig Weapon",
   "item.patina.piglin_ballista": "Piglin Ballista",
 
+  "item.patina.wither_fragment_1": "W 1/4",
+  "item.patina.wither_fragment_2": "W 2/4",
+  "item.patina.wither_fragment_3": "W 3/4",
+  "item.patina.wither_fragment_4": "W 4/4",
+  "item.patina.wither_fragment_a": "W half 1",
+  "item.patina.wither_fragment_b": "W half 2",
+
   "item.patina.copper_sword": "Copper Sword",
   "item.patina.copper_axe": "Copper Axe",
   "item.patina.copper_shovel": "Copper Shovel",
@@ -92,6 +99,8 @@
   "item.patina.umbra_top": "Umbral Top",
   "item.patina.umbra_bottom": "Umbral Bottom",
   "item.patina.claw": "Crab Claw",
+  "item.patina.copper_claw": "Copper Claw",
+  "item.patina.dragon_claw": "Dragon Claw",
 
   "item.patina.essence": "Essence",
   "item.patina.lighter": "Strange Device",

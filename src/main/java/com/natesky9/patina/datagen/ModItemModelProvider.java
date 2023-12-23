@@ -114,6 +114,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.BRONZE_INGOT);
         simpleItem(ModItems.DRAGON_SCALE);
         simpleItem(ModItems.CLAW);
+        simpleItem(ModItems.COPPER_CLAW);
+        simpleItem(ModItems.DRAGON_CLAW);
         simpleItem(ModItems.ESSENCE);
         //lighter is done through json
         simpleItem(ModItems.DUST_POUCH);
@@ -183,7 +185,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.DRAGON_HELMET);
         simpleItem(ModItems.DRAGON_CHESTPLATE);
         simpleItem(ModItems.DRAGON_LEGGINGS);
-        simpleItem(ModItems.DRAGON_BOOTS);
+        //simpleItem(ModItems.DRAGON_BOOTS);
         //endregion dragon
         withExistingParent(ModBlocks.CHORUS_CABLE.getId().getPath(),modLoc("block/chorus_cable"+"_inventory"));
         withExistingParent(ModBlocks.CHARGE_CABLE.getId().getPath(),modLoc("block/charge_cable"+"_inventory"));

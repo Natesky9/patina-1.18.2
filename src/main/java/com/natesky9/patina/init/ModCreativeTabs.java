@@ -25,6 +25,9 @@ public class ModCreativeTabs {
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.main_tab"))
                     .icon(Items.COPPER_INGOT::getDefaultInstance)
+                    .withTabsAfter(ModCreativeTabs.TOOL_TAB.getId(),
+                            ModCreativeTabs.MACHINE_TAB.getId(),
+                            ModCreativeTabs.POTION_TAB.getId())
                     .displayItems((params, output) ->
                     {
                         for (RegistryObject<Item> item: ModItems.ITEMS.getEntries())
@@ -47,6 +50,10 @@ public class ModCreativeTabs {
                         output.accept(ModItems.PIG_SWORD.get());
                         output.accept(ModItems.WITHER_STAFF.get());
                         output.accept(ModItems.WITHER_WINGS.get());
+
+                        output.accept(ModItems.CLAW.get());
+                        output.accept(ModItems.COPPER_CLAW.get());
+                        output.accept(ModItems.DRAGON_CLAW.get());
 
                         output.accept(ModItems.BRONZE_HELMET.get());
                         output.accept(ModItems.BRONZE_CHESTPLATE.get());
@@ -71,7 +78,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.DRAGON_HELMET.get());
                         output.accept(ModItems.DRAGON_CHESTPLATE.get());
                         output.accept(ModItems.DRAGON_LEGGINGS.get());
-                        output.accept(ModItems.DRAGON_BOOTS.get());
+                        //output.accept(ModItems.DRAGON_BOOTS.get());
 
                         output.accept(ModItems.CLOTH_BOOTS.get());
                         output.accept(ModItems.UMBRA_HAT.get());

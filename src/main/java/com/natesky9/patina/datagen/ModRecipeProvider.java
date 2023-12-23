@@ -417,12 +417,24 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("ICI").pattern("I I").pattern("I I")
                 .unlockedBy("has_bronze",hasDragon)
                 .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_BOOTS.get())
-                .define('I', ModItems.DRAGON_SCALE.get())
-                .define('C', Items.CHAINMAIL_BOOTS)
-                .pattern("ICI").pattern("I I")
-                .unlockedBy("has_bronze",hasDragon)
-                .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_BOOTS.get())
+        //        .define('I', ModItems.DRAGON_SCALE.get())
+        //        .define('C', Items.CHAINMAIL_BOOTS)
+        //        .pattern("ICI").pattern("I I")
+        //        .unlockedBy("has_bronze",hasDragon)
+        //        .save(pWriter);
         //endregion dragon
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.COPPER_CLAW.get())
+                .define('A',ModItems.CLAW.get())
+                .define('B',Items.COPPER_INGOT)
+                .define('C',ModItems.COPPER_NUGGET.get())
+                .pattern("CBC").pattern("BAB").pattern(" BC")
+                .unlockedBy("has_claw",has(ModItems.CLAW.get()))
+                .save(pWriter);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS,ModItems.DRAGON_CLAW.get())
+                .requires(ModItems.COPPER_CLAW.get())
+                .requires(ModItems.DRAGON_SCALE.get())
+                .unlockedBy("has_copper_claw",has(ModItems.COPPER_CLAW.get()))
+                .save(pWriter);
     }
 }
