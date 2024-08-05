@@ -16,8 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
-import static com.natesky9.patina.Block.MachineTextiler.MachineTextilerEntity.input;
-import static com.natesky9.patina.Block.MachineTextiler.MachineTextilerEntity.output;
+import static com.natesky9.patina.Block.MachineTextiler.MachineTextilerEntity.*;
 
 
 public class MachineTextilerMenu extends RecipeBookMenu<CraftingContainer> {
@@ -41,7 +40,16 @@ public class MachineTextilerMenu extends RecipeBookMenu<CraftingContainer> {
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER,null).ifPresent(
                 handler ->
                 {
-                    this.addSlot(new SlotItemHandler(handler, input,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input1,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input2,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input3,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input4,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input5,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input5,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input6,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input7,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input8,28,34));
+                    this.addSlot(new SlotItemHandler(handler, input9,28,34));
                     this.addSlot(new SlotItemHandler(handler, output, 116,35));
                 }
         );
@@ -91,22 +99,22 @@ public class MachineTextilerMenu extends RecipeBookMenu<CraftingContainer> {
 
     @Override
     public int getResultSlotIndex() {
-        return 1;
+        return output;
     }
 
     @Override
     public int getGridWidth() {
-        return 1;
+        return 3;
     }
 
     @Override
     public int getGridHeight() {
-        return 1;
+        return 3;
     }
 
     @Override
     public int getSize() {
-        return 1;
+        return 9;
     }
 
     @Override

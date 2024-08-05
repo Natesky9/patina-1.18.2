@@ -1,9 +1,12 @@
 package com.natesky9.patina.datagen;
 
+import com.natesky9.patina.Patina;
+import com.natesky9.patina.Recipe.TextilerRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.NonNullList;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.data.recipes.packs.BundleRecipeProvider;
@@ -13,6 +16,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
@@ -25,28 +29,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         super(output);
     }
 
-    private void smithingTable(Item result,Item template,Item item1, Item item2, RecipeOutput pWriter)
-    {
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(template),
-                        Ingredient.of(item1),
-                        Ingredient.of(item2),
-                        RecipeCategory.MISC, result)
-                .unlocks(item1.getDescriptionId(),has(item1))
-                .unlocks(item2.getDescriptionId(),has(item2))
-                .save(pWriter,result.getDescriptionId());
-    }
-    private void charmCrafting(Item result, Item catalyst, Criterion<?> criteria, RecipeOutput pWriter)
-    {
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.CHARM_FRAGMENT.get()),
-                        Ingredient.of(catalyst),
-                        Ingredient.of(ModItems.CHARM_FRAGMENT.get()),
-                        RecipeCategory.MISC, result)
-                .unlocks(result.getDescriptionId() + "criteria",criteria)
-                .save(pWriter,result.getDescriptionId());
-    }
-
     @Override
     public void buildRecipes(@NotNull RecipeOutput pWriter) {
+        pWriter.accept(new ResourceLocation(Patina.MODID,"textiler/silk"),
+                new TextilerRecipe(new ItemStack(ModItems.SILK.get()), NonNullList.withSize(9,Ingredient.of(Items.STRING))),
+                ModAdvancementGenerator.loom);
         //region fragment weapons
         smithingTable(ModItems.PIG_FRAGMENT_A.get(),
                 ModItems.CHARM_FRAGMENT.get(), ModItems.PIG_FRAGMENT_1.get(), ModItems.PIG_FRAGMENT_2.get()
@@ -113,28 +100,47 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         charmCrafting(ModItems.CHARM_EXPERIENCE.get(),Items.EXPERIENCE_BOTTLE,experience_criteria,pWriter);
         charmCrafting(Items.TOTEM_OF_UNDYING,ModItems.CHARM_FRAGMENT.get(),vanilla_totem,pWriter);
         //endregion charms
+        //region armor
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.CLOTH_BOOTS.get())
             .define('A',ModItems.SILK.get())
             .pattern("A A").pattern("A A")
-            .unlockedBy("unlocked_silk",has(ModItems.SILK.get()))
+            .unlockedBy("unlocked_silk",ModAdvancementGenerator.textilerCriteria)
             .save(pWriter);
         //umbral
-        Criterion<InventoryChangeTrigger.TriggerInstance> hasUmbral = has(ModItems.UMBRA.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_HAT.get())
                 .define('A',ModItems.UMBRA.get())
                 .pattern("AAA").pattern("A A")
-                .unlockedBy("unlocked_umbra", hasUmbral)
+                .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_TOP.get())
                 .define('A',ModItems.UMBRA.get())
                 .pattern("A A").pattern("AAA").pattern("AAA")
-                .unlockedBy("unlocked_umbra", hasUmbral)
+                .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_BOTTOM.get())
                 .define('A',ModItems.UMBRA.get())
                 .pattern("AAA").pattern("A A").pattern("A A")
-                .unlockedBy("unlocked_umbra", hasUmbral)
+                .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
                 .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_HELMET.get())
+                .define('I', ModItems.DRAGON_SCALE.get())
+                .define('C', Items.CHAINMAIL_HELMET)
+                .pattern("ICI").pattern("I I")
+                .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_CHESTPLATE.get())
+                .define('I', ModItems.DRAGON_SCALE.get())
+                .define('C', Items.CHAINMAIL_CHESTPLATE)
+                .pattern("I I").pattern("ICI").pattern("III")
+                .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
+                .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_LEGGINGS.get())
+                .define('I', ModItems.DRAGON_SCALE.get())
+                .define('C', Items.CHAINMAIL_LEGGINGS)
+                .pattern("ICI").pattern("I I").pattern("I I")
+                .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
+                .save(pWriter);
+        //endregion armor
         //temporary recipes
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.VOID_SALT.get())
                 .requires(ModItems.POTION_SALT.get(),9)
@@ -142,30 +148,29 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.BISMUTH_NUGGET.get(),RecipeCategory.MISC,ModItems.BISMUTH_INGOT.get());
         //region flasks
 
-        Criterion<InventoryChangeTrigger.TriggerInstance> glass = has(ModItems.PRIME_GLASS.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.POTION_FLASK.get())
                 .define('P', ModItems.PRIME_GLASS.get())
                 .define('C', ModItems.COPPER_NUGGET.get())
                 .pattern(" C ").pattern("P P").pattern(" P ")
-                .unlockedBy("prime_flask",glass)
+                .unlockedBy("prime_flask",ModAdvancementGenerator.brewed)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.VITA_FLASK.get())
                 .define('P', ModItems.ANIMA_GLASS.get())
                 .define('C', ModItems.COPPER_NUGGET.get())
                 .pattern(" C ").pattern("P P").pattern(" P ")
-                .unlockedBy("vita_flask",glass)
+                .unlockedBy("vita_flask",ModAdvancementGenerator.brewed)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.IMPETUS_FLASK.get())
                 .define('P', ModItems.FERUS_GLASS.get())
                 .define('C', ModItems.COPPER_NUGGET.get())
                 .pattern(" C ").pattern("P P").pattern(" P ")
-                .unlockedBy("impetus_flask",glass)
+                .unlockedBy("impetus_flask",ModAdvancementGenerator.brewed)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.MAGNA_FLASK.get())
                 .define('P', ModItems.FORTIS_GLASS.get())
                 .define('C', ModItems.COPPER_NUGGET.get())
                 .pattern(" C ").pattern("P P").pattern(" P ")
-                .unlockedBy("fortis_flask",glass)
+                .unlockedBy("fortis_flask",ModAdvancementGenerator.brewed)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.SEED_POUCH.get())
                 .define('A', Items.LEATHER)
@@ -221,7 +226,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("BCB")
                 .pattern("BAB")
                 .pattern("BBB")
-                .unlockedBy("unlocked_foundry",has(Items.NETHER_BRICK))
+                .unlockedBy("unlocked_foundry",ModAdvancementGenerator.foundryCriteria)
                 .save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.MACHINE_ALEMBIC.get())
@@ -229,7 +234,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('A', ModItems.PRIME_GLASS.get())
                 .define('B', Items.BREWING_STAND)
                 .define('C', Items.CUT_COPPER_SLAB)
-                .unlockedBy("unlock_alembic", BrewedPotionTrigger.TriggerInstance.brewedPotion())
+                .unlockedBy("unlock_alembic", ModAdvancementGenerator.brewed)
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.ADDON_ALEMBIC.get())
                 .pattern("GIP").pattern("IBI").pattern("I I")
@@ -397,33 +402,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_bronze",hasBronze)
                 .save(pWriter);
         //endregion bronze
-        //region dragon
-        Criterion<InventoryChangeTrigger.TriggerInstance> hasDragon = has(ModItems.DRAGON_SCALE.get());
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_HELMET.get())
-                .define('I', ModItems.DRAGON_SCALE.get())
-                .define('C', Items.CHAINMAIL_HELMET)
-                .pattern("ICI").pattern("I I")
-                .unlockedBy("has_bronze",hasDragon)
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_CHESTPLATE.get())
-                .define('I', ModItems.DRAGON_SCALE.get())
-                .define('C', Items.CHAINMAIL_CHESTPLATE)
-                .pattern("I I").pattern("ICI").pattern("III")
-                .unlockedBy("has_bronze",hasDragon)
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_LEGGINGS.get())
-                .define('I', ModItems.DRAGON_SCALE.get())
-                .define('C', Items.CHAINMAIL_LEGGINGS)
-                .pattern("ICI").pattern("I I").pattern("I I")
-                .unlockedBy("has_bronze",hasDragon)
-                .save(pWriter);
         //ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_BOOTS.get())
         //        .define('I', ModItems.DRAGON_SCALE.get())
         //        .define('C', Items.CHAINMAIL_BOOTS)
         //        .pattern("ICI").pattern("I I")
         //        .unlockedBy("has_bronze",hasDragon)
         //        .save(pWriter);
-        //endregion dragon
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.COPPER_CLAW.get())
                 .define('A',ModItems.CLAW.get())
                 .define('B',Items.COPPER_INGOT)
@@ -436,5 +420,25 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(ModItems.DRAGON_SCALE.get())
                 .unlockedBy("has_copper_claw",has(ModItems.COPPER_CLAW.get()))
                 .save(pWriter);
+    }
+
+    private void smithingTable(Item result,Item template,Item item1, Item item2, RecipeOutput pWriter)
+    {
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(template),
+                        Ingredient.of(item1),
+                        Ingredient.of(item2),
+                        RecipeCategory.MISC, result)
+                .unlocks(item1.getDescriptionId(),has(item1))
+                .unlocks(item2.getDescriptionId(),has(item2))
+                .save(pWriter,result.getDescriptionId());
+    }
+    private void charmCrafting(Item result, Item catalyst, Criterion<?> criteria, RecipeOutput pWriter)
+    {
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(ModItems.CHARM_FRAGMENT.get()),
+                        Ingredient.of(catalyst),
+                        Ingredient.of(ModItems.CHARM_FRAGMENT.get()),
+                        RecipeCategory.MISC, result)
+                .unlocks(result.getDescriptionId() + "criteria",criteria)
+                .save(pWriter,result.getDescriptionId());
     }
 }

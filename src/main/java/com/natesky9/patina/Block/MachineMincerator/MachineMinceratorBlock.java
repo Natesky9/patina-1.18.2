@@ -26,6 +26,7 @@ public class MachineMinceratorBlock extends MachineTemplateBlock
     public BlockEntityType<MachineMinceratorEntity> getBlockEntityType()
     {return ModBlockEntities.MACHINE_MINCERATOR_ENTITY.get();}
 
+
     //Block Entity stuff
     @Nullable
     @Override

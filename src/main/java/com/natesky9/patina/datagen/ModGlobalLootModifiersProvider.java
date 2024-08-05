@@ -53,8 +53,11 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         },ModItems.WITHER_FRAGMENT_4.get()));
         //endregion wither fragments
         //region bee fragments
+        //TODO add an inverted silk touch predicate
         add("add_bee_fragment_1", new AddItemModifier(new LootItemCondition[]{
-                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.BEE_NEST).build()
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.BEE_NEST)
+                        .invert()
+                        .build()
         },ModItems.BEE_FRAGMENT_1.get(),.1f));
         add("add_bee_fragment_2", new AddItemModifier(new LootItemCondition[]{
                 LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS,
@@ -93,7 +96,6 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
                         .build()
         },ModItems.PIG_FRAGMENT_4.get(), .1f));
         //endregion pig fragments
-
 
         add("turtle_shell_from_turtle",new AddSingleItemModifier(new LootItemCondition[]{
                 LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS,

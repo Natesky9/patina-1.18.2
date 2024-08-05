@@ -8,6 +8,7 @@ import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class DataGenerators {
@@ -18,6 +19,8 @@ public class DataGenerators {
         ExistingFileHelper helper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
+        generator.addProvider(true, new ModAdvancementProvider(packOutput,lookupProvider,helper,
+                List.of(new ModAdvancementGenerator())));
         generator.addProvider(true, new ModRecipeProvider(packOutput));
         generator.addProvider(true, ModLootTableProvider.create(packOutput));
         generator.addProvider(event.includeServer(), new ModGlobalLootModifiersProvider(packOutput));

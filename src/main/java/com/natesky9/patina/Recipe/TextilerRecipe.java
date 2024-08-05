@@ -1,6 +1,7 @@
 package com.natesky9.patina.Recipe;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.natesky9.patina.init.ModRecipeSerializers;
 import com.natesky9.patina.init.ModRecipeTypes;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class TextilerRecipe implements Recipe<SimpleContainer> {
@@ -21,26 +23,30 @@ public class TextilerRecipe implements Recipe<SimpleContainer> {
     private final RecipeType<?> type = ModRecipeTypes.TEXTILER_RECIPE_TYPE.get();
     private final RecipeSerializer<?> serializer = ModRecipeSerializers.TEXTILER_SERIALIZER.get();
 
-    final Ingredient input;
+    final NonNullList<Ingredient> inputs;
     final ItemStack output;
     //
-    public TextilerRecipe(ItemStack output, Ingredient input)
+    public TextilerRecipe(ItemStack output, NonNullList<Ingredient> inputs)
     {
         this.output = output;
-        this.input = input;
+        this.inputs = inputs;
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
-        return NonNullList.of(Ingredient.EMPTY,input);
+    public @NotNull NonNullList<Ingredient> getIngredients() {
+        return inputs;
     }
 
     //
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        boolean first = input.test(pContainer.getItem(0));
-        if (first) assemble(pContainer,pLevel.registryAccess());
-        return first;
+        for (int i=0;i < inputs.size(); i++)
+        {
+            boolean match = inputs.get(i).test(pContainer.getItem(i));
+            if (!match) return false;
+        }
+        assemble(pContainer,pLevel.registryAccess());
+        return true;
     }
 
     @Override
@@ -73,7 +79,14 @@ public class TextilerRecipe implements Recipe<SimpleContainer> {
         final static Codec<TextilerRecipe> CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(
                         ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
-                        Ingredient.CODEC.fieldOf("input").forGetter((getter) -> getter.input)
+                        Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(
+                                (map) ->
+                                {
+                                    NonNullList<Ingredient> list = NonNullList.create();
+                                    list.addAll(map);
+                                    return DataResult.success(list);
+                                }, DataResult::success).forGetter((getter) -> getter.inputs
+                        )
                 ).apply(instance, TextilerRecipe::new)
         );
 
@@ -84,14 +97,23 @@ public class TextilerRecipe implements Recipe<SimpleContainer> {
 
         @Override
         public @Nullable TextilerRecipe fromNetwork(FriendlyByteBuf buffer) {
-            Ingredient input = Ingredient.fromNetwork(buffer);
+            int size = buffer.readInt();
+            NonNullList<Ingredient> list = NonNullList.create();
+            for (int i = 0;i < size;i++)
+            {
+                list.add(Ingredient.fromNetwork(buffer));
+            }
             ItemStack output = buffer.readItem();
-            return new TextilerRecipe(output, input);
+            return new TextilerRecipe(output, list);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, TextilerRecipe recipe) {
-            recipe.input.toNetwork(buffer);
+            buffer.writeInt(recipe.inputs.size());
+            for (Ingredient ingredient: recipe.getIngredients())
+            {
+                ingredient.toNetwork(buffer);
+            }
             buffer.writeItemStack(recipe.output,false);
         }
     }
