@@ -26,7 +26,10 @@ public class Patina
         ModBlocks.register(eventBus);
         ModBlockEntities.register(eventBus);
         ModMenuTypes.register(eventBus);
-        ModEnchantments.register(eventBus);
+        //enchantments are data driven since 1.21
+        //ModEnchantments.register(eventBus);
+        //TODO
+        //so where do I do this? ModEnchantments::bootstrap;
         ModLootModifiers.register(eventBus);
         ModPotions.register(eventBus);
         ModPaintings.register(eventBus);

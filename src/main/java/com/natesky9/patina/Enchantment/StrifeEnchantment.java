@@ -1,35 +1,36 @@
-package com.natesky9.patina.Enchantment;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-
-public class StrifeEnchantment extends Enchantment {
-    public StrifeEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
-        super(pRarity, pCategory, pApplicableSlots);
-    }
-    @Override
-    public Component getFullname(int pLevel) {
-        return Component.translatable(this.getDescriptionId()).append(" WIP").withStyle(ChatFormatting.DARK_PURPLE);
-    }
-    @Override
-    public boolean isTradeable() {
-        return false;
-    }
-
-    @Override
-    public boolean isTreasureOnly() {
-        return true;
-    }
-
-    @Override
-    public boolean isDiscoverable() {
-        return false;
-    }
-    @Override
-    protected boolean checkCompatibility(Enchantment pOther) {
-        return !pOther.isCurse();
-    }
-}
+//package com.natesky9.patina.Enchantment;
+//
+//import net.minecraft.ChatFormatting;
+//import net.minecraft.network.chat.Component;
+//import net.minecraft.world.entity.EquipmentSlot;
+//import net.minecraft.world.item.enchantment.Enchantment;
+//import net.minecraft.world.item.enchantment.EnchantmentCategory;
+//
+//public class StrifeEnchantment extends Enchantment {
+//    public StrifeEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
+//        super(pRarity, pCategory, pApplicableSlots);
+//    }
+//    @Override
+//    public Component getFullname(int pLevel) {
+//        return Component.translatable(this.getDescriptionId()).append(" WIP").withStyle(ChatFormatting.DARK_PURPLE);
+//    }
+//    @Override
+//    public boolean isTradeable() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isTreasureOnly() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isDiscoverable() {
+//        return false;
+//    }
+//    @Override
+//    protected boolean checkCompatibility(Enchantment pOther) {
+//        return !pOther.isCurse();
+//    }
+//}
+//

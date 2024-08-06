@@ -5,7 +5,6 @@ import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -18,25 +17,16 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class MachineAlembicEntity extends MachineTemplateEntity {
     final int inputPotion = 0;
@@ -50,6 +40,7 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
     public Item reagent;
     public static final int dataSlots = 5;
     public static final int slots = 3;
+    public final PotionBrewing brewing;
 
     static List<Direction> horizontal = new ArrayList<>();
     static {
@@ -70,15 +61,17 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
         this.fuel = 0;
         this.leftover = 0;
         this.reagent = Items.AIR;
+        //level should never be null
+        brewing = level.potionBrewing();
     }
 
     @Override
     protected boolean mySlotValid(int slot, @NotNull ItemStack stack) {
         return switch (slot)
         {
-            case inputPotion -> BrewingRecipeRegistry.hasOutput(stack,new ItemStack(reagent))
-                    || reagent == Items.AIR && BrewingRecipeRegistry.isValidInput(stack);
-            case inputIngredient -> BrewingRecipeRegistry.isValidIngredient(stack);
+            case inputPotion -> brewing.hasMix(stack,new ItemStack(reagent))
+                    || reagent == Items.AIR && brewing.isValidInput(stack);
+            case inputIngredient -> brewing.isIngredient(stack);
             case inputFuel -> stack.is(Items.BLAZE_POWDER);
             default -> false;
         };
@@ -151,7 +144,7 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
     protected void MachineTick() {
         if (!(level instanceof ServerLevel)) return;
         ItemStack ingredient = itemStackHandler.getStackInSlot(inputIngredient);
-        if (leftover < 1 && BrewingRecipeRegistry.isValidIngredient(ingredient))
+        if (leftover < 1 && brewing.isIngredient(ingredient))
         {//refil the reagent
             reagent = ingredient.getItem();
             if (ingredient.hasCraftingRemainingItem())
@@ -165,13 +158,13 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
         }
         ItemStack potion = itemStackHandler.getStackInSlot(inputPotion);
         ItemStack addition = new ItemStack(reagent);
-        if (BrewingRecipeRegistry.hasOutput(potion, addition) && leftover > 0)
+        if (brewing.hasMix(potion, addition) && leftover > 0)
         {//craft the potion
             progress++;
             if (progress >= progressMax)
             {
                 //do the actual crafting
-                itemStackHandler.setStackInSlot(inputPotion, BrewingRecipeRegistry.getOutput(potion, addition));
+                itemStackHandler.setStackInSlot(inputPotion, brewing.mix(potion, addition));
                 leftover--;
                 //trigger the addons randomly
                 int delay = 0;

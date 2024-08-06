@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures":
+  {
+    "layer0": "patina:item/animated/magna_flask",
+    "layer1": "patina:item/animated/magna_fluid_1"
+  }
+}

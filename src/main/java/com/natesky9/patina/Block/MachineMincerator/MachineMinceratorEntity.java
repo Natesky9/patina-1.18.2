@@ -6,17 +6,18 @@ import com.natesky9.patina.Recipe.MinceratorRecipe;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -25,6 +26,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,18 +79,19 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
 
     private Optional<MinceratorRecipe> getRecipe()
     {
-        SimpleContainer inventory = new SimpleContainer(this.itemStackHandler.getSlots());
+        List<ItemStack> inventory = new ArrayList<>();
         for (int i = 0; i < this.itemStackHandler.getSlots(); i++)
         {
-            inventory.setItem(i,this.itemStackHandler.getStackInSlot(i));
+            inventory.add(this.itemStackHandler.getStackInSlot(i));
         }
+        RecipeInput input = CraftingInput.of(2,2,inventory);
         //
             RecipeManager manager = level.getRecipeManager();
             Optional<MinceratorRecipe> winner = Optional.empty();
             List<RecipeHolder<MinceratorRecipe>> recipes = manager.getAllRecipesFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get());
             for (RecipeHolder<MinceratorRecipe> recipe: recipes)
             {
-                boolean fits = recipe.value().matches(inventory, level);
+                boolean fits = recipe.value().matches(input, level);
                 if (fits) winner = Optional.of(recipe.value());
             }
             return winner;
@@ -100,11 +103,10 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     @Override
     protected void myContentsChanged()
     {
-        SimpleContainer container = new SimpleContainer(
-                itemStackHandler.getStackInSlot(0),itemStackHandler.getStackInSlot(1),
-                itemStackHandler.getStackInSlot(2),itemStackHandler.getStackInSlot(3));
+        CraftingInput input = CraftingInput.of(2,2,List.of(itemStackHandler.getStackInSlot(0),itemStackHandler.getStackInSlot(1),
+                itemStackHandler.getStackInSlot(2),itemStackHandler.getStackInSlot(3)));
         Optional<RecipeHolder<MinceratorRecipe>> tempRecipe = recipe;
-        recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get(), container, level);
+        recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get(), input, level);
         if (!hasRecipe())
         {
             recipe = Optional.empty();
@@ -146,8 +148,8 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
             ItemStack augment = itemStackHandler.getStackInSlot(5);
             if (augment.getItem() instanceof PotionSaltItem)
             {
-                if (PotionUtils.getPotion(food) == PotionUtils.getPotion(augment)) return;
-                PotionUtils.setPotion(food,PotionUtils.getPotion(augment));
+                if (food.get(DataComponents.POTION_CONTENTS) == augment.get(DataComponents.POTION_CONTENTS)) return;
+                food.set(DataComponents.POTION_CONTENTS,augment.get(DataComponents.POTION_CONTENTS));
                 itemStackHandler.extractItem(5,1,false);
             }
         }

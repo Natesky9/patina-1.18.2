@@ -1,6 +1,10 @@
 package com.natesky9.patina.init;
 
 import net.minecraft.Util;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
@@ -10,56 +14,101 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.function.Supplier;
 
-public enum ModArmorMaterials implements ArmorMaterial {
-        //name =
-        //durabilityMultiplier
-        //protectionFunctionForType
-        //enchantmentValue
-        //sound
-        //toughness
-        //knockbackResistance
-        //repairIngredient
-    COPPER("copper",10, Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+import static net.minecraft.world.item.ArmorItem.Type.*;
+
+
+public class ModArmorMaterials {
+    //protection enum maps
+    private static final EnumMap<ArmorItem.Type, Integer> simple = Util.make(new EnumMap<>(ArmorItem.Type.class), value -> {
+        value.put(HELMET,1);
+        value.put(CHESTPLATE,3);
+        value.put(LEGGINGS,2);
+        value.put(BOOTS,1);
+        value.put(BODY,3);
+    });
+    private static final EnumMap<ArmorItem.Type, Integer> standard = Util.make(new EnumMap<>(ArmorItem.Type.class), value -> {
+        value.put(HELMET,2);
+        value.put(CHESTPLATE,6);
+        value.put(LEGGINGS,5);
+        value.put(BOOTS,2);
+        value.put(BODY,5);
+    });
+    private static final EnumMap<ArmorItem.Type, Integer> strong = Util.make(new EnumMap<>(ArmorItem.Type.class), value -> {
+        value.put(HELMET,3);
+        value.put(CHESTPLATE,8);
+        value.put(LEGGINGS,6);
+        value.put(BOOTS,3);
+        value.put(BODY,11);
+    });
+    private static final EnumMap<ArmorItem.Type, Integer> advanced = Util.make(new EnumMap<>(ArmorItem.Type.class), value -> {
+        value.put(HELMET,4);
+        value.put(CHESTPLATE,9);
+        value.put(LEGGINGS,7);
+        value.put(BOOTS,4);
+        value.put(BODY,12);
+    });
+    //end protection enum maps
+    //register methods
+    private static Holder<ArmorMaterial> register(String p_334359_, EnumMap<ArmorItem.Type, Integer> armor,
+            int enchantability, Holder<SoundEvent> equip, float toughness, float heavy, Supplier<Ingredient> p_333678_)
     {
-        typeEnumMap.put(ArmorItem.Type.BOOTS,1);
-        typeEnumMap.put(ArmorItem.Type.LEGGINGS,3);
-        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,5);
-        typeEnumMap.put(ArmorItem.Type.HELMET,2);}),
-            10,SoundEvents.ARMOR_EQUIP_GENERIC,0,0,
-            () -> {return Ingredient.of(Items.COPPER_INGOT);}),
-    BRONZE("bronze",24, Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(ResourceLocation.withDefaultNamespace(p_334359_)));
+        return register(p_334359_, armor, enchantability, equip, toughness, heavy, p_333678_, list);
+    }
+
+    private static Holder<ArmorMaterial> register(
+            String p_332406_, EnumMap<ArmorItem.Type, Integer> armor, int enchantability, Holder<SoundEvent> equip,
+            float toughness, float heavy, Supplier<Ingredient> p_334412_, List<ArmorMaterial.Layer> p_330855_)
     {
-        typeEnumMap.put(ArmorItem.Type.BOOTS,4);
-        typeEnumMap.put(ArmorItem.Type.LEGGINGS,6);
-        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,8);
-        typeEnumMap.put(ArmorItem.Type.HELMET,4);}),
-            0,SoundEvents.COPPER_PLACE,2F,0F,
-            () -> {return Ingredient.of(ModItems.BISMUTH_INGOT.get());}),
-    GLASS("glass",30, Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
-    {
-        typeEnumMap.put(ArmorItem.Type.BOOTS,4);
-        typeEnumMap.put(ArmorItem.Type.LEGGINGS,7);
-        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,9);
-        typeEnumMap.put(ArmorItem.Type.HELMET,4);}),
-            0,SoundEvents.AMETHYST_BLOCK_CHIME,2F,0F,
-            () -> {return Ingredient.of(ModItems.PRIME_GLASS.get());}),
-    DRAGON("dragon",68,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
-    {
-        typeEnumMap.put(ArmorItem.Type.HELMET,6);
-        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,6);
-        typeEnumMap.put(ArmorItem.Type.LEGGINGS,6);
-        typeEnumMap.put(ArmorItem.Type.BOOTS,6);}),15,SoundEvents.ENDER_DRAGON_FLAP,2F,0.05F,
-            () -> {return Ingredient.of(ModItems.DRAGON_SCALE.get());}),
-    UMBRA("umbra",9,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
-    {
-        typeEnumMap.put(ArmorItem.Type.HELMET,1);
-        typeEnumMap.put(ArmorItem.Type.CHESTPLATE,1);
-        typeEnumMap.put(ArmorItem.Type.LEGGINGS,1);
-        typeEnumMap.put(ArmorItem.Type.BOOTS,1);
-    }),25,SoundEvents.PHANTOM_FLAP,0.1f,0,
-            () -> {return Ingredient.of(ModItems.UMBRA.get());});
+        EnumMap<ArmorItem.Type, Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
+
+        for (ArmorItem.Type armoritem$type : ArmorItem.Type.values())
+        {
+            enummap.put(armoritem$type, armor.get(armoritem$type));
+        }
+
+        return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.withDefaultNamespace(p_332406_),
+                new ArmorMaterial(enummap, enchantability, equip, p_334412_, p_330855_, toughness, heavy));
+    }
+    //end register methods
+
+    //enum maps
+    public static final Holder<ArmorMaterial> COPPER = register("copper", simple, 12, SoundEvents.ARMOR_EQUIP_CHAIN,
+            0f, 0f, () -> Ingredient.of(Items.COPPER_INGOT));
+    public static final Holder<ArmorMaterial> BRONZE = register("bronze", standard, 24, Holder.direct(SoundEvents.AMETHYST_BLOCK_CHIME),
+            1f, 1f, () -> Ingredient.of(ModItems.BISMUTH_INGOT.get()));
+    public static final Holder<ArmorMaterial> GLASS = register("glass", strong, 30, SoundEvents.ARMOR_EQUIP_DIAMOND,
+                1f, 0f, () -> Ingredient.of(ModItems.PRIME_GLASS.get()));
+    //GLASS("glass",30, Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+    //{
+    //    typeEnumMap.put(ArmorItem.Type.BOOTS,4);
+    //    typeEnumMap.put(ArmorItem.Type.LEGGINGS,7);
+    //    typeEnumMap.put(ArmorItem.Type.CHESTPLATE,9);
+    //    typeEnumMap.put(HELMET,4);}),
+    //        0,SoundEvents.AMETHYST_BLOCK_CHIME,2F,0F,
+    //        () -> {return Ingredient.of(ModItems.PRIME_GLASS.get());}),
+    public static final Holder<ArmorMaterial> DRAGON = register("dragon", advanced, 8, Holder.direct(SoundEvents.ENDER_DRAGON_FLAP),
+            3f, 3f, () -> Ingredient.of(ModItems.DRAGON_SCALE.get()));
+    //DRAGON("dragon",68,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+    //{
+    //    typeEnumMap.put(HELMET,6);
+    //    typeEnumMap.put(ArmorItem.Type.CHESTPLATE,6);
+    //    typeEnumMap.put(ArmorItem.Type.LEGGINGS,6);
+    //    typeEnumMap.put(ArmorItem.Type.BOOTS,6);}),15,SoundEvents.ENDER_DRAGON_FLAP,2F,0.05F,
+    //        () -> {return Ingredient.of(ModItems.DRAGON_SCALE.get());}),
+    public static final Holder<ArmorMaterial> UMBRA = register("umbra", simple, 12, SoundEvents.ARMOR_EQUIP_CHAIN,
+            0, -1f, () -> Ingredient.of(Items.PHANTOM_MEMBRANE));
+    //UMBRA("umbra",9,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
+    //{
+    //    typeEnumMap.put(HELMET,1);
+    //    typeEnumMap.put(ArmorItem.Type.CHESTPLATE,1);
+    //    typeEnumMap.put(ArmorItem.Type.LEGGINGS,1);
+    //    typeEnumMap.put(ArmorItem.Type.BOOTS,1);
+    //}),25,SoundEvents.PHANTOM_FLAP,0.1f,0,
+    //        () -> {return Ingredient.of(ModItems.UMBRA.get());});
 
 
     //LEATHER("leather", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
@@ -88,7 +137,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
         p_266653_.put(ArmorItem.Type.BOOTS, 13);
         p_266653_.put(ArmorItem.Type.LEGGINGS, 15);
         p_266653_.put(ArmorItem.Type.CHESTPLATE, 16);
-        p_266653_.put(ArmorItem.Type.HELMET, 11);
+        p_266653_.put(HELMET, 11);
     });
     private final String name;
     private final int durabilityMultiplier;

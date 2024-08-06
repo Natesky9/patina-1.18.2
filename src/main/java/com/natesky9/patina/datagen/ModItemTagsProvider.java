@@ -22,19 +22,19 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        this.tag(ModTags.Items.FRUIT)
+        this.tag(ModTags.FRUIT)
                 .add(Items.APPLE).add(Items.GLOW_BERRIES).add(Items.SWEET_BERRIES).add(Items.MELON_SLICE);
-        this.tag(ModTags.Items.MEAT)
+        this.tag(ModTags.MEAT)
                 .add(Items.BEEF,Items.PORKCHOP,Items.CHICKEN,Items.MUTTON,Items.RABBIT,Items.COD,Items.SALMON,Items.TROPICAL_FISH)
                 .add(Items.COOKED_BEEF).add(Items.COOKED_CHICKEN).add(Items.COOKED_COD).add(Items.COOKED_PORKCHOP)
                 .add(Items.COOKED_MUTTON).add(Items.COOKED_RABBIT).add(Items.COOKED_SALMON);
-        this.tag(ModTags.Items.VEGETABLE)
+        this.tag(ModTags.VEGETABLE)
                 .add(Items.POTATO,Items.CARROT,Items.BEETROOT,Items.PUMPKIN,Items.DRIED_KELP,Items.CHORUS_FRUIT);
-        this.tag(ModTags.Items.GRAIN)
+        this.tag(ModTags.GRAIN)
                 .add(Items.WHEAT);
-        this.tag(ModTags.Items.SWEET)
+        this.tag(ModTags.SWEET)
                 .add(Items.SUGAR).add(Items.HONEYCOMB).add(Items.HONEY_BOTTLE);
-        this.tag(ModTags.Items.CALCIUM)
+        this.tag(ModTags.CALCIUM)
                 .add(Blocks.CALCITE.asItem())
                 .add(Blocks.BONE_BLOCK.asItem())
                 .add(Blocks.SKELETON_SKULL.asItem())

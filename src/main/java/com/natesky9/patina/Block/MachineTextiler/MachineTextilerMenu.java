@@ -1,6 +1,7 @@
 package com.natesky9.patina.Block.MachineTextiler;
 
 import com.natesky9.patina.ModRecipeBookType;
+import com.natesky9.patina.Recipe.TextilerRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,6 +12,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -19,7 +21,7 @@ import net.minecraftforge.items.SlotItemHandler;
 import static com.natesky9.patina.Block.MachineTextiler.MachineTextilerEntity.*;
 
 
-public class MachineTextilerMenu extends RecipeBookMenu<CraftingContainer> {
+public class MachineTextilerMenu extends RecipeBookMenu<RecipeInput, TextilerRecipe> {
     final MachineTextilerEntity blockEntity;
     final Level level;
     final ContainerData data;
@@ -93,7 +95,7 @@ public class MachineTextilerMenu extends RecipeBookMenu<CraftingContainer> {
     }
 
     @Override
-    public boolean recipeMatches(RecipeHolder<? extends Recipe<CraftingContainer>> p_297792_) {
+    public boolean recipeMatches(RecipeHolder p_297792_) {
         return false;
     }
 

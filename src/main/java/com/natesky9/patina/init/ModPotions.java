@@ -10,7 +10,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -119,6 +118,7 @@ public class ModPotions
     //
     public static void removePotions()
     {
+
         //replace strength with crimson
         PotionBrewing.POTION_MIXES.removeIf(potionMix -> potionMix.ingredient.test(new ItemStack(Items.BLAZE_POWDER)));
         //remove mundane and thick

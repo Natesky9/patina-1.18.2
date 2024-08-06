@@ -14,7 +14,7 @@ import static net.minecraft.client.gui.screens.inventory.InventoryScreen.renderE
 
 public class ApplianceWardrobeScreen extends AbstractContainerScreen<ApplianceWardrobeMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MODID,"textures/gui/appliance_wardrobe.png");
+            ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textures/gui/appliance_wardrobe.png");
     int xMouse;
     int yMouse;
     public ApplianceWardrobeScreen(ApplianceWardrobeMenu pMenu, Inventory pPlayerInventory, Component pTitle) {

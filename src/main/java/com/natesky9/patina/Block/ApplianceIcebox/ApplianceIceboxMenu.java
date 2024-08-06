@@ -2,16 +2,16 @@ package com.natesky9.patina.Block.ApplianceIcebox;
 
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PotionItem;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -40,8 +40,9 @@ public class ApplianceIceboxMenu extends AbstractContainerMenu {
                          @Override
                          public boolean mayPlace(@NotNull ItemStack stack)
                          {
-                             Potion potion = PotionUtils.getPotion(stack);
-                             return stack.isEdible() || stack.getItem() instanceof PotionItem;
+                             PotionContents contents = stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
+                             FoodProperties food = stack.get(DataComponents.FOOD);
+                             return contents != PotionContents.EMPTY || food != null;
                          }
                      }
                 );

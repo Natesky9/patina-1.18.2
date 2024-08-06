@@ -3,7 +3,6 @@ package com.natesky9.patina.Block.ApplianceWardrobe;
 import com.natesky9.patina.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,7 +11,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -67,18 +65,5 @@ public class ApplianceWardrobeEntity extends BlockEntity implements MenuProvider
             return itemHandler.cast();
         }
         return super.getCapability(cap,side);
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        pTag.put("inventory",handler.serializeNBT());
-        super.saveAdditional(pTag);
-    }
-
-
-    @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        handler.deserializeNBT(pTag.getCompound("inventory"));
     }
 }

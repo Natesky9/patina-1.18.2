@@ -1,7 +1,7 @@
 package com.natesky9.patina.Item;
 
 import com.natesky9.patina.init.ModItems;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -21,15 +21,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
-import net.minecraftforge.event.village.WandererTradesEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Charms {
@@ -89,10 +87,10 @@ public class Charms {
                 (itemStack -> itemStack.is(ModItems.CHARM_ALCHEMY.get())))) return;
 
         MobEffectInstance instance = event.getEffectInstance();
-        MobEffect effect = instance.getEffect();
+        MobEffect effect = instance.getEffect().get();
 
         //only apply to beneficial effects
-        if (!(instance.getEffect().isBeneficial())) return;
+        if (!(instance.getEffect().get().isBeneficial())) return;
 
         int duration = instance.getDuration();
         int potency = instance.getAmplifier();
@@ -102,7 +100,7 @@ public class Charms {
         {
             duration += event.getEffectInstance().getDuration();
             potency--;
-            holder = new MobEffectInstance(effect,duration,potency);
+            holder = new MobEffectInstance(instance.getEffect(),duration,potency);
             instance.hiddenEffect = holder;
             instance = holder;
         }
@@ -169,7 +167,11 @@ public class Charms {
         ItemStack stack = new ItemStack(Items.CHEST);
         CompoundTag tag = new CompoundTag();
         tag.putString("LootTable",loot);
-        stack.getOrCreateTag().put("BlockEntityTag",tag);
+        //if this doesn't work, I was told to try this instead
+        //stack.set(DataComponents.CONTAINER_LOOT,)
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+        //the old nbt method
+        //stack.getOrCreateTag().put("BlockEntityTag",tag);
         return stack;
     }
     private static ItemStack createSuspiciousLoot(Item block, String loot)
@@ -178,7 +180,8 @@ public class Charms {
         ItemStack stack = new ItemStack(block,count);
         CompoundTag tag = new CompoundTag();
         tag.putString("loot_table",loot);
-        stack.getOrCreateTag().put("BlockEntityTag",tag);
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+        //stack.getOrCreateTag().put("BlockEntityTag",tag);
         return stack;
     }
     public static void contrabandCharm(PlayerInteractEvent.EntityInteract event)
@@ -201,7 +204,7 @@ public class Charms {
         );
         int index = (int)(Math.random()* items.size());
 
-        MerchantOffer offer = new MerchantOffer(new ItemStack(Items.EMERALD, (int) (Math.random() * 30) + 30),
+        MerchantOffer offer = new MerchantOffer(new ItemCost(Items.EMERALD, (int) (Math.random() * 30) + 30),
                 items.get(index), 1, 10, 1.0F);
         Entity entity = event.getTarget();
         Player player = event.getEntity();

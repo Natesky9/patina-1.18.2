@@ -41,7 +41,7 @@ public class PotionFlaskItem extends PotionItem {
         stack.setDamageValue(value);
         //stack.getOrCreateTag().putInt("uses", value);
         if (getUses(stack) == 0)
-        {PotionUtils.setPotion(stack,Potions.EMPTY);}
+        {Potion.setPotion(stack,Potions.EMPTY);}
     }
 
     @Override

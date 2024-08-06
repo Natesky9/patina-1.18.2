@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures":
+  {
+    "layer0": "patina:item/animated/magna_flask"
+  },
+  "overrides":
+  [
+    {"predicate":
+    {"capacity": 0.16},
+      "model": "patina:item/magna_flask_1"},
+    {"predicate":
+    {"capacity": 0.33},
+      "model": "patina:item/magna_flask_2"},
+    {"predicate":
+    {"capacity": 0.5},
+      "model": "patina:item/magna_flask_3"},
+    {"predicate":
+    {"capacity": 0.66},
+      "model": "patina:item/magna_flask_4"},
+    {"predicate":
+    {"capacity": 0.83},
+      "model": "patina:item/magna_flask_5"},
+    {"predicate":
+    {"capacity": 1.0},
+      "model": "patina:item/magna_flask_6"}
+  ]
+}

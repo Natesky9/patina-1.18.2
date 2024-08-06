@@ -1,6 +1,8 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Patina;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -9,7 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -142,7 +144,9 @@ public class ModCreativeTabs {
                         }
                         for (Potion potion:potions)
                         {//add all the unique potions to salt
-                            output.accept(PotionUtils.setPotion(new ItemStack(ModItems.POTION_SALT.get()),potion));
+                            ItemStack stack = ModItems.POTION_SALT.get().getDefaultInstance();
+                            stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Holder.direct(potion)));
+                            output.accept(stack);
                         }
                     })
                     .build());
@@ -162,7 +166,8 @@ public class ModCreativeTabs {
                             for (Potion potion: BuiltInRegistries.POTION)
                             {
                                 if (potion.getEffects().isEmpty()) continue;
-                                ItemStack stack = PotionUtils.setPotion(item.getDefaultInstance(),potion);
+                                ItemStack stack = item.getDefaultInstance();
+                                stack.set(DataComponents.POTION_CONTENTS,new PotionContents(Holder.direct(potion)));//PotionUtils.setPotion(item.getDefaultInstance(),potion);
                                 stack.setDamageValue(stack.getMaxDamage());
                                 output.accept(stack);
                             }

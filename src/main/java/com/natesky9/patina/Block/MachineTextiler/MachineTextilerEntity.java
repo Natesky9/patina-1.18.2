@@ -6,12 +6,12 @@ import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -90,11 +90,11 @@ public class MachineTextilerEntity extends MachineTemplateEntity {
     @Override
     protected void myContentsChanged() {
         //clean this up later by making inputs a list
-        SimpleContainer container = new SimpleContainer(itemStackHandler.getStackInSlot(input1),
+        CraftingInput container = CraftingInput.of(3,3,List.of(itemStackHandler.getStackInSlot(input1),
                 itemStackHandler.getStackInSlot(input2),itemStackHandler.getStackInSlot(input3),
                 itemStackHandler.getStackInSlot(input4),itemStackHandler.getStackInSlot(input6),
                 itemStackHandler.getStackInSlot(input7),itemStackHandler.getStackInSlot(input8),
-                itemStackHandler.getStackInSlot(input9));
+                itemStackHandler.getStackInSlot(input9)));
         recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.TEXTILER_RECIPE_TYPE.get(),container,level);
         if (recipe.isEmpty())
             resetProgress();

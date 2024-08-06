@@ -6,22 +6,18 @@ import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class ApplianceWardrobeMenu extends AbstractContainerMenu {
     final Level level;
@@ -164,7 +160,7 @@ public class ApplianceWardrobeMenu extends AbstractContainerMenu {
     {
         if (stack.getItem() instanceof ArmorItem armorItem)
         {
-            blockEntity.getLevel().playSound(null,blockEntity.getBlockPos(),armorItem.getEquipSound(), SoundSource.PLAYERS);
+            blockEntity.getLevel().playSound(null,blockEntity.getBlockPos(),armorItem.getEquipSound().get(), SoundSource.PLAYERS);
         }
         else blockEntity.getLevel().playSound(null,blockEntity.getBlockPos(), SoundEvents.WOOD_PLACE, SoundSource.PLAYERS);
 

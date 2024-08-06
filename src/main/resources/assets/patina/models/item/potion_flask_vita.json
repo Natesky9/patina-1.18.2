@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures":
+  {
+    "layer0": "patina:item/animated/vita_flask"
+  },
+  "overrides":
+  [
+    {
+      "predicate": {"capacity": 0.25},
+      "model": "patina:item/vita_flask_1"
+    },
+    {
+      "predicate": {"capacity": 0.50},
+      "model": "patina:item/vita_flask_2"
+    },
+    {
+      "predicate": {"capacity": 0.75},
+      "model": "patina:item/vita_flask_3"
+    },
+    {
+      "predicate": {"capacity": 1.0},
+      "model": "patina:item/vita_flask_4"
+    }
+  ]
+}

@@ -10,7 +10,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,6 +17,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -119,7 +120,7 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     @Override
     protected void myContentsChanged()
     {
-        SimpleContainer container = new SimpleContainer(itemStackHandler.getStackInSlot(input));
+        RecipeInput container = new SingleRecipeInput(itemStackHandler.getStackInSlot(input));
         Optional<RecipeHolder<EvaporatorRecipe>> tempRecipe = recipe;
         List<RecipeHolder<EvaporatorRecipe>> recipes = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get());
         recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get(),container,level);

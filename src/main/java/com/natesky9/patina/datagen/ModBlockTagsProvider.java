@@ -18,7 +18,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
 
-        this.tag(ModTags.Blocks.CALCIUM_BLOCK)
+        this.tag(ModTags.CALCIUM_BLOCK)
                 .add(Blocks.BONE_BLOCK)
                 .add(Blocks.CALCITE)
                 .add(Blocks.SKELETON_SKULL)

@@ -1,6 +1,7 @@
 package com.natesky9.patina.Block.MachineFoundry;
 
 import com.natesky9.patina.ModRecipeBookType;
+import com.natesky9.patina.Recipe.FoundryRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,8 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -18,7 +19,7 @@ import net.minecraftforge.items.SlotItemHandler;
 
 import static com.natesky9.patina.Block.MachineFoundry.MachineFoundryEntity.*;
 
-public class MachineFoundryMenu extends RecipeBookMenu<CraftingContainer> {
+public class MachineFoundryMenu extends RecipeBookMenu<RecipeInput, FoundryRecipe> {
     final MachineFoundryEntity blockEntity;
     final Level level;
     final ContainerData data;
@@ -98,7 +99,7 @@ public class MachineFoundryMenu extends RecipeBookMenu<CraftingContainer> {
     }
 
     @Override
-    public boolean recipeMatches(RecipeHolder<? extends Recipe<CraftingContainer>> p_297792_) {
+    public boolean recipeMatches(RecipeHolder<FoundryRecipe> p_297792_) {
         return false;
     }
 
