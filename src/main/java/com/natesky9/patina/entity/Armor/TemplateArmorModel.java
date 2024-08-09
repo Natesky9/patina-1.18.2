@@ -16,7 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class TemplateArmorModel<T extends Entity> extends HumanoidModel<LivingEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "armor_template"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath("modid", "armor_template"), "main");
 
 	public TemplateArmorModel(ModelPart root) {
 		super(root);
@@ -45,12 +45,13 @@ public class TemplateArmorModel<T extends Entity> extends HumanoidModel<LivingEn
 
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		rightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		leftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int int1, int int2, int int3) {
+		hat.render(poseStack, vertexConsumer, int1, int2, int3);
+		head.render(poseStack, vertexConsumer, int1, int2, int3);
+		body.render(poseStack, vertexConsumer, int1, int2, int3);
+		rightArm.render(poseStack, vertexConsumer, int1, int2, int3);
+		leftArm.render(poseStack, vertexConsumer, int1, int2, int3);
+		rightLeg.render(poseStack, vertexConsumer, int1, int2, int3);
+		leftLeg.render(poseStack, vertexConsumer, int1, int2, int3);
 	}
 }

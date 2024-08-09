@@ -76,16 +76,17 @@ public class BearPrinceModel<T extends Entity> extends EntityModel<T> {
 
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int int1, int int2, int int3) {
 		Player player = Minecraft.getInstance().player;
 		if (player.hasEffect(MobEffects.NIGHT_VISION))
 		{
 			System.out.println("has vision");
-			standing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+			standing.render(poseStack, vertexConsumer, int1, int2, int3);
 		}
 		else
 		{
-			standing.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, .1f);
+			//TODO: rework boss mechanic
+			standing.render(poseStack, vertexConsumer, int1, int2, int3);
 		}
 	}
 }

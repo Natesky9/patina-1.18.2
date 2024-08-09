@@ -6,7 +6,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 public class CustomItem extends Item {
     private final Multimap<Attribute,AttributeModifier> customModifiers;
@@ -40,8 +39,8 @@ public class CustomItem extends Item {
         slot = equipmentSlot;
     }
 
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack stack) {
-        return slot == equipmentSlot ? customModifiers : super.getAttributeModifiers(slot, stack);
-    }
+    //@Override
+    //public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack stack) {
+    //    return slot == equipmentSlot ? customModifiers : super.getAttributeModifiers(slot, stack);
+    //}
 }

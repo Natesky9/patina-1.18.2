@@ -15,7 +15,7 @@ import net.minecraft.world.entity.Entity;
 
 public class SpiderNestModel<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "spider_nest"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath("modid", "spider_nest"), "main");
 	private final ModelPart bot;
 	private final ModelPart top;
 	private final ModelPart mid;
@@ -45,9 +45,9 @@ public class SpiderNestModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		bot.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		top.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		mid.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int int1, int int2, int int3) {
+		bot.render(poseStack, vertexConsumer, int1, int2, int3);
+		top.render(poseStack, vertexConsumer, int1, int2, int3);
+		mid.render(poseStack, vertexConsumer, int1, int2, int3);
 	}
 }

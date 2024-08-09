@@ -15,7 +15,7 @@ import net.minecraft.world.entity.Entity;
 
 public class SpiderQueenModel<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "spiderqueenmodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath("modid", "spiderqueenmodel"), "main");
 	private final ModelPart bone;
 	private final ModelPart bone5;
 	private final ModelPart bone2;
@@ -122,17 +122,17 @@ public class SpiderQueenModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		bone.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bone5.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bone2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bone6.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bone3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bone7.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bone4.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bone8.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		butt.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		bb_main.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int int1, int int2, int int3) {
+		bone.render(poseStack, vertexConsumer, int1, int2, int3);
+		bone5.render(poseStack, vertexConsumer, int1, int2, int3);
+		bone2.render(poseStack, vertexConsumer, int1, int2, int3);
+		bone6.render(poseStack, vertexConsumer, int1, int2, int3);
+		bone3.render(poseStack, vertexConsumer, int1, int2, int3);
+		bone7.render(poseStack, vertexConsumer, int1, int2, int3);
+		bone4.render(poseStack, vertexConsumer, int1, int2, int3);
+		bone8.render(poseStack, vertexConsumer, int1, int2, int3);
+		butt.render(poseStack, vertexConsumer, int1, int2, int3);
+		head2.render(poseStack, vertexConsumer, int1, int2, int3);
+		bb_main.render(poseStack, vertexConsumer, int1, int2, int3);
 	}
 }

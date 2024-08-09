@@ -9,10 +9,13 @@ import com.natesky9.patina.Item.pouches.GemPouchItem;
 import com.natesky9.patina.Item.pouches.LighterItem;
 import com.natesky9.patina.Item.pouches.SeedPouchItem;
 import com.natesky9.patina.Patina;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -136,15 +139,20 @@ public class ModItems {
     //region copper
     //removing the rust aspect for now
     public static final RegistryObject<Item> COPPER_SWORD = ITEMS.register("copper_sword",
-            () -> new SwordItem(ModTiers.COPPER,3,-2.4F, new Item.Properties()));
+            () -> new SwordItem(ModTiers.COPPER, new Item.Properties()
+                    .attributes(SwordItem.createAttributes(ModTiers.COPPER,3,-2.4F))));
     public static final RegistryObject<Item> COPPER_AXE = ITEMS.register("copper_axe",
-            () -> new AxeItem(ModTiers.COPPER,7,-3.0F,new Item.Properties()));
+            () -> new AxeItem(ModTiers.COPPER,new Item.Properties()
+                    .attributes(AxeItem.createAttributes(ModTiers.COPPER,7,-3F))));
     public static final RegistryObject<Item> COPPER_SHOVEL = ITEMS.register("copper_shovel",
-            () -> new ShovelItem(ModTiers.COPPER,1.5F,-3.0F,new Item.Properties()));
+            () -> new ShovelItem(ModTiers.COPPER,new Item.Properties()
+                    .attributes(ShovelItem.createAttributes(ModTiers.COPPER,1.5F, -3F))));
     public static final RegistryObject<Item> COPPER_PICK = ITEMS.register("copper_pick",
-            () -> new PickaxeItem(ModTiers.COPPER,1,-2.8F,new Item.Properties()));
+            () -> new PickaxeItem(ModTiers.COPPER,new Item.Properties()
+                    .attributes(PickaxeItem.createAttributes(ModTiers.COPPER,1,-2.8F))));
     public static final RegistryObject<Item> COPPER_HOE = ITEMS.register("copper_hoe",
-            () -> new HoeItem(ModTiers.COPPER,0,-2.0F,new Item.Properties()));
+            () -> new HoeItem(ModTiers.COPPER,new Item.Properties()
+                    .attributes(HoeItem.createAttributes(ModTiers.COPPER,0,-2f))));
     public static final RegistryObject<Item> COPPER_HELMET = ITEMS.register("copper_helmet",
             () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.HELMET,new Item.Properties()));
     public static final RegistryObject<Item> COPPER_CHESTPLATE = ITEMS.register("copper_chestplate",
@@ -155,26 +163,43 @@ public class ModItems {
             () -> new ArmorItem(ModArmorMaterials.COPPER,ArmorItem.Type.BOOTS,new Item.Properties()));
     //endregion copper
     //region glass
+    public static final RegistryObject<Item> GLASS_SWORD = ITEMS.register("glass_sword",
+            () -> new SwordItem(ModTiers.GLASS, new Item.Properties()
+                    .attributes(SwordItem.createAttributes(ModTiers.GLASS,3, -1.8F))
+                    .rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> GLASS_AXE = ITEMS.register("glass_axe",
-            () -> new AxeItem(ModTiers.GLASS,7,-2.4F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new AxeItem(ModTiers.GLASS, new Item.Properties()
+                    .attributes(AxeItem.createAttributes(ModTiers.GLASS,7,-2.4F))
+                    .rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> GLASS_SHOVEL = ITEMS.register("glass_shovel",
-            () -> new ShovelItem(ModTiers.GLASS, 2, -2.4F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new ShovelItem(ModTiers.GLASS, new Item.Properties()
+                    .attributes(ShovelItem.createAttributes(ModTiers.GLASS,2,-2.4F))
+                    .rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> GLASS_PICK = ITEMS.register("glass_pick",
-            () -> new PickaxeItem(ModTiers.GLASS, 2,-2.4F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new PickaxeItem(ModTiers.GLASS, new Item.Properties()
+                    .attributes(PickaxeItem.createAttributes(ModTiers.GLASS,2,-2.4F))
+                    .rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> GLASS_HOE = ITEMS.register("glass_hoe",
-            () -> new HoeItem(ModTiers.GLASS, 2, -2.4F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new HoeItem(ModTiers.GLASS, new Item.Properties()
+                    .attributes(HoeItem.createAttributes(ModTiers.GLASS,2,-2.4F))
+                    .rarity(Rarity.UNCOMMON)));
     //endregion glass
     //region bronze
     public static final RegistryObject<Item> BRONZE_SWORD = ITEMS.register("bronze_sword",
-            () -> new SwordItem(ModTiers.BRONZE,3,-2.4F, new Item.Properties()));
+            () -> new SwordItem(ModTiers.BRONZE, new Item.Properties()
+                    .attributes(SwordItem.createAttributes(ModTiers.BRONZE,3,-2.4F))));
     public static final RegistryObject<Item> BRONZE_AXE = ITEMS.register("bronze_axe",
-            () -> new AxeItem(ModTiers.BRONZE,7,-3.0F,new Item.Properties()));
+            () -> new AxeItem(ModTiers.BRONZE, new Item.Properties()
+                    .attributes(AxeItem.createAttributes(ModTiers.BRONZE,7,-3F))));
     public static final RegistryObject<Item> BRONZE_SHOVEL = ITEMS.register("bronze_shovel",
-            () -> new ShovelItem(ModTiers.BRONZE,1.5F,-3.0F,new Item.Properties()));
+            () -> new ShovelItem(ModTiers.BRONZE, new Item.Properties()
+                    .attributes(ShovelItem.createAttributes(ModTiers.BRONZE,1.5F, -3F))));
     public static final RegistryObject<Item> BRONZE_PICK = ITEMS.register("bronze_pick",
-            () -> new PickaxeItem(ModTiers.BRONZE,1,-2.8F,new Item.Properties()));
+            () -> new PickaxeItem(ModTiers.BRONZE, new Item.Properties()
+                    .attributes(PickaxeItem.createAttributes(ModTiers.BRONZE,1,-2.8F))));
     public static final RegistryObject<Item> BRONZE_HOE = ITEMS.register("bronze_hoe",
-            () -> new HoeItem(ModTiers.BRONZE,0,-2.0F,new Item.Properties()));
+            () -> new HoeItem(ModTiers.BRONZE, new Item.Properties()
+                    .attributes(HoeItem.createAttributes(ModTiers.BRONZE,0,-2F))));
     public static final RegistryObject<Item> BRONZE_HELMET = ITEMS.register("bronze_helmet",
             () -> new ArmorItem(ModArmorMaterials.BRONZE,ArmorItem.Type.HELMET,new Item.Properties()));
     public static final RegistryObject<Item> BRONZE_CHESTPLATE = ITEMS.register("bronze_chestplate",
@@ -185,18 +210,19 @@ public class ModItems {
             () -> new ArmorItem(ModArmorMaterials.BRONZE,ArmorItem.Type.BOOTS,new Item.Properties()));
     //endregion bronze
     //region dragon
+    static AttributeModifier hp = new AttributeModifier(
+            ResourceLocation.fromNamespaceAndPath("patina","health"),
+            2, AttributeModifier.Operation.ADD_VALUE);
     public static final RegistryObject<Item> DRAGON_HELMET = ITEMS.register("dragon_helmet",
-            () -> new CustomArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties(),
-                    Attributes.MAX_HEALTH,new AttributeModifier(CustomArmorItem.health_head,
-                    "Health",2, AttributeModifier.Operation.ADDITION)));
+            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties()
+                    .attributes(ItemAttributeModifiers.builder()
+                            .add(Attributes.MAX_HEALTH, hp, EquipmentSlotGroup.HEAD).build())));
     public static final RegistryObject<Item> DRAGON_CHESTPLATE = ITEMS.register("dragon_chestplate",
-            () -> new CustomArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.CHESTPLATE,new Item.Properties(),
-                    Attributes.MAX_HEALTH,new AttributeModifier(CustomArmorItem.health_body,
-                    "Health",2, AttributeModifier.Operation.ADDITION)));
+            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties()
+                    .attributes(ItemAttributeModifiers.builder().add(Attributes.MAX_HEALTH, hp, EquipmentSlotGroup.HEAD).build())));
     public static final RegistryObject<Item> DRAGON_LEGGINGS = ITEMS.register("dragon_leggings",
-            () -> new CustomArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.LEGGINGS,new Item.Properties(),
-                    Attributes.MAX_HEALTH,new AttributeModifier(CustomArmorItem.health_legs,
-                    "Health",2, AttributeModifier.Operation.ADDITION)));
+            () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties()
+                    .attributes(ItemAttributeModifiers.builder().add(Attributes.MAX_HEALTH, hp, EquipmentSlotGroup.HEAD).build())));
     //the world doesn't deserve dragon boots
     //public static final RegistryObject<Item> DRAGON_BOOTS = ITEMS.register("dragon_boots",
     //        () -> new TemplateArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.BOOTS,new Item.Properties()));
@@ -288,23 +314,25 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(16)));
     public static final RegistryObject<Item> UMBRA = ITEMS.register("umbra",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
-
+    //boots
+    static AttributeModifier speed = new AttributeModifier(ResourceLocation.fromNamespaceAndPath("patina","speed"),
+            .1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+    static ItemAttributeModifiers mod = ItemAttributeModifiers.builder().add(Attributes.MOVEMENT_SPEED, speed, EquipmentSlotGroup.FEET).build();
     public static final RegistryObject<Item> CLOTH_BOOTS = ITEMS.register("cloth_boots",
-            () -> new CustomArmorItem(ArmorMaterials.LEATHER,ArmorItem.Type.BOOTS,new Item.Properties(), Attributes.MOVEMENT_SPEED,
-                    new AttributeModifier(CustomArmorItem.swiftness,
-                            "Boot speed", .1,AttributeModifier.Operation.MULTIPLY_BASE)));
+            () -> new ArmorItem(ArmorMaterials.LEATHER,ArmorItem.Type.BOOTS,new Item.Properties()
+                    .attributes(mod)));
+
+    //umbra
+    static ItemAttributeModifiers umbra = ItemAttributeModifiers.builder()
+            .add(Attributes.GRAVITY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("patina","gravity"),-.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.ARMOR)
+            .add(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("patina","gravity"),2,AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.ANY)
+            .build();
     public static final RegistryObject<Item> UMBRA_HAT = ITEMS.register("umbra_hat",
-            () -> new UmbraArmorItem(ArmorItem.Type.HELMET,new Item.Properties(), ForgeMod.ENTITY_GRAVITY.get(),
-                    new AttributeModifier(CustomArmorItem.gravity_head,
-                            "Gravity", -.25,AttributeModifier.Operation.MULTIPLY_BASE)));
+            () -> new UmbraArmorItem(ArmorItem.Type.HELMET,new Item.Properties().attributes(umbra)));
     public static final RegistryObject<Item> UMBRA_TOP = ITEMS.register("umbra_top",
-            () -> new UmbraArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties(),ForgeMod.ENTITY_GRAVITY.get(),
-                    new AttributeModifier(CustomArmorItem.gravity_body,
-                            "Gravity", -.25,AttributeModifier.Operation.MULTIPLY_BASE)));
+            () -> new UmbraArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties().attributes(umbra)));
     public static final RegistryObject<Item> UMBRA_BOTTOM = ITEMS.register("umbra_bottom",
-            () -> new UmbraArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties(),ForgeMod.ENTITY_GRAVITY.get(),
-                    new AttributeModifier(CustomArmorItem.gravity_legs,
-                            "Gravity", -.25,AttributeModifier.Operation.MULTIPLY_BASE)));
+            () -> new UmbraArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties().attributes(umbra)));
     public static final RegistryObject<Item> MALACHITE = ITEMS.register("malachite",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> CLAW = ITEMS.register("claw",

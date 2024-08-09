@@ -1,6 +1,7 @@
 package com.natesky9.patina.Block.MachineMincerator;
 
 import com.natesky9.patina.ModRecipeBookType;
+import com.natesky9.patina.Recipe.MinceratorRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModMenuTypes;
@@ -13,12 +14,13 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class MachineMinceratorMenu extends RecipeBookMenu<CraftingContainer> {
+public class MachineMinceratorMenu extends RecipeBookMenu<RecipeInput, MinceratorRecipe> {
     private final MachineMinceratorEntity blockEntity;
     private final Level level;
     private final ContainerData data;

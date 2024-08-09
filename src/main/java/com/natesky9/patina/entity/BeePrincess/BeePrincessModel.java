@@ -110,12 +110,12 @@ public class BeePrincessModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		bell.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		butt.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		stinger.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int int1, int int2, int int3) {
+		bell.render(poseStack, vertexConsumer, int1, int2, int3);
+		butt.render(poseStack, vertexConsumer, int1, int2, int3);
+		arm.render(poseStack, vertexConsumer, int1, int2, int3);
+		body.render(poseStack, vertexConsumer, int1, int2, int3);
+		stinger.render(poseStack, vertexConsumer, int1, int2, int3);
+		head.render(poseStack, vertexConsumer, int1, int2, int3);
 	}
 }

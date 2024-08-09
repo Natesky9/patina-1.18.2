@@ -4,6 +4,7 @@ import com.natesky9.patina.Patina;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -27,7 +28,9 @@ public class DataGenerators {
         generator.addProvider(true, new ModBlockStateProvider(packOutput,helper));
         generator.addProvider(true, new ModItemModelProvider(packOutput, helper));
         BlockTagsProvider blockTagsProvider = new ModBlockTagsProvider(packOutput, lookupProvider, Patina.MODID, helper);
+        EntityTypeTagsProvider entityTypeTagsProvider = new ModEntityTagsProvider(packOutput, lookupProvider);
         generator.addProvider(true, blockTagsProvider);
         generator.addProvider(true, new ModItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), Patina.MODID, helper));
+        generator.addProvider(true, entityTypeTagsProvider);
     }
 }
