@@ -1,10 +1,11 @@
 package com.natesky9.patina.Recipe;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 public class ItemBrewingRecipe implements IBrewingRecipe {
@@ -20,7 +21,7 @@ public class ItemBrewingRecipe implements IBrewingRecipe {
 
     @Override
     public boolean isInput(ItemStack input) {
-        return PotionUtils.getPotion(input) == this.input;
+        return input.get(DataComponents.POTION_CONTENTS).potion().get() == this.input;
     }
 
     @Override
@@ -35,8 +36,9 @@ public class ItemBrewingRecipe implements IBrewingRecipe {
         }
 
         ItemStack itemStack = new ItemStack(input.getItem());
-        itemStack.setTag(new CompoundTag());
-        PotionUtils.setPotion(itemStack, this.output);
+        itemStack.set(DataComponents.POTION_CONTENTS,new PotionContents(Holder.direct(this.output)));
+        //itemStack.setTag(new CompoundTag());
+        //PotionUtils.setPotion(itemStack, this.output);
         return itemStack;
     }
 }

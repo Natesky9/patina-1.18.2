@@ -22,9 +22,9 @@ public class DataGenerators {
 
         generator.addProvider(true, new ModAdvancementProvider(packOutput,lookupProvider,helper,
                 List.of(new ModAdvancementGenerator())));
-        generator.addProvider(true, new ModRecipeProvider(packOutput));
-        generator.addProvider(true, ModLootTableProvider.create(packOutput));
-        generator.addProvider(event.includeServer(), new ModGlobalLootModifiersProvider(packOutput));
+        generator.addProvider(true, new ModRecipeProvider(packOutput,lookupProvider));
+        generator.addProvider(true, ModLootTableProvider.create(packOutput,lookupProvider));
+        generator.addProvider(event.includeServer(), new ModGlobalLootModifiersProvider(packOutput,lookupProvider));
         generator.addProvider(true, new ModBlockStateProvider(packOutput,helper));
         generator.addProvider(true, new ModItemModelProvider(packOutput, helper));
         BlockTagsProvider blockTagsProvider = new ModBlockTagsProvider(packOutput, lookupProvider, Patina.MODID, helper);

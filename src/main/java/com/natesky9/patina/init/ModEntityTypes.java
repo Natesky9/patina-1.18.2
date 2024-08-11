@@ -23,54 +23,54 @@ public class ModEntityTypes {
             ENTITY_TYPES.register("bee_princess",
                     () -> EntityType.Builder.of(BeePrincess::new, MobCategory.MONSTER)
                             .sized(1.4F,3)
-                            .build(new ResourceLocation(Patina.MODID, "bee_queen").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "bee_queen").toString()));
 
     public static final RegistryObject<EntityType<BearPrince>> BEAR_BOSS =
             ENTITY_TYPES.register("bear_prince",
                     () -> EntityType.Builder.of(BearPrince::new, MobCategory.MONSTER)
                             .sized(1.98f,1.98f)
-                            .build(new ResourceLocation(Patina.MODID, "bear_prince").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "bear_prince").toString()));
 
     public static final RegistryObject<EntityType<SpiderQueen>> SPIDER_BOSS =
             ENTITY_TYPES.register("spider_queen",
                     () -> EntityType.Builder.of(SpiderQueen::new, MobCategory.MONSTER)
                             .sized(3,3)
-                            .build(new ResourceLocation(Patina.MODID, "spider_queen").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "spider_queen").toString()));
 
     public static final RegistryObject<EntityType<SandwormKing>> SANDWORM_BOSS =
             ENTITY_TYPES.register("sandworm_king",
                     () -> EntityType.Builder.of(SandwormKing::new, MobCategory.MONSTER)
                             .sized(3,3)
-                            .build(new ResourceLocation(Patina.MODID, "sandworm_king").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "sandworm_king").toString()));
 
     public static final RegistryObject<EntityType<SlimeKnight>> SLIME_BOSS =
             ENTITY_TYPES.register("slime_knight",
                     () -> EntityType.Builder.of(SlimeKnight::new, MobCategory.MONSTER)
                             .sized(3,3)
-                            .build(new ResourceLocation(Patina.MODID, "slime_knight").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "slime_knight").toString()));
 
     public static final RegistryObject<EntityType<PiglinBaron>> PIGLIN_BOSS =
             ENTITY_TYPES.register("piglin_baron",
                     () -> EntityType.Builder.of(PiglinBaron::new, MobCategory.MONSTER)
                             .sized(3,3)
-                            .build(new ResourceLocation(Patina.MODID, "piglin_king").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "piglin_king").toString()));
 
     public static final RegistryObject<EntityType<SinisterApothecary>> WITCH_BOSS =
             ENTITY_TYPES.register("apothecary",
                     () -> EntityType.Builder.of(SinisterApothecary::new, MobCategory.MONSTER)
                             .sized(3,3)
-                            .build(new ResourceLocation(Patina.MODID, "apothecary").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "apothecary").toString()));
     //
     public static final RegistryObject<EntityType<BearStarEntity>> BEAR_STAR =
             ENTITY_TYPES.register("bear_star",
                     () -> EntityType.Builder.of(BearStarEntity::new, MobCategory.MISC)
                             .sized(.95f,.95f)
-                            .build(new ResourceLocation(Patina.MODID, "bear_star").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "bear_star").toString()));
     public static final RegistryObject<EntityType<Spidernest>> SPIDER_NEST =
             ENTITY_TYPES.register("spider_nest",
                     () -> EntityType.Builder.of(Spidernest::new, MobCategory.MONSTER)
                             .sized(1,1)
-                            .build(new ResourceLocation(Patina.MODID, "spider_nest").toString()));
+                            .build(ResourceLocation.fromNamespaceAndPath(Patina.MODID, "spider_nest").toString()));
     //endregion entities
     public static void register(IEventBus eventBus)
     {

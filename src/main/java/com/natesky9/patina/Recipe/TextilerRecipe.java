@@ -1,9 +1,14 @@
 package com.natesky9.patina.Recipe;
 
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.natesky9.patina.init.ModRecipeSerializers;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -66,48 +71,53 @@ public class TextilerRecipe implements Recipe<RecipeInput> {
         return serializer;
     }
     //TODO: serializer
-    //public static class Serializer implements RecipeSerializer<TextilerRecipe>
-    //{
-    //    final static Codec<TextilerRecipe> CODEC = RecordCodecBuilder.create((instance) ->
-    //            instance.group(
-    //                    ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
-    //                    Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(
-    //                            (map) ->
-    //                            {
-    //                                NonNullList<Ingredient> list = NonNullList.create();
-    //                                list.addAll(map);
-    //                                return DataResult.success(list);
-    //                            }, DataResult::success).forGetter((getter) -> getter.inputs
-    //                    )
-    //            ).apply(instance, TextilerRecipe::new)
-    //    );
-//
-    //    @Override
-    //    public Codec<TextilerRecipe> codec() {
-    //        return CODEC;
-    //    }
-//
-    //    @Override
-    //    public @Nullable TextilerRecipe fromNetwork(FriendlyByteBuf buffer) {
-    //        int size = buffer.readInt();
-    //        NonNullList<Ingredient> list = NonNullList.create();
-    //        for (int i = 0;i < size;i++)
-    //        {
-    //            list.add(Ingredient.fromNetwork(buffer));
-    //        }
-    //        ItemStack output = buffer.readItem();
-    //        return new TextilerRecipe(output, list);
-    //    }
-//
-    //    @Override
-    //    public void toNetwork(FriendlyByteBuf buffer, TextilerRecipe recipe) {
-    //        buffer.writeInt(recipe.inputs.size());
-    //        for (Ingredient ingredient: recipe.getIngredients())
-    //        {
-    //            ingredient.toNetwork(buffer);
-    //        }
-    //        buffer.writeItemStack(recipe.output,false);
-    //    }
-    //}
+    public static class Serializer implements RecipeSerializer<TextilerRecipe>
+    {
+        final static MapCodec<TextilerRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) ->
+                instance.group(
+                        ItemStack.SIMPLE_ITEM_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
+                        Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(
+                                (map) ->
+                                {
+                                    NonNullList<Ingredient> list = NonNullList.create();
+                                    list.addAll(map);
+                                    return DataResult.success(list);
+                                }, DataResult::success).forGetter((getter) -> getter.inputs
+                        )
+                ).apply(instance, TextilerRecipe::new)
+        );
+        public static final StreamCodec<RegistryFriendlyByteBuf,TextilerRecipe> STREAM_CODEC =
+                StreamCodec.of(Serializer::encode,Serializer::decode);
+
+        @Override
+        public MapCodec<TextilerRecipe> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, TextilerRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+
+        private static TextilerRecipe decode(RegistryFriendlyByteBuf buffer) {
+            int size = buffer.readInt();
+            NonNullList<Ingredient> list = NonNullList.create();
+            for (int i = 0;i < size;i++)
+            {
+                list.add(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
+            }
+            ItemStack output = ItemStack.STREAM_CODEC.decode(buffer);
+            return new TextilerRecipe(output, list);
+        }
+
+        private static void encode(RegistryFriendlyByteBuf buffer, TextilerRecipe recipe) {
+            buffer.writeInt(recipe.inputs.size());
+            for (Ingredient ingredient: recipe.getIngredients())
+            {
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer,ingredient);
+            }
+            ItemStack.STREAM_CODEC.encode(buffer,recipe.output);
+        }
+    }
 
 }

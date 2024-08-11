@@ -1,8 +1,6 @@
 package com.natesky9.patina.event;
 
 import com.natesky9.patina.Block.Gravestone;
-import com.natesky9.patina.Enchantment.*;
-import com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil;
 import com.natesky9.patina.Item.BeeShieldItem;
 import com.natesky9.patina.Item.Charms;
 import com.natesky9.patina.Item.EssenceItem;
@@ -21,7 +19,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.event.VanillaGameEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -31,8 +28,6 @@ import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import static com.natesky9.patina.Enchantment.Util.ModEnchantmentUtil.curseItem;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge {
@@ -46,9 +41,10 @@ public class EventsForge {
     public static void LivingDropsEvent(LivingDropsEvent event) {
         Gravestone.create(event);
         //GravestoneBlock.create(event);
-        AvariceEnchantment.doEffect(event);
-        GreedEnchantment.doEffect(event);
-        SoulboundEnchantment.store(event);
+        //TODO: enchantments
+        //AvariceEnchantment.doEffect(event);
+        //GreedEnchantment.doEffect(event);
+        //SoulboundEnchantment.store(event);
 
         EssenceItem.create(event);
 
@@ -61,7 +57,8 @@ public class EventsForge {
 
     @SubscribeEvent
     public static void PlayerCloneEvent(PlayerEvent.Clone event) {
-        SoulboundEnchantment.restore(event);
+        //TODO: Enchantments
+        //SoulboundEnchantment.restore(event);
     }
 
     @SubscribeEvent
@@ -71,11 +68,12 @@ public class EventsForge {
         ImpetusFlask.trigger(event);
         SemiVitaFlask.trigger(event);
 
-        ApathyEnchantment.doEffect(event);
-        WrathEnchantment.doEffect(event);
-        PrideEnchantment.doEffect(event);
-        CoercionEnchantment.doEffect(event);
-        HumilityEnchantment.doEffect(event);
+        //TODO: Enchantments
+        //ApathyEnchantment.doEffect(event);
+        //WrathEnchantment.doEffect(event);
+        //PrideEnchantment.doEffect(event);
+        //CoercionEnchantment.doEffect(event);
+        //HumilityEnchantment.doEffect(event);
 
         if (event.getSource().getEntity() instanceof Player player)
         {
@@ -110,9 +108,10 @@ public class EventsForge {
         //allows you to set the amount
 
         BismuthPassive.doBismuthEffect(event);
-        RetributionEnchantment.doEffect(event);
-        LustEnchantment.doEffect(event);
-        ModEnchantmentUtil.netherCursePlayer(event);
+        //TODO: Enchantments
+        //RetributionEnchantment.doEffect(event);
+        //LustEnchantment.doEffect(event);
+        //ModEnchantmentUtil.netherCursePlayer(event);
 
         Charms.detonationCharm(event);
         Charms.ambushCharm(event);
@@ -126,17 +125,19 @@ public class EventsForge {
 
     @SubscribeEvent
     public static void LivingHealEvent(LivingHealEvent event) {
-        SlothEnchantment.doEffect(event);
+        //TODO: Enchantments
+        //SlothEnchantment.doEffect(event);
         Charms.vitalityCharm(event);
     }
 
     @SubscribeEvent
     public static void EatEvent(VanillaGameEvent event) {
+        //TODO: Enchantments
         //eat happens after the food is consumed
-        if (event.getVanillaEvent() == GameEvent.EAT) {
-            GluttonyEnchantment.doEffect(event);
-            BrimfulEnchantment.doEffect(event);
-        }
+        //if (event.getVanillaEvent() == GameEvent.EAT) {
+        //    GluttonyEnchantment.doEffect(event);
+        //    BrimfulEnchantment.doEffect(event);
+        //}
     }
 
     @SubscribeEvent
@@ -176,10 +177,11 @@ public class EventsForge {
         //only curse when opening loot chests in the nether
         if (event.getLevel().getBlockEntity(event.getPos()) instanceof RandomizableContainerBlockEntity lootChest)
         {
-            boolean loot = lootChest.saveWithId().contains("LootTable");
+            boolean loot = lootChest.saveWithId(level.registryAccess()).contains("LootTable");
             if (loot)
             {
-                curseItem(event.getEntity());
+                //TODO: Enchantments
+                //curseItem(event.getEntity());
             }
         }
     }
@@ -191,6 +193,7 @@ public class EventsForge {
         if (!(entity instanceof  Player player)) return;
         if (!(player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ModItems.CHARM_DETONATION.get())))) return;
         Explosion explosion = event.getExplosion();
-        explosion.radius = explosion.radius*2;
+        //TODO: Access transform explosion radius
+        //explosion.radius = explosion.radius*2;
     }
 }

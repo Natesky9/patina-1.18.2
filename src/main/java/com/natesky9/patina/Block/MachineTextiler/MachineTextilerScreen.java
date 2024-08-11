@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class MachineTextilerScreen extends AbstractContainerScreen<MachineTextilerMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MODID,"textures/gui/machine_textiler_gui.png");
+            ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textures/gui/machine_textiler_gui.png");
     public final RecipeBookComponent component;
     private boolean widthTooNarrow;
     public MachineTextilerScreen(MachineTextilerMenu p_97741_, Inventory p_97742_, Component p_97743_) {

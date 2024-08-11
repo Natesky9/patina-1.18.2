@@ -1,15 +1,14 @@
 package com.natesky9.patina.Item.flasks;
 
 import com.natesky9.patina.init.ModItems;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-
-import java.util.List;
 
 public class SemiVitaFlask extends PotionFlaskItem{
     public SemiVitaFlask(Properties pProperties) {
@@ -27,16 +26,16 @@ public class SemiVitaFlask extends PotionFlaskItem{
             {
                 if (!stack.is(ModItems.VITA_FLASK.get())) continue;
                 if (getUses(stack) <= 0) continue;
-                List<MobEffectInstance> effects = PotionUtils.getMobEffects(stack);
+                Iterable<MobEffectInstance> effects = stack.get(DataComponents.POTION_CONTENTS).getAllEffects();
                 boolean has = false;
                 boolean instant = false;
                 for (MobEffectInstance instance:effects)
                 {
-                    MobEffect effect = instance.getEffect();
+                    Holder<MobEffect> effect = instance.getEffect();
                     if (player.hasEffect(effect)) {
                         has = true;
                     }
-                    if (effect.isInstantenous()) {
+                    if (effect.get().isInstantenous()) {
                         instant = true;
                     }
                 }

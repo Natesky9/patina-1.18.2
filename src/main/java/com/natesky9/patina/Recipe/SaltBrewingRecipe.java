@@ -1,11 +1,12 @@
 package com.natesky9.patina.Recipe;
 
 import com.natesky9.patina.init.ModItems;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 public class SaltBrewingRecipe implements IBrewingRecipe
@@ -24,7 +25,7 @@ public class SaltBrewingRecipe implements IBrewingRecipe
     @Override
     public boolean isInput(ItemStack input)
     {
-        return this.input == PotionUtils.getPotion(input);
+        return this.input == input.get(DataComponents.POTION_CONTENTS).potion().get();
     }
 
     @Override
@@ -32,7 +33,7 @@ public class SaltBrewingRecipe implements IBrewingRecipe
     {
         if (!ingredient.getItem().equals(ModItems.POTION_SALT.get())) return false;
         //add a case for Potion Salt
-        Potion potion = PotionUtils.getPotion(ingredient);
+        Potion potion = ingredient.get(DataComponents.POTION_CONTENTS).potion().get().get();
         if (potion.getEffects().size() == 0) return false;
 
         return potion.getEffects().get(0).getEffect() == this.ingredient;
@@ -47,8 +48,9 @@ public class SaltBrewingRecipe implements IBrewingRecipe
         }
 
         ItemStack itemStack = new ItemStack(input.getItem());
-        itemStack.setTag(new CompoundTag());//is this needed?
-        PotionUtils.setPotion(itemStack, this.output);
+        itemStack.set(DataComponents.POTION_CONTENTS,new PotionContents(Holder.direct(this.output)));
+        //itemStack.setTag(new CompoundTag());//is this needed?
+        //PotionUtils.setPotion(itemStack, this.output);
         return itemStack;
     }
 }

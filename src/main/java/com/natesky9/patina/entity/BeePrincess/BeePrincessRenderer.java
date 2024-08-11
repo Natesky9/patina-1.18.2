@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class BeePrincessRenderer extends MobRenderer<BeePrincess, BeePrincessModel<BeePrincess>> {
-    protected static ResourceLocation TEXTURE = new ResourceLocation(Patina.MODID, "textures/models/entity/bee_princess.png");
+    protected static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Patina.MODID, "textures/models/entity/bee_princess.png");
 
     public BeePrincessRenderer(EntityRendererProvider.Context context) {
         super(context, new BeePrincessModel<>(context.bakeLayer(BeePrincessModel.LAYER_LOCATION)), 1F);

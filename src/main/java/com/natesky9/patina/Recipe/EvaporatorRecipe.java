@@ -1,79 +1,61 @@
 package com.natesky9.patina.Recipe;
 
 import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.natesky9.patina.init.ModRecipeSerializers;
 import com.natesky9.patina.init.ModRecipeTypes;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public class EvaporatorRecipe implements Recipe<RecipeInput> {
-    public static String name = "evaporator";
-    private final RecipeType<?> type = ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get();
-
-    public final ItemStack output;
-    public final Ingredient inputIngredient;
-    public final Potion inputPotion;
-    //
-    public EvaporatorRecipe(ItemStack output, Either<Ingredient,Potion> either)
-    {
-        this.output = output;
-        this.inputIngredient = either.left().isPresent() ? either.left().get() : null;
-        this.inputPotion = either.right().isPresent() ? either.right().get() : null;
-    }
-    public EvaporatorRecipe(ItemStack output, Ingredient input)
-    {
-        this.output = output;
-        this.inputIngredient = input;
-        this.inputPotion = null;
-    }
-    public EvaporatorRecipe(ItemStack output, Potion input)
-    {
-        this.output = output;
-        this.inputIngredient = null;
-        this.inputPotion = input;
-    }
+public record EvaporatorRecipe(Either<Ingredient, Holder<Potion>> input, ItemStack output) implements Recipe<RecipeInput> {
+    //Thanks to Tslat for the help
+    public static final String name = "evaporator";
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        if (inputIngredient != null)
-            return NonNullList.of(Ingredient.EMPTY,inputIngredient);
-        return NonNullList.of(Ingredient.EMPTY,Ingredient.of(Items.POTION));
+        return getEither(this.input
+                .mapBoth(ingredient -> NonNullList.of(Ingredient.EMPTY, ingredient),
+                        potion -> NonNullList.of(Ingredient.EMPTY, Ingredient.of(Items.POTION))));
     }
+
 
     @Override
     public boolean matches(RecipeInput pContainer, Level pLevel) {
-        if (inputPotion == null)
-        {
-
-            boolean flag = inputIngredient.test(pContainer.getItem(0));
-            ItemStack potion = pContainer.getItem(0);
-            //this needs to be fixed
-            //boolean test = PotionContents.(potion).getEffects().stream().allMatch((effectInstance -> effectInstance.getAmplifier() == 0));
-            boolean effect = potion.get(DataComponents.POTION_CONTENTS).hasEffects();
-            if (flag && effect && true/*test*/) assemble(pContainer,pLevel.registryAccess());
-            return flag && effect;// && test;
-        }
-        if (inputIngredient == null)
-        {
-            Potion potion = pContainer.getItem(0).get(DataComponents.POTION_CONTENTS).potion().get().get();//PotionUtils.getPotion(pContainer.getItem(0));
-            boolean flag = potion == inputPotion;
-            if (flag) assemble(pContainer,pLevel.registryAccess());
-            return flag;
-        }
-        return false;
+        return getEither(
+                this.input.mapBoth(ingredient -> {
+                    boolean flag = ingredient.test(pContainer.getItem(0));
+                    ItemStack potion = pContainer.getItem(0);
+                    //this needs to be fixed
+                    //boolean test = PotionContents.(potion).getEffects().stream().allMatch((effectInstance -> effectInstance.getAmplifier() == 0));
+                    boolean effect = potion.get(DataComponents.POTION_CONTENTS).hasEffects();
+                    if (flag && effect && true/*test*/) assemble(pContainer,pLevel.registryAccess());
+                    return flag && effect;// && test;
+                }, inputPotion -> {
+                    Potion potion = pContainer.getItem(0).get(DataComponents.POTION_CONTENTS).potion().get().get();//PotionUtils.getPotion(pContainer.getItem(0));
+                    boolean flag = potion == inputPotion;
+                    if (flag) assemble(pContainer,pLevel.registryAccess());
+                    return flag;
+                })
+        );
     }
 
     @Override
     public ItemStack assemble(RecipeInput container, HolderLookup.Provider provider) {
         //do stuff to the stack here
-        if (inputPotion == null)
-            output.set(DataComponents.POTION_CONTENTS,container.getItem(0).get(DataComponents.POTION_CONTENTS));
+        this.input.ifLeft(ingredient -> output.set(DataComponents.POTION_CONTENTS, container.getItem(0).get(DataComponents.POTION_CONTENTS)));
+
         //if (input == null) do nothing as we're outputting a stack
         return output;
     }
@@ -90,61 +72,35 @@ public class EvaporatorRecipe implements Recipe<RecipeInput> {
 
     @Override
     public RecipeType<?> getType() {
-        return type;
+        return ModRecipeTypes.EVAPORATOR_RECIPE_TYPE.get();
     }
-    //Serializer stuffs
+
     @Override
     public RecipeSerializer<?> getSerializer() {
         return ModRecipeSerializers.EVAPORATOR_SERIALIZER.get();
     }
-    //TODO: Serializer
-    //public static class Serializer implements RecipeSerializer<EvaporatorRecipe>
-    //{
-    //    public static final Codec<Either<Ingredient,Potion>> ITEM_OR_POTION_CODEC =
-    //            Codec.either(Ingredient.CODEC, BuiltInRegistries.POTION.byNameCodec());
-//
-    //    final Codec<EvaporatorRecipe> CODEC = RecordCodecBuilder.create((instance) ->
-//
-    //        instance.group(
-    //                ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
-    //                ITEM_OR_POTION_CODEC.fieldOf("input").forGetter((getter) ->
-    //                        getter.inputIngredient != null ? Either.left(getter.inputIngredient) : Either.right(getter.inputPotion))
-    //        ).apply(instance, EvaporatorRecipe::new)
-    //    );
-//
-//
-    //    @Override
-    //    public Codec<EvaporatorRecipe> codec() {
-    //        return CODEC;
-    //    }
-//
-    //    @Override
-    //    public @Nullable EvaporatorRecipe fromNetwork(FriendlyByteBuf buffer) {
-    //        boolean specific = buffer.readBoolean();
-    //        if (specific)
-    //        {
-    //            Potion potion = buffer.readById(BuiltInRegistries.POTION);
-    //            ItemStack output = buffer.readItem();
-    //            return new EvaporatorRecipe(output, potion);
-    //        }
-    //        Ingredient input = Ingredient.fromNetwork(buffer);
-    //        ItemStack output = buffer.readItem();
-    //        return new EvaporatorRecipe(output, input);
-    //    }
-//
-    //    @Override
-    //    public void toNetwork(FriendlyByteBuf buffer, EvaporatorRecipe recipe) {
-    //        boolean specific = recipe.inputIngredient == null;
-    //        buffer.writeBoolean(specific);
-    //        if (specific)
-    //        {
-    //            buffer.writeId(BuiltInRegistries.POTION,recipe.inputPotion);
-    //            buffer.writeItemStack(recipe.output,false);
-    //            return;
-    //        }
-    //        recipe.inputIngredient.toNetwork(buffer);
-    //        buffer.writeItemStack(recipe.output,false);
-    //    }
-    //}
 
+    public static class Serializer implements RecipeSerializer<EvaporatorRecipe> {
+        public static final MapCodec<EvaporatorRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+                        Codec.either(Ingredient.CODEC_NONEMPTY, Potion.CODEC).fieldOf("input").forGetter(EvaporatorRecipe::input),
+                        ItemStack.CODEC.fieldOf("output").forGetter(EvaporatorRecipe::output))
+                .apply(builder, EvaporatorRecipe::new));
+        public static final StreamCodec<RegistryFriendlyByteBuf, EvaporatorRecipe> STREAM_CODEC = StreamCodec.composite(
+                ByteBufCodecs.either(Ingredient.CONTENTS_STREAM_CODEC, Potion.STREAM_CODEC), EvaporatorRecipe::input,
+                ItemStack.STREAM_CODEC, EvaporatorRecipe::output,
+                EvaporatorRecipe::new);
+
+        @Override
+        public MapCodec<EvaporatorRecipe> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, EvaporatorRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+    }
+    private static <T> T getEither(Either<T, T> either) {
+        return either.left().orElseGet(() -> either.right().orElseThrow());
+    }
 }

@@ -1,7 +1,6 @@
 package com.natesky9.patina.Block.Template;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.natesky9.patina.Patina;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -12,7 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class MachineTemplateScreen extends AbstractContainerScreen<MachineTemplateMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MODID,"textures/gui/machine_anvil_smithing_gui.png");
+            ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textures/gui/machine_anvil_smithing_gui.png");
 
     public MachineTemplateScreen(MachineTemplateMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);

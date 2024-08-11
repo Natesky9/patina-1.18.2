@@ -6,6 +6,7 @@ import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
@@ -253,7 +254,7 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     private boolean hasNotReachedStackLimit()
     {
         ItemStack stack = itemStackHandler.getStackInSlot(output);
-        int count = recipe.get().value().output.getCount();
+        int count = recipe.get().value().output().getCount();
         return stack.getCount() < stack.getMaxStackSize()-count;
     }
 
@@ -270,14 +271,14 @@ public class MachineEvaporatorEntity extends MachineTemplateEntity implements Me
     }
 
     @Override
-    public void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.putInt("heat", heat);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+        tag.putInt("heat", heat);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
         heat = tag.getInt("heat");
     }
 }

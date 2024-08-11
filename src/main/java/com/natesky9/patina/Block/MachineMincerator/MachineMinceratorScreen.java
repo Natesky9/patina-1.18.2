@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class MachineMinceratorScreen extends AbstractContainerScreen<MachineMinceratorMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MODID,"textures/gui/machine_mincerator_gui.png");
+            ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textures/gui/machine_mincerator_gui.png");
     public final RecipeBookComponent component;
     private boolean widthTooNarrow;
 

@@ -1,7 +1,6 @@
 package com.natesky9.patina.Loot;
 
-import com.google.common.base.Suppliers;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.Item;
@@ -13,13 +12,10 @@ import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
-
 
 public class AddSingleItemModifier extends LootModifier {
-    public static final Supplier<Codec<AddSingleItemModifier>> CODEC = Suppliers.memoize(
-            () -> RecordCodecBuilder.create(instance -> codecStart(instance).and(ForgeRegistries.ITEMS.getCodec()
-                    .fieldOf("item").forGetter(m -> m.item)).apply(instance, AddSingleItemModifier::new)));
+    public static final MapCodec<AddSingleItemModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance).and(ForgeRegistries.ITEMS.getCodec()
+                    .fieldOf("item").forGetter(m -> m.item)).apply(instance, AddSingleItemModifier::new));
     private final Item item;
 
     public AddSingleItemModifier(LootItemCondition[] conditionsIn, Item item) {
@@ -34,7 +30,7 @@ public class AddSingleItemModifier extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
-        return CODEC.get();
+    public MapCodec<? extends IGlobalLootModifier> codec() {
+        return CODEC;
     }
 }

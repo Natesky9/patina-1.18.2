@@ -1,6 +1,5 @@
 package com.natesky9.patina.event;
 
-import com.natesky9.patina.Item.EssenceItem;
 import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.ModRecipeBookType;
@@ -23,14 +22,17 @@ import com.natesky9.patina.entity.SpiderNest.Spidernest;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenModel;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenRenderer;
-import com.natesky9.patina.init.*;
+import com.natesky9.patina.init.ModEntityTypes;
+import com.natesky9.patina.init.ModItems;
+import com.natesky9.patina.init.ModRecipeTypes;
+import com.natesky9.patina.init.ModScreens;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
@@ -66,24 +68,25 @@ public class EventsMod {
     {
         //potion flask
         event.register((pStack, pTintIndex) ->
-                pTintIndex == 1 ? PotionUtils.getColor(pStack) : -1
+                pTintIndex == 1 ? pStack.get(DataComponents.POTION_CONTENTS).getColor() : -1
             ,ModItems.POTION_FLASK.get(),ModItems.IMPETUS_FLASK.get(),
                 ModItems.VITA_FLASK.get(),ModItems.MAGNA_FLASK.get());
         //salts
         event.register((pStack, pTintIndex) ->
-                pTintIndex == 0 ? PotionUtils.getColor(pStack) : -1,ModItems.POTION_SALT.get());
+                pTintIndex == 0 ? pStack.get(DataComponents.POTION_CONTENTS).getColor() : -1,ModItems.POTION_SALT.get());
         //tint on layer 1
-        event.register(((pStack, pTintIndex) -> pTintIndex == 1 ? RustableItem.getRust(pStack):-1),
-                ModItems.COPPER_AXE.get(),ModItems.COPPER_HOE.get(),ModItems.COPPER_SWORD.get(),
-                ModItems.COPPER_PICK.get(),ModItems.COPPER_SHOVEL.get());
+        //TODO:do rust, eventually?
+        //event.register(((pStack, pTintIndex) -> pTintIndex == 1 ? RustableItem.getRust(pStack):-1),
+        //        ModItems.COPPER_AXE.get(),ModItems.COPPER_HOE.get(),ModItems.COPPER_SWORD.get(),
+        //        ModItems.COPPER_PICK.get(),ModItems.COPPER_SHOVEL.get());
         event.register(((pStack, pTintIndex) ->
                 {return pTintIndex == 1 ? RustableItem.getSheen(Minecraft.getInstance().level) : -1;}),
                 ModItems.BRONZE_AXE.get(),ModItems.BRONZE_HOE.get(),ModItems.BRONZE_SWORD.get(),
                 ModItems.BRONZE_PICK.get(),ModItems.BRONZE_SHOVEL.get());
         //tint on layer 0
-        event.register(((pStack, pTintIndex) -> pTintIndex == 0 ? RustableItem.getRust(pStack) : -1),
-                ModItems.COPPER_HELMET.get(),ModItems.COPPER_CHESTPLATE.get(),
-                ModItems.COPPER_LEGGINGS.get(),ModItems.COPPER_BOOTS.get());
+        //event.register(((pStack, pTintIndex) -> pTintIndex == 0 ? RustableItem.getRust(pStack) : -1),
+        //        ModItems.COPPER_HELMET.get(),ModItems.COPPER_CHESTPLATE.get(),
+        //        ModItems.COPPER_LEGGINGS.get(),ModItems.COPPER_BOOTS.get());
         event.register(((pStack, pTintIndex) ->
         {return RustableItem.getSheen(Minecraft.getInstance().level);}),
                 ModItems.BRONZE_INGOT.get(),ModItems.BRONZE_HELMET.get(),ModItems.BRONZE_CHESTPLATE.get(),
@@ -97,27 +100,28 @@ public class EventsMod {
     @SubscribeEvent
     public static void doCommonStuff(final FMLCommonSetupEvent event)
     {
-        ModPotions.removePotions();
-        ModPotions.addNormalPotions();
-        ModPotions.addSaltPotions();
-        ModPotions.addVoidPotions();
+        //TODO: potions
+        //ModPotions.removePotions();
+        //ModPotions.addNormalPotions();
+        //ModPotions.addSaltPotions();
+        //ModPotions.addVoidPotions();
     }
     @SubscribeEvent
     public static void doClientStuff(FMLClientSetupEvent event)
     {
 
         ModScreens.register();
-        ItemProperties.register(ModItems.PIG_CROSSBOW.get(), new ResourceLocation("pull"),
-                (p_174610_, p_174611_, p_174612_, p_174613_) -> {
-                    if (p_174612_ == null) {return 0.0F;}
+        ItemProperties.register(ModItems.PIG_CROSSBOW.get(),ResourceLocation.withDefaultNamespace("pull"),
+                (itemStack, clientLevel, livingEntity, i) -> {
+                    if (livingEntity == null) {return 0.0F;}
                     else {
-                        return CrossbowItem.isCharged(p_174610_) ? 0.0F : (float)(p_174610_.getUseDuration() -
-                                p_174612_.getUseItemRemainingTicks()) / (float)CrossbowItem.getChargeDuration(p_174610_);
+                        return CrossbowItem.isCharged(itemStack) ? 0.0F : (float)(itemStack.getUseDuration(livingEntity) -
+                                livingEntity.getUseItemRemainingTicks()) / (float)CrossbowItem.getChargeDuration(itemStack,livingEntity);
                     }});
 
-        ItemProperties.register(ModItems.PIG_CROSSBOW.get(), new ResourceLocation("pulling"),
+        ItemProperties.register(ModItems.PIG_CROSSBOW.get(),ResourceLocation.withDefaultNamespace("pulling"),
                 (itemStack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == itemStack && !CrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F);
-        ItemProperties.register(ModItems.PIG_CROSSBOW.get(), new ResourceLocation("charged"),
+        ItemProperties.register(ModItems.PIG_CROSSBOW.get(),ResourceLocation.withDefaultNamespace("charged"),
                 (itemStack, level, entity, seed) -> CrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F);
 
         registerPotionCapacityProperty(ModItems.POTION_FLASK.get());
@@ -125,12 +129,13 @@ public class EventsMod {
         registerPotionCapacityProperty(ModItems.IMPETUS_FLASK.get());
         registerPotionCapacityProperty(ModItems.MAGNA_FLASK.get());
 
-        ItemProperties.register(ModItems.ESSENCE.get(), new ResourceLocation("crude"),
-                (itemstack, level, entity, seed) -> EssenceItem.isCrude(itemstack) ? 0.0F : 1.0F);
+        //we got rid of crude essence
+        //ItemProperties.register(ModItems.ESSENCE.get(),ResourceLocation.withDefaultNamespace("crude"),
+        //        (itemstack, level, entity, seed) -> EssenceItem.isCrude(itemstack) ? 0.0F : 1.0F);
     }
     static void registerPotionCapacityProperty(Item item)
     {
-        ItemProperties.register(item, new ResourceLocation("capacity"),
+        ItemProperties.register(item,ResourceLocation.withDefaultNamespace("capacity"),
                 ((pStack, pLevel, pEntity, pSeed) -> PotionFlaskItem.percentFull(pStack)));
     }
     @SubscribeEvent

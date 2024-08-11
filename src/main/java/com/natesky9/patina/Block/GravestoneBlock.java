@@ -2,22 +2,18 @@ package com.natesky9.patina.Block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -59,10 +55,10 @@ public class GravestoneBlock {
         for (ItemEntity entity:event.getDrops())
         {
             ItemStack stack = entity.getItem();
-            if (stack.getItem().getFoodProperties(stack,null) != null)
+            if (stack.get(DataComponents.FOOD) != null)
                 stack.shrink(1);
             //do tool and armor damage
-            if (stack.getItem().isDamageable(stack))
+            if (stack.isDamageableItem())
             {
                 stack.setDamageValue(Math.min(stack.getDamageValue()+stack.getMaxDamage()/5,stack.getMaxDamage()-1));
             }

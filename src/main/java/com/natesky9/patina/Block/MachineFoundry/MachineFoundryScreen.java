@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class MachineFoundryScreen extends AbstractContainerScreen<MachineFoundryMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MODID, "textures/gui/foundry_gui.png");
+            ResourceLocation.fromNamespaceAndPath(Patina.MODID, "textures/gui/foundry_gui.png");
     public final RecipeBookComponent component;
     private boolean widthTooNarrow;
 

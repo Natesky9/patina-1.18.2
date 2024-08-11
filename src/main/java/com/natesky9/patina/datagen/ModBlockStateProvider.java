@@ -22,28 +22,28 @@ public class ModBlockStateProvider extends BlockStateProvider {
     {
         //add blocks here
         horizontalBlock(ModBlocks.MACHINE_EVAPORATOR.get(),
-                new ResourceLocation(Patina.MODID,"block/evaporator_side"),
-                new ResourceLocation(Patina.MODID,"block/evaporator_front"),
-                new ResourceLocation(Patina.MODID,"block/evaporator_top"));
+                ResourceLocation.fromNamespaceAndPath(Patina.MODID,"block/evaporator_side"),
+                ResourceLocation.fromNamespaceAndPath(Patina.MODID,"block/evaporator_front"),
+                ResourceLocation.fromNamespaceAndPath(Patina.MODID,"block/evaporator_top"));
         simpleBlock(ModBlocks.PRISMATIC_ORE.get());
         simpleBlock(ModBlocks.BISMUTH_ORE.get());
         horizontalBlock(ModBlocks.APPLIANCE_ICEBOX.get(),
-                new ResourceLocation("block/iron_door_bottom"),
-                new ResourceLocation("block/iron_trapdoor"),
-                new ResourceLocation("block/oak_trapdoor"));
+                ResourceLocation.withDefaultNamespace("block/iron_door_bottom"),
+                ResourceLocation.withDefaultNamespace("block/iron_trapdoor"),
+                ResourceLocation.withDefaultNamespace("block/oak_trapdoor"));
         horizontalBlock(ModBlocks.APPLIANCE_WARDROBE.get(),
-                new ResourceLocation("block/acacia_door_bottom"),
-                new ResourceLocation("block/dark_oak_door_bottom"),
-                new ResourceLocation("block/dark_oak_planks"));
+                ResourceLocation.withDefaultNamespace("block/acacia_door_bottom"),
+                ResourceLocation.withDefaultNamespace("block/dark_oak_door_bottom"),
+                ResourceLocation.withDefaultNamespace("block/dark_oak_planks"));
         //simpleBlock(ModBlocks.APPLIANCE_ICEBOX.get());
         //simpleBlock(ModBlocks.APPLIANCE_WARDROBE.get());
         //
         getVariantBuilder(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get()).forAllStates(state -> {
             boolean powered = state.getValue(ApplianceConsolidatorBlock.ACTIVE);
             ModelFile off = models().cubeAll("consolidator_off",
-                    new ResourceLocation("block/lapis_block"));
+                    ResourceLocation.withDefaultNamespace("block/lapis_block"));
             ModelFile on = models().cubeAll("consolidator_on",
-                    new ResourceLocation("block/gold_block"));
+                    ResourceLocation.withDefaultNamespace("block/gold_block"));
 
             return ConfiguredModel.builder()
                     .modelFile(powered ? off : on)
@@ -57,20 +57,20 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.ADDON_ALEMBIC.get());
         simpleBlock(ModBlocks.MACHINE_TEXTILER.get());
 
-        models().cubeAll(ModBlocks.TEST_GENERATOR.getId().getPath(),new ResourceLocation("block/iron_block"));
+        models().cubeAll(ModBlocks.TEST_GENERATOR.getId().getPath(),ResourceLocation.withDefaultNamespace("block/iron_block"));
         getVariantBuilder(ModBlocks.CHORUS_TELEPORTER.get()).partialState().setModels(new ConfiguredModel(
                 models().withExistingParent(ModBlocks.CHORUS_TELEPORTER.getId().getPath(),"block/cube_bottom_top")
                         .texture("side", modLoc("block/chorus_teleporter_side"))
-                        .texture("bottom", new ResourceLocation("block/end_stone_bricks"))
+                        .texture("bottom", ResourceLocation.withDefaultNamespace("block/end_stone_bricks"))
                         .texture("top", modLoc("block/chorus_teleporter_top"))
         ));
 
         pipeBlock(ModBlocks.CHORUS_CABLE,
-                new ResourceLocation("block/chorus_plant"),
-                new ResourceLocation("block/white_wool"));
+                ResourceLocation.withDefaultNamespace("block/chorus_plant"),
+                ResourceLocation.withDefaultNamespace("block/white_wool"));
         pipeBlock(ModBlocks.CHARGE_CABLE,
-                new ResourceLocation("block/yellow_wool"),
-                new ResourceLocation("block/copper_block"));
+                ResourceLocation.withDefaultNamespace("block/yellow_wool"),
+                ResourceLocation.withDefaultNamespace("block/copper_block"));
         //done adding blocks
     }
 
@@ -96,7 +96,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         MultiPartBlockStateBuilder builder = getMultipartBuilder(block.get());
 
-        BlockModelBuilder nodeModel = models().cubeAll(baseName,new ResourceLocation("block/chorus_plant"))
+        BlockModelBuilder nodeModel = models().cubeAll(baseName,ResourceLocation.withDefaultNamespace("block/chorus_plant"))
                 .texture(node_string,nodeTexture)
                 .texture("particle",nodeTexture);
         builder.part().modelFile(nodeModel);

@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class MachineEvaporatorScreen extends AbstractContainerScreen<MachineEvaporatorMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MODID,"textures/gui/machine_evaporator.png");
+            ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textures/gui/machine_evaporator.png");
     public final RecipeBookComponent component;
     private boolean widthTooNarrow;
     public MachineEvaporatorScreen(MachineEvaporatorMenu pMenu, Inventory pPlayerInventory, Component pTitle) {

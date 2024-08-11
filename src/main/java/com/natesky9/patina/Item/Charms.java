@@ -101,7 +101,8 @@ public class Charms {
             duration += event.getEffectInstance().getDuration();
             potency--;
             holder = new MobEffectInstance(instance.getEffect(),duration,potency);
-            instance.hiddenEffect = holder;
+            //TODO: Access transform this
+            //instance.hiddenEffect = holder;
             instance = holder;
         }
         //if (potency > 0)

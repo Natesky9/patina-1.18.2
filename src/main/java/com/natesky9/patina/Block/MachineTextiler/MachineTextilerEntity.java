@@ -4,6 +4,7 @@ import com.natesky9.patina.Block.Template.MachineTemplateEntity;
 import com.natesky9.patina.Recipe.TextilerRecipe;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -151,15 +152,15 @@ public class MachineTextilerEntity extends MachineTemplateEntity {
     }
 
     @Override
-    public void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.putInt("progress",progress);
-        pTag.putInt("progressMax",progressMax);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+        tag.putInt("progress",progress);
+        tag.putInt("progressMax",progressMax);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
         progress = tag.getInt("progress");
         progressMax = tag.getInt("progressMax");
     }

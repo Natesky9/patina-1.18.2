@@ -9,14 +9,14 @@ import com.natesky9.patina.Item.pouches.GemPouchItem;
 import com.natesky9.patina.Item.pouches.LighterItem;
 import com.natesky9.patina.Item.pouches.SeedPouchItem;
 import com.natesky9.patina.Patina;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraftforge.common.ForgeMod;
+import net.minecraft.world.item.component.Unbreakable;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -46,9 +46,13 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> BEE_SWORD = ITEMS.register("bee_sword",
             () -> (new BeeWeaponItem(ModTiers.BOSS,2,-1.8F,
-                    new Item.Properties().rarity(Rarity.RARE))));
+                    new Item.Properties()
+                            .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
+                            .rarity(Rarity.RARE))));
     public static final RegistryObject<Item> BEE_SHIELD = ITEMS.register("bee_shield",
-            () -> new BeeShieldItem(new Item.Properties().rarity(Rarity.RARE).stacksTo(1)));
+            () -> new BeeShieldItem(new Item.Properties().rarity(Rarity.RARE)
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
+                    .stacksTo(1)));
     //spider
     public static final RegistryObject<Item> SPIDER_FRAGMENT_1 = ITEMS.register("spider_fragment_1",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
@@ -89,9 +93,13 @@ public class ModItems {
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> PIG_SWORD = ITEMS.register("pig_sword",
             () -> (new PigWeaponItem(ModTiers.BOSS,4,-3.0F,
-                    new Item.Properties().rarity(Rarity.RARE))));
+                    new Item.Properties()
+                            .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
+                            .rarity(Rarity.RARE))));
     public static final RegistryObject<Item> PIG_CROSSBOW = ITEMS.register("pig_crossbow",
-            () -> new PigCrossbowItem(new Item.Properties().rarity(Rarity.RARE).stacksTo(1)));
+            () -> new PigCrossbowItem(new Item.Properties()
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
+                    .rarity(Rarity.RARE).stacksTo(1)));
     //bear
 
     public static final RegistryObject<Item> BEAR_FRAGMENT_1 = ITEMS.register("bear_fragment_1",
@@ -111,7 +119,9 @@ public class ModItems {
     public static final RegistryObject<Item> BEAR_FRAGMENT_D = ITEMS.register("bear_fragment_d",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> BEAR_WEAPON = ITEMS.register("bear_weapon",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new Item(new Item.Properties()
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
+                    .rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> BEAR_ARMOR = ITEMS.register("bear_armor",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     //spooky
@@ -132,9 +142,13 @@ public class ModItems {
     public static final RegistryObject<Item>  WITHER_FRAGMENT_D = ITEMS.register("wither_fragment_d",
             () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item>  WITHER_STAFF = ITEMS.register("wither_staff",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new Item(new Item.Properties()
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
+                    .rarity(Rarity.RARE)));
     public static final RegistryObject<Item>  WITHER_WINGS = ITEMS.register("wither_wings",
-            () -> new ElytraItem(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new ElytraItem(new Item.Properties()
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
+                    .rarity(Rarity.RARE)));
     //endregion shards
     //region copper
     //removing the rust aspect for now
@@ -211,7 +225,7 @@ public class ModItems {
     //endregion bronze
     //region dragon
     static AttributeModifier hp = new AttributeModifier(
-            ResourceLocation.fromNamespaceAndPath("patina","health"),
+            name("health"),
             2, AttributeModifier.Operation.ADD_VALUE);
     public static final RegistryObject<Item> DRAGON_HELMET = ITEMS.register("dragon_helmet",
             () -> new ArmorItem(ModArmorMaterials.DRAGON,ArmorItem.Type.HELMET,new Item.Properties()
@@ -286,15 +300,19 @@ public class ModItems {
 
     public static final RegistryObject<Item> POTION_FLASK = ITEMS.register("potion_flask",
             () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
                     .durability(3)));
     public static final RegistryObject<Item> IMPETUS_FLASK = ITEMS.register("potion_flask_impetus",
             () -> new ImpetusFlask(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
                     .durability(4)));
     public static final RegistryObject<Item> VITA_FLASK = ITEMS.register("potion_flask_vita",
             () -> new SemiVitaFlask(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
                     .durability(4)));
     public static final RegistryObject<Item> MAGNA_FLASK = ITEMS.register("potion_flask_magna",
             () -> new PotionFlaskItem(new Item.Properties().rarity(Rarity.UNCOMMON)
+                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
                     .durability(6)));
 
     public static final RegistryObject<Item> DRAGON_SCALE = ITEMS.register("dragon_scale",
@@ -315,17 +333,16 @@ public class ModItems {
     public static final RegistryObject<Item> UMBRA = ITEMS.register("umbra",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     //boots
-    static AttributeModifier speed = new AttributeModifier(ResourceLocation.fromNamespaceAndPath("patina","speed"),
+    static AttributeModifier speed = new AttributeModifier(name("speed"),
             .1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
     static ItemAttributeModifiers mod = ItemAttributeModifiers.builder().add(Attributes.MOVEMENT_SPEED, speed, EquipmentSlotGroup.FEET).build();
     public static final RegistryObject<Item> CLOTH_BOOTS = ITEMS.register("cloth_boots",
             () -> new ArmorItem(ArmorMaterials.LEATHER,ArmorItem.Type.BOOTS,new Item.Properties()
                     .attributes(mod)));
-
     //umbra
     static ItemAttributeModifiers umbra = ItemAttributeModifiers.builder()
-            .add(Attributes.GRAVITY, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("patina","gravity"),-.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.ARMOR)
-            .add(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("patina","gravity"),2,AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.ANY)
+            .add(Attributes.GRAVITY, new AttributeModifier(name("gravity"),-.20, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.ARMOR)
+            .add(Attributes.SAFE_FALL_DISTANCE, new AttributeModifier(name("gravity"),2,AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.ANY)
             .build();
     public static final RegistryObject<Item> UMBRA_HAT = ITEMS.register("umbra_hat",
             () -> new UmbraArmorItem(ArmorItem.Type.HELMET,new Item.Properties().attributes(umbra)));
@@ -335,20 +352,27 @@ public class ModItems {
             () -> new UmbraArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties().attributes(umbra)));
     public static final RegistryObject<Item> MALACHITE = ITEMS.register("malachite",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    //claws
+    static ItemAttributeModifiers small_claw = ItemAttributeModifiers.builder()
+            .add(Attributes.BLOCK_INTERACTION_RANGE,new AttributeModifier(name("reach"),1,AttributeModifier.Operation.ADD_VALUE),
+                    EquipmentSlotGroup.OFFHAND).build();
+    static ItemAttributeModifiers medium_claw = ItemAttributeModifiers.builder()
+            .add(Attributes.BLOCK_INTERACTION_RANGE,new AttributeModifier(name("reach"),2,AttributeModifier.Operation.ADD_VALUE),
+                    EquipmentSlotGroup.OFFHAND).build();
+    static ItemAttributeModifiers strong_claw = ItemAttributeModifiers.builder()
+            .add(Attributes.ENTITY_INTERACTION_RANGE,new AttributeModifier(name("reach"),1,AttributeModifier.Operation.ADD_VALUE),
+                    EquipmentSlotGroup.OFFHAND)
+            .add(Attributes.ATTACK_DAMAGE,new AttributeModifier(name("attack"),1,AttributeModifier.Operation.ADD_VALUE),
+                    EquipmentSlotGroup.OFFHAND).build();
     public static final RegistryObject<Item> CLAW = ITEMS.register("claw",
-            () -> new ClawItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1),
-                    EquipmentSlot.OFFHAND,ForgeMod.BLOCK_REACH.get(),new AttributeModifier(ClawItem.block_reach,
-                    "Block reach",1, AttributeModifier.Operation.ADDITION)));
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
+                    .attributes(small_claw)));
     public static final RegistryObject<Item> COPPER_CLAW = ITEMS.register("copper_claw",
-            () -> new ClawItem(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1),
-                    EquipmentSlot.OFFHAND,ForgeMod.BLOCK_REACH.get(),new AttributeModifier(ClawItem.block_reach,
-                    "Block reach",2,AttributeModifier.Operation.ADDITION)));
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
+                    .attributes(medium_claw)));
     public static final RegistryObject<Item> DRAGON_CLAW = ITEMS.register("dragon_claw",
-            () -> new ClawItem(new Item.Properties().rarity(Rarity.RARE).stacksTo(1),
-                    EquipmentSlot.OFFHAND,ForgeMod.ENTITY_REACH.get(),new AttributeModifier(ClawItem.entity_reach,
-                    "Entity reach",2,AttributeModifier.Operation.ADDITION),
-                    Attributes.ATTACK_DAMAGE,new AttributeModifier(ClawItem.strength,
-                    "Strength",1,AttributeModifier.Operation.ADDITION)));
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE).stacksTo(1)
+                    .attributes(strong_claw)));
     //endregion potion/ores
     //region food
     public static final RegistryObject<Item> FOOD_MEATBALLS = ITEMS.register("meatballs",
@@ -381,6 +405,11 @@ public class ModItems {
 
 
     //endregion food
+    //helper methods
+    static ResourceLocation name(String name)
+    {
+        return ResourceLocation.fromNamespaceAndPath("patina", name);
+    }
     //
     public static void register(IEventBus eventBus)
     {ITEMS.register(eventBus);}

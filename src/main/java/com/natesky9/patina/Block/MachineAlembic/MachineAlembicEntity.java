@@ -4,6 +4,7 @@ import com.natesky9.patina.Block.Template.MachineTemplateEntity;
 import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -211,18 +212,18 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
     }
 
     @Override
-    public void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.putInt("progress", progress);
-        pTag.putInt("connected", connected);
-        pTag.putInt("fuel", fuel);
-        pTag.putInt("leftover", leftover);
-        pTag.putInt("reagent", BuiltInRegistries.ITEM.getId(reagent));
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+        tag.putInt("progress", progress);
+        tag.putInt("connected", connected);
+        tag.putInt("fuel", fuel);
+        tag.putInt("leftover", leftover);
+        tag.putInt("reagent", BuiltInRegistries.ITEM.getId(reagent));
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
         progress = tag.getInt("progress");
         connected = tag.getInt("connected");
         fuel = tag.getInt("fuel");

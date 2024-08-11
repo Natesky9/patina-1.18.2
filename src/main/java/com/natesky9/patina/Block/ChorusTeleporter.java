@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -21,15 +20,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Objects;
-
 public class ChorusTeleporter extends Block {
     public ChorusTeleporter(Properties pProperties) {
         super(pProperties);
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult p_60508_) {
         if (!(pPlayer instanceof ServerPlayer player)) return InteractionResult.CONSUME;
         Direction direction = player.getDirection();
 
@@ -48,10 +45,11 @@ public class ChorusTeleporter extends Block {
             pLevel.playSound(null,pPos,SoundEvents.SHULKER_BULLET_HIT, SoundSource.PLAYERS);
             return InteractionResult.CONSUME;
         }
-            pLevel.playSound(null,pos,SoundEvents.CHORUS_FRUIT_TELEPORT,SoundSource.PLAYERS);
-            player.teleportTo(pos.getX() + .5F, pos.getY() + 1F, pos.getZ() + .5F);
+        pLevel.playSound(null,pos,SoundEvents.CHORUS_FRUIT_TELEPORT,SoundSource.PLAYERS);
+        player.teleportTo(pos.getX() + .5F, pos.getY() + 1F, pos.getZ() + .5F);
         return InteractionResult.CONSUME;
     }
+
     private static BlockPos traverse(Level level, BlockPos pPos, Direction direction)
     {
         BlockPos pos = pPos.relative(direction);

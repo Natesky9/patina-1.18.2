@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class SpiderQueenRenderer extends MobRenderer<SpiderQueen, SpiderQueenModel<SpiderQueen>> {
-    protected static ResourceLocation TEXTURE = new ResourceLocation(Patina.MODID, "textures/models/entity/spider_queen.png");
+    protected static ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Patina.MODID, "textures/models/entity/spider_queen.png");
 
     public SpiderQueenRenderer(EntityRendererProvider.Context context) {
         super(context, new SpiderQueenModel<>(context.bakeLayer(SpiderQueenModel.LAYER_LOCATION)), 1F);

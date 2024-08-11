@@ -3,6 +3,7 @@ package com.natesky9.patina.datagen;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
 import com.natesky9.patina.init.ModBlocks;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
@@ -14,8 +15,8 @@ import java.util.Set;
 
 public class ModBlockLootTables extends BlockLootSubProvider {
 
-    public ModBlockLootTables() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    public ModBlockLootTables(HolderLookup.Provider provider) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(),provider);
     }
 
     @Override

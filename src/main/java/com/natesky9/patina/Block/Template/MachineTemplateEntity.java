@@ -2,6 +2,7 @@ package com.natesky9.patina.Block.Template;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
@@ -134,17 +135,16 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
     }
 
     @Override
-    public void saveAdditional(CompoundTag pTag)
-    {
-        //we only save inventory in the parent class
-        pTag.put("inventory", itemStackHandler.serializeNBT());
-        super.saveAdditional(pTag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        tag.put("inventory", itemStackHandler.serializeNBT(provider));
+        super.saveAdditional(tag, provider);
     }
+
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
         //load the inventory but also set the inventory size if we changed it since last update
-        itemStackHandler.deserializeNBT(tag.getCompound("inventory"));
+        itemStackHandler.deserializeNBT(provider,tag.getCompound("inventory"));
         if (itemStackHandler.getSlots() != machineSlots)
         {
             System.out.println("Slots do not match! setting to correct now!");

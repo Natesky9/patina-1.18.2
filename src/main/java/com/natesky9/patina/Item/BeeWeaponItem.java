@@ -14,7 +14,7 @@ import net.minecraftforge.common.ToolActions;
 
 public class BeeWeaponItem extends SwordItem {
     public BeeWeaponItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
-        super(pTier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
+        super(pTier, pProperties);
     }
 
     @Override
@@ -34,9 +34,9 @@ public class BeeWeaponItem extends SwordItem {
         return InteractionResultHolder.consume(item);
     }
 
-    @Override
-    public boolean isDamageable(ItemStack stack) {
-        return false;
-    }
+    //@Override
+    //public boolean isDamageable(ItemStack stack) {
+    //    return false;
+    //}
 
 }

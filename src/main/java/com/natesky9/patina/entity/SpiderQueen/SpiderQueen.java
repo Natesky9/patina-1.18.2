@@ -9,7 +9,6 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -48,11 +47,6 @@ public class SpiderQueen extends Monster {
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.4, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this,Player.class,true));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
-    }
-
-    @Override
-    public MobType getMobType() {
-        return MobType.ARTHROPOD;
     }
 
     @Override

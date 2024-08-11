@@ -1,9 +1,14 @@
 package com.natesky9.patina.Recipe;
 
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.natesky9.patina.init.ModRecipeSerializers;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -89,77 +94,83 @@ public class MinceratorRecipe implements Recipe<RecipeInput> {
         return ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get();
     }
     //TODO: Serializer
-    //public static class Serializer implements RecipeSerializer<MinceratorRecipe> {
-    //    public static final Codec<Either<Ingredient,TagKey<Item>>> ITEM_OR_TAG_CODEC =
-    //            Codec.either(Ingredient.CODEC, TagKey.codec(BuiltInRegistries.ITEM.key()));
-//
-    //    Codec<MinceratorRecipe> CODEC = RecordCodecBuilder.create((instance) ->
-    //            instance.group(
-    //                    ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
-    //                    Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(
-    //                            (map) ->
-    //                            {
-    //                                NonNullList<Ingredient> list = NonNullList.create();
-    //                                list.addAll(map);
-    //                                if (list.size() != 4)
-    //                                {
-    //                                    return DataResult.error(() -> "recipe does not adhere to 4 items!");
-    //                                }
-    //                                return DataResult.success(list);
-    //                            }, DataResult::success).forGetter((getter) -> getter.recipeItems
-    //                    )
-    //            ).apply(instance, MinceratorRecipe::new));
-    //    @Override
-    //    public Codec<MinceratorRecipe> codec() {
-    //        return CODEC;
-    //    }
-    //    //@Override
-    //    //public MinceratorRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
-    //    //    @Nullable ITagManager<Item> tagManager = ForgeRegistries.ITEMS.tags();
-    //    //    ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
-    //    //    JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
-    //    //    ArrayList<Object> inputs = new ArrayList<>();
-////
-    //    //    for (int i = 0; i < ingredients.size(); i++) {
-    //    //        JsonObject test = ((JsonObject) ingredients.get(i));
-    //    //        if (test.has("item"))
-    //    //            inputs.add(i, Ingredient.fromJson(ingredients.get(i)));
-    //    //        if (test.has("tag"))
-    //    //        {
-    //    //            String str = test.get("tag").getAsString();
-    //    //            ResourceLocation parse = ResourceLocation.tryParse(str);
-    //    //            TagKey<Item> tag = tagManager.createTagKey(parse);
-    //    //            int count = test.has("count") ? test.get("count").getAsInt():1;
-    //    //            for (int c=0;c < count;c++)
-    //    //                inputs.add(inputs.size(), tag);
-    //    //        }
-    //    //    }
-    //    //    return new MinceratorRecipe(output, inputs);
-    //    //}
-//
-//
-    //    @Nullable
-    //    @Override
-    //    public MinceratorRecipe fromNetwork(FriendlyByteBuf buffer) {
-    //        NonNullList<Ingredient> inputs = NonNullList.withSize(4,Ingredient.EMPTY);
-//
-    //        int size = buffer.readInt();
-    //        for (int i = 0; i < size; i++) {
-    //            inputs.set(i, Ingredient.fromNetwork(buffer));
-    //        }
-//
-    //        ItemStack output = buffer.readItem();
-    //        return new MinceratorRecipe(output, inputs);
-    //    }
-//
-    //    @Override
-    //    public void toNetwork(FriendlyByteBuf buffer, MinceratorRecipe pRecipe) {
-    //        buffer.writeInt(pRecipe.getIngredients().size());
-    //        for (Ingredient object : pRecipe.getIngredients())
-    //        {
-    //            object.toNetwork(buffer);
-    //        }
-    //        buffer.writeItemStack(pRecipe.output, false);
-    //    }
-    //}
+    public static class Serializer implements RecipeSerializer<MinceratorRecipe> {
+
+
+        public static final MapCodec<MinceratorRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) ->
+                instance.group(
+                        ItemStack.SIMPLE_ITEM_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
+                        Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(
+                                (map) ->
+                                {
+                                    NonNullList<Ingredient> list = NonNullList.create();
+                                    list.addAll(map);
+                                    if (list.size() != 4)
+                                    {
+                                        return DataResult.error(() -> "recipe does not adhere to 4 items!");
+                                    }
+                                    return DataResult.success(list);
+                                }, DataResult::success).forGetter((getter) -> getter.recipeItems
+                        )
+                ).apply(instance, MinceratorRecipe::new));
+        public static final StreamCodec<RegistryFriendlyByteBuf,MinceratorRecipe> STREAM_CODEC =
+                StreamCodec.of(Serializer::encode,Serializer::decode
+        );
+        @Override
+        public MapCodec<MinceratorRecipe> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, MinceratorRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+        //@Override
+        //public MinceratorRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
+        //    @Nullable ITagManager<Item> tagManager = ForgeRegistries.ITEMS.tags();
+        //    ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
+        //    JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
+        //    ArrayList<Object> inputs = new ArrayList<>();
+
+        //    for (int i = 0; i < ingredients.size(); i++) {
+        //        JsonObject test = ((JsonObject) ingredients.get(i));
+        //        if (test.has("item"))
+        //            inputs.add(i, Ingredient.fromJson(ingredients.get(i)));
+        //        if (test.has("tag"))
+        //        {
+        //            String str = test.get("tag").getAsString();
+        //            ResourceLocation parse = ResourceLocation.tryParse(str);
+        //            TagKey<Item> tag = tagManager.createTagKey(parse);
+        //            int count = test.has("count") ? test.get("count").getAsInt():1;
+        //            for (int c=0;c < count;c++)
+        //                inputs.add(inputs.size(), tag);
+        //        }
+        //    }
+        //    return new MinceratorRecipe(output, inputs);
+        //}
+
+        private static void encode(RegistryFriendlyByteBuf buffer, MinceratorRecipe pRecipe) {
+            buffer.writeInt(pRecipe.getIngredients().size());
+            for (Ingredient object : pRecipe.getIngredients())
+            {
+                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer,object);
+                //object.toNetwork(buffer);
+            }
+            ItemStack.STREAM_CODEC.encode(buffer,pRecipe.output);
+            //buffer.writeItemStack(pRecipe.output, false);
+        }
+
+        private static MinceratorRecipe decode(RegistryFriendlyByteBuf buffer) {
+            NonNullList<Ingredient> inputs = NonNullList.withSize(4,Ingredient.EMPTY);
+
+            int size = buffer.readInt();
+            for (int i = 0; i < size; i++) {
+                inputs.set(i, Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
+            }
+
+            ItemStack output = ItemStack.STREAM_CODEC.decode(buffer);
+            return new MinceratorRecipe(output, inputs);
+        }
+
+    }
 }

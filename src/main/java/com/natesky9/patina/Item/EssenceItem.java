@@ -2,6 +2,7 @@ package com.natesky9.patina.Item;
 
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -19,7 +20,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -85,7 +85,6 @@ public class EssenceItem extends Item {
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack home, ItemStack away, Slot p_150894_, ClickAction p_150895_, Player player, SlotAccess access) {
         if (!away.is(this)) return false;
-        if (isCrude(home) != isCrude(away)) return false;
         int first = getValue(home);
         int second = getValue(away);
         setValue(home, first + second);
@@ -95,36 +94,25 @@ public class EssenceItem extends Item {
     }
     public static int getValue(ItemStack stack)
     {
-        return stack.getOrCreateTag().getInt("value");
+        return stack.get(DataComponents.DAMAGE);
     }
     public static void setValue(ItemStack stack, int value)
     {
-        stack.getOrCreateTag().putInt("value", value);
-    }
-    public static void setCrude(ItemStack stack, boolean crude)
-    {
-        stack.getOrCreateTag().putBoolean("crude", crude);
-    }
-    public static boolean isCrude(ItemStack stack)
-    {
-        return stack.getOrCreateTag().getBoolean("crude");
+        stack.set(DataComponents.DAMAGE,value);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level p_41422_, List<Component> components, TooltipFlag p_41424_) {
-        int value = stack.getOrCreateTag().getInt("value");
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag p_41424_) {
+        int value = stack.getDamageValue();
         components.add(Component.literal("Value: " + value));
-        if (isCrude(stack))
-            components.add(Component.literal("a crude chunk of crystalline essence").withStyle(ChatFormatting.AQUA));
-        else
-            components.add(Component.literal("a refined crystal of essence").withStyle(ChatFormatting.AQUA));
+
+        components.add(Component.literal("a refined crystal of essence").withStyle(ChatFormatting.AQUA));
     }
 
     @Override
     public ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
         setValue(stack,42);
-        setCrude(stack,false);
         return stack;
     }
 
@@ -135,7 +123,7 @@ public class EssenceItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         int value = getValue(stack);
         //100 is ?
         return 10;

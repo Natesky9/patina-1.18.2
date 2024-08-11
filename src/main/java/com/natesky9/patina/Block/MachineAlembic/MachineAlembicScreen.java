@@ -1,15 +1,12 @@
 package com.natesky9.patina.Block.MachineAlembic;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.natesky9.patina.Patina;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.ContainerListener;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +15,7 @@ import java.awt.*;
 
 public class MachineAlembicScreen extends AbstractContainerScreen<MachineAlembicMenu> implements net.minecraft.world.inventory.ContainerListener {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Patina.MODID, "textures/gui/machine_cauldron_brewing_gui.png");
+            ResourceLocation.fromNamespaceAndPath(Patina.MODID, "textures/gui/machine_cauldron_brewing_gui.png");
     public MachineAlembicScreen(MachineAlembicMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }

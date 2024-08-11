@@ -2,6 +2,7 @@ package com.natesky9.patina.Block;
 
 import com.natesky9.patina.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.ContainerHelper;
@@ -9,10 +10,7 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.List;
 
 public class GravestoneBlockEntity extends BlockEntity {
     private NonNullList<ItemStack> items;
@@ -22,19 +20,20 @@ public class GravestoneBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
         tag.putInt("count",this.items.size());
-        ContainerHelper.saveAllItems(tag, this.items);
+        ContainerHelper.saveAllItems(tag, this.items,provider);
     }
 
     @Override
-    public void load(CompoundTag p_155245_) {
-        super.load(p_155245_);
-        int count = p_155245_.getInt("count");
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider p_333170_) {
+        super.loadAdditional(tag, p_333170_);
+        int count = tag.getInt("count");
         this.items = NonNullList.withSize(count, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(p_155245_, this.items);
+        ContainerHelper.loadAllItems(tag, this.items,p_333170_);
     }
+
     public void add(ItemStack stack)
     {
         this.items.add(stack);

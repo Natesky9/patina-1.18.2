@@ -1,10 +1,11 @@
 package com.natesky9.patina.Item.pouches;
 
 import com.natesky9.patina.init.ModItems;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraftforge.common.Tags;
 
 public class DustPouchItem extends PouchItem{
@@ -27,7 +28,8 @@ public class DustPouchItem extends PouchItem{
         if (getItem(stack) == (Items.GLOWSTONE_DUST)) return Mth.color(1,1,0);
         if (getItem(stack) == (Items.REDSTONE)) return Mth.color(1,0,0);
         if (getItem(stack) == (Items.SUGAR)) return Mth.color(1,1,1);
-        if (getItem(stack) == (ModItems.POTION_SALT.get())) return PotionUtils.getColor(stack);
+        if (getItem(stack) == (ModItems.POTION_SALT.get()))
+            return PotionContents.getColor(stack.get(DataComponents.POTION_CONTENTS).potion().get());
         return Mth.color(0,0,1);
     }
 }

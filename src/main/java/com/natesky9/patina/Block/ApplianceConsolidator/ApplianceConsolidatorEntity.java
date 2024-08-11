@@ -46,7 +46,7 @@ public class ApplianceConsolidatorEntity extends BlockEntity {
             return;
         }
         ItemStack stack = new ItemStack(ModItems.ESSENCE.get());
-        EssenceItem.setCrude(stack,false);
+        //EssenceItem.setCrude(stack,false);
         EssenceItem.setValue(stack, value);
         ItemEntity entity = new ItemEntity(level, pos.getX(), pos.getY()+1, pos.getZ(), stack);
         level.addFreshEntity(entity);

@@ -1,5 +1,6 @@
 package com.natesky9.patina.Item.flasks;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -13,11 +14,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -41,7 +39,10 @@ public class PotionFlaskItem extends PotionItem {
         stack.setDamageValue(value);
         //stack.getOrCreateTag().putInt("uses", value);
         if (getUses(stack) == 0)
-        {Potion.setPotion(stack,Potions.EMPTY);}
+        {
+            stack.set(DataComponents.POTION_CONTENTS,PotionContents.EMPTY);
+            //Potion.setPotion(stack,Potions.EMPTY);
+        }
     }
 
     @Override
@@ -65,11 +66,12 @@ public class PotionFlaskItem extends PotionItem {
     }
     public static void apply(LivingEntity player,ItemStack stack)
     {
-        Potion potion = PotionUtils.getPotion(stack);
+        PotionContents potion = stack.get(DataComponents.POTION_CONTENTS);
+        //Potion potion = PotionUtils.getPotion(stack);
 
-        potion.getEffects().forEach(
-                (effectInstance) -> {if (effectInstance.getEffect().isInstantenous()){
-                    effectInstance.getEffect().applyInstantenousEffect(player, player, player, effectInstance.getAmplifier(), 1.0D);
+        potion.getAllEffects().forEach(
+                (effectInstance) -> {if (effectInstance.getEffect().get().isInstantenous()){
+                    effectInstance.getEffect().get().applyInstantenousEffect(player, player, player, effectInstance.getAmplifier(), 1.0D);
                 } else{player.addEffect(new MobEffectInstance(effectInstance));}});
     }
 
@@ -77,17 +79,20 @@ public class PotionFlaskItem extends PotionItem {
     public boolean overrideOtherStackedOnMe(ItemStack pStack, ItemStack pOther, Slot pSlot, ClickAction pAction, Player pPlayer, SlotAccess pAccess) {
         if (!(pAction == ClickAction.SECONDARY)) return false;
         if (!pOther.is(Items.POTION) && !(pOther.getItem() instanceof PotionFlaskItem)) return false;
-        Potion potion = PotionUtils.getPotion(pStack);
-        Potion other = PotionUtils.getPotion(pOther);
+        PotionContents contents = pStack.get(DataComponents.POTION_CONTENTS);
+        PotionContents other = pOther.get(DataComponents.POTION_CONTENTS);
+        //Potion potion = PotionUtils.getPotion(pStack);
+        //Potion other = PotionUtils.getPotion(pOther);
         if (getUses(pStack) >= pStack.getMaxDamage()) return false;
-        if (potion == Potions.EMPTY || potion == other)
+        if (contents == null || contents == other || contents == PotionContents.EMPTY)
         {//if the flask is empty or it matches
             if (pOther.getItem() instanceof PotionFlaskItem)
             {//if it's our flask
                 int current = getUses(pStack);
                 int otherCurrent = getUses(pOther);
                 int transfer = Math.min(pStack.getMaxDamage()-current,otherCurrent);
-                PotionUtils.setPotion(pStack,PotionUtils.getPotion(pOther));
+                pStack.set(DataComponents.POTION_CONTENTS,new PotionContents(other.potion().get()));
+                //PotionUtils.setPotion(pStack,PotionUtils.getPotion(pOther));
                 setUses(pStack,current+transfer);
                 setUses(pOther,otherCurrent-transfer);
                 pPlayer.level().playSound(null,pPlayer, SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS,1,1);
@@ -95,7 +100,8 @@ public class PotionFlaskItem extends PotionItem {
             }
             if (pOther.getItem() instanceof PotionItem)
             {//if it's a vanilla potion
-                PotionUtils.setPotion(pStack,other);
+                pStack.set(DataComponents.POTION_CONTENTS,other);
+                //PotionUtils.setPotion(pStack,other);
                 setUses(pStack,getUses(pStack)+1);
                 pAccess.set(new ItemStack(Items.GLASS_BOTTLE));
                 pPlayer.level().playSound(null,pPlayer, SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS,1,1);
@@ -106,9 +112,11 @@ public class PotionFlaskItem extends PotionItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("sips: " + getUses(stack)));
-        PotionUtils.addPotionTooltip(stack,pTooltipComponents,1,20);
+        PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
+        if (contents != null && contents != PotionContents.EMPTY)
+            contents.addPotionTooltip(pTooltipComponents::add,1f,context.tickRate());
     }
 
     @Override
@@ -130,12 +138,12 @@ public class PotionFlaskItem extends PotionItem {
     @Override
     public int getBarColor(ItemStack pStack)
     {
-        return PotionUtils.getColor(pStack);
+        return PotionContents.getColor(pStack.get(DataComponents.POTION_CONTENTS).potion().get());
+        //PotionUtils.getColor(pStack);
     }
 
     @Override
-    public int getUseDuration(ItemStack pStack)
-    {
+    public int getUseDuration(ItemStack p_43001_, LivingEntity p_345280_) {
         return 24;
     }
 

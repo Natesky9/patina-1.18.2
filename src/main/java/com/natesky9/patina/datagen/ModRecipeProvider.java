@@ -6,6 +6,7 @@ import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -23,15 +24,16 @@ import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
-    public ModRecipeProvider(PackOutput output) {
-        super(output);
+    public ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+        super(output,provider);
     }
 
     @Override
     public void buildRecipes(@NotNull RecipeOutput pWriter) {
-        pWriter.accept(new ResourceLocation(Patina.MODID,"textiler/silk"),
+        pWriter.accept(ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textiler/silk"),
                 new TextilerRecipe(new ItemStack(ModItems.SILK.get()), NonNullList.withSize(9,Ingredient.of(Items.STRING))),
                 ModAdvancementGenerator.loom);
         //region fragment weapons
@@ -178,7 +180,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('C',ModItems.COPPER_NUGGET.get())
                 .pattern("BAC").pattern("A A").pattern("AAA")
                 .unlockedBy("bundle",RecipeCraftedTrigger.TriggerInstance
-                        .craftedItem(new ResourceLocation(BundleRecipeProvider.getItemName(Items.BUNDLE))))
+                        .craftedItem(ResourceLocation.withDefaultNamespace(BundleRecipeProvider.getItemName(Items.BUNDLE))))
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.DUST_POUCH.get())
                 .define('A', Items.LEATHER)
@@ -186,7 +188,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('C',Items.IRON_NUGGET)
                 .pattern("BAC").pattern("A A").pattern("AAA")
                 .unlockedBy("bundle",RecipeCraftedTrigger.TriggerInstance
-                        .craftedItem(new ResourceLocation(BundleRecipeProvider.getItemName(Items.BUNDLE))))
+                        .craftedItem(ResourceLocation.withDefaultNamespace(BundleRecipeProvider.getItemName(Items.BUNDLE))))
                 .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.GEM_POUCH.get())
                 .define('A', Items.LEATHER)
@@ -194,7 +196,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('C',Items.GOLD_NUGGET)
                 .pattern("BAC").pattern("A A").pattern("AAA")
                 .unlockedBy("bundle",RecipeCraftedTrigger.TriggerInstance
-                        .craftedItem(new ResourceLocation(BundleRecipeProvider.getItemName(Items.BUNDLE))))
+                        .craftedItem(ResourceLocation.withDefaultNamespace(BundleRecipeProvider.getItemName(Items.BUNDLE))))
                 .save(pWriter);
         //todo:make a list of items to unlock, until I create the research aspect
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.LIGHTER.get())

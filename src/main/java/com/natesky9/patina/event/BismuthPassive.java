@@ -2,17 +2,10 @@ package com.natesky9.patina.event;
 
 import com.natesky9.patina.init.ModArmorMaterials;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class BismuthPassive {
@@ -27,8 +20,8 @@ public class BismuthPassive {
         for (ItemStack stack:entity.getArmorSlots())
         {
             if (!(stack.getItem() instanceof ArmorItem armor)) continue;
-            ArmorMaterial material = armor.getMaterial();
-            if (!(material == ModArmorMaterials.BRONZE)) continue;
+            ArmorMaterial material = armor.getMaterial().get();
+            if (!(material == ModArmorMaterials.BRONZE.get())) continue;
             count++;
         }
         float reduction = count * .1F;

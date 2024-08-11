@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,7 +21,10 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
@@ -45,23 +47,26 @@ public class ApplianceIceboxBlock extends BaseEntityBlock {
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new ApplianceIceboxEntity(pPos,pState);
     }
+
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pPos, Player pPlayer, BlockHitResult p_60508_) {
         if (pPlayer instanceof ServerPlayer player)
         {
-            BlockPos pos = pState.getValue(HALF) == DoubleBlockHalf.LOWER ? pPos:pPos.below();
-            BlockEntity entity = pLevel.getBlockEntity(pos);
+            BlockPos pos = state.getValue(HALF) == DoubleBlockHalf.LOWER ? pPos:pPos.below();
+            BlockEntity entity = level.getBlockEntity(pos);
             if (entity instanceof ApplianceIceboxEntity icebox)
             {
-                player.openMenu(icebox, pPos);
+                player.openMenu(icebox, pos);
             }
             else
             {
                 throw new IllegalStateException("Container Provider is missing!");
             }
         }
-        return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
+
+
 
     @Override
     public RenderShape getRenderShape(BlockState pState) {

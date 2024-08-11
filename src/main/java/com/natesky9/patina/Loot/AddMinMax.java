@@ -1,7 +1,7 @@
 package com.natesky9.patina.Loot;
 
-import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.item.Item;
@@ -13,21 +13,18 @@ import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
-
 
 public class AddMinMax extends LootModifier {
     private final Item item;
     private final int min;
     private final int max;
-    public static final Supplier<Codec<AddMinMax>> CODEC = Suppliers.memoize(() ->
-            RecordCodecBuilder.create(instance -> codecStart(instance)
+    public static final MapCodec<AddMinMax> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance)
                             .and(instance.group(
                                     Codec.INT.fieldOf("min").forGetter(m -> m.min),
                                     Codec.INT.fieldOf("max").forGetter(m -> m.max),
                                     ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(m -> m.item)
                             )).apply(instance,AddMinMax::new)
-            ));
+            );
 
     /**
      * Constructs a LootModifier.
@@ -50,7 +47,7 @@ public class AddMinMax extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
-        return CODEC.get();
+    public MapCodec<? extends IGlobalLootModifier> codec() {
+        return CODEC;
     }
 }
