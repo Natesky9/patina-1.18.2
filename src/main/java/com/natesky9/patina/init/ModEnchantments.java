@@ -100,7 +100,6 @@ public class ModEnchantments {
                         .exclusiveWith(holderEnchantment.getOrThrow(ModTags.CURSE_EXCLUSIVE)));
     }
     //endregion bootstrap
-    //
     private static ResourceKey<Enchantment> key(String string) {
         return ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Patina.MODID,string));
     }

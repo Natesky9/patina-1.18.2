@@ -3,7 +3,6 @@ package com.natesky9.patina;
 import com.mojang.logging.LogUtils;
 import com.natesky9.patina.Loot.ModLootModifiers;
 import com.natesky9.patina.init.*;
-import com.natesky9.patina.painting.ModPaintings;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,11 +27,10 @@ public class Patina
         ModMenuTypes.register(eventBus);
         //enchantments are data driven since 1.21
         //ModEnchantments.register(eventBus);
-        //TODO
-        //so where do I do this? ModEnchantments::bootstrap;
         ModLootModifiers.register(eventBus);
         ModPotions.register(eventBus);
-        ModPaintings.register(eventBus);
+        //paintings are data driven since 1.21
+        //ModPaintings.register(eventBus);
         ModRecipeTypes.register(eventBus);
         ModRecipeSerializers.register(eventBus);
         ModCreativeTabs.register(eventBus);

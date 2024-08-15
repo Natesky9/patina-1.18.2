@@ -1,6 +1,7 @@
 package com.natesky9.patina.datagen;
 
 import com.natesky9.patina.Patina;
+import com.natesky9.patina.Recipe.FoundryRecipe;
 import com.natesky9.patina.Recipe.TextilerRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
@@ -33,6 +34,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     public void buildRecipes(@NotNull RecipeOutput pWriter) {
+        pWriter.accept(ResourceLocation.fromNamespaceAndPath(Patina.MODID,"foundry/anima"),
+                new FoundryRecipe(ModItems.ANIMA_GLASS.get().getDefaultInstance(),ModItems.PRIME_GLASS.get().getDefaultInstance(),Ingredient.of(Items.CHORUS_FLOWER)),
+                ModAdvancementGenerator.foundry
+                );
+        //
         pWriter.accept(ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textiler/silk"),
                 new TextilerRecipe(new ItemStack(ModItems.SILK.get()), NonNullList.withSize(9,Ingredient.of(Items.STRING))),
                 ModAdvancementGenerator.loom);

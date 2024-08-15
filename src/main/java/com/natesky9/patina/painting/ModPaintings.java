@@ -1,36 +1,38 @@
 package com.natesky9.patina.painting;
 
 import com.natesky9.patina.Patina;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.decoration.PaintingVariant;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 public class ModPaintings {
-    public static final DeferredRegister<PaintingVariant> PAINTINGS =
-            DeferredRegister.create(ForgeRegistries.PAINTING_VARIANTS, Patina.MODID);
+    public static final ResourceKey<PaintingVariant> ALCHEMY_1 = create("alchemy");
+    public static final ResourceKey<PaintingVariant> ALCHEMY_2 = create("crimson");
+    public static final ResourceKey<PaintingVariant> ALCHEMY_3 = create("swiftness");
+    public static final ResourceKey<PaintingVariant> ALCHEMY_4 = create("strength");
+    public static final ResourceKey<PaintingVariant> ALCHEMY_5 = create("healing");
+    public static final ResourceKey<PaintingVariant> NOTCH = create("notch");
     //
-    public static final RegistryObject<PaintingVariant> ALCHEMY_1 = PAINTINGS.register("crimson",
-            () -> new PaintingVariant(16,16,
-                    ResourceLocation.fromNamespaceAndPath("patina","crimson")));
-    public static final RegistryObject<PaintingVariant> ALCHEMY_2 = PAINTINGS.register("alchemy",
-            () -> new PaintingVariant(16,16,
-                    ResourceLocation.fromNamespaceAndPath("patina","alchemy")));
-
-    public static final RegistryObject<PaintingVariant> SWIFTNESS = PAINTINGS.register("swiftness",
-            () -> new PaintingVariant(32,16,
-                    ResourceLocation.fromNamespaceAndPath("patina","swiftness")));
-    public static final RegistryObject<PaintingVariant> STRENGTH = PAINTINGS.register("strength",
-            () -> new PaintingVariant(32,16,
-                    ResourceLocation.fromNamespaceAndPath("patina","strength")));
-    public static final RegistryObject<PaintingVariant> HEALING = PAINTINGS.register("healing",
-            () -> new PaintingVariant(32,16,
-                    ResourceLocation.fromNamespaceAndPath("patina","healing")));
-    //
-    public static void register(IEventBus eventBus)
+    public static void bootstrap(BootstrapContext<PaintingVariant> bootstrap)
     {
-        PAINTINGS.register(eventBus);
+        register(bootstrap,ALCHEMY_1,2,2);
+        register(bootstrap,ALCHEMY_2,2,2);
+        register(bootstrap,ALCHEMY_3,3,1);
+        register(bootstrap,ALCHEMY_4,3,1);
+        register(bootstrap,ALCHEMY_5,3,1);
+        register(bootstrap,NOTCH,5,5);
+    }
+    //
+
+    //
+    private static ResourceKey<PaintingVariant> create(String name)
+    {
+        return ResourceKey.create(Registries.PAINTING_VARIANT, ResourceLocation.fromNamespaceAndPath(Patina.MODID,name));
+    }
+    private static void register(BootstrapContext<PaintingVariant> bootstrap, ResourceKey<PaintingVariant> resource, int width, int height)
+    {
+        bootstrap.register(resource, new PaintingVariant(width,height,resource.location()));
     }
 }

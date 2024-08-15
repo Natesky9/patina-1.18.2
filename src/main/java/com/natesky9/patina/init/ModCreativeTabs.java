@@ -16,7 +16,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModCreativeTabs {
@@ -132,22 +131,30 @@ public class ModCreativeTabs {
                         output.accept(ModItems.UMBRA.get());
 
                         output.accept(ModItems.VOID_SALT.get());
-                        List<Potion> potions = new ArrayList<>();
-                        for (Potion potion:BuiltInRegistries.POTION)
-                        {
-                            //only potions with one effect
-                            if (!(potion.getEffects().size() == 1)) continue;
-                            //only potions whose effects aren't already considered
-                            if (potions.stream().anyMatch(search -> search.getEffects().contains(potion.getEffects().get(0))))
-                                continue;
-                            potions.add(potion);
-                        }
-                        for (Potion potion:potions)
-                        {//add all the unique potions to salt
-                            ItemStack stack = ModItems.POTION_SALT.get().getDefaultInstance();
-                            stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Holder.direct(potion)));
-                            output.accept(stack);
-                        }
+                        //potion salts
+                        params.holders().lookup(Registries.POTION).ifPresent(
+                                lookup -> {
+                                    lookup.listElements().filter(potion -> potion.value().getEffects().size() == 1)
+                                            .map(potion -> PotionContents.createItemStack(ModItems.POTION_SALT.get(),potion))
+                                            .forEach(output::accept);
+                                        }
+                                );
+                        //List<Potion> potions = new ArrayList<>();
+                        //for (Potion potion:BuiltInRegistries.POTION)
+                        //{
+                        //    //only potions with one effect
+                        //    if (!(potion.getEffects().size() == 1)) continue;
+                        //    //only potions whose effects aren't already considered
+                        //    if (potions.stream().anyMatch(search -> search.getEffects().contains(potion.getEffects().get(0))))
+                        //        continue;
+                        //    potions.add(potion);
+                        //}
+                        //for (Potion potion:potions)
+                        //{//add all the unique potions to salt
+                        //    ItemStack stack = ModItems.POTION_SALT.get().getDefaultInstance();
+                        //    stack.set(DataComponents.POTION_CONTENTS,holder.get(potion));
+                        //    output.accept(stack);
+                        //}
                     })
                     .build());
     //endregion

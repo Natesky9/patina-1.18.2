@@ -45,7 +45,9 @@ public abstract class PouchItem extends Item {
     }
     Item getItem(ItemStack stack)
     {
-        ItemStack item = stack.get(DataComponents.CHARGED_PROJECTILES).getItems().get(0);
+        ChargedProjectiles charged = stack.getOrDefault(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.EMPTY);
+        if (charged.isEmpty()) return Items.AIR;
+        ItemStack item = charged.getItems().getFirst();
         if (item == ItemStack.EMPTY) return Items.AIR;
         //String string = stack.getOrCreateTag().getString("item");
         //ResourceLocation location = new ResourceLocation(stack.getOrCreateTag().getString("item"));
@@ -61,30 +63,34 @@ public abstract class PouchItem extends Item {
     int getCount(ItemStack stack)
     {
         if (!stack.getComponents().has(DataComponents.CHARGED_PROJECTILES)) return 0;
-        ItemStack item =  stack.get(DataComponents.CHARGED_PROJECTILES).getItems().get(0);
+        int count = stack.getOrDefault(DataComponents.DAMAGE,0);
+        ItemStack item =  stack.getOrDefault(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.EMPTY).getItems().getFirst();
         if (item == ItemStack.EMPTY) return 0;
-        return item.getCount();
+        return count;
     }
     void addCount(ItemStack stack, ItemStack item)
     {
         int old = getCount(stack);
-        stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.of(
-                new ItemStack(item.getItem(),old+item.getCount())));
+        stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.of(item));
+        stack.set(DataComponents.DAMAGE,old+item.getCount());
         //stack.getOrCreateTag().putInt("count", old + count);
     }
     ItemStack subCount(ItemStack stack)
     {
-        int count = Math.min(64, getCount(stack));
-        ItemStack taken = stack.get(DataComponents.CHARGED_PROJECTILES).getItems().get(0);
-        taken.shrink(count);
-        stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.of(taken));
-        return new ItemStack(taken.getItem(),count);
+        return subCount(stack,1);
+        //int count = Math.min(64, getCount(stack));
+        //ItemStack taken = stack.getOrDefault(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.EMPTY).getItems().getFirst();
+        //stack.set(DataComponents.DAMAGE,stack.get(DataComponents.DAMAGE)-1);
+        //taken.shrink(count);
+        //stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.of(taken));
+        //return new ItemStack(taken.getItem(),count);
     }
     ItemStack subCount(ItemStack stack, int count)
     {
-        ItemStack taken = stack.get(DataComponents.CHARGED_PROJECTILES).getItems().get(0);
-        taken.shrink(count);
-        stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.of(taken));
+        ItemStack taken = stack.get(DataComponents.CHARGED_PROJECTILES).getItems().getFirst();
+        stack.set(DataComponents.DAMAGE,stack.getOrDefault(DataComponents.DAMAGE,0)-count);
+        if (stack.getOrDefault(DataComponents.DAMAGE,0) == 0)
+            stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.EMPTY);
         return new ItemStack(taken.getItem(),count);
     }
     abstract int maxCount();

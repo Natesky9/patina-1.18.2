@@ -15,6 +15,7 @@ public interface ModTags {
     TagKey<Enchantment> CURSE_EXCLUSIVE = tagEnchantment("exclusive_set/curse");
 
 
+
     TagKey<Item> GRAIN = tag("grain");
 
     TagKey<Item> MEAT = tag("meat");

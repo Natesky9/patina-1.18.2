@@ -33,6 +33,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent;
@@ -73,7 +74,7 @@ public class EventsMod {
                 ModItems.VITA_FLASK.get(),ModItems.MAGNA_FLASK.get());
         //salts
         event.register((pStack, pTintIndex) ->
-                pTintIndex == 0 ? pStack.get(DataComponents.POTION_CONTENTS).getColor() : -1,ModItems.POTION_SALT.get());
+                pTintIndex == 0 ? pStack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).getColor() : -1,ModItems.POTION_SALT.get());
         //tint on layer 1
         //TODO:do rust, eventually?
         //event.register(((pStack, pTintIndex) -> pTintIndex == 1 ? RustableItem.getRust(pStack):-1),

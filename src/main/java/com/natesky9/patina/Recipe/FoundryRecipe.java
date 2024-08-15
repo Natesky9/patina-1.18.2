@@ -96,7 +96,7 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
                         Ingredient.CODEC.optionalFieldOf("catalyst",Ingredient.EMPTY).forGetter((getter) -> getter.catalyst)
                 ).apply(instance, FoundryRecipe::new)
         );
-        final static StreamCodec<RegistryFriendlyByteBuf,FoundryRecipe> STREAM_CODEC =
+        public final static StreamCodec<RegistryFriendlyByteBuf,FoundryRecipe> STREAM_CODEC =
                 StreamCodec.of(Serializer::encode,Serializer::decode
         );
 

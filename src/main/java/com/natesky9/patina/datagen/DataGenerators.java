@@ -6,6 +6,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 
@@ -27,10 +28,17 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ModGlobalLootModifiersProvider(packOutput,lookupProvider));
         generator.addProvider(true, new ModBlockStateProvider(packOutput,helper));
         generator.addProvider(true, new ModItemModelProvider(packOutput, helper));
+
+        DatapackBuiltinEntriesProvider datapack = ModDatapackBuiltinEntriesProvider.Make(packOutput,lookupProvider, helper);
+        generator.addProvider(true, datapack);
+        lookupProvider = datapack.getRegistryProvider();
+        //generator.addProvider(true, ModPaintings.(packOutput,lookupProvider,helper));
+        //generator.addProvider(true, ModEnchantments.DataGen(packOutput,lookupProvider,helper));
         BlockTagsProvider blockTagsProvider = new ModBlockTagsProvider(packOutput, lookupProvider, Patina.MODID, helper);
         EntityTypeTagsProvider entityTypeTagsProvider = new ModEntityTagsProvider(packOutput, lookupProvider);
         generator.addProvider(true, blockTagsProvider);
         generator.addProvider(true, new ModItemTagsProvider(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), Patina.MODID, helper));
+        generator.addProvider(true, new ModPaintingTagsProvider(packOutput,lookupProvider, helper));
         generator.addProvider(true, entityTypeTagsProvider);
     }
 }

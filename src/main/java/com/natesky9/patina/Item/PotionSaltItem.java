@@ -1,7 +1,9 @@
 package com.natesky9.patina.Item;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -16,9 +18,16 @@ public class PotionSaltItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, TooltipContext context, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        PotionContents contents = pStack.get(DataComponents.POTION_CONTENTS);
-        if (contents != null)
-            pTooltipComponents.add(Component.literal(contents.potion().get().get().toString()));
+        PotionContents contents = pStack.getOrDefault(DataComponents.POTION_CONTENTS,PotionContents.EMPTY);
+        if (contents != PotionContents.EMPTY)
+        {
+            for (MobEffectInstance instance : contents.getAllEffects())
+            {
+                pTooltipComponents.add(Component.translatable(instance.getDescriptionId())
+                        .withStyle(ChatFormatting.DARK_PURPLE));
+            }
+        }
+        //pTooltipComponents.add(Component.literal(contents.potion().get().get().toString()));
         //pTooltipComponents.add(Component.literal(potion.getName("")));
     }
 }
