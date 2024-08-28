@@ -62,16 +62,8 @@ public class ApplianceWardrobeMenu extends AbstractContainerMenu {
         for(int i = 0; i < 4; ++i) {
             this.addSlot(new ArmorSlot(inv, 39-i, 8, 8 + i * 18,i));
         }
-        //add player inventory
-        for (int i = 0; i < 3; ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(inv, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
-            }
-        }
-        //add player hotbar
-        for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(inv, i, 8 + i * 18, 142));
-        }
+        addPlayerHotbar(inv);
+        addPlayerInventory(inv);
     }
 
     @Override
@@ -164,5 +156,20 @@ public class ApplianceWardrobeMenu extends AbstractContainerMenu {
         }
         else blockEntity.getLevel().playSound(null,blockEntity.getBlockPos(), SoundEvents.WOOD_PLACE, SoundSource.PLAYERS);
 
+    }
+
+    private void addPlayerInventory(Inventory playerInventory)
+    {
+        for (int i = 0; i < 3; ++i) {
+            for (int l = 0; l < 9; ++l) {
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+            }
+        }
+    }
+    private void addPlayerHotbar(Inventory playerInventory)
+    {
+        for (int i = 0; i < 9; ++i) {
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+        }
     }
 }

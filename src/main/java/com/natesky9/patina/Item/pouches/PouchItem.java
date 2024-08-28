@@ -1,6 +1,7 @@
 package com.natesky9.patina.Item.pouches;
 
-import net.minecraft.core.component.DataComponents;
+import com.natesky9.patina.NBTcomponents.StorageComponent;
+import com.natesky9.patina.init.ModDataComponents;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
@@ -8,10 +9,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.ChargedProjectiles;
 
 public abstract class PouchItem extends Item {
-    //TODO: create a custom datacomponent to deal with this
     public PouchItem(Properties p_41383_) {
         super(p_41383_);
     }
@@ -24,20 +23,23 @@ public abstract class PouchItem extends Item {
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack self, ItemStack other, Slot slot, ClickAction click, Player player, SlotAccess mouse) {
+        StorageComponent component = self.getOrDefault(ModDataComponents.STORAGE_COMPONENT.get(),StorageComponent.EMPTY);
         if (canAccept(self, other) && isSame(self, other))
         {
             int toMove = Math.min(maxCount()-getCount(self),other.getCount());
+            if (click == ClickAction.SECONDARY && toMove > 1)
+                toMove = 1;
             //setItem(self,other.getItem());
-            other.shrink(toMove);
-            addCount(self,other);
+            addCount(self,other.split(toMove));
             return true;
         }
         if (other.isEmpty() && click == ClickAction.SECONDARY)
-        {
-            ItemStack fresh = subCount(self);
+        {//right-clicking with empty mouse
+            int count = Math.min(64, component.getCount());
+            ItemStack fresh = new ItemStack(subCount(self,count),count);
             mouse.set(fresh);
             if (getCount(self) == 0)
-                self.set(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.of(ItemStack.EMPTY));
+                self.set(ModDataComponents.STORAGE_COMPONENT.get(),StorageComponent.EMPTY);
                 //self.getOrCreateTag().putString("item", Items.AIR.toString());
             return true;
         }
@@ -45,37 +47,24 @@ public abstract class PouchItem extends Item {
     }
     Item getItem(ItemStack stack)
     {
-        ChargedProjectiles charged = stack.getOrDefault(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.EMPTY);
-        if (charged.isEmpty()) return Items.AIR;
-        ItemStack item = charged.getItems().getFirst();
-        if (item == ItemStack.EMPTY) return Items.AIR;
-        //String string = stack.getOrCreateTag().getString("item");
-        //ResourceLocation location = new ResourceLocation(stack.getOrCreateTag().getString("item"));
-        //Item item = BuiltInRegistries.ITEM.get(location);
-        return item.getItem();
+        StorageComponent stored = stack.getOrDefault(ModDataComponents.STORAGE_COMPONENT.get(),StorageComponent.EMPTY);
+        if (stored.isEmpty()) return Items.AIR;
+        Item item = stored.getItem();
+        return item;
     }
-    //void setItem(ItemStack stack, Item item)
-    //{
-    //    stack.set(DataComponents.CHARGED_PROJECTILES,)
-    //    //String string = BuiltInRegistries.ITEM.getKey(item).toString();
-    //    //stack.getOrCreateTag().putString("item", string);
-    //}
     int getCount(ItemStack stack)
     {
-        if (!stack.getComponents().has(DataComponents.CHARGED_PROJECTILES)) return 0;
-        int count = stack.getOrDefault(DataComponents.DAMAGE,0);
-        ItemStack item =  stack.getOrDefault(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.EMPTY).getItems().getFirst();
-        if (item == ItemStack.EMPTY) return 0;
-        return count;
+        StorageComponent component = stack.getOrDefault(ModDataComponents.STORAGE_COMPONENT.get(),StorageComponent.EMPTY);
+        return component.getCount();
     }
-    void addCount(ItemStack stack, ItemStack item)
+    void addCount(ItemStack pouch, ItemStack item)
     {
-        int old = getCount(stack);
-        stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.of(item));
-        stack.set(DataComponents.DAMAGE,old+item.getCount());
+        if (item.isEmpty()) return;
+        int old = getCount(pouch);
+        pouch.set(ModDataComponents.STORAGE_COMPONENT.get(),new StorageComponent(item.getItemHolder(),old+item.getCount()));
         //stack.getOrCreateTag().putInt("count", old + count);
     }
-    ItemStack subCount(ItemStack stack)
+    Item subCount(ItemStack stack)
     {
         return subCount(stack,1);
         //int count = Math.min(64, getCount(stack));
@@ -85,13 +74,15 @@ public abstract class PouchItem extends Item {
         //stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.of(taken));
         //return new ItemStack(taken.getItem(),count);
     }
-    ItemStack subCount(ItemStack stack, int count)
+    Item subCount(ItemStack stack, int amount)
     {
-        ItemStack taken = stack.get(DataComponents.CHARGED_PROJECTILES).getItems().getFirst();
-        stack.set(DataComponents.DAMAGE,stack.getOrDefault(DataComponents.DAMAGE,0)-count);
-        if (stack.getOrDefault(DataComponents.DAMAGE,0) == 0)
-            stack.set(DataComponents.CHARGED_PROJECTILES,ChargedProjectiles.EMPTY);
-        return new ItemStack(taken.getItem(),count);
+        StorageComponent component = stack.getOrDefault(ModDataComponents.STORAGE_COMPONENT.get(),StorageComponent.EMPTY);
+        //exit early if empty
+        if (component.isEmpty()) return Items.AIR;
+        Item taken = component.getItem();
+        int count = component.getCount();
+        stack.set(ModDataComponents.STORAGE_COMPONENT.get(),new StorageComponent(taken.builtInRegistryHolder(),Math.max(0,count-amount)));
+        return taken;
     }
     abstract int maxCount();
 

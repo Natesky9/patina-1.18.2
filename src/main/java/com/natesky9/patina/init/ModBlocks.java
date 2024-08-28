@@ -4,6 +4,7 @@ import com.natesky9.patina.Block.*;
 import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorBlock;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
+import com.natesky9.patina.Block.Benchmark.ApplianceBenchmarkBlock;
 import com.natesky9.patina.Block.MachineAlembic.AddonAlembicBlock;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicBlock;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterBlock;
@@ -86,6 +87,9 @@ public class ModBlocks {
     //appliances
     public static final RegistryObject<Block> APPLIANCE_WARDROBE = registerBlock("appliance_wardrobe",
             () -> new ApplianceWardrobeBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)));
+    public static final RegistryObject<Block> APPLIANCE_BENCHMARK = registerBlock("appliance_benchmark",
+            () -> new ApplianceBenchmarkBlock(BlockBehaviour.Properties.of()
                     .strength(3f)));
     public static final RegistryObject<Block> APPLIANCE_ICEBOX = registerBlock("appliance_icebox",
             () -> new ApplianceIceboxBlock(BlockBehaviour.Properties.of()

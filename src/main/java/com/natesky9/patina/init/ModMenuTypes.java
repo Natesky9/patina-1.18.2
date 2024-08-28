@@ -2,6 +2,7 @@ package com.natesky9.patina.init;
 
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxMenu;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeMenu;
+import com.natesky9.patina.Block.Benchmark.ApplianceBenchmarkMenu;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicMenu;
 import com.natesky9.patina.Block.MachineEnchanter.MachineEnchanterMenu;
 import com.natesky9.patina.Block.MachineEvaporator.MachineEvaporatorMenu;
@@ -41,6 +42,8 @@ public class ModMenuTypes
 
     public static final RegistryObject<MenuType<ApplianceWardrobeMenu>> APPLIANCE_WARDROBE_MENU =
             registerMenuType(ApplianceWardrobeMenu::new, "appliance_wardrobe_menu");
+    public static final RegistryObject<MenuType<ApplianceBenchmarkMenu>> APPLIANCE_BENCHMARK_MENU =
+            registerMenuType(ApplianceBenchmarkMenu::new, "appliance_benchmark_menu");
     public static final RegistryObject<MenuType<ApplianceIceboxMenu>> APPLIANCE_ICEBOX_MENU =
             registerMenuType(ApplianceIceboxMenu::new, "appliance_icebox_menu");
 

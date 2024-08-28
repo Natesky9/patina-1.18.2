@@ -187,6 +187,7 @@ public class Charms {
     }
     public static void contrabandCharm(PlayerInteractEvent.EntityInteract event)
     {
+        if (!(event.getLevel() instanceof ServerLevel)) return;
         List<ItemStack> items = List.of(
             createSuspiciousLoot(Items.SUSPICIOUS_SAND,"minecraft:archaeology/desert_pyramid"),
             createLootChest("minecraft:chests/simple_dungeon"),

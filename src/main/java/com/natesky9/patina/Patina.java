@@ -36,6 +36,7 @@ public class Patina
         ModCreativeTabs.register(eventBus);
 
         ModEntityTypes.register(eventBus);
+        ModDataComponents.register(eventBus);
 
 
 

@@ -42,7 +42,7 @@ public class LighterItem extends PouchItem {
         boolean sturdy = level.getBlockState(pos.below()).isFaceSturdy(level,pos, Direction.UP);
         if (dark && empty && sturdy && getCount(stack) > 0)
         {
-            subCount(stack,1);
+            subCount(stack);
             level.playSound(null,pos, SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundSource.PLAYERS,.5f,.5f);
             level.setBlockAndUpdate(pos, Blocks.TORCH.defaultBlockState());
         }
@@ -57,7 +57,7 @@ public class LighterItem extends PouchItem {
         boolean sturdy = level.getBlockState(pos).isFaceSturdy(level,pos,face);
         if (sturdy && getCount(stack) > 0)
         {
-            subCount(stack,1);
+            subCount(stack);
             BlockPlaceContext blockContext = new BlockPlaceContext(context);
             BlockState state = face == Direction.UP ? Blocks.TORCH.getStateForPlacement(blockContext) : Blocks.WALL_TORCH.getStateForPlacement(blockContext);
             level.setBlockAndUpdate(pos.relative(face),state);

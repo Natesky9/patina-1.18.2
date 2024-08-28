@@ -177,5 +177,6 @@
   "component.fragment_sun_phase_5": "...to increase your own",
   "component.fragment_sun_phase_6": "...this verdant block, prized by merchants",
   "component.fragment_sun_phase_7": "...protect from and enhance combustion",
-  "component.fragment_sun_phase_8": "...advantage over prey"
+  "component.fragment_sun_phase_8": "...advantage over prey",
+  "container.appliance_benchmark": "Benchmark Block"
 }

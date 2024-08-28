@@ -17,6 +17,7 @@ public class ApplianceWardrobeScreen extends AbstractContainerScreen<ApplianceWa
             ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textures/gui/appliance_wardrobe.png");
     int xMouse;
     int yMouse;
+
     public ApplianceWardrobeScreen(ApplianceWardrobeMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
