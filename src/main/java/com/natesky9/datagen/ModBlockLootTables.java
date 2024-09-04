@@ -1,4 +1,4 @@
-package com.natesky9.patina.datagen;
+package com.natesky9.datagen;
 
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
@@ -29,6 +29,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(ModBlocks.APPLIANCE_ICEBOX.get(), createSinglePropConditionTable(ModBlocks.APPLIANCE_ICEBOX.get(),
                 ApplianceIceboxBlock.HALF,DoubleBlockHalf.LOWER));
         this.dropSelf(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get());
+        this.dropSelf(ModBlocks.APPLIANCE_BENCHMARK.get());
+        this.dropSelf(ModBlocks.APPLIANCE_RESEARCH_DESK.get());
 
         this.dropSelf(ModBlocks.MACHINE_FOUNDRY.get());
         this.dropSelf(ModBlocks.MACHINE_ENCHANTER.get());

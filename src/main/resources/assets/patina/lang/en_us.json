@@ -111,6 +111,9 @@
   "block.patina.appliance_icebox": "Icebox",
   "block.patina.appliance_wardrobe": "Wardrobe",
   "block.patina.appliance_arcane_consolidator": "Arcane Consolidator",
+  "block.patina.appliance_benchmark": "Benchmark",
+  "block.patina.appliance_research_desk": "Research Desk",
+
   "block.patina.machine_alembic": "Alembic",
   "block.patina.addon_alembic": "Alembic Addon",
   "block.patina.machine_enchanter": "Enchanter",
@@ -178,5 +181,6 @@
   "component.fragment_sun_phase_6": "...this verdant block, prized by merchants",
   "component.fragment_sun_phase_7": "...protect from and enhance combustion",
   "component.fragment_sun_phase_8": "...advantage over prey",
-  "container.appliance_benchmark": "Benchmark Block"
+  "container.appliance_benchmark": "Benchmark Block",
+  "container.appliance_research_desk": "Research Desk"
 }

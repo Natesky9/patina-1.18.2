@@ -3,6 +3,7 @@ package com.natesky9.patina.init;
 import com.natesky9.patina.Block.*;
 import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorBlock;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
+import com.natesky9.patina.Block.ApplianceResearchDesk.ApplianceResearchDeskBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
 import com.natesky9.patina.Block.Benchmark.ApplianceBenchmarkBlock;
 import com.natesky9.patina.Block.MachineAlembic.AddonAlembicBlock;
@@ -98,6 +99,9 @@ public class ModBlocks {
             () -> new ApplianceConsolidatorBlock(BlockBehaviour.Properties.of()
                     .strength(3f)
                     .speedFactor(0.5F)));
+    public static final RegistryObject<Block> APPLIANCE_RESEARCH_DESK = registerBlock("appliance_research_desk",
+            () -> new ApplianceResearchDeskBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)));
     //public static final RegistryObject<Block> APPLIANCE_TOOLRACK = registerBlock("appliance_toolrack",
     //        () -> new ApplianceToolrackBlock(BlockBehaviour.Properties.of(Material.WOOD)
     //                .strength(3f)));

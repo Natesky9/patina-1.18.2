@@ -4,7 +4,7 @@ import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.ModRecipeBookType;
 import com.natesky9.patina.Patina;
-import com.natesky9.patina.datagen.DataGenerators;
+import com.natesky9.datagen.DataGenerators;
 import com.natesky9.patina.entity.Armor.TemplateArmorModel;
 import com.natesky9.patina.entity.Armor.UmbraArmorModel;
 import com.natesky9.patina.entity.BearPrince.BearPrince;
@@ -26,6 +26,7 @@ import com.natesky9.patina.init.ModEntityTypes;
 import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModRecipeTypes;
 import com.natesky9.patina.init.ModScreens;
+import com.natesky9.patina.networking.ModPackets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -101,6 +102,7 @@ public class EventsMod {
     @SubscribeEvent
     public static void doCommonStuff(final FMLCommonSetupEvent event)
     {
+        ModPackets.register();
         //TODO: potions
         //ModPotions.removePotions();
         //ModPotions.addNormalPotions();

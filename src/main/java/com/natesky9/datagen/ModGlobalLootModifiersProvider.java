@@ -1,4 +1,4 @@
-package com.natesky9.patina.datagen;
+package com.natesky9.datagen;
 
 import com.natesky9.patina.Loot.AddItemModifier;
 import com.natesky9.patina.Loot.AddMinMax;
@@ -34,6 +34,7 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
 
     @Override
     protected void start(HolderLookup.Provider provider) {
+        //TODO:find which fragment keeps spawning due to broken code
         //region wither fragments
         add("add_wither_fragment_1", new AddItemModifier(new LootItemCondition[]{
                 new LootTableIdCondition(BuiltInLootTables.NETHER_BRIDGE.location())

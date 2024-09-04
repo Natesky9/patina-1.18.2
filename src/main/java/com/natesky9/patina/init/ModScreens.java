@@ -1,6 +1,7 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxScreen;
+import com.natesky9.patina.Block.ApplianceResearchDesk.ApplianceResearchDeskScreen;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeScreen;
 import com.natesky9.patina.Block.Benchmark.ApplianceBenchmarkScreen;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicScreen;
@@ -18,6 +19,7 @@ public class ModScreens
         MenuScreens.register(ModMenuTypes.APPLIANCE_ICEBOX_MENU.get(), ApplianceIceboxScreen::new);
         MenuScreens.register(ModMenuTypes.APPLIANCE_WARDROBE_MENU.get(), ApplianceWardrobeScreen::new);
         MenuScreens.register(ModMenuTypes.APPLIANCE_BENCHMARK_MENU.get(), ApplianceBenchmarkScreen::new);
+        MenuScreens.register(ModMenuTypes.APPLIANCE_RESEARCH_DESK_MENU.get(), ApplianceResearchDeskScreen::new);
 
         MenuScreens.register(ModMenuTypes.MACHINE_ALEMBIC_MENU.get(), MachineAlembicScreen::new);
         MenuScreens.register(ModMenuTypes.MACHINE_EVAPORATOR_MENU.get(), MachineEvaporatorScreen::new);

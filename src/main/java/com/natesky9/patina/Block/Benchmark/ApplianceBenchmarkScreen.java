@@ -17,7 +17,7 @@ public class ApplianceBenchmarkScreen extends AbstractContainerScreen<ApplianceB
     private static final ResourceLocation TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Patina.MODID, "textures/gui/appliance_benchmark.png");
     private static final Vector3f ARMOR_STAND_TRANSLATION = new Vector3f();
-    private static final Quaternionf ARMOR_STAND_ANGLE = new Quaternionf().rotationXYZ(0.43633232F, 0.0F, (float) Math.PI);
+    private static final Quaternionf ARMOR_STAND_ANGLE = new Quaternionf().rotationXYZ(.2f,.3f+(float)Math.PI,(float)Math.PI);
     int xMouse;
     int yMouse;
     final int grey = 4210752;
@@ -67,9 +67,9 @@ public class ApplianceBenchmarkScreen extends AbstractContainerScreen<ApplianceB
                 blast >= 80 ? green:grey,false);
         graphics.drawString(this.font,"Fall " + fall + "%",leftPos+116,topPos+44,
                 fall >= 80 ? green:grey,false);
-        Quaternionf angle = new Quaternionf().rotationXYZ(.2f,.3f+(float)Math.PI,(float)Math.PI);
         if (menu.entity != null)
-            InventoryScreen.renderEntityInInventory(graphics, (float)(leftPos + 25), (float)(topPos + 70), 32.0F, ARMOR_STAND_TRANSLATION, angle, null, menu.entity);
+            InventoryScreen.renderEntityInInventory(graphics, (float)(leftPos + 25), (float)(topPos + 70), 32.0F,
+                    ARMOR_STAND_TRANSLATION, ARMOR_STAND_ANGLE, null, menu.entity);
 
     }
 

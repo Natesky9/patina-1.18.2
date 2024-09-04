@@ -1,6 +1,7 @@
 package com.natesky9.patina.init;
 
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxMenu;
+import com.natesky9.patina.Block.ApplianceResearchDesk.ApplianceResearchDeskMenu;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeMenu;
 import com.natesky9.patina.Block.Benchmark.ApplianceBenchmarkMenu;
 import com.natesky9.patina.Block.MachineAlembic.MachineAlembicMenu;
@@ -46,7 +47,9 @@ public class ModMenuTypes
             registerMenuType(ApplianceBenchmarkMenu::new, "appliance_benchmark_menu");
     public static final RegistryObject<MenuType<ApplianceIceboxMenu>> APPLIANCE_ICEBOX_MENU =
             registerMenuType(ApplianceIceboxMenu::new, "appliance_icebox_menu");
-
+    public static final RegistryObject<MenuType<ApplianceResearchDeskMenu>> APPLIANCE_RESEARCH_DESK_MENU =
+            registerMenuType(ApplianceResearchDeskMenu::new, "appliance_research_desk_menu");
+    //don't forget to register the screen too!
     //--------------------------------------------------//
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name)
     {

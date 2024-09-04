@@ -1,4 +1,4 @@
-package com.natesky9.patina.datagen;
+package com.natesky9.datagen;
 
 import com.natesky9.patina.init.ModEntityTypes;
 import net.minecraft.core.HolderLookup;
