@@ -1,14 +1,11 @@
 package com.natesky9.patina.Block.ApplianceResearchDesk;
 
 import com.natesky9.patina.networking.ModPackets;
-import com.natesky9.patina.networking.PacketResearchTableClick;
-import net.minecraft.advancements.AdvancementHolder;
+import com.natesky9.patina.networking.PacketResearchCreativeGrant;
 import net.minecraft.advancements.AdvancementNode;
-import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.advancements.AdvancementTab;
 import net.minecraft.client.gui.screens.advancements.AdvancementWidget;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -19,11 +16,10 @@ import net.minecraft.network.protocol.game.ServerboundSeenAdvancementsPacket;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.ForgeHooksClient;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 
-public class ApplianceResearchDeskScreen extends AbstractContainerScreen<ApplianceResearchDeskMenu> implements ClientAdvancements.Listener{
+public class ApplianceResearchDeskScreen extends AbstractContainerScreen<ApplianceResearchDeskMenu>{
     private static final Component TITLE = Component.literal("Research");
     private ClientAdvancements advancements;
     public Screen lastScreen;
@@ -33,7 +29,6 @@ public class ApplianceResearchDeskScreen extends AbstractContainerScreen<Applian
 
     public ApplianceResearchDeskScreen(ApplianceResearchDeskMenu menu, Inventory inv, Component component) {
         super(menu, inv, TITLE);
-        this.lastScreen = this;
     }
 
     @Override
@@ -138,11 +133,11 @@ public class ApplianceResearchDeskScreen extends AbstractContainerScreen<Applian
                 {//if creative, grant the advancement
                     //System.out.println(node);
                     System.out.println("granting: " + node.holder().id());
-                    ModPackets.sendToServer(new PacketResearchTableClick(node.holder().id()));
+                    ModPackets.sendToServer(new PacketResearchCreativeGrant(node.holder().id()));
                     return true;
                 }
 
-                research = new ResearchScreen(node);
+                research = new ResearchScreen(node,advancementsScreen);
                 research.init(minecraft,width,height);
                 ForgeHooksClient.pushGuiLayer(minecraft,research);
 
@@ -181,64 +176,5 @@ public class ApplianceResearchDeskScreen extends AbstractContainerScreen<Applian
     @Override
     protected void repositionElements() {
         this.layout.arrangeElements();
-    }
-
-    @Override
-    public void onAddAdvancementRoot(AdvancementNode node) {
-        AdvancementTab tab = AdvancementTab.create(this.minecraft, advancementsScreen, advancementsScreen.tabs.size(), node);
-        if (tab != null)
-        {
-            advancementsScreen.tabs.put(node.holder(), tab);
-
-        }
-    }
-
-    @Override
-    public void onRemoveAdvancementRoot(AdvancementNode p_297518_) {
-
-    }
-
-    @Override
-    public void onAddAdvancementTask(AdvancementNode node) {
-        AdvancementTab tab = advancementsScreen.getTab(node);
-        if (tab != null)
-        {
-            tab.addAdvancement(node);
-        }
-    }
-    private AdvancementTab getTab(AdvancementNode node)
-    {
-        return advancementsScreen.tabs.get(node.root().holder());
-    }
-
-    @Override
-    public void onRemoveAdvancementTask(AdvancementNode p_300155_) {
-
-    }
-
-    @Override
-    public void onAdvancementsCleared() {
-        advancementsScreen.tabs.clear();
-        advancementsScreen.selectedTab = null;
-    }
-
-    @Override
-    public void onUpdateAdvancementProgress(AdvancementNode node, AdvancementProgress progress) {
-        AdvancementWidget widget = advancementsScreen.getAdvancementWidget(node);
-        if (widget != null)
-        {
-            widget.setProgress(progress);
-        }
-    }
-    public AdvancementWidget getAdvancementWidget(AdvancementNode node)
-    {
-        AdvancementTab tab = advancementsScreen.getTab(node);
-        return tab == null ? null : tab.getWidget(node.holder());
-    }
-
-
-    @Override
-    public void onSelectedTabChanged(@Nullable AdvancementHolder holder) {
-        advancementsScreen.selectedTab = advancementsScreen.tabs.get(holder);
     }
 }

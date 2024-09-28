@@ -1,0 +1,100 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 32],
+	"textures": {
+		"0": "patina:item/crystal_fortis_layer_1"
+	},
+	"elements": [
+		{
+			"name": "Chestplate",
+			"from": [2.99, 10.99, 4.99],
+			"to": [13.01, 25.01, 11.01],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [5, 10, 7, 16], "texture": "#0"},
+				"east": {"uv": [4, 10, 5, 16], "texture": "#0"},
+				"south": {"uv": [8, 10, 10, 16], "texture": "#0"},
+				"west": {"uv": [7, 10, 8, 16], "texture": "#0"},
+				"up": {"uv": [7, 10, 5, 8], "texture": "#0"},
+				"down": {"uv": [9, 8, 7, 10], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Right Arm Armor",
+			"from": [11, 11, 5],
+			"to": [17, 25, 11],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [12, 22, 8]},
+			"faces": {
+				"north": {"uv": [11, 10, 12, 16], "texture": "#0"},
+				"east": {"uv": [10, 10, 11, 16], "texture": "#0"},
+				"south": {"uv": [13, 10, 14, 16], "texture": "#0"},
+				"west": {"uv": [12, 10, 13, 16], "texture": "#0"},
+				"up": {"uv": [12, 10, 11, 8], "texture": "#0"},
+				"down": {"uv": [13, 8, 12, 10], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Left Arm Armor",
+			"from": [-1, 11, 5],
+			"to": [5, 25, 11],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [4, 23, 8]},
+			"faces": {
+				"north": {"uv": [12, 10, 11, 16], "texture": "#0"},
+				"east": {"uv": [13, 10, 12, 16], "texture": "#0"},
+				"south": {"uv": [14, 10, 13, 16], "texture": "#0"},
+				"west": {"uv": [11, 10, 10, 16], "texture": "#0"},
+				"up": {"uv": [11, 10, 12, 8], "texture": "#0"},
+				"down": {"uv": [12, 8, 13, 10], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, -4, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, -4, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 0, 16],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 0, 16],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
+			"translation": [0, -6, 0]
+		},
+		"gui": {
+			"rotation": [30, -45, 0],
+			"translation": [0, -5, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"fixed": {
+			"translation": [0, -10, 0]
+		}
+	},
+	"groups": [
+		{
+			"name": "body",
+			"origin": [8, 24, 8],
+			"color": 0,
+			"children": [2]
+		},
+		{
+			"name": "rightArm",
+			"origin": [13, 22, 8],
+			"color": 0,
+			"children": [3]
+		},
+		{
+			"name": "leftArm",
+			"origin": [3, 22, 8],
+			"color": 0,
+			"children": [4]
+		}
+	]
+}

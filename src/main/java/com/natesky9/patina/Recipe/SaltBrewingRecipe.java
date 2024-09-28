@@ -25,6 +25,7 @@ public class SaltBrewingRecipe implements IBrewingRecipe
     @Override
     public boolean isInput(ItemStack input)
     {
+        if (!input.has(DataComponents.POTION_CONTENTS)) return false;
         return this.input == input.get(DataComponents.POTION_CONTENTS).potion().get();
     }
 

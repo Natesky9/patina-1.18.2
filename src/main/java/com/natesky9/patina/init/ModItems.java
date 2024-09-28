@@ -51,8 +51,7 @@ public class ModItems {
                             .rarity(Rarity.RARE))));
     public static final RegistryObject<Item> BEE_SHIELD = ITEMS.register("bee_shield",
             () -> new BeeShieldItem(new Item.Properties().rarity(Rarity.RARE)
-                    .component(DataComponents.UNBREAKABLE, new Unbreakable(false))
-                    .stacksTo(1)));
+                    .durability(333)));
     //spider
     public static final RegistryObject<Item> SPIDER_FRAGMENT_1 = ITEMS.register("spider_fragment_1",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
@@ -197,6 +196,31 @@ public class ModItems {
             () -> new HoeItem(ModTiers.GLASS, new Item.Properties()
                     .attributes(HoeItem.createAttributes(ModTiers.GLASS,2,-2.4F))
                     .rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> PRIME_HELMET = ITEMS.register("crystal_prime_helmet",
+            () -> new CrystalArmorItem(ArmorItem.Type.HELMET,new Item.Properties()));
+    public static final RegistryObject<Item> PRIME_CHESTPLATE = ITEMS.register("crystal_prime_chestplate",
+            () -> new CrystalArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties()));
+    public static final RegistryObject<Item> PRIME_LEGGINGS = ITEMS.register("crystal_prime_leggings",
+            () -> new CrystalArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties()));
+    public static final RegistryObject<Item> FERUS_HELMET = ITEMS.register("crystal_ferus_helmet",
+            () -> new CrystalFerusArmorItem(ArmorItem.Type.HELMET,new Item.Properties()));
+    public static final RegistryObject<Item> FERUS_CHESTPLATE = ITEMS.register("crystal_ferus_chestplate",
+            () -> new CrystalFerusArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties()));
+    public static final RegistryObject<Item> FERUS_LEGGINGS = ITEMS.register("crystal_ferus_leggings",
+            () -> new CrystalFerusArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties()));
+    public static final RegistryObject<Item> ANIMA_HELMET = ITEMS.register("crystal_anima_helmet",
+            () -> new CrystalAnimaArmorItem(ArmorItem.Type.HELMET,new Item.Properties()));
+    public static final RegistryObject<Item> ANIMA_CHESTPLATE = ITEMS.register("crystal_anima_chestplate",
+            () -> new CrystalAnimaArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties()));
+    public static final RegistryObject<Item> ANIMA_LEGGINGS = ITEMS.register("crystal_anima_leggings",
+            () -> new CrystalAnimaArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties()));
+    public static final RegistryObject<Item> FORTIS_HELMET = ITEMS.register("crystal_fortis_helmet",
+            () -> new CrystalFortisArmorItem(ArmorItem.Type.HELMET,new Item.Properties()));
+    public static final RegistryObject<Item> FORTIS_CHESTPLATE = ITEMS.register("crystal_fortis_chestplate",
+            () -> new CrystalFortisArmorItem(ArmorItem.Type.CHESTPLATE,new Item.Properties()));
+    public static final RegistryObject<Item> FORTIS_LEGGINGS = ITEMS.register("crystal_fortis_leggings",
+            () -> new CrystalFortisArmorItem(ArmorItem.Type.LEGGINGS,new Item.Properties()));
     //endregion glass
     //region bronze
     public static final RegistryObject<Item> BRONZE_SWORD = ITEMS.register("bronze_sword",

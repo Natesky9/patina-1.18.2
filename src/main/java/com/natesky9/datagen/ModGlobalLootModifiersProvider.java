@@ -14,13 +14,14 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 
@@ -62,11 +63,18 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         //endregion wither fragments
         //region bee fragments
         //TODO add an inverted silk touch predicate
-        add("add_bee_fragment_1", new AddItemModifier(new LootItemCondition[]{
-                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.BEE_NEST)
-                        .invert()
-                        .build()
-        },ModItems.BEE_FRAGMENT_1.get(),.1f));
+        ItemEnchantmentsPredicate pred = ItemEnchantmentsPredicate.enchantments(List.of(
+                new EnchantmentPredicate(provider.lookup(Registries.ENCHANTMENT).get().get(Enchantments.SILK_TOUCH).get(),
+                        MinMaxBounds.Ints.ANY)
+        ));
+        add("add_bee_fragment_1", new AddItemModifier(new LootItemCondition[]
+                {
+                        new LootTableIdCondition.Builder(Blocks.BEE_NEST.getLootTable().location()).build(),
+                        hasSilkTouch(provider).invert().build()
+                }
+
+
+        ,ModItems.BEE_FRAGMENT_1.get(),.1f));
         add("add_bee_fragment_2", new AddItemModifier(new LootItemCondition[]{
                 LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS,
                         EntityPredicate.Builder.entity().of(EntityType.BEE))
@@ -119,5 +127,18 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
         add("crab_claw_from_fishing",new ReplaceItemModifier(new LootItemCondition[]{
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("gameplay/fishing/treasure")).build()
         },ModItems.CLAW.get()));
+    }
+    LootItemCondition.Builder hasSilkTouch(HolderLookup.Provider provider) {
+        HolderLookup.RegistryLookup<Enchantment> registrylookup = provider.lookupOrThrow(Registries.ENCHANTMENT);
+        return MatchTool.toolMatches(
+                ItemPredicate.Builder.item()
+                        .withSubPredicate(
+                                ItemSubPredicates.ENCHANTMENTS,
+                                ItemEnchantmentsPredicate.enchantments(
+                                        List.of(new EnchantmentPredicate(registrylookup.getOrThrow(Enchantments.SILK_TOUCH),
+                                                MinMaxBounds.Ints.atLeast(1)))
+                                )
+                        )
+        );
     }
 }

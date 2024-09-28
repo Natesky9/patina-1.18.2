@@ -77,6 +77,7 @@ public class PotionFlaskItem extends PotionItem {
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack pStack, ItemStack pOther, Slot pSlot, ClickAction pAction, Player pPlayer, SlotAccess pAccess) {
+        //TODO:fix stacking
         if (!(pAction == ClickAction.SECONDARY)) return false;
         if (!pOther.is(Items.POTION) && !(pOther.getItem() instanceof PotionFlaskItem)) return false;
         PotionContents contents = pStack.get(DataComponents.POTION_CONTENTS);

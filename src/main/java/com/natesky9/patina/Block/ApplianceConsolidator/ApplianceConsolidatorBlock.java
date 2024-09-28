@@ -1,7 +1,6 @@
 package com.natesky9.patina.Block.ApplianceConsolidator;
 
 import com.mojang.serialization.MapCodec;
-import com.natesky9.patina.MultiBlockQuad;
 import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

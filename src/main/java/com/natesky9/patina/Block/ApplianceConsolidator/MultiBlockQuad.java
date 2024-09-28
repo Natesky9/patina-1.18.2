@@ -1,4 +1,4 @@
-package com.natesky9.patina;
+package com.natesky9.patina.Block.ApplianceConsolidator;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -1,5 +1,6 @@
 package com.natesky9.patina.Item;
 
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.awt.*;
@@ -12,8 +13,11 @@ public class RustableItem {
     //    rust = rust > 255 ? 255 : rust < 0 ? 0 : rust;
     //    return getTint(rust);
     //}
-    public static int getTint(int rust)
+    public static int getTint(ItemStack stack)
     {
+        int max = stack.getMaxDamage();
+        int damage = stack.getDamageValue();
+        int rust = (max-damage)/max*100;
         //creative use of bitshifting to make an orange -> green gradient
         return ((255-rust) << 16) + (140 << 8) + 70;
     }

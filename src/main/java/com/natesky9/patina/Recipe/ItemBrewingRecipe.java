@@ -21,6 +21,7 @@ public class ItemBrewingRecipe implements IBrewingRecipe {
 
     @Override
     public boolean isInput(ItemStack input) {
+        if (!input.has(DataComponents.POTION_CONTENTS)) return false;
         return input.get(DataComponents.POTION_CONTENTS).potion().get() == this.input;
     }
 

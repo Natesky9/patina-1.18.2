@@ -1,6 +1,6 @@
 package com.natesky9.patina.Block.MachineTextiler;
 
-import com.natesky9.patina.ModRecipeBookType;
+import com.natesky9.patina.Recipe.ModRecipeBookType;
 import com.natesky9.patina.Recipe.TextilerRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;

@@ -1,5 +1,6 @@
 package com.natesky9.patina.init;
 
+import com.natesky9.patina.Patina;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -55,7 +56,7 @@ public class ModArmorMaterials {
     private static Holder<ArmorMaterial> register(String p_334359_, EnumMap<ArmorItem.Type, Integer> armor,
             int enchantability, Holder<SoundEvent> equip, float toughness, float heavy, Supplier<Ingredient> p_333678_)
     {
-        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(ResourceLocation.withDefaultNamespace(p_334359_)));
+        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(Patina.MODID, p_334359_)));
         return register(p_334359_, armor, enchantability, equip, toughness, heavy, p_333678_, list);
     }
 
@@ -70,7 +71,8 @@ public class ModArmorMaterials {
             enummap.put(armoritem$type, armor.get(armoritem$type));
         }
 
-        return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.withDefaultNamespace(p_332406_),
+        return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL,
+                ResourceLocation.fromNamespaceAndPath(Patina.MODID, p_332406_),
                 new ArmorMaterial(enummap, enchantability, equip, p_334412_, p_330855_, toughness, heavy));
     }
     //end register methods
@@ -80,8 +82,14 @@ public class ModArmorMaterials {
             0f, 0f, () -> Ingredient.of(Items.COPPER_INGOT));
     public static final Holder<ArmorMaterial> BRONZE = register("bronze", standard, 24, Holder.direct(SoundEvents.AMETHYST_BLOCK_CHIME),
             1f, 1f, () -> Ingredient.of(ModItems.BISMUTH_INGOT.get()));
-    public static final Holder<ArmorMaterial> GLASS = register("glass", strong, 30, SoundEvents.ARMOR_EQUIP_DIAMOND,
-                1f, 0f, () -> Ingredient.of(ModItems.PRIME_GLASS.get()));
+    public static final Holder<ArmorMaterial> CRYSTAL = register("crystal_prime", strong, 30, SoundEvents.ARMOR_EQUIP_DIAMOND,
+            1f, 0f, () -> Ingredient.of(ModItems.PRIME_GLASS.get()));
+    public static final Holder<ArmorMaterial> CRYSTAL_FORTIS = register("crystal_fortis", strong, 30, SoundEvents.ARMOR_EQUIP_DIAMOND,
+            1f, 0f, () -> Ingredient.of(ModItems.FORTIS_GLASS.get()));
+    public static final Holder<ArmorMaterial> CRYSTAL_FERUS = register("crystal_ferus", strong, 30, SoundEvents.ARMOR_EQUIP_DIAMOND,
+            1f, 0f, () -> Ingredient.of(ModItems.FERUS_GLASS.get()));
+    public static final Holder<ArmorMaterial> CRYSTAL_ANIMA = register("crystal_anima", strong, 30, SoundEvents.ARMOR_EQUIP_DIAMOND,
+            1f, 0f, () -> Ingredient.of(ModItems.ANIMA_GLASS.get()));
     //GLASS("glass",30, Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
     //{
     //    typeEnumMap.put(ArmorItem.Type.BOOTS,4);
@@ -92,23 +100,10 @@ public class ModArmorMaterials {
     //        () -> {return Ingredient.of(ModItems.PRIME_GLASS.get());}),
     public static final Holder<ArmorMaterial> DRAGON = register("dragon", advanced, 8, Holder.direct(SoundEvents.ENDER_DRAGON_FLAP),
             3f, 3f, () -> Ingredient.of(ModItems.DRAGON_SCALE.get()));
-    //DRAGON("dragon",68,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
-    //{
-    //    typeEnumMap.put(HELMET,6);
-    //    typeEnumMap.put(ArmorItem.Type.CHESTPLATE,6);
-    //    typeEnumMap.put(ArmorItem.Type.LEGGINGS,6);
-    //    typeEnumMap.put(ArmorItem.Type.BOOTS,6);}),15,SoundEvents.ENDER_DRAGON_FLAP,2F,0.05F,
-    //        () -> {return Ingredient.of(ModItems.DRAGON_SCALE.get());}),
-    public static final Holder<ArmorMaterial> UMBRA = register("umbra", simple, 12, SoundEvents.ARMOR_EQUIP_CHAIN,
+
+    public static final Holder<ArmorMaterial> UMBRA = register("umbra", simple,
+            12, SoundEvents.ARMOR_EQUIP_CHAIN,
             0, -1f, () -> Ingredient.of(Items.PHANTOM_MEMBRANE));
-    //UMBRA("umbra",9,Util.make(new EnumMap<>(ArmorItem.Type.class),typeEnumMap ->
-    //{
-    //    typeEnumMap.put(HELMET,1);
-    //    typeEnumMap.put(ArmorItem.Type.CHESTPLATE,1);
-    //    typeEnumMap.put(ArmorItem.Type.LEGGINGS,1);
-    //    typeEnumMap.put(ArmorItem.Type.BOOTS,1);
-    //}),25,SoundEvents.PHANTOM_FLAP,0.1f,0,
-    //        () -> {return Ingredient.of(ModItems.UMBRA.get());});
 
 
     //LEATHER("leather", 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {

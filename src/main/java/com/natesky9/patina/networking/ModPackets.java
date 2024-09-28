@@ -22,10 +22,15 @@ public class ModPackets {
                 .networkProtocolVersion(1)
                 .simpleChannel();
         INSTANCE = net;
-        net.messageBuilder(PacketResearchTableClick.class, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(PacketResearchTableClick::encode)
-                .decoder(PacketResearchTableClick::new)
-                .consumerMainThread(PacketResearchTableClick::handle)
+        net.messageBuilder(PacketResearchCreativeGrant.class, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(PacketResearchCreativeGrant::encode)
+                .decoder(PacketResearchCreativeGrant::new)
+                .consumerMainThread(PacketResearchCreativeGrant::handle)
+                .add();
+        net.messageBuilder(PacketResearchAdvance.class, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(PacketResearchAdvance::encode)
+                .decoder(PacketResearchAdvance::new)
+                .consumerMainThread(PacketResearchAdvance::handle)
                 .add();
     }
 

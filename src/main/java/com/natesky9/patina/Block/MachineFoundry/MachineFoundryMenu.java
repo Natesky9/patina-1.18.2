@@ -1,6 +1,6 @@
 package com.natesky9.patina.Block.MachineFoundry;
 
-import com.natesky9.patina.ModRecipeBookType;
+import com.natesky9.patina.Recipe.ModRecipeBookType;
 import com.natesky9.patina.Recipe.FoundryRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;

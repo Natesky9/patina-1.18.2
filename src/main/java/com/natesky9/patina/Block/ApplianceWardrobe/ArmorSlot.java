@@ -1,7 +1,6 @@
-package com.natesky9.patina;
+package com.natesky9.patina.Block.ApplianceWardrobe;
 
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;

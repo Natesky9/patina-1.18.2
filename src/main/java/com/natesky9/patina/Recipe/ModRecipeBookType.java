@@ -1,4 +1,4 @@
-package com.natesky9.patina;
+package com.natesky9.patina.Recipe;
 
 import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.world.inventory.RecipeBookType;

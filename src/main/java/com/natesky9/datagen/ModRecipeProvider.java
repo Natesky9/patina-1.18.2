@@ -2,13 +2,11 @@ package com.natesky9.datagen;
 
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.Recipe.FoundryRecipe;
-import com.natesky9.patina.Recipe.TextilerRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.data.recipes.packs.BundleRecipeProvider;
@@ -20,10 +18,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.*;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -34,14 +33,31 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     public void buildRecipes(@NotNull RecipeOutput pWriter) {
-        pWriter.accept(ResourceLocation.fromNamespaceAndPath(Patina.MODID,"foundry/anima"),
-                new FoundryRecipe(ModItems.ANIMA_GLASS.get().getDefaultInstance(),ModItems.PRIME_GLASS.get().getDefaultInstance(),Ingredient.of(Items.CHORUS_FLOWER)),
-                ModAdvancementGenerator.foundry
-                );
+        //TODO: add the recipes, you dummy
+        pWriter.accept(name("foundry/prime"),
+                new FoundryRecipe(new ItemStack(ModItems.PRIME_GLASS.get()),
+                        Ingredient.of(Items.PRISMARINE_CRYSTALS),Ingredient.of(Items.SOUL_SAND)),
+                ModAdvancementGenerator.material_crystal);
+        pWriter.accept(name("foundry/anima"),
+                new FoundryRecipe(new ItemStack(ModItems.ANIMA_GLASS.get()),
+                        Ingredient.of(ModItems.PRIME_GLASS.get()),Ingredient.of(Items.CHORUS_FLOWER)),
+                ModAdvancementGenerator.material_anima);
+        pWriter.accept(name("foundry/fortis"),
+                new FoundryRecipe(new ItemStack(ModItems.FERUS_GLASS.get()),
+                        Ingredient.of(ModItems.PRIME_GLASS.get()),Ingredient.of(Items.GOAT_HORN)),
+                ModAdvancementGenerator.material_fortis);
+        pWriter.accept(name("foundry/magna"),
+                new FoundryRecipe(new ItemStack(ModItems.FORTIS_GLASS.get()),
+                        Ingredient.of(ModItems.PRIME_GLASS.get()),Ingredient.of(Items.NETHERITE_INGOT)),
+                ModAdvancementGenerator.material_fortis);
+        pWriter.accept(name("foundry/malachite"),
+                new FoundryRecipe(new ItemStack(ModItems.MALACHITE.get()),
+                        Ingredient.of(Items.EMERALD_BLOCK),Ingredient.of(Items.COPPER_INGOT)),
+                        ModAdvancementGenerator.material_malachite);
         //
-        pWriter.accept(ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textiler/silk"),
-                new TextilerRecipe(new ItemStack(ModItems.SILK.get()), NonNullList.withSize(9,Ingredient.of(Items.STRING))),
-                ModAdvancementGenerator.loom);
+        //pWriter.accept(ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textiler/silk"),
+        //        new TextilerRecipe(new ItemStack(ModItems.SILK.get()), NonNullList.withSize(9,Ingredient.of(Items.STRING))),
+        //        ModAdvancementGenerator.loom);
         //region fragment weapons
         smithingTable(ModItems.PIG_FRAGMENT_A.get(),
                 ModItems.CHARM_FRAGMENT.get(), ModItems.PIG_FRAGMENT_1.get(), ModItems.PIG_FRAGMENT_2.get()
@@ -109,45 +125,45 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         charmCrafting(Items.TOTEM_OF_UNDYING,ModItems.CHARM_FRAGMENT.get(),vanilla_totem,pWriter);
         //endregion charms
         //region armor
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.CLOTH_BOOTS.get())
-            .define('A',ModItems.SILK.get())
-            .pattern("A A").pattern("A A")
-            .unlockedBy("unlocked_silk",ModAdvancementGenerator.textilerCriteria)
-            .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.CLOTH_BOOTS.get())
+        //    .define('A',ModItems.SILK.get())
+        //    .pattern("A A").pattern("A A")
+        //    .unlockedBy("unlocked_silk",ModAdvancementGenerator.textilerCriteria)
+        //    .save(pWriter);
         //umbral
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_HAT.get())
-                .define('A',ModItems.UMBRA.get())
-                .pattern("AAA").pattern("A A")
-                .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_TOP.get())
-                .define('A',ModItems.UMBRA.get())
-                .pattern("A A").pattern("AAA").pattern("AAA")
-                .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_BOTTOM.get())
-                .define('A',ModItems.UMBRA.get())
-                .pattern("AAA").pattern("A A").pattern("A A")
-                .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_HELMET.get())
-                .define('I', ModItems.DRAGON_SCALE.get())
-                .define('C', Items.CHAINMAIL_HELMET)
-                .pattern("ICI").pattern("I I")
-                .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_CHESTPLATE.get())
-                .define('I', ModItems.DRAGON_SCALE.get())
-                .define('C', Items.CHAINMAIL_CHESTPLATE)
-                .pattern("I I").pattern("ICI").pattern("III")
-                .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_LEGGINGS.get())
-                .define('I', ModItems.DRAGON_SCALE.get())
-                .define('C', Items.CHAINMAIL_LEGGINGS)
-                .pattern("ICI").pattern("I I").pattern("I I")
-                .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
-                .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_HAT.get())
+        //        .define('A',ModItems.UMBRA.get())
+        //        .pattern("AAA").pattern("A A")
+        //        .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
+        //        .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_TOP.get())
+        //        .define('A',ModItems.UMBRA.get())
+        //        .pattern("A A").pattern("AAA").pattern("AAA")
+        //        .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
+        //        .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.UMBRA_BOTTOM.get())
+        //        .define('A',ModItems.UMBRA.get())
+        //        .pattern("AAA").pattern("A A").pattern("A A")
+        //        .unlockedBy("unlocked_umbra", ModAdvancementGenerator.killed_phantom)
+        //        .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_HELMET.get())
+        //        .define('I', ModItems.DRAGON_SCALE.get())
+        //        .define('C', Items.CHAINMAIL_HELMET)
+        //        .pattern("ICI").pattern("I I")
+        //        .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
+        //        .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_CHESTPLATE.get())
+        //        .define('I', ModItems.DRAGON_SCALE.get())
+        //        .define('C', Items.CHAINMAIL_CHESTPLATE)
+        //        .pattern("I I").pattern("ICI").pattern("III")
+        //        .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
+        //        .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,ModItems.DRAGON_LEGGINGS.get())
+        //        .define('I', ModItems.DRAGON_SCALE.get())
+        //        .define('C', Items.CHAINMAIL_LEGGINGS)
+        //        .pattern("ICI").pattern("I I").pattern("I I")
+        //        .unlockedBy("unlocked_dragon",ModAdvancementGenerator.killed_dragon)
+        //        .save(pWriter);
         //endregion armor
         //temporary recipes
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,ModItems.VOID_SALT.get())
@@ -155,31 +171,49 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_salt",has(ModItems.POTION_SALT.get())).save(pWriter);
         nineBlockStorageRecipes(pWriter,RecipeCategory.MISC,ModItems.BISMUTH_NUGGET.get(),RecipeCategory.MISC,ModItems.BISMUTH_INGOT.get());
         //region flasks
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.POTION_FLASK.get())
-                .define('P', ModItems.PRIME_GLASS.get())
-                .define('C', ModItems.COPPER_NUGGET.get())
-                .pattern(" C ").pattern("P P").pattern(" P ")
-                .unlockedBy("prime_flask",ModAdvancementGenerator.brewed)
+        String[] flask = new String[]{" a ","b b"," b "};
+        pWriter.accept(name("brewing/prime_flask"),
+                new ShapedRecipe("prime_flask", CraftingBookCategory.MISC,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(ModItems.COPPER_NUGGET.get()),
+                                        'b',Ingredient.of(ModItems.PRIME_GLASS.get())),
+                                flask),
+                        ModItems.POTION_FLASK.get().getDefaultInstance()),
+                ModAdvancementGenerator.prime_flask);
+        pWriter.accept(name("brewing/vita_flask"),
+                new ShapedRecipe("vita_flask", CraftingBookCategory.MISC,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(ModItems.COPPER_NUGGET.get()),
+                                        'b',Ingredient.of(ModItems.ANIMA_GLASS.get())),
+                                flask),
+                        ModItems.VITA_FLASK.get().getDefaultInstance()),
+                ModAdvancementGenerator.vita_flask);
+        pWriter.accept(name("brewing/impetus_flask"),
+                new ShapedRecipe("impetus_flask", CraftingBookCategory.MISC,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(ModItems.COPPER_NUGGET.get()),
+                                        'b',Ingredient.of(ModItems.FERUS_GLASS.get())),
+                                flask),
+                        ModItems.IMPETUS_FLASK.get().getDefaultInstance()),
+                ModAdvancementGenerator.impetus_flask);
+        pWriter.accept(name("brewing/magna_flask"),
+                new ShapedRecipe("magna_flask", CraftingBookCategory.MISC,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(ModItems.COPPER_NUGGET.get()),
+                                        'b',Ingredient.of(ModItems.FORTIS_GLASS.get())),
+                                new String[]{" a ","b b"," b "}),
+                        ModItems.MAGNA_FLASK.get().getDefaultInstance()),
+                ModAdvancementGenerator.magna_flask);
+        //flask recycling recipes
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.POTION_FLASK.get()),RecipeCategory.MISC,ModItems.PRIME_GLASS.get(),0f,400)
+                .unlockedBy("has_flask",has(ModItems.POTION_FLASK.get()))
                 .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.VITA_FLASK.get())
-                .define('P', ModItems.ANIMA_GLASS.get())
-                .define('C', ModItems.COPPER_NUGGET.get())
-                .pattern(" C ").pattern("P P").pattern(" P ")
-                .unlockedBy("vita_flask",ModAdvancementGenerator.brewed)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.VITA_FLASK.get()),RecipeCategory.MISC,ModItems.ANIMA_GLASS.get(),0f,400)
+                .unlockedBy("has_flask",has(ModItems.VITA_FLASK.get()))
                 .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.IMPETUS_FLASK.get())
-                .define('P', ModItems.FERUS_GLASS.get())
-                .define('C', ModItems.COPPER_NUGGET.get())
-                .pattern(" C ").pattern("P P").pattern(" P ")
-                .unlockedBy("impetus_flask",ModAdvancementGenerator.brewed)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.IMPETUS_FLASK.get()),RecipeCategory.MISC,ModItems.FERUS_GLASS.get(),0f,400)
+                .unlockedBy("has_flask",has(ModItems.POTION_FLASK.get()))
                 .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING,ModItems.MAGNA_FLASK.get())
-                .define('P', ModItems.FORTIS_GLASS.get())
-                .define('C', ModItems.COPPER_NUGGET.get())
-                .pattern(" C ").pattern("P P").pattern(" P ")
-                .unlockedBy("fortis_flask",ModAdvancementGenerator.brewed)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModItems.MAGNA_FLASK.get()),RecipeCategory.MISC,ModItems.FORTIS_GLASS.get(),0f,400)
+                .unlockedBy("has_flask",has(ModItems.MAGNA_FLASK.get()))
                 .save(pWriter);
+        //endregion flasks
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS,ModItems.SEED_POUCH.get())
                 .define('A', Items.LEATHER)
                 .define('B',Items.STRING)
@@ -227,32 +261,81 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("CCC")
                 .unlockedBy("unlocked_evaporator",has(Items.SOUL_CAMPFIRE))
                 .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC,ModBlocks.MACHINE_FOUNDRY.get())
-                .define('A',Items.BLAST_FURNACE)
-                .define('B',Items.NETHER_BRICK)
-                .define('C',Items.CAULDRON)
-                .pattern("BCB")
-                .pattern("BAB")
-                .pattern("BBB")
-                .unlockedBy("unlocked_foundry",ModAdvancementGenerator.foundryCriteria)
-                .save(pWriter);
+        pWriter.accept(name("foundry"),
+                new ShapedRecipe("foundry",CraftingBookCategory.MISC,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(Items.BLAST_FURNACE),
+                                        'b',Ingredient.of(Items.CAULDRON),
+                                        'c',Ingredient.of(Items.CUT_COPPER_STAIRS),
+                                        'd',Ingredient.of(Items.BLAZE_ROD)),
+                                new String[]{"cbc","ada","cbc"}),
+                        ModBlocks.MACHINE_FOUNDRY.get().asItem().getDefaultInstance())
+                ,ModAdvancementGenerator.foundry);
+        pWriter.accept(name("foundry_addon"),
+                new ShapedRecipe("foundry_addon",CraftingBookCategory.MISC,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(Items.LEATHER),
+                                        'b',Ingredient.of(Items.PISTON),
+                                        'c',Ingredient.of(Items.CUT_COPPER_STAIRS),
+                                        'd',Ingredient.of(Items.BREEZE_ROD)),
+                                new String[]{"cbc","ada","cbc"}),
+                        ModBlocks.ADDON_FOUNDRY.get().asItem().getDefaultInstance())
+                ,ModAdvancementGenerator.foundry_augment);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.MACHINE_ALEMBIC.get())
-                .pattern("AAA").pattern("BBB").pattern("CCC")
-                .define('A', ModItems.PRIME_GLASS.get())
-                .define('B', Items.BREWING_STAND)
-                .define('C', Items.CUT_COPPER_SLAB)
-                .unlockedBy("unlock_alembic", ModAdvancementGenerator.brewed)
-                .save(pWriter);
-        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.ADDON_ALEMBIC.get())
-                .pattern("GIP").pattern("IBI").pattern("I I")
-                .define('G', Items.GOLD_INGOT)
-                .define('I', Items.IRON_INGOT)
-                .define('P', ModItems.PRIME_GLASS.get())
-                .define('B', Items.BUCKET)
-                .unlockedBy("unlock_alembic_addon", RecipeCraftedTrigger.TriggerInstance
-                        .craftedItem(ModBlocks.MACHINE_ALEMBIC.getId()))
-                .save(pWriter);
+        pWriter.accept(name("alembic"),
+                new ShapedRecipe("alembic",CraftingBookCategory.REDSTONE,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(Items.IRON_INGOT),
+                                        'b',Ingredient.of(ModItems.POTION_FLASK.get()),
+                                        'c',Ingredient.of(Items.WATER_BUCKET),
+                                        'd',Ingredient.of(Items.CUT_COPPER_SLAB)),
+                                new String[]{"bab","aca","ddd"}),
+                        ModBlocks.MACHINE_ALEMBIC.get().asItem().getDefaultInstance()),
+                ModAdvancementGenerator.brewing);
+        pWriter.accept(name("alembic_addon_1"),
+                new ShapedRecipe("alembic_addon_1",CraftingBookCategory.REDSTONE,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(Items.QUARTZ_SLAB),
+                                        'b',Ingredient.of(ModItems.MAGNA_FLASK.get()),
+                                        'c',Ingredient.of(Items.SEA_PICKLE),
+                                        'd',Ingredient.of(Items.CUT_COPPER_SLAB),
+                                        'e',Ingredient.of(Items.WATER_BUCKET)),
+                                new String[]{"aba","aca","ded"}),
+                        ModBlocks.ADDON_ALEMBIC.get().asItem().getDefaultInstance()),
+                ModAdvancementGenerator.brewing_augment);
+        pWriter.accept(name("alembic_addon_2"),
+                new ShapedRecipe("alembic_addon_2",CraftingBookCategory.REDSTONE,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(Items.QUARTZ_SLAB),
+                                        'b',Ingredient.of(ModItems.VITA_FLASK.get()),
+                                        'c',Ingredient.of(Items.SEA_PICKLE),
+                                        'd',Ingredient.of(Items.CUT_COPPER_SLAB),
+                                        'e',Ingredient.of(Items.WATER_BUCKET)),
+                                new String[]{"aba","aca","ded"}),
+                        ModBlocks.ADDON_ALEMBIC.get().asItem().getDefaultInstance()),
+                ModAdvancementGenerator.brewing_augment);
+        pWriter.accept(name("alembic_addon_3"),
+                new ShapedRecipe("alembic_addon_3",CraftingBookCategory.REDSTONE,
+                        ShapedRecipePattern.of(Map.of('a',Ingredient.of(Items.QUARTZ_SLAB),
+                                        'b',Ingredient.of(ModItems.IMPETUS_FLASK.get()),
+                                        'c',Ingredient.of(Items.SEA_PICKLE),
+                                        'd',Ingredient.of(Items.CUT_COPPER_SLAB),
+                                        'e',Ingredient.of(Items.WATER_BUCKET)),
+                                new String[]{"aba","aca","ded"}),
+                        ModBlocks.ADDON_ALEMBIC.get().asItem().getDefaultInstance()),
+                ModAdvancementGenerator.brewing_augment);
+
+        //ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.MACHINE_ALEMBIC.get())
+        //        .pattern("AAA").pattern("BBB").pattern("CCC")
+        //        .define('A', ModItems.PRIME_GLASS.get())
+        //        .define('B', Items.BREWING_STAND)
+        //        .define('C', Items.CUT_COPPER_SLAB)
+        //        .unlockedBy("unlock_alembic", ModAdvancementGenerator.brewing_stand)
+        //        .save(pWriter);
+        //ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.ADDON_ALEMBIC.get())
+        //        .pattern("GIP").pattern("IBI").pattern("I I")
+        //        .define('G', Items.GOLD_INGOT)
+        //        .define('I', Items.IRON_INGOT)
+        //        .define('P', ModItems.PRIME_GLASS.get())
+        //        .define('B', Items.BUCKET)
+        //        .unlockedBy("unlock_alembic_addon", RecipeCraftedTrigger.TriggerInstance
+        //                .craftedItem(ModBlocks.MACHINE_ALEMBIC.getId()))
+        //        .save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModBlocks.MACHINE_MINCERATOR.get())
                 .pattern("AAA").pattern("AGA").pattern("ASA")
                 .define('A', Items.CUT_COPPER_SLAB)
@@ -448,5 +531,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         RecipeCategory.MISC, result)
                 .unlocks(result.getDescriptionId() + "criteria",criteria)
                 .save(pWriter,result.getDescriptionId());
+    }
+    static ResourceLocation name(String string)
+    {
+        return ResourceLocation.fromNamespaceAndPath(Patina.MODID,string);
     }
 }

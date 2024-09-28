@@ -9,6 +9,7 @@ import com.natesky9.patina.Item.flasks.ImpetusFlask;
 import com.natesky9.patina.Item.flasks.SemiVitaFlask;
 import com.natesky9.patina.Patina;
 import com.natesky9.patina.init.ModItems;
+import com.natesky9.patina.init.ModPotions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraftforge.event.VanillaGameEvent;
+import net.minecraftforge.event.brewing.BrewingRecipeRegisterEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -31,6 +33,14 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EventsForge {
+    @SubscribeEvent
+    public static void potions(BrewingRecipeRegisterEvent event)
+    {
+        ModPotions.addNormalPotions(event);
+        ModPotions.addSaltPotions(event);
+        //ModPotions.removePotions(event);
+        ModPotions.addVoidPotions(event);
+    }
     @SubscribeEvent
     public static void experienceEvent(LivingExperienceDropEvent event)
     {

@@ -1,6 +1,5 @@
 package com.natesky9.patina.Block.ApplianceWardrobe;
 
-import com.natesky9.patina.ArmorSlot;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;

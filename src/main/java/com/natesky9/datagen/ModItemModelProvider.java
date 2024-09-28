@@ -27,7 +27,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.BEE_FRAGMENT_C);
         simpleItem(ModItems.BEE_FRAGMENT_D);
         handheldItem(ModItems.BEE_SWORD);
-        handheldItem(ModItems.BEE_SHIELD);
 
 
         simpleItem(ModItems.PIG_FRAGMENT_1);

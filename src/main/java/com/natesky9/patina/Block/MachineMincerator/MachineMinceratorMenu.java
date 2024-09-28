@@ -1,6 +1,6 @@
 package com.natesky9.patina.Block.MachineMincerator;
 
-import com.natesky9.patina.ModRecipeBookType;
+import com.natesky9.patina.Recipe.ModRecipeBookType;
 import com.natesky9.patina.Recipe.MinceratorRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModItems;

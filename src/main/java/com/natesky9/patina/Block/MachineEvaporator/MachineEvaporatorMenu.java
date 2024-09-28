@@ -1,6 +1,6 @@
 package com.natesky9.patina.Block.MachineEvaporator;
 
-import com.natesky9.patina.ModRecipeBookType;
+import com.natesky9.patina.Recipe.ModRecipeBookType;
 import com.natesky9.patina.OutputSlotHandler;
 import com.natesky9.patina.Recipe.EvaporatorRecipe;
 import com.natesky9.patina.init.ModBlocks;

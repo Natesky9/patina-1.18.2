@@ -41,7 +41,6 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
     public Item reagent;
     public static final int dataSlots = 5;
     public static final int slots = 3;
-    public final PotionBrewing brewing;
 
     static List<Direction> horizontal = new ArrayList<>();
     static {
@@ -63,13 +62,14 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
         this.leftover = 0;
         this.reagent = Items.AIR;
         //level should never be null
-        brewing = level.potionBrewing();
     }
 
     @Override
     protected boolean mySlotValid(int slot, @NotNull ItemStack stack) {
+        PotionBrewing brewing = this.level != null ? this.level.potionBrewing() : PotionBrewing.EMPTY;
         return switch (slot)
         {
+
             case inputPotion -> brewing.hasMix(stack,new ItemStack(reagent))
                     || reagent == Items.AIR && brewing.isValidInput(stack);
             case inputIngredient -> brewing.isIngredient(stack);
@@ -143,6 +143,8 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
 
     @Override
     protected void MachineTick() {
+        PotionBrewing brewing = this.level != null ? this.level.potionBrewing() : PotionBrewing.EMPTY;
+
         if (!(level instanceof ServerLevel)) return;
         ItemStack ingredient = itemStackHandler.getStackInSlot(inputIngredient);
         if (leftover < 1 && brewing.isIngredient(ingredient))
@@ -161,11 +163,13 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
         ItemStack addition = new ItemStack(reagent);
         if (brewing.hasMix(potion, addition) && leftover > 0)
         {//craft the potion
+            //System.out.println("mix: " + brewing.mix(potion,addition));
             progress++;
             if (progress >= progressMax)
             {
                 //do the actual crafting
-                itemStackHandler.setStackInSlot(inputPotion, brewing.mix(potion, addition));
+                ItemStack stack = brewing.mix(addition,potion);
+                itemStackHandler.setStackInSlot(inputPotion, stack);
                 leftover--;
                 //trigger the addons randomly
                 int delay = 0;

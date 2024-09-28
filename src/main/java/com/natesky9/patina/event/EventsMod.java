@@ -1,12 +1,11 @@
 package com.natesky9.patina.event;
 
+import com.natesky9.datagen.DataGenerators;
 import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
-import com.natesky9.patina.ModRecipeBookType;
 import com.natesky9.patina.Patina;
-import com.natesky9.datagen.DataGenerators;
-import com.natesky9.patina.entity.Armor.TemplateArmorModel;
-import com.natesky9.patina.entity.Armor.UmbraArmorModel;
+import com.natesky9.patina.Recipe.ModRecipeBookType;
+import com.natesky9.patina.entity.Armor.*;
 import com.natesky9.patina.entity.BearPrince.BearPrince;
 import com.natesky9.patina.entity.BearPrince.BearPrinceModel;
 import com.natesky9.patina.entity.BearPrince.BearPrinceRenderer;
@@ -15,6 +14,7 @@ import com.natesky9.patina.entity.BeePrincess.BeePrincessModel;
 import com.natesky9.patina.entity.BeePrincess.BeePrincessRenderer;
 import com.natesky9.patina.entity.PiglinBaron;
 import com.natesky9.patina.entity.SandwormKing;
+import com.natesky9.patina.entity.SinisterApothecary;
 import com.natesky9.patina.entity.SlimeKnight;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestModel;
 import com.natesky9.patina.entity.SpiderNest.SpiderNestRenderer;
@@ -78,9 +78,11 @@ public class EventsMod {
                 pTintIndex == 0 ? pStack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).getColor() : -1,ModItems.POTION_SALT.get());
         //tint on layer 1
         //TODO:do rust, eventually?
-        //event.register(((pStack, pTintIndex) -> pTintIndex == 1 ? RustableItem.getRust(pStack):-1),
-        //        ModItems.COPPER_AXE.get(),ModItems.COPPER_HOE.get(),ModItems.COPPER_SWORD.get(),
-        //        ModItems.COPPER_PICK.get(),ModItems.COPPER_SHOVEL.get());
+        event.register(((pStack, pTintIndex) -> pTintIndex == 1 ? RustableItem.getTint(pStack):-1),
+                ModItems.COPPER_AXE.get(),ModItems.COPPER_HOE.get(),ModItems.COPPER_SWORD.get(),
+                ModItems.COPPER_PICK.get(),ModItems.COPPER_SHOVEL.get(),
+                ModItems.COPPER_HELMET.get(),ModItems.COPPER_CHESTPLATE.get(),
+                ModItems.COPPER_LEGGINGS.get(),ModItems.COPPER_BOOTS.get());
         event.register(((pStack, pTintIndex) ->
                 {return pTintIndex == 1 ? RustableItem.getSheen(Minecraft.getInstance().level) : -1;}),
                 ModItems.BRONZE_AXE.get(),ModItems.BRONZE_HOE.get(),ModItems.BRONZE_SWORD.get(),
@@ -103,12 +105,13 @@ public class EventsMod {
     public static void doCommonStuff(final FMLCommonSetupEvent event)
     {
         ModPackets.register();
-        //TODO: potions
+        //potions moved into their own event in 1.21
         //ModPotions.removePotions();
         //ModPotions.addNormalPotions();
         //ModPotions.addSaltPotions();
         //ModPotions.addVoidPotions();
     }
+
     @SubscribeEvent
     public static void doClientStuff(FMLClientSetupEvent event)
     {
@@ -151,6 +154,7 @@ public class EventsMod {
         event.put(ModEntityTypes.SANDWORM_BOSS.get(), SandwormKing.createAttributes().build());
         event.put(ModEntityTypes.SPIDER_BOSS.get(), SpiderQueen.createAttributes().build());
         event.put(ModEntityTypes.SPIDER_NEST.get(), Spidernest.createAttributes().build());
+        event.put(ModEntityTypes.WITCH_BOSS.get(), SinisterApothecary.createAttributes().build());
     }
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
@@ -163,6 +167,10 @@ public class EventsMod {
         //armor stuff
         event.registerLayerDefinition(TemplateArmorModel.LAYER_LOCATION, TemplateArmorModel::createBodyLayer);
         event.registerLayerDefinition(UmbraArmorModel.LAYER_LOCATION, UmbraArmorModel::createBodyLayer);
+        event.registerLayerDefinition(CrystalPrimeArmorModel.LAYER_LOCATION, CrystalPrimeArmorModel::createBodyLayer);
+        event.registerLayerDefinition(CrystalAnimaArmorModel.LAYER_LOCATION, CrystalAnimaArmorModel::createBodyLayer);
+        event.registerLayerDefinition(CrystalFerusArmorModel.LAYER_LOCATION, CrystalFerusArmorModel::createBodyLayer);
+        event.registerLayerDefinition(CrystalFortisArmorModel.LAYER_LOCATION, CrystalFortisArmorModel::createBodyLayer);
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event)

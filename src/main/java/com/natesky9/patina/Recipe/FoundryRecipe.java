@@ -17,12 +17,12 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
     private final RecipeType<?> type = ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get();
     private final RecipeSerializer<?> serializer = ModRecipeSerializers.FOUNDRY_SERIALIZER.get();
 
-    final ItemStack input;
+    final Ingredient input;
     final Ingredient catalyst;
     final ItemStack output;
     //
     public FoundryRecipe(ItemStack output,
-                         ItemStack input, Ingredient catalyst)
+                         Ingredient input, Ingredient catalyst)
     {
         this.output = output;
         this.input = input;
@@ -31,7 +31,7 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
     //
 
 
-    public ItemStack getInput() {
+    public Ingredient getInput() {
         return input;
     }
 
@@ -41,14 +41,12 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return NonNullList.of(Ingredient.EMPTY,Ingredient.of(input),catalyst);
+        return NonNullList.of(Ingredient.EMPTY,input,catalyst);
     }
 
     @Override
     public boolean matches(RecipeInput pContainer, Level pLevel) {
-        //compare itemstack sizes
-        ItemStack inputStack = pContainer.getItem(0);
-        boolean first = inputStack.is(input.getItem()) && inputStack.getCount() >= input.getCount();
+        boolean first = catalyst.test(pContainer.getItem(0));
         boolean second = catalyst.test(pContainer.getItem(1));
         if (first && second) assemble(pContainer,pLevel.registryAccess());
         return first && second;
@@ -92,7 +90,7 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
         final static MapCodec<FoundryRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) ->
                 instance.group(
                         ItemStack.SIMPLE_ITEM_CODEC.fieldOf("output").forGetter((getter) ->  getter.output),
-                        ItemStack.SIMPLE_ITEM_CODEC.fieldOf("input").forGetter((getter) -> getter.input),
+                        Ingredient.CODEC.optionalFieldOf("input",Ingredient.EMPTY).forGetter((getter) -> getter.input),
                         Ingredient.CODEC.optionalFieldOf("catalyst",Ingredient.EMPTY).forGetter((getter) -> getter.catalyst)
                 ).apply(instance, FoundryRecipe::new)
         );
@@ -112,7 +110,7 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
 
 
         private static FoundryRecipe decode(RegistryFriendlyByteBuf buffer) {
-            ItemStack input = ItemStack.STREAM_CODEC.decode(buffer);
+            Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
             Ingredient catalyst = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
             ItemStack output = ItemStack.STREAM_CODEC.decode(buffer);
             return new FoundryRecipe(output, input, catalyst);
@@ -120,7 +118,7 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
 
 
         private static void encode(RegistryFriendlyByteBuf buffer, FoundryRecipe recipe) {
-            ItemStack.STREAM_CODEC.encode(buffer,recipe.input);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer,recipe.input);
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer,recipe.catalyst);
             ItemStack.STREAM_CODEC.encode(buffer,recipe.output);
         }
