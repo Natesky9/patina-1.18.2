@@ -18,6 +18,5 @@ public class ModRecipeBookType
     public static RecipeBookCategories EVAPORATOR_CATEGORY = RecipeBookCategories.create("evaporator",new ItemStack(Items.SUGAR));
     static void create()
     {
-
     }
 }

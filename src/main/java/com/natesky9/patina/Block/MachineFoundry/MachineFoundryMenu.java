@@ -4,6 +4,7 @@ import com.natesky9.patina.Recipe.ModRecipeBookType;
 import com.natesky9.patina.Recipe.FoundryRecipe;
 import com.natesky9.patina.init.ModBlocks;
 import com.natesky9.patina.init.ModMenuTypes;
+import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
+
+import java.util.List;
 
 import static com.natesky9.patina.Block.MachineFoundry.MachineFoundryEntity.*;
 
@@ -52,6 +55,27 @@ public class MachineFoundryMenu extends RecipeBookMenu<RecipeInput, FoundryRecip
 
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+        ItemStack stack = slots.get(pIndex).getItem();
+        Slot slot = slots.get(pIndex);
+        boolean inventory = inPlayerInventory(pIndex);
+        if (inventory)
+        {
+            //move to the respective slot
+            List<RecipeHolder<FoundryRecipe>> recipes = level.getRecipeManager()
+                    .getAllRecipesFor(ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get());
+            boolean input = recipes.stream().anyMatch(foundryRecipeRecipeHolder ->
+                    foundryRecipeRecipeHolder.value().getIngredients().get(0).test(stack));
+            boolean catalyst = recipes.stream().anyMatch(foundryRecipeRecipeHolder ->
+                    foundryRecipeRecipeHolder.value().getIngredients().get(1).test(stack));
+            if (input) slots.get(36).safeInsert(stack);
+            if (catalyst) slots.get(37).safeInsert(stack);
+        }
+        if (!inventory)
+        {
+            //move to the first free spot
+            this.moveItemStackTo(stack, 0, 36, false);
+            return ItemStack.EMPTY;
+        }
         return ItemStack.EMPTY;
     }
 
@@ -60,6 +84,10 @@ public class MachineFoundryMenu extends RecipeBookMenu<RecipeInput, FoundryRecip
     {
         return stillValid(ContainerLevelAccess.create(level,blockEntity.getBlockPos()),
                 pPlayer, ModBlocks.MACHINE_FOUNDRY.get());
+    }
+    boolean inPlayerInventory(int slot)
+    {
+        return slot < 36;
     }
     private void addPlayerInventory(Inventory playerInventory)
     {

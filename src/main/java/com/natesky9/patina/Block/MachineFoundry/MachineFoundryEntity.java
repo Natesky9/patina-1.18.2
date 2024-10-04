@@ -2,6 +2,7 @@ package com.natesky9.patina.Block.MachineFoundry;
 
 import com.natesky9.patina.Block.Template.MachineTemplateEntity;
 import com.natesky9.patina.Recipe.FoundryRecipe;
+import com.natesky9.patina.Recipe.FoundryRecipeInput;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,7 +16,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.state.BlockState;
@@ -90,7 +90,7 @@ public class MachineFoundryEntity extends MachineTemplateEntity implements MenuP
     @Override
     protected void myContentsChanged()
     {
-        RecipeInput container = CraftingInput.of(1,2,List.of(itemStackHandler.getStackInSlot(input),itemStackHandler.getStackInSlot(catalyst)));
+        RecipeInput container = new FoundryRecipeInput(this.itemStackHandler.getStackInSlot(input),this.itemStackHandler.getStackInSlot(catalyst));
         recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.FOUNDRY_RECIPE_TYPE.get(),container,level);
         if (recipe.isEmpty())
             resetProgress();

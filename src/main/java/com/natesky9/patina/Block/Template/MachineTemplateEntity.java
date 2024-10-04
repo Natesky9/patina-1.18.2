@@ -74,7 +74,7 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
 
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                return mySlotValid(slot,stack);
+                return true;
             }
         };
         automationHandler = new ItemStackHandler(slots)

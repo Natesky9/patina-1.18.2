@@ -15,20 +15,32 @@ import net.minecraftforge.common.data.ForgeAdvancementProvider;
 import java.util.function.Consumer;
 
 public class ModAdvancementGenerator implements ForgeAdvancementProvider.AdvancementGenerator {
-    static Criterion<RecipeCraftedTrigger.TriggerInstance> smelt_copper = RecipeCraftedTrigger.TriggerInstance
-            .craftedItem(ResourceLocation.withDefaultNamespace("item/copper_ingot"));
+    static Criterion<InventoryChangeTrigger.TriggerInstance> smelt_copper =
+            InventoryChangeTrigger.TriggerInstance.hasItems(Items.COPPER_INGOT);
+    AdvancementRewards.Builder xp(AdvancementRewards.Builder builder)
+    {
+        return builder.addExperience(10);
+    }
+    static AdvancementRewards.Builder xp()
+    {
+        return AdvancementRewards.Builder.experience(10);
+    }
+
+
 
     static Criterion<ImpossibleTrigger.TriggerInstance> research = CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance());
 
     //AdvancementType, toast, announce, hidden
+    //region root
     public static final AdvancementHolder root = Advancement.Builder.advancement()
             .display(Items.COPPER_INGOT,Component.literal("Patina"),
                     Component.literal("The dawn of tech"),ResourceLocation.withDefaultNamespace("textures/block/copper_block.png"),
                     AdvancementType.TASK,true,true,false)
             .addCriterion("has_copper",smelt_copper)
+            .rewards(xp())
             .build(name("root"));
-    //add new tabs by adding roots
-
+    //endregion root
+    //region arcana
     public static final AdvancementHolder arcana = Advancement.Builder.advancement()
             .display(Items.EXPERIENCE_BOTTLE, Component.literal("Advanced Arcana"),
                     Component.literal("Unlocking the science of magic!"),null,
@@ -41,23 +53,33 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:adventure/totem_of_undying", research)
             .addCriterion("minecraft:husbandry/axolotl_in_a_bucket", research)
             .addCriterion("minecraft:husbandry/obtain_sniffer_egg", research)
+            .rewards(AdvancementRewards.Builder.experience(80))
             .parent(root)
             .build(name("arcana"));
+    //endregion arcana
+    //region machina
     public static final AdvancementHolder machina = Advancement.Builder.advancement()
             .display(Items.CRAFTER, Component.literal("Automation"),
                     Component.literal("Using technology for gain"),null,
                     AdvancementType.TASK,true,true,false)
             .addCriterion("minecraft:adventure/crafters_crafting_crafters", research)
             .parent(root)
+            .rewards(xp())
             .build(name("automation"));
+    //endregion machina
+    //region teleporter
     public static final AdvancementHolder teleporter = Advancement.Builder.advancement()
             .display(Items.CHORUS_FLOWER, Component.literal("The Chorus Sings"),
                     Component.literal("Not so random after all"),null,
                     AdvancementType.TASK,true,true,false)
             .addCriterion("minecraft:end/enter_end_gateway", research)
             .addCriterion("minecraft:nether/fast_travel", research)
+            .rewards(xp().addRecipe(name("chorus_teleporter"))
+                    .addRecipe(name("chorus_cable")))
             .parent(arcana)
             .build(name("teleporter"));
+    //endregion teleporter
+    //region consolidator
     public static final AdvancementHolder consolidator = Advancement.Builder.advancement()
             .display(ModItems.ESSENCE.get(),Component.literal("Mind over Matter"),
                     Component.literal("Experience the Rainbow"),null,
@@ -65,7 +87,11 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:story/enchant_item",research)
             .addCriterion("minecraft:nether/obtain_crying_obsidian",research)
             .parent(arcana)
+            .rewards(xp().addRecipe(name("appliance_arcane_consolidator"))
+                    .addRecipe(name("evaporator/enchanting")))
             .build(name("consolidator"));
+    //endregion consolidator
+    //region mincerator
     public static final AdvancementHolder mincerator = Advancement.Builder.advancement()
             .display(ModBlocks.MACHINE_MINCERATOR.get(), Component.literal("Cooking up a Storm!"),
                     Component.literal("Experimenting with new food"),null,
@@ -74,14 +100,44 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:husbandry/breed_an_animal",research)
             .addCriterion("minecraft:adventure/trade",research)
             .parent(machina)
+            .rewards(xp().addRecipe(name("mincerator"))
+                    .addRecipe(name("mincerator/apple_pie"))
+                    .addRecipe(name("mincerator/blink_brownie"))
+                    .addRecipe(name("mincerator/bread"))
+                    .addRecipe(name("mincerator/pumpkin_pie"))
+                    .addRecipe(name("mincerator/fire_charge"))
+                    .addRecipe(name("mincerator/borger"))
+                    .addRecipe(name("mincerator/chili"))
+                    .addRecipe(name("mincerator/sweets"))
+                    .addRecipe(name("mincerator/triple_meat_treat"))
+                    .addRecipe(name("mincerator/icecream")))
             .build(name("mincerator"));
+    //endregion mincerator
+    //region mincerator_advanced
+    public static final AdvancementHolder mincerator_advanced_recipes = Advancement.Builder.advancement()
+            .display(Items.GOLDEN_APPLE, Component.literal("Playing with your Food"),
+                    Component.literal("More gold = More good"),null,
+                    AdvancementType.GOAL,true,true,false)
+            .addCriterion("patina:root/mincerator",research)
+            .addCriterion("minecraft:story/cure_zombie_villager",research)
+            .addCriterion("minecraft:adventure/honey_block_slide",research)
+            .parent(mincerator)
+            .rewards(xp().addRecipe(name("mincerator/golden_carrot"))
+                    .addRecipe(name("mincerator/golden_apple"))
+                    .addRecipe(name("mincerator/golden_cookie")))
+            .build(name("mincerator_gold_recipes"));
+    //endregion mincerator_advanced
+    //region lighter
     public static final AdvancementHolder trinket_lighter = Advancement.Builder.advancement()
             .display(ModItems.LIGHTER.get(), Component.literal("Lighting the path"),
                     Component.literal("Pocket full of sunshine"),null,
                     AdvancementType.TASK,true,true,false)
             .addCriterion("minecraft:adventure/lighten_up",research)
             .parent(machina)
+            .rewards(xp().addRecipe(name("lighter")))
             .build(name("lighter"));
+    //endregion lighter
+    //region brewing
     public static final AdvancementHolder brewing = Advancement.Builder.advancement()
             .display(Items.BREWING_STAND,Component.literal("Bubble and Boil"),
                     Component.literal("alchemy for the daring"), null,
@@ -89,7 +145,10 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:nether/brew_potion", research)
             .addCriterion("minecraft:nether/obtain_blaze_rod", research)
             .parent(root)
+            .rewards(xp().addRecipe(name("machine_alembic")))
             .build(name("brewing"));
+    //endregion brewing
+    //region brewing_augment
     public static final AdvancementHolder brewing_augment = Advancement.Builder.advancement()
             .display(ModBlocks.ADDON_ALEMBIC.get().asItem(),Component.literal("Why is it spicy"),
                     Component.literal("improved yield for your autobrewers"),null,
@@ -97,22 +156,38 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:nether/all_potions", research)
             .addCriterion("minecraft:nether/obtain_crying_obsidian", research)
             .parent(brewing)
+            .rewards(xp().addRecipe(name("addon_alembic")))
             .build(name("brewing_augment"));
+    //endregion brewing_augment
+    //region foundry
     public static final AdvancementHolder foundry = Advancement.Builder.advancement()
             .display(Items.BLAST_FURNACE,Component.literal("More melty than blasty"),
                     Component.literal("advanced metalurgy"), null,
                     AdvancementType.TASK,true,false,false)
             .addCriterion("minecraft:story/lava_bucket", research)
             .addCriterion("minecraft:story/smelt_iron", research)
+            .rewards(xp().addRecipe(name("machine_foundry"))
+                    .addRecipe(name("foundry/iron"))
+                    .addRecipe(name("foundry/copper"))
+                    .addRecipe(name("foundry/gold"))
+                    .addRecipe(name("foundry/netherite"))
+                    .addRecipe(name("foundry/netherite_alternative"))
+                    .addRecipe(name("foundry/bronze"))
+                    .addRecipe(name("foundry/tinted_glass")))
             .parent(root)
             .build(name("foundry"));
+    //endregion foundry
+    //region foundry_addon
     public static final AdvancementHolder foundry_augment = Advancement.Builder.advancement()
             .display(ModBlocks.ADDON_FOUNDRY.get(), Component.literal("Productivity Mk 1"),
                     Component.literal("when it's just not hot enough"),null,
                     AdvancementType.GOAL,true,false,false)
             .addCriterion("patina:root/foundry", research)
             .parent(foundry)
+            .rewards(xp().addRecipe(name("addon_foundry")))
             .build(name("foundry_augment"));
+    //endregion foundry_addon
+    //region evaporator
     public static final AdvancementHolder evaporator = Advancement.Builder.advancement()
             .display(ModBlocks.MACHINE_EVAPORATOR.get(), Component.literal("This ain't sugar, Mr White"),
                     Component.literal("Break out your bunsen burners!"),null,
@@ -120,14 +195,19 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:husbandry/make_a_sign_glow",research)
             .addCriterion("minecraft:husbandry/safely_harvest_honey",research)
             .parent(root)
+            .rewards(xp().addRecipe(name("machine_evaporator"))
+                    .addRecipe(name("evaporator/salt"))
+                    .addRecipe(name("evaporator/gunpowder")))
             .build(name("evaporator"));
-    public static final AdvancementHolder potency = Advancement.Builder.advancement()
+    //endregion evaporator
+    public static final AdvancementHolder void_salt = Advancement.Builder.advancement()
             .display(ModItems.VOID_SALT.get(), Component.literal("This doesn't look edible"),
                     Component.literal("You're not sure what this stuff is..."),null,
                     AdvancementType.GOAL,true,true,false)
             .addCriterion("patina:root/evaporator",research)
             .addCriterion("minecraft:nether/all_potions",research)
             .parent(evaporator)
+            .rewards(xp())//add the void salt recipe later
             .build(name("potency"));
     //public static final AdvancementHolder loom = Advancement.Builder.advancement()
     //    .display(Items.LOOM, Component.literal("Tight Fit"),
@@ -144,6 +224,10 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:story/smelt_iron", research)
             .addCriterion("minecraft:nether/distract_piglin", research)
             .parent(foundry)
+            .rewards(xp().addRecipe(name("foundry/prime"))
+                    .addRecipe(name("crystal_prime_helmet"))
+                    .addRecipe(name("crystal_prime_chestplate"))
+                    .addRecipe(name("crystal_prime_leggings")))
             .build(name( "crystal_glass"));
     public static final AdvancementHolder material_fortis = Advancement.Builder.advancement()
             .display(ModItems.FORTIS_GLASS.get(),Component.literal("Reinforced glass"),
@@ -151,6 +235,10 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
                     AdvancementType.GOAL,true,true,false)
             .addCriterion("patina:Patina/root", research)
             .parent(material_crystal)
+            .rewards(xp().addRecipe(name("foundry/fortis"))
+                    .addRecipe(name("crystal_fortis_helmet"))
+                    .addRecipe(name("crystal_fortis_chestplate"))
+                    .addRecipe(name("crystal_fortis_leggings")))
             .build(name("fortis_glass"));
     public static final AdvancementHolder material_anima = Advancement.Builder.advancement()
             .display(ModItems.ANIMA_GLASS.get(),Component.literal("Living glass"),
@@ -158,6 +246,10 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
                     AdvancementType.GOAL,true,true,false)
             .addCriterion("patina:Patina/root", research)
             .parent(material_crystal)
+            .rewards(xp().addRecipe(name("foundry/anima"))
+                    .addRecipe(name("crystal_anima_helmet"))
+                    .addRecipe(name("crystal_anima_chestplate"))
+                    .addRecipe(name("crystal_anima_leggings")))
             .build(name("anima_glass"));
     public static final AdvancementHolder material_ferus = Advancement.Builder.advancement()
             .display(ModItems.FERUS_GLASS.get(),Component.literal("Ferus glass"),
@@ -165,6 +257,10 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
                     AdvancementType.GOAL,true,true,false)
             .addCriterion("patina:Patina/root", research)
             .parent(material_crystal)
+            .rewards(xp().addRecipe(name("foundry/ferus"))
+                    .addRecipe(name("crystal_ferus_helmet"))
+                    .addRecipe(name("crystal_ferus_chestplate"))
+                    .addRecipe(name("crystal_ferus_leggings")))
             .build(name("ferus_glass"));
     //potion flasks
     public static final AdvancementHolder prime_flask = Advancement.Builder.advancement()
@@ -175,6 +271,7 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:husbandry/wax_on", research)
             .addCriterion("minecraft:nether/distract_piglin", research)
             .parent(brewing)
+            .rewards(xp().addRecipe(name("brewing/prime_flask")))
             .build(name("flask1"));
     public static final AdvancementHolder impetus_flask = Advancement.Builder.advancement()
             .display(ModItems.IMPETUS_FLASK.get(),Component.literal("Juicing for combat"),
@@ -183,14 +280,16 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:nether/brew_potion", research)
             .addCriterion("minecraft:husbandry/ride_a_boat_with_a_goat", research)
             .parent(prime_flask)
+            .rewards(xp().addRecipe(name("brewing/impetus_flask")))
             .build(name("flask2"));
     public static final AdvancementHolder magna_flask = Advancement.Builder.advancement()
             .display(ModItems.MAGNA_FLASK.get(),Component.literal("Did you say more?"),
-                    Component.literal("test title"),null,
+                    Component.literal("For when you're REALLY thirsty"),null,
                     AdvancementType.TASK,true,true,false)
             .addCriterion("minecraft:nether/brew_potion", research)
             .addCriterion("minecraft:adventure/fall_from_world_height", research)
             .parent(prime_flask)
+            .rewards(xp().addRecipe(name("brewing/magna_flask")))
             .build(name("flask3"));
     public static final AdvancementHolder vita_flask = Advancement.Builder.advancement()
             .display(ModItems.VITA_FLASK.get(),Component.literal("For when you need it most"),
@@ -199,6 +298,7 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:nether/brew_potion", research)
             .addCriterion("minecraft:husbandry/kill_axolotl_target", research)
             .parent(prime_flask)
+            .rewards(xp().addRecipe(name("brewing/vita_flask")))
             .build(name("flask4"));
     //endregion glass
     //public static final AdvancementHolder phantom = Advancement.Builder.advancement()
@@ -208,14 +308,17 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
     //        .addCriterion("minecraft:adventure/two_birds_one_arrow",impossible_criteria)
     //        .parent(loom)
     //        .build(name("phantom"));
-    //public static final AdvancementHolder dragon = Advancement.Builder.advancement()
-    //        .display(ModItems.DRAGON_SCALE.get(),Component.literal("Dwagon"),
-    //                Component.literal("unlocked dragon scale"), null,
-    //                AdvancementType.CHALLENGE,true,true,false)
-    //        .addCriterion("killed_dragon", killed_dragon)
-    //        .addCriterion("minecraft:end/kill_dragon",impossible_criteria)
-    //        .parent(loom)
-    //        .build(name("dragon"));
+    public static final AdvancementHolder dragon = Advancement.Builder.advancement()
+            .display(ModItems.DRAGON_SCALE.get(),Component.literal("Dwagon"),
+                    Component.literal("unlocked dragon scale"), null,
+                    AdvancementType.CHALLENGE,true,true,false)
+            .addCriterion("killed_dragon", research)
+            .addCriterion("minecraft:end/kill_dragon",research)
+            .parent(root)
+            .rewards(xp().addRecipe(name("dragon_helmet"))
+                    .addRecipe(name("dragon_chestplate"))
+                    .addRecipe(name("dragon_leggings")))
+            .build(name("dragon"));
     //newer advancements here
     //region fragment weapons
     public static final AdvancementHolder weaponBeeShield = Advancement.Builder.advancement()
@@ -277,6 +380,7 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
                     AdvancementType.TASK,true,true,false)
             .addCriterion("minecraft:nether/distract_piglin",research)
             .parent(foundry)
+            .rewards(xp().addRecipe(name("evaporator/bismuth")))
             .build(name("material_bismuth"));
     public static final AdvancementHolder material_malachite = Advancement.Builder.advancement()
             .display(ModItems.MALACHITE.get(), Component.literal("Malachite"),
@@ -285,6 +389,7 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .addCriterion("minecraft:adventure/trade",research)
             .addCriterion("minecraft:story/smelt_iron",research)
             .parent(foundry)
+            .rewards(xp().addRecipe(name("foundry/malachite")))
             .build(name("material_malachite"));
     @Override
     public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
@@ -299,8 +404,9 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
         saver.accept(teleporter);
         saver.accept(consolidator);
         saver.accept(mincerator);
+        saver.accept(mincerator_advanced_recipes);
 
-        saver.accept(potency);
+        saver.accept(void_salt);
         saver.accept(trinket_lighter);
 
         //saver.accept(torch);

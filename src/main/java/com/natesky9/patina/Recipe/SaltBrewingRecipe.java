@@ -11,11 +11,11 @@ import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 public class SaltBrewingRecipe implements IBrewingRecipe
 {
-    private final Potion input;
+    private final Holder<Potion> input;
     private final MobEffect ingredient;
-    private final Potion output;
+    private final Holder<Potion> output;
 
-    public SaltBrewingRecipe(Potion input, MobEffect effect, Potion output)
+    public SaltBrewingRecipe(Holder<Potion> input, MobEffect effect, Holder<Potion> output)
     {
         this.input = input;
         this.ingredient = effect;
@@ -26,7 +26,7 @@ public class SaltBrewingRecipe implements IBrewingRecipe
     public boolean isInput(ItemStack input)
     {
         if (!input.has(DataComponents.POTION_CONTENTS)) return false;
-        return this.input == input.get(DataComponents.POTION_CONTENTS).potion().get();
+        return input.get(DataComponents.POTION_CONTENTS).potion().get().equals(this.input);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SaltBrewingRecipe implements IBrewingRecipe
         }
 
         ItemStack itemStack = new ItemStack(input.getItem());
-        itemStack.set(DataComponents.POTION_CONTENTS,new PotionContents(Holder.direct(this.output)));
+        itemStack.set(DataComponents.POTION_CONTENTS,new PotionContents(this.output));
         //itemStack.setTag(new CompoundTag());//is this needed?
         //PotionUtils.setPotion(itemStack, this.output);
         return itemStack;

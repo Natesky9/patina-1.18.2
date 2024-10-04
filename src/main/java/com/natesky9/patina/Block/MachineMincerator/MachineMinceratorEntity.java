@@ -3,6 +3,8 @@ package com.natesky9.patina.Block.MachineMincerator;
 import com.natesky9.patina.Block.Template.MachineTemplateEntity;
 import com.natesky9.patina.Item.PotionSaltItem;
 import com.natesky9.patina.Recipe.MinceratorRecipe;
+import com.natesky9.patina.Recipe.MinceratorRecipeInput;
+import com.natesky9.patina.init.ModItems;
 import com.natesky9.patina.init.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,7 +18,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -27,13 +28,18 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class MachineMinceratorEntity extends MachineTemplateEntity implements MenuProvider {
     public static final int slots = 6;
     public int progressMax = 100;
+    final int inputOne = 0;
+    final int inputTwo = 1;
+    final int inputThree = 2;
+    final int inputFour = 3;
+    final int output = 4;
+    final int salt = 5;
 
 
     private Optional<RecipeHolder<MinceratorRecipe>> recipe = Optional.empty();
@@ -45,7 +51,8 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     @Override
     protected boolean mySlotValid(int slot, @NotNull ItemStack stack) {
         return switch (slot) {
-            case 0, 1, 2, 3, 4, 5, 6 -> true;
+            case inputOne, inputTwo, inputThree, inputFour -> !stack.is(ModItems.POTION_SALT.get());
+            case salt -> stack.is(ModItems.POTION_SALT.get());
             default -> false;
         };
     }
@@ -78,47 +85,41 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
         };
     }
 
-    private Optional<MinceratorRecipe> getRecipe()
+    private Optional<RecipeHolder<MinceratorRecipe>> getRecipe()
     {
-        List<ItemStack> inventory = new ArrayList<>();
-        for (int i = 0; i < this.itemStackHandler.getSlots(); i++)
-        {
-            inventory.add(this.itemStackHandler.getStackInSlot(i));
-        }
-        RecipeInput input = CraftingInput.of(2,2,inventory);
+        RecipeInput input = new MinceratorRecipeInput(
+                this.itemStackHandler.getStackInSlot(0),
+                this.itemStackHandler.getStackInSlot(1),
+                this.itemStackHandler.getStackInSlot(2),
+                this.itemStackHandler.getStackInSlot(3));
         //
             RecipeManager manager = level.getRecipeManager();
-            Optional<MinceratorRecipe> winner = Optional.empty();
+        Optional<RecipeHolder<MinceratorRecipe>> winner = Optional.empty();
             List<RecipeHolder<MinceratorRecipe>> recipes = manager.getAllRecipesFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get());
             for (RecipeHolder<MinceratorRecipe> recipe: recipes)
             {
                 boolean fits = recipe.value().matches(input, level);
-                if (fits) winner = Optional.of(recipe.value());
+                if (fits) winner = Optional.of(recipe);
             }
             return winner;
-
-        //Optional<MinceratorRecipe> match = level.getRecipeManager()
-        //        .getRecipeFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get(), inventory, level);
-        //return match;
     }
     @Override
     protected void myContentsChanged()
     {
-        CraftingInput input = CraftingInput.of(2,2,List.of(itemStackHandler.getStackInSlot(0),itemStackHandler.getStackInSlot(1),
-                itemStackHandler.getStackInSlot(2),itemStackHandler.getStackInSlot(3)));
-        Optional<RecipeHolder<MinceratorRecipe>> tempRecipe = recipe;
-        recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.MINCERATOR_RECIPE_TYPE.get(), input, level);
-        if (!hasRecipe())
-        {
-            recipe = Optional.empty();
-            resetProgress();
-            return;
-        }
-        if (tempRecipe.isPresent() && recipe.isPresent())
-        {
-            if (tempRecipe.get() != recipe.get())
-                resetProgress();
-        }
+        recipe = getRecipe();
+        //Optional<RecipeHolder<MinceratorRecipe>> tempRecipe = recipe;
+        //recipe = getRecipe();
+        //if (!hasRecipe())
+        //{
+        //    recipe = Optional.empty();
+        //    resetProgress();
+        //    return;
+        //}
+        //if (tempRecipe.isPresent() && recipe.isPresent())
+        //{
+        //    if (tempRecipe.get() != recipe.get())
+        //        resetProgress();
+        //}
     }
 
     @Override
@@ -202,11 +203,10 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     //}
     private void craftItem()
     {
-
-    Optional<MinceratorRecipe> recipe = getRecipe();
+        Optional<RecipeHolder<MinceratorRecipe>> recipe = getRecipe();
     if (recipe.isPresent())
         {
-            ItemStack stack = recipe.get().getResultItem(level.registryAccess());
+            ItemStack stack = recipe.get().value().getResultItem(level.registryAccess());
         //int hunger = 0;
         //float saturation = 0;
 
@@ -263,6 +263,8 @@ public class MachineMinceratorEntity extends MachineTemplateEntity implements Me
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
         if (cap == ForgeCapabilities.ITEM_HANDLER)
         {
+            if (side == Direction.DOWN)
+                return automationCapability.cast();
             return itemCapability.cast();
         }
         return super.getCapability(cap, side);

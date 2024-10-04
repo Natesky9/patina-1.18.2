@@ -9,11 +9,11 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 public class ItemBrewingRecipe implements IBrewingRecipe {
-    private final Potion input;
+    private final Holder<Potion> input;
     private final Item ingredient;
-    private final Potion output;
+    private final Holder<Potion> output;
 
-    public ItemBrewingRecipe(Potion input, Item ingredient, Potion output) {
+    public ItemBrewingRecipe(Holder<Potion> input, Item ingredient, Holder<Potion> output) {
         this.input = input;
         this.ingredient = ingredient;
         this.output = output;
@@ -21,12 +21,14 @@ public class ItemBrewingRecipe implements IBrewingRecipe {
 
     @Override
     public boolean isInput(ItemStack input) {
+
         if (!input.has(DataComponents.POTION_CONTENTS)) return false;
-        return input.get(DataComponents.POTION_CONTENTS).potion().get() == this.input;
+        return input.get(DataComponents.POTION_CONTENTS).potion().get().equals(this.input);
     }
 
     @Override
     public boolean isIngredient(ItemStack ingredient) {
+        boolean same = ingredient.getItem() == this.ingredient;
         return ingredient.getItem() == this.ingredient;
     }
 
@@ -37,7 +39,7 @@ public class ItemBrewingRecipe implements IBrewingRecipe {
         }
 
         ItemStack itemStack = new ItemStack(input.getItem());
-        itemStack.set(DataComponents.POTION_CONTENTS,new PotionContents(Holder.direct(this.output)));
+        itemStack.set(DataComponents.POTION_CONTENTS,new PotionContents(this.output));
         //itemStack.setTag(new CompoundTag());
         //PotionUtils.setPotion(itemStack, this.output);
         return itemStack;

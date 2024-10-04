@@ -46,7 +46,7 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
 
     @Override
     public boolean matches(RecipeInput pContainer, Level pLevel) {
-        boolean first = catalyst.test(pContainer.getItem(0));
+        boolean first = input.test(pContainer.getItem(0));
         boolean second = catalyst.test(pContainer.getItem(1));
         if (first && second) assemble(pContainer,pLevel.registryAccess());
         return first && second;
@@ -89,7 +89,7 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
     {
         final static MapCodec<FoundryRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) ->
                 instance.group(
-                        ItemStack.SIMPLE_ITEM_CODEC.fieldOf("output").forGetter((getter) ->  getter.output),
+                        ItemStack.CODEC.fieldOf("output").forGetter((getter) ->  getter.output),
                         Ingredient.CODEC.optionalFieldOf("input",Ingredient.EMPTY).forGetter((getter) -> getter.input),
                         Ingredient.CODEC.optionalFieldOf("catalyst",Ingredient.EMPTY).forGetter((getter) -> getter.catalyst)
                 ).apply(instance, FoundryRecipe::new)
@@ -102,6 +102,7 @@ public class FoundryRecipe implements Recipe<RecipeInput> {
         public MapCodec<FoundryRecipe> codec() {
             return CODEC;
         }
+
 
         @Override
         public StreamCodec<RegistryFriendlyByteBuf, FoundryRecipe> streamCodec() {

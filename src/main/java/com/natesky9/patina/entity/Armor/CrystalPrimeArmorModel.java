@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +21,7 @@ public class CrystalPrimeArmorModel<T extends Entity> extends HumanoidModel<Livi
 			.fromNamespaceAndPath("modid", "crystal_prime_armor"), "main");
 
 	public CrystalPrimeArmorModel(ModelPart root) {
-		super(root);
+		super(root, RenderType::entityTranslucent);
 	}
 
 	public static LayerDefinition createBodyLayer() {

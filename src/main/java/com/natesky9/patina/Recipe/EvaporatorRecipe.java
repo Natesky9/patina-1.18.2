@@ -43,7 +43,7 @@ public record EvaporatorRecipe(Either<Ingredient, Holder<Potion>> input, ItemSta
                     if (flag && effect && true/*test*/) assemble(pContainer,pLevel.registryAccess());
                     return flag && effect;// && test;
                 }, inputPotion -> {
-                    Potion potion = pContainer.getItem(0).get(DataComponents.POTION_CONTENTS).potion().get().get();//PotionUtils.getPotion(pContainer.getItem(0));
+                    Holder<Potion> potion = pContainer.getItem(0).get(DataComponents.POTION_CONTENTS).potion().get();//PotionUtils.getPotion(pContainer.getItem(0));
                     boolean flag = potion == inputPotion;
                     if (flag) assemble(pContainer,pLevel.registryAccess());
                     return flag;
@@ -54,7 +54,8 @@ public record EvaporatorRecipe(Either<Ingredient, Holder<Potion>> input, ItemSta
     @Override
     public ItemStack assemble(RecipeInput container, HolderLookup.Provider provider) {
         //do stuff to the stack here
-        this.input.ifLeft(ingredient -> output.set(DataComponents.POTION_CONTENTS, container.getItem(0).get(DataComponents.POTION_CONTENTS)));
+        this.input.ifLeft(ingredient -> output.set(DataComponents.POTION_CONTENTS,
+                container.getItem(0).get(DataComponents.POTION_CONTENTS)));
 
         //if (input == null) do nothing as we're outputting a stack
         return output;

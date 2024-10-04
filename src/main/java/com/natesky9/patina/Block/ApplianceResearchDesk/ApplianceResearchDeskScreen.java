@@ -76,7 +76,8 @@ public class ApplianceResearchDeskScreen extends AbstractContainerScreen<Applian
         int j = (this.height - 140) / 2;
         boolean inside = (mouseX > i+9 && mouseX < i+234+9 && mouseY > j+18 && mouseY < j+113+18);
         //hover stuff
-
+        if (advancementsScreen.selectedTab == null)
+            return;
         int a = Mth.floor(advancementsScreen.selectedTab.scrollX)+i+9;
         int b = Mth.floor(advancementsScreen.selectedTab.scrollY)+j+18;
         if (!insideAdvancementScreen(mouseX, mouseY)) return;

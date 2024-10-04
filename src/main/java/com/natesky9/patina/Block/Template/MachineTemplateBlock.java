@@ -2,8 +2,6 @@ package com.natesky9.patina.Block.Template;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -76,9 +74,7 @@ public abstract class MachineTemplateBlock extends BaseEntityBlock
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof MachineTemplateEntity machine)
             {
-                if (pPlayer.getDirection().getOpposite() == pState.getValue(FACING))
-                    player.openMenu(machine,pPos);
-                else pLevel.playSound(null,pPos, SoundEvents.STONE_BUTTON_CLICK_OFF, SoundSource.BLOCKS);
+                player.openMenu(machine,pPos);
             }
             else
             {

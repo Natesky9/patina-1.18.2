@@ -423,6 +423,14 @@ public class ModItems {
             () -> new FoodItem(new Item.Properties().food(ModFoods.PIEROGI)));
     public static final RegistryObject<Item> FOOD_OMELETTE = ITEMS.register("omelette",
             () -> new FoodItem(new Item.Properties().food(ModFoods.OMLETTE)));
+    public static final RegistryObject<Item> FOOD_GOLDEN_COOKIE = ITEMS.register("golden_cookie",
+            () -> new FoodItem(new Item.Properties().food(ModFoods.GOLDEN_COOKIE))
+            {
+                @Override
+                public boolean isFoil(ItemStack p_41453_) {
+                    return true;
+                }
+            });
     //test for tier 2 foods?
     public static final RegistryObject<Item> FOOD_LOAF = ITEMS.register("loaf",
             () -> new FoodItem(new Item.Properties().food(ModFoods.LOAF)));

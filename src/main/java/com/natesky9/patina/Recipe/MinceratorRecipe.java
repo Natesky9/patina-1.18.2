@@ -14,15 +14,16 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MinceratorRecipe implements Recipe<RecipeInput> {
     public static final String name = "smoker_grindstone";
     private final ItemStack output;
-    private final NonNullList<Ingredient> recipeItems;
+    private final List<Ingredient> recipeItems;
     public static int match;
 
     public MinceratorRecipe(ItemStack output,
-                            NonNullList<Ingredient> recipeItems)
+                            List<Ingredient> recipeItems)
     {
         this.output = output;
         this.recipeItems = recipeItems;
@@ -30,7 +31,9 @@ public class MinceratorRecipe implements Recipe<RecipeInput> {
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return recipeItems;
+        NonNullList<Ingredient> copy = NonNullList.createWithCapacity(4);
+        copy.addAll(recipeItems);
+        return copy;
     }
 
     @Override
@@ -99,11 +102,11 @@ public class MinceratorRecipe implements Recipe<RecipeInput> {
 
         public static final MapCodec<MinceratorRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) ->
                 instance.group(
-                        ItemStack.SIMPLE_ITEM_CODEC.fieldOf("output").forGetter((getter) -> getter.output),
+                        ItemStack.CODEC.fieldOf("output").forGetter((getter) -> getter.output),
                         Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(
                                 (map) ->
                                 {
-                                    NonNullList<Ingredient> list = NonNullList.create();
+                                    List<Ingredient> list = NonNullList.create();
                                     list.addAll(map);
                                     if (list.size() != 4)
                                     {

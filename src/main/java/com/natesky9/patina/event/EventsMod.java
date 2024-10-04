@@ -49,6 +49,9 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {
+    //public static void recipeEvent(AdvancementEvent.AdvancementEarnEvent event)
+    //{
+    //}
     @SubscribeEvent
     public static void RegisterRecipeBookCategoriesEvent(RegisterRecipeBookCategoriesEvent event)
     {
