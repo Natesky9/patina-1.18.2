@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -70,9 +71,8 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
         return switch (slot)
         {
 
-            case inputPotion -> brewing.hasMix(stack,new ItemStack(reagent))
-                    || reagent == Items.AIR && brewing.isValidInput(stack);
-            case inputIngredient -> brewing.isIngredient(stack);
+            case inputPotion -> brewing.isValidInput(stack) && (brewing.hasMix(stack, new ItemStack(reagent)) || reagent == Items.AIR);
+            case inputIngredient -> brewing.isIngredient(stack) && (leftover == 0 || stack.is(reagent));
             case inputFuel -> stack.is(Items.BLAZE_POWDER);
             default -> false;
         };
@@ -237,6 +237,12 @@ public class MachineAlembicEntity extends MachineTemplateEntity {
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER)
+        {
+            if (side == null)
+                return itemCapability.cast();
+            return automationCapability.cast();
+        }
         return super.getCapability(cap, side);
     }
 }

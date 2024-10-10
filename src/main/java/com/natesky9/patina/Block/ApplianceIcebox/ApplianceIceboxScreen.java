@@ -1,6 +1,7 @@
 package com.natesky9.patina.Block.ApplianceIcebox;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.natesky9.patina.Patina;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class ApplianceIceboxScreen extends AbstractContainerScreen<ApplianceIceboxMenu> {
     private static final ResourceLocation TEXTURE =
-            ResourceLocation.parse("textures/gui/appliance_icebox.png");
+            ResourceLocation.fromNamespaceAndPath(Patina.MODID,"textures/gui/appliance_icebox.png");
     private static final ResourceLocation FOOD =
             ResourceLocation.parse("hud/food_full");
     private static final ResourceLocation FOOD_HALF =

@@ -416,7 +416,7 @@ public class ModItems {
     public static final RegistryObject<Item> FOOD_APPLE_PIE = ITEMS.register("apple_pie",
             () -> new FoodItem(new Item.Properties().food(ModFoods.APPLE_PIE)));
     public static final RegistryObject<Item> FOOD_BLINK_BROWNIE = ITEMS.register("blink_brownie",
-            () -> new FoodItem(new Item.Properties().food(ModFoods.BROWNIE)));
+            () -> new BlinkBrownieItem(new Item.Properties().food(ModFoods.BROWNIE)));
     public static final RegistryObject<Item> FOOD_TRIPLE_MEAT_TREAT = ITEMS.register("triple_meat_treat",
             () -> new FoodItem(new Item.Properties().food(ModFoods.TRIPLE)));
     public static final RegistryObject<Item> FOOD_PIEROGI = ITEMS.register("pierogi",

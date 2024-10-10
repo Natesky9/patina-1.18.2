@@ -67,14 +67,14 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
             @Override
             public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
                 return super.insertItem(slot, stack, simulate);
-                //if (mySlotValid(slot, stack))
+                //if (!mySlotValid(slot, stack))
                 //    return stack;
                 //else return ItemStack.EMPTY;
             }
 
             @Override
             public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                return true;
+                return super.isItemValid(slot,stack);
             }
         };
         automationHandler = new ItemStackHandler(slots)
@@ -86,6 +86,7 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
 
             @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+                //return super.extractItem(slot,amount,simulate);
                 if (!mySlotValid(slot, itemStackHandler.getStackInSlot(slot)))
                     return itemStackHandler.extractItem(slot, amount, simulate);
                 else return ItemStack.EMPTY;
@@ -93,7 +94,10 @@ public abstract class MachineTemplateEntity extends BlockEntity implements MenuP
 
             @Override
             public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                return itemStackHandler.insertItem(slot, stack, simulate);
+                //return super.insertItem(slot,stack,simulate);
+                if (mySlotValid(slot, stack))
+                    return itemStackHandler.insertItem(slot, stack, simulate);
+                else return stack;
             }
         };
         this.data = createData();

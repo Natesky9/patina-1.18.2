@@ -9,14 +9,23 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 
+import java.util.List;
+import java.util.Optional;
+
 public class SaltBrewingRecipe implements IBrewingRecipe
 {
     private final Holder<Potion> input;
     private final MobEffect ingredient;
     private final Holder<Potion> output;
+    private Optional<Integer> customColor = Optional.empty();
 
-    public SaltBrewingRecipe(Holder<Potion> input, MobEffect effect, Holder<Potion> output)
+    public SaltBrewingRecipe(Holder<Potion> input, MobEffect effect, Holder<Potion> output,int customColor)
     {
+        this(input,effect,output);
+        this.customColor = Optional.of(customColor);
+    }
+    public SaltBrewingRecipe(Holder<Potion> input, MobEffect effect, Holder<Potion> output)
+        {
         this.input = input;
         this.ingredient = effect;
         this.output = output;
@@ -49,9 +58,8 @@ public class SaltBrewingRecipe implements IBrewingRecipe
         }
 
         ItemStack itemStack = new ItemStack(input.getItem());
-        itemStack.set(DataComponents.POTION_CONTENTS,new PotionContents(this.output));
-        //itemStack.setTag(new CompoundTag());//is this needed?
-        //PotionUtils.setPotion(itemStack, this.output);
+        PotionContents contents = new PotionContents(Optional.of(this.output),customColor,List.of());
+        itemStack.set(DataComponents.POTION_CONTENTS,contents);
         return itemStack;
     }
 }

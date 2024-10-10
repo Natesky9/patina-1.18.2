@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.event.brewing.BrewingRecipeRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -142,8 +141,8 @@ public class ModPotions
             && potionMix.ingredient().test(new ItemStack(Items.GHAST_TEAR)));
         //shift leaping behind swiftness
         event.getBuilder().potionMixes.removeIf(potionMix -> potionMix.ingredient().test(new ItemStack(Items.RABBIT_FOOT)));
-        event.getBuilder().potionMixes.removeIf(potionMix -> potionMix.from().is(getHolder(KNOWLEDGE_POTION))
-                && potionMix.ingredient().equals(Ingredient.of(Items.GUNPOWDER)));
+        //event.getBuilder().potionMixes.removeIf(potionMix -> potionMix.from().is(getHolder(KNOWLEDGE_POTION))
+        //        && potionMix.ingredient().equals(Ingredient.of(Items.GUNPOWDER)));
     }
     public static void addNormalPotions(BrewingRecipeRegisterEvent event)
     {
@@ -170,9 +169,9 @@ public class ModPotions
         event.addRecipe(new ItemBrewingRecipe(getHolder(ACRID_POTION),Items.COAL,getHolder(VOLATILE_POTION)));
         //bismuth alchemy
         event.addRecipe(new ItemBrewingRecipe(getHolder(ACRID_POTION),ModItems.BISMUTH_ORE.get(),getHolder(IRIDESCENT_POTION)));
-        event.addRecipe(new ItemBrewingRecipe(getHolder(ACRID_POTION), Items.EMERALD,getHolder(KNOWLEDGE_POTION)));
+        event.addRecipe(new ItemBrewingRecipe(getHolder(ACRID_POTION), Items.EMERALD,getHolder(KNOWLEDGE_POTION),6618880));
         //maybe this can just be replaced by crystalizer?
-        event.addRecipe(new ConvertBrewingRecipe(KNOWLEDGE_POTION.get(),Items.GUNPOWDER,Items.EXPERIENCE_BOTTLE));
+        event.addRecipe(new ConvertBrewingRecipe(getHolder(KNOWLEDGE_POTION),Items.GLOWSTONE_DUST,Items.EXPERIENCE_BOTTLE));
 
         ItemStack ominous_1 = new ItemStack(Items.OMINOUS_BOTTLE);
         ominous_1.set(DataComponents.OMINOUS_BOTTLE_AMPLIFIER,0);
@@ -191,9 +190,9 @@ public class ModPotions
         event.addRecipe(new OminousBrewingRecipe(ominous_3,Items.AMETHYST_SHARD,ominous_4));
         event.addRecipe(new OminousBrewingRecipe(ominous_4,Items.WITHER_ROSE,ominous_5));
         //glowstone
-        event.addRecipe(new ItemBrewingRecipe(Potions.THICK,Items.GLOW_BERRIES,getHolder(LUMINOUS_POTION)));
-        event.addRecipe(new ItemBrewingRecipe(Potions.THICK,Items.GLOW_INK_SAC,getHolder(LUMINOUS_POTION)));
-        event.addRecipe(new ItemBrewingRecipe(getHolder(LUMINOUS_POTION),Items.REDSTONE,getHolder(LUMINOUS_LONG)));
+        event.addRecipe(new ItemBrewingRecipe(Potions.THICK,Items.GLOW_BERRIES,getHolder(LUMINOUS_POTION),16776960));
+        event.addRecipe(new ItemBrewingRecipe(Potions.THICK,Items.GLOW_INK_SAC,getHolder(LUMINOUS_POTION),16776960));
+        event.addRecipe(new ItemBrewingRecipe(getHolder(LUMINOUS_POTION),Items.REDSTONE,getHolder(LUMINOUS_LONG),16776960));
     }
     public static void addSaltPotions(BrewingRecipeRegisterEvent event)
     {
@@ -202,47 +201,47 @@ public class ModPotions
         event.addRecipe(new ItemBrewingRecipe(getHolder(HASTE),Items.GLOWSTONE_DUST,getHolder(STRONG_HASTE)));
         event.addRecipe(new ItemBrewingRecipe(getHolder(HASTE),Items.REDSTONE,getHolder(LONG_HASTE)));
 
-        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_SWIFTNESS,MobEffects.MOVEMENT_SPEED.get(),getHolder(SWIFTNESS_INTERMEDIATE)));
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_SWIFTNESS,MobEffects.MOVEMENT_SPEED.get(),getHolder(SWIFTNESS_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_SWIFTNESS,MobEffects.MOVEMENT_SPEED.get(),getHolder(SWIFTNESS_INTERMEDIATE),16737380));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_SWIFTNESS,MobEffects.MOVEMENT_SPEED.get(),getHolder(SWIFTNESS_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(SWIFTNESS_INTERMEDIATE),Items.COCOA_BEANS,getHolder(ENHANCED_SWIFTNESS)));
 
-        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_SLOWNESS,MobEffects.MOVEMENT_SLOWDOWN.get(),getHolder(SLOWNESS_INTERMEDIATE)));
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_SLOWNESS,MobEffects.MOVEMENT_SLOWDOWN.get(),getHolder(SLOWNESS_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_SLOWNESS,MobEffects.MOVEMENT_SLOWDOWN.get(),getHolder(SLOWNESS_INTERMEDIATE),16737380));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_SLOWNESS,MobEffects.MOVEMENT_SLOWDOWN.get(),getHolder(SLOWNESS_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(SLOWNESS_INTERMEDIATE),Items.COBWEB,getHolder(ENHANCED_SLOWNESS)));
 
-        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_LEAPING,MobEffects.JUMP.get(),getHolder(LEAPING_INTERMEDIATE)));
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_LEAPING,MobEffects.JUMP.get(),getHolder(LEAPING_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_LEAPING,MobEffects.JUMP.get(),getHolder(LEAPING_INTERMEDIATE),16737380));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_LEAPING,MobEffects.JUMP.get(),getHolder(LEAPING_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(LEAPING_INTERMEDIATE),Items.WARPED_ROOTS,getHolder(ENHANCED_LEAPING)));
 
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_STRENGTH,MobEffects.DAMAGE_BOOST.get(),getHolder(WEAKNESS_INTERMEDIATE)));
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_STRENGTH,MobEffects.WEAKNESS.get(),getHolder(WEAKNESS_INTERMEDIATE)));
-        event.addRecipe(new SaltBrewingRecipe(getHolder(STRONG_WEAKNESS),MobEffects.DAMAGE_BOOST.get(),getHolder(STRENGTH_INTERMEDIATE)));
-        event.addRecipe(new SaltBrewingRecipe(getHolder(STRONG_WEAKNESS),MobEffects.WEAKNESS.get(),getHolder(STRENGTH_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_STRENGTH,MobEffects.DAMAGE_BOOST.get(),getHolder(WEAKNESS_INTERMEDIATE),16737380));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_STRENGTH,MobEffects.WEAKNESS.get(),getHolder(WEAKNESS_INTERMEDIATE),16737380));
+        event.addRecipe(new SaltBrewingRecipe(getHolder(STRONG_WEAKNESS),MobEffects.DAMAGE_BOOST.get(),getHolder(STRENGTH_INTERMEDIATE),16737380));
+        event.addRecipe(new SaltBrewingRecipe(getHolder(STRONG_WEAKNESS),MobEffects.WEAKNESS.get(),getHolder(STRENGTH_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(STRENGTH_INTERMEDIATE), Items.FERN,getHolder(ENHANCED_STRENGTH)));
         event.addRecipe(new ItemBrewingRecipe(getHolder(WEAKNESS_INTERMEDIATE), Items.DEAD_BUSH,getHolder(ENHANCED_WEAKNESS)));
 
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_HEALING,MobEffects.HEAL.get(),getHolder(HEALING_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_HEALING,MobEffects.HEAL.get(),getHolder(HEALING_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(HEALING_INTERMEDIATE),Items.GLOW_LICHEN,getHolder(ENHANCED_HEALING)));
 //
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_HARMING,MobEffects.HARM.get(),getHolder(HARMING_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_HARMING,MobEffects.HARM.get(),getHolder(HARMING_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(HARMING_INTERMEDIATE),Items.GLOW_LICHEN,getHolder(ENHANCED_HARMING)));
 //
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_POISON,MobEffects.POISON.get(),getHolder(POISON_INTERMEDIATE)));
-        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_POISON,MobEffects.POISON.get(),getHolder(POISON_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_POISON,MobEffects.POISON.get(),getHolder(POISON_INTERMEDIATE),16737380));
+        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_POISON,MobEffects.POISON.get(),getHolder(POISON_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(POISON_INTERMEDIATE),Items.PUFFERFISH,getHolder(ENHANCED_POISON)));
 //
-        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_REGENERATION,MobEffects.REGENERATION.get(),getHolder(REGENERATION_INTERMEDIATE)));
-        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_REGENERATION,MobEffects.REGENERATION.get(),getHolder(REGENERATION_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.STRONG_REGENERATION,MobEffects.REGENERATION.get(),getHolder(REGENERATION_INTERMEDIATE),16737380));
+        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_REGENERATION,MobEffects.REGENERATION.get(),getHolder(REGENERATION_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(REGENERATION_INTERMEDIATE), Items.BRAIN_CORAL,getHolder(ENHANCED_REGENERATION)));
         event.addRecipe(new ItemBrewingRecipe(getHolder(REGENERATION_INTERMEDIATE), Items.TUBE_CORAL,getHolder(ENHANCED_REGENERATION)));
         event.addRecipe(new ItemBrewingRecipe(getHolder(REGENERATION_INTERMEDIATE), Items.FIRE_CORAL,getHolder(ENHANCED_REGENERATION)));
         event.addRecipe(new ItemBrewingRecipe(getHolder(REGENERATION_INTERMEDIATE), Items.BUBBLE_CORAL,getHolder(ENHANCED_REGENERATION)));
         event.addRecipe(new ItemBrewingRecipe(getHolder(REGENERATION_INTERMEDIATE), Items.HORN_CORAL,getHolder(ENHANCED_REGENERATION)));
 
-        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_FIRE_RESISTANCE,MobEffects.FIRE_RESISTANCE.get(),getHolder(FIRE_RESIST_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_FIRE_RESISTANCE,MobEffects.FIRE_RESISTANCE.get(),getHolder(FIRE_RESIST_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(FIRE_RESIST_INTERMEDIATE),Items.BLUE_ICE,getHolder(ENHANCED_FIRE_RESIST)));
 
-        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_WATER_BREATHING,MobEffects.WATER_BREATHING.get(),getHolder(WATER_BREATHING_INTERMEDIATE)));
+        event.addRecipe(new SaltBrewingRecipe(Potions.LONG_WATER_BREATHING,MobEffects.WATER_BREATHING.get(),getHolder(WATER_BREATHING_INTERMEDIATE),16737380));
         event.addRecipe(new ItemBrewingRecipe(getHolder(WATER_BREATHING_INTERMEDIATE),Items.DRIED_KELP_BLOCK,getHolder(ENHANCED_WATER_BREATHING)));
     }
     public static void addVoidPotions(BrewingRecipeRegisterEvent event)

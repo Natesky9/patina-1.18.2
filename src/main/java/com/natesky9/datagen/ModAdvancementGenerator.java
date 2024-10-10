@@ -233,7 +233,7 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .display(ModItems.FORTIS_GLASS.get(),Component.literal("Reinforced glass"),
                     Component.literal("what's that about a glass house again?"),null,
                     AdvancementType.GOAL,true,true,false)
-            .addCriterion("patina:Patina/root", research)
+            .addCriterion("patina/root", research)
             .parent(material_crystal)
             .rewards(xp().addRecipe(name("foundry/fortis"))
                     .addRecipe(name("crystal_fortis_helmet"))
@@ -244,7 +244,7 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .display(ModItems.ANIMA_GLASS.get(),Component.literal("Living glass"),
                     Component.literal("cold, but pulsing with energy"),null,
                     AdvancementType.GOAL,true,true,false)
-            .addCriterion("patina:Patina/root", research)
+            .addCriterion("patina:patina/root", research)
             .parent(material_crystal)
             .rewards(xp().addRecipe(name("foundry/anima"))
                     .addRecipe(name("crystal_anima_helmet"))
@@ -255,7 +255,7 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
             .display(ModItems.FERUS_GLASS.get(),Component.literal("Ferus glass"),
                     Component.literal("symbiotic silicon synergy"),null,
                     AdvancementType.GOAL,true,true,false)
-            .addCriterion("patina:Patina/root", research)
+            .addCriterion("patina:patina/root", research)
             .parent(material_crystal)
             .rewards(xp().addRecipe(name("foundry/ferus"))
                     .addRecipe(name("crystal_ferus_helmet"))
@@ -417,6 +417,7 @@ public class ModAdvancementGenerator implements ForgeAdvancementProvider.Advance
         saver.accept(material_anima);
         saver.accept(material_bismuth);
         saver.accept(material_malachite);
+        saver.accept(dragon);
 
         //saver.accept(phantom);
         //saver.accept(dragon);
