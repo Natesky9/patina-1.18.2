@@ -291,9 +291,18 @@ public class ModItems {
                     .rarity(Rarity.UNCOMMON).fireResistant().stacksTo(1)));
     //endregion magic
     //region tech
-    public static final RegistryObject<Item> LIGHTER = ITEMS.register("lighter",
+    public static final RegistryObject<Item> LIGHTER = ITEMS.register("trinket_lighter",
             () -> new LighterItem(new Item.Properties()
                     .rarity(Rarity.UNCOMMON).stacksTo(1)));
+    public static final RegistryObject<Item> POCKET_BREWER = ITEMS.register("trinket_brewer",
+            () -> new PocketBrewerItem(new Item.Properties()
+                    .rarity(Rarity.UNCOMMON).stacksTo(1)));
+    public static final RegistryObject<Item> OMINOUS_TRINKET = ITEMS.register("trinket_ominous",
+            () -> new OminousTrinketItem(new Item.Properties()
+                    .durability(500)
+                    .component(DataComponents.UNBREAKABLE,new Unbreakable(false))
+                    .rarity(Rarity.UNCOMMON).stacksTo(1)));
+
     public static final RegistryObject<Item> DUST_POUCH = ITEMS.register("dust_pouch",
             () -> new DustPouchItem(new Item.Properties()
                     .rarity(Rarity.UNCOMMON).stacksTo(1)));
@@ -383,6 +392,9 @@ public class ModItems {
     static ItemAttributeModifiers medium_claw = ItemAttributeModifiers.builder()
             .add(Attributes.BLOCK_INTERACTION_RANGE,new AttributeModifier(name("reach"),2,AttributeModifier.Operation.ADD_VALUE),
                     EquipmentSlotGroup.OFFHAND).build();
+    static ItemAttributeModifiers large_claw = ItemAttributeModifiers.builder()
+            .add(Attributes.BLOCK_INTERACTION_RANGE,new AttributeModifier(name("reach"),3,AttributeModifier.Operation.ADD_VALUE),
+                    EquipmentSlotGroup.OFFHAND).build();
     static ItemAttributeModifiers strong_claw = ItemAttributeModifiers.builder()
             .add(Attributes.ENTITY_INTERACTION_RANGE,new AttributeModifier(name("reach"),1,AttributeModifier.Operation.ADD_VALUE),
                     EquipmentSlotGroup.OFFHAND)
@@ -394,6 +406,9 @@ public class ModItems {
     public static final RegistryObject<Item> COPPER_CLAW = ITEMS.register("copper_claw",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
                     .attributes(medium_claw)));
+    public static final RegistryObject<Item> CRYSTAL_CLAW = ITEMS.register("crystal_claw",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).stacksTo(1)
+                    .attributes(large_claw)));
     public static final RegistryObject<Item> DRAGON_CLAW = ITEMS.register("dragon_claw",
             () -> new Item(new Item.Properties().rarity(Rarity.RARE).stacksTo(1)
                     .attributes(strong_claw)));

@@ -12,6 +12,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModBlockStateProvider extends BlockStateProvider {
+
     public ModBlockStateProvider(PackOutput packOutput, ExistingFileHelper exFileHelper)
     {
         super(packOutput, Patina.MODID, exFileHelper);
@@ -71,6 +72,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
         pipeBlock(ModBlocks.CHARGE_CABLE,
                 ResourceLocation.withDefaultNamespace("block/yellow_wool"),
                 ResourceLocation.withDefaultNamespace("block/copper_block"));
+
+        //MultiVariantGenerator.multiVariant(Blocks.WATER_CAULDRON).with(PropertyDispatch.property(LayeredCauldronBlock.LEVEL)
+        //        .select(1, Variant.variant().with(VariantProperties.MODEL, ModelTemplates.CAULDRON_LEVEL1.createWithSuffix(Blocks.WATER_CAULDRON, "_level1", TextureMapping.cauldron(TextureMapping.getBlockTexture(Blocks.WATER, "_still")),
+        //                this.modelOutput))).select(2, Variant.variant().with(VariantProperties.MODEL, ModelTemplates.CAULDRON_LEVEL2.createWithSuffix(Blocks.WATER_CAULDRON, "_level2", TextureMapping.cauldron(TextureMapping.getBlockTexture(Blocks.WATER, "_still")),
+        //                this.modelOutput))).select(3, Variant.variant().with(VariantProperties.MODEL, ModelTemplates.CAULDRON_FULL.createWithSuffix(Blocks.WATER_CAULDRON, "_full", TextureMapping.cauldron(TextureMapping.getBlockTexture(Blocks.WATER, "_still")), this.modelOutput))));
+
+
         //done adding blocks
     }
 

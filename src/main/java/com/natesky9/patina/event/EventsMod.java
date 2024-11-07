@@ -1,6 +1,7 @@
 package com.natesky9.patina.event;
 
 import com.natesky9.datagen.DataGenerators;
+import com.natesky9.patina.Block.AppliancePlinthRenderer;
 import com.natesky9.patina.Item.RustableItem;
 import com.natesky9.patina.Item.flasks.PotionFlaskItem;
 import com.natesky9.patina.Patina;
@@ -22,10 +23,7 @@ import com.natesky9.patina.entity.SpiderNest.Spidernest;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueen;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenModel;
 import com.natesky9.patina.entity.SpiderQueen.SpiderQueenRenderer;
-import com.natesky9.patina.init.ModEntityTypes;
-import com.natesky9.patina.init.ModItems;
-import com.natesky9.patina.init.ModRecipeTypes;
-import com.natesky9.patina.init.ModScreens;
+import com.natesky9.patina.init.*;
 import com.natesky9.patina.networking.ModPackets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -49,9 +47,11 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Patina.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventsMod {
-    //public static void recipeEvent(AdvancementEvent.AdvancementEarnEvent event)
-    //{
-    //}
+    @SubscribeEvent
+    public static void RegisterBER(EntityRenderersEvent.RegisterRenderers event)
+    {
+        event.registerBlockEntityRenderer(ModBlockEntities.APPLIANCE_PLINTH_ENTITY.get(), AppliancePlinthRenderer::new);
+    }
     @SubscribeEvent
     public static void RegisterRecipeBookCategoriesEvent(RegisterRecipeBookCategoriesEvent event)
     {

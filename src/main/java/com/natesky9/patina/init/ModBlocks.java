@@ -1,8 +1,8 @@
 package com.natesky9.patina.init;
 
-import com.natesky9.patina.Block.*;
 import com.natesky9.patina.Block.ApplianceConsolidator.ApplianceConsolidatorBlock;
 import com.natesky9.patina.Block.ApplianceIcebox.ApplianceIceboxBlock;
+import com.natesky9.patina.Block.*;
 import com.natesky9.patina.Block.ApplianceResearchDesk.ApplianceResearchDeskBlock;
 import com.natesky9.patina.Block.ApplianceWardrobe.ApplianceWardrobeBlock;
 import com.natesky9.patina.Block.Benchmark.ApplianceBenchmarkBlock;
@@ -15,6 +15,7 @@ import com.natesky9.patina.Block.MachineFoundry.MachineFoundryBlock;
 import com.natesky9.patina.Block.MachineMincerator.MachineMinceratorBlock;
 import com.natesky9.patina.Block.MachineTextiler.MachineTextilerBlock;
 import com.natesky9.patina.Patina;
+import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -102,6 +103,26 @@ public class ModBlocks {
     public static final RegistryObject<Block> APPLIANCE_RESEARCH_DESK = registerBlock("appliance_research_desk",
             () -> new ApplianceResearchDeskBlock(BlockBehaviour.Properties.of()
                     .strength(3f)));
+    //
+    public static final RegistryObject<Block> APPLIANCE_PLINTH = registerBlock("appliance_plinth",
+            () -> new AppliancePlinthBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)
+                    .noOcclusion()));
+    public static final RegistryObject<Block> MACHINE_COPIER = registerBlock("machine_copier",
+            () -> new MachineCopierBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)
+                    .lightLevel((light) ->  5)));
+    public static final RegistryObject<Block> MACHINE_EXTRACTOR = registerBlock("machine_extractor",
+            () -> new MachineExtractorBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)
+                    .lightLevel((light) ->  5)));
+    public static final RegistryObject<Block> MACHINE_COMBINER = registerBlock("machine_combiner",
+            () -> new MachineCombinerBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)
+                    .lightLevel((light) ->  5)));
+    public static final RegistryObject<Block> ESSENCE_CAULDRON = registerBlock("essence_cauldron",
+            () -> new EssenceCauldronBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAULDRON),
+                    CauldronInteraction.EMPTY));
     //public static final RegistryObject<Block> APPLIANCE_TOOLRACK = registerBlock("appliance_toolrack",
     //        () -> new ApplianceToolrackBlock(BlockBehaviour.Properties.of(Material.WOOD)
     //                .strength(3f)));

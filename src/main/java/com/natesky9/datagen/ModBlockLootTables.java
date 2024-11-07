@@ -8,6 +8,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -49,6 +50,12 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.CHARGE_CABLE.get());
         this.dropSelf(ModBlocks.TEST_GENERATOR.get());
         this.dropSelf(ModBlocks.CHORUS_TELEPORTER.get());
+
+        this.dropSelf(ModBlocks.APPLIANCE_PLINTH.get());
+        this.dropOther(ModBlocks.ESSENCE_CAULDRON.get(), Blocks.CAULDRON);
+        this.dropSelf(ModBlocks.MACHINE_COPIER.get());
+        this.dropSelf(ModBlocks.MACHINE_EXTRACTOR.get());
+        this.dropSelf(ModBlocks.MACHINE_COMBINER.get());
     }
 
     @Override
