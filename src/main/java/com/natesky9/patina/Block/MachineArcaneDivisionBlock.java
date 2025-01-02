@@ -4,6 +4,7 @@ import com.natesky9.patina.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -11,6 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -23,12 +25,17 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import org.jetbrains.annotations.Nullable;
 
-public class MachineExtractorBlock extends Block {
+import java.awt.*;
+
+public class MachineArcaneDivisionBlock extends Block {
     public static final DirectionProperty DIRECTION = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
 
-    public MachineExtractorBlock(Properties p_49795_) {
+    final ColorParticleOption essence =  ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, Color.GREEN.getRGB());
+
+    public MachineArcaneDivisionBlock(Properties p_49795_) {
         super(p_49795_);
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(DIRECTION, Direction.NORTH)
@@ -41,24 +48,32 @@ public class MachineExtractorBlock extends Block {
         boolean triggered = pState.getValue(TRIGGERED);
         Direction direction = pState.getValue(DIRECTION);
 
-        BlockPos input = pPos.relative(direction.getOpposite());
-        BlockPos output = pPos.relative(direction);
+        BlockPos inputPos = pPos.relative(direction.getOpposite());
+        BlockPos outputPos = pPos.relative(Direction.DOWN);
 
         //if the output block is a cauldron or essence cauldron
-        boolean isCauldron = pLevel.getBlockState(output).is(Blocks.CAULDRON)
-                || pLevel.getBlockState(output).is(ModBlocks.ESSENCE_CAULDRON.get());
-        boolean isPlinth = pLevel.getBlockEntity(output) instanceof AppliancePlinthEntity;
+        boolean isCauldron = pLevel.getBlockState(outputPos).is(Blocks.CAULDRON)
+                || pLevel.getBlockState(outputPos).is(ModBlocks.ESSENCE_CAULDRON.get());
 
-        boolean construct = pLevel.getBlockState(input).is(ModBlocks.APPLIANCE_PLINTH.get()) &&
-                (isCauldron || isPlinth);
+        boolean construct = pLevel.getBlockState(inputPos).is(ModBlocks.APPLIANCE_PLINTH.get()) && isCauldron;
         if (!construct) return;
+
+        if (!(pLevel.getBlockEntity(inputPos) instanceof AppliancePlinthEntity inputPlinth)) return;
 
         if (powered && !triggered)
         {
+            ItemStack input = inputPlinth.getStack();
+            if (input.isEmpty() || EnchantmentHelper.getEnchantmentsForCrafting(input).isEmpty()) return;
+
             pLevel.setBlock(pPos,pState
                     .setValue(TRIGGERED,true)
                     .setValue(DIRECTION,pState.getValue(DIRECTION)),2);
-            pLevel.scheduleTick(pPos,this,4);
+            pLevel.scheduleTick(pPos,this,20);
+        }
+        if (powered & triggered)
+        {
+            System.out.println("trigger");
+            pLevel.scheduleTick(pPos, this, 20);
         }
         if (!powered && triggered)
         {
@@ -71,87 +86,64 @@ public class MachineExtractorBlock extends Block {
         Direction direction = pState.getValue(DIRECTION);
 
         BlockPos inputPos = pPos.relative(direction.getOpposite());
-        BlockPos outputPos = pPos.relative(direction);
+        BlockPos outputPos = pPos.relative(Direction.DOWN);
 
-        //if the output block is a cauldron or essence cauldron
-        boolean isCauldron = pLevel.getBlockState(outputPos).is(Blocks.CAULDRON)
-                || pLevel.getBlockState(outputPos).is(ModBlocks.ESSENCE_CAULDRON.get());
-        boolean isPlinth = pLevel.getBlockEntity(outputPos) instanceof AppliancePlinthEntity;
+        //convert cauldrons into essence cauldron
+        BlockState cauldronState = pLevel.getBlockState(outputPos);
+        if (cauldronState.is(Blocks.CAULDRON))
+        {
+            pLevel.setBlock(outputPos,ModBlocks.ESSENCE_CAULDRON.get().defaultBlockState(), 2);
+            cauldronState = pLevel.getBlockState(outputPos);
+        }
+        if (!cauldronState.is(ModBlocks.ESSENCE_CAULDRON.get()))
+            return;
 
-        boolean construct = pLevel.getBlockState(inputPos).is(ModBlocks.APPLIANCE_PLINTH.get()) &&
-                (isCauldron || isPlinth);
-        if (!construct) return;
-
-        boolean ready = false;
         if (!(pLevel.getBlockEntity(inputPos) instanceof AppliancePlinthEntity inputPlinth)) return;
-        AppliancePlinthEntity outputPlinth = null;
-        BlockState outputCauldron = null;
-        if (isPlinth)
-        {
-            outputPlinth = (AppliancePlinthEntity) pLevel.getBlockEntity(outputPos);
-            ready = outputPlinth.getStack().is(Items.BOOK);
-        }
-        if (isCauldron)
-        {
-            outputCauldron = pLevel.getBlockState(outputPos);
-            ready = outputCauldron.is(Blocks.CAULDRON) || outputCauldron.getValue(EssenceCauldronBlock.LEVEL) != 15 ;
-        }
-        boolean valid = isCauldron || isPlinth;
-        if (!valid) return;
-        if (!ready) return;
+
 
         ItemStack input = inputPlinth.getStack();
 
-        if (!EnchantmentHelper.hasAnyEnchantments(input)) return;
+        if (cauldronState.getValue(EssenceCauldronBlock.LEVEL) >= 15)
+        {
+            System.out.println("Cauldron is full!");
+            pLevel.setBlock(pPos,pState.setValue(TRIGGERED,false),2);
+            return;
+        }
+
+        if (!EnchantmentHelper.hasAnyEnchantments(input))
+        {
+            pLevel.setBlock(pPos,pState.setValue(TRIGGERED,false),2);
+            return;
+        }
         //only process enchantments
+
         ItemEnchantments enchants = EnchantmentHelper.getEnchantmentsForCrafting(input);
         Holder<Enchantment> first =  enchants.keySet().stream().findFirst().get();
-        int level = EnchantmentHelper.getItemEnchantmentLevel(first,input);
+        int level = enchants.getLevel(first);
+
         //remove one level from the first enchant
-        EnchantmentHelper.updateEnchantments(input,(mutable ->
-        {
-            mutable.set(first,level-1);
-            //mutable.removeIf((holder) -> holder.is(first));
-            //if (level > 0)
-            //    mutable.set(first,level-1);
-        }));
+        EnchantmentHelper.updateEnchantments(input,(mutable -> mutable.set(first,level-1)));
         if (input.is(Items.ENCHANTED_BOOK) && !EnchantmentHelper.hasAnyEnchantments(input))
         {
             inputPlinth.handler.extractItem(0,1,false);
             inputPlinth.handler.insertItem(0,Items.BOOK.getDefaultInstance(),false);
-
-
+            pLevel.setBlock(pPos,pState.setValue(TRIGGERED,false),2);
         }
         pLevel.sendBlockUpdated(inputPos,inputPlinth.getBlockState(),inputPlinth.getBlockState(),3);
-        if (pLevel instanceof ServerLevel server)
-            server.sendParticles(ParticleTypes.EFFECT,outputPos.getX()+.5,outputPos.getY()+1,outputPos.getZ()+.5,
-                    15,0,0,0,1);
-        pLevel.playSound(null,pPos, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS,.5f,.5f);
 
-        if (isCauldron)
+        //effects
+        if (pLevel instanceof ServerLevel server)
         {
-            if (outputCauldron.is(Blocks.CAULDRON))
-            {
-                pLevel.setBlock(outputPos,ModBlocks.ESSENCE_CAULDRON.get().defaultBlockState()
-                        .setValue(EssenceCauldronBlock.LEVEL,1),3);
-                pLevel.playSound(null,pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS,1,.5f);
-            }
-            else
-            {
-                int current = outputCauldron.getValue(EssenceCauldronBlock.LEVEL);
-                pLevel.setBlock(outputPos,ModBlocks.ESSENCE_CAULDRON.get().defaultBlockState()
-                        .setValue(EssenceCauldronBlock.LEVEL,current+1),3);
-                pLevel.playSound(null,pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS,1,
-                        (float)outputCauldron.getValue(EssenceCauldronBlock.LEVEL)/30+.5f);
-            }
+            server.sendParticles(essence,outputPos.getX()+.5,outputPos.getY()+1,outputPos.getZ()+.5,
+                    15,0,0,0,1);
+            pLevel.playSound(null,pPos, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS,.5f,.5f);
         }
-        else
-        {
-            outputPlinth.handler.extractItem(0,1,false);
-            ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-            stack.enchant(first,0);
-            outputPlinth.handler.insertItem(0,stack,false);
-        }
+
+        int current = cauldronState.getValue(EssenceCauldronBlock.LEVEL);
+        pLevel.setBlock(outputPos,ModBlocks.ESSENCE_CAULDRON.get().defaultBlockState()
+                .setValue(EssenceCauldronBlock.LEVEL,current+1),3);
+        pLevel.playSound(null,pPos, SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS,1,
+                (float)cauldronState.getValue(EssenceCauldronBlock.LEVEL)/30+.5f);
     }
 
     @Override
@@ -160,17 +152,17 @@ public class MachineExtractorBlock extends Block {
         Direction direction = pState.getValue(DIRECTION);
 
         BlockPos inputPos = pPos.relative(direction.getOpposite());
-        BlockPos outputPos = pPos.relative(direction);
+        BlockPos outputPos = pPos.relative(Direction.DOWN);
         int x = inputPos.getX()-outputPos.getX();
         int z = inputPos.getZ()-outputPos.getZ();
 
-        boolean isOutput = pLevel.getBlockState(outputPos).is(ModBlocks.APPLIANCE_PLINTH.get())
-                || pLevel.getBlockState(outputPos).is(Blocks.CAULDRON)
+        boolean isInput = pLevel.getBlockState(inputPos).is(ModBlocks.APPLIANCE_PLINTH.get());
+        boolean isOutput = pLevel.getBlockState(outputPos).is(Blocks.CAULDRON)
                 || pLevel.getBlockState(outputPos).is(ModBlocks.ESSENCE_CAULDRON.get());
-        boolean construct = pLevel.getBlockState(inputPos).is(ModBlocks.APPLIANCE_PLINTH.get()) && isOutput;
-        if (construct)
+        boolean construct = isInput && isOutput;
+        if (construct && pState.getValue(TRIGGERED))
             pLevel.addParticle(ParticleTypes.ENCHANT, outputPos.getX()+0.5,
-                outputPos.getY()+2,
+                outputPos.getY()+3,
                 outputPos.getZ()+0.5,
                     ((float)x) , (1 - pRandom.nextFloat() - 1.0F), ((float)z) );
     }
@@ -178,6 +170,19 @@ public class MachineExtractorBlock extends Block {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(DIRECTION).add(TRIGGERED);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        //place against plinths if horizontal
+        Direction direction = pContext.getClickedFace().getOpposite();
+        if (Direction.Plane.HORIZONTAL.test(direction)
+                && pContext.getLevel().getBlockState(pContext.getClickedPos()
+                .relative(direction)).is(ModBlocks.APPLIANCE_PLINTH.get()))
+            return defaultBlockState().setValue(DIRECTION,pContext.getClickedFace().getOpposite());
+        //otherwise normal facing rules
+        return defaultBlockState().setValue(DIRECTION,pContext.getHorizontalDirection());
     }
 
     @Override

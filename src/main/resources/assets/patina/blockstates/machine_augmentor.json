@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "patina:block/machine_augmentor"
+    },
+    "facing=east": {
+      "model": "patina:block/machine_augmentor",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "patina:block/machine_augmentor",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "patina:block/machine_augmentor",
+      "y": 270
+    }
+  }
+}

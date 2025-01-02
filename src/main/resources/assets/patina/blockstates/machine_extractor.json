@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "patina:block/machine_extractor"
+    },
+    "facing=east": {
+      "model": "patina:block/machine_extractor",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "patina:block/machine_extractor",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "patina:block/machine_extractor",
+      "y": 270
+    }
+  }
+}

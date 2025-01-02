@@ -2,6 +2,7 @@ package com.natesky9.patina.Block;
 
 import com.natesky9.patina.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -10,12 +11,18 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class AppliancePlinthEntity extends BlockEntity {
     ItemStackHandler handler;
+
+    protected LazyOptional<IItemHandler> automationCapability = LazyOptional.empty();
 
     public AppliancePlinthEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.APPLIANCE_PLINTH_ENTITY.get(), pPos, pBlockState);
@@ -25,22 +32,23 @@ public class AppliancePlinthEntity extends BlockEntity {
             protected int getStackLimit(int slot, @NotNull ItemStack stack) {
                 return 1;
             }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                getLevel().sendBlockUpdated(pPos,level.getBlockState(pPos),level.getBlockState(pPos),3);
+            }
         };
     }
-    //public void effects()
-    //{
-    //    double x = getBlockPos().getX() + .5;
-    //    double y = getBlockPos().getY() + 2;
-    //    double z = getBlockPos().getZ() + .5;
-    //    double xs = x+Math.random()-.5;
-    //    double ys = y+Math.random()-.5;
-    //    double zs = z+Math.random()-.5;
-//
-    //    if (level instanceof ServerLevel server)
-    //        server.sendParticles(ParticleTypes.ENCHANT, x, y, z, 50, 0,0,2,.5);
-    //    //level.addParticle(ParticleTypes.LARGE_SMOKE, x, y, z, x,y,z);
-    //    //level.addParticle(ParticleTypes.ENCHANT,x,y,z,xs,ys,zs);
-    //}
+
+    @Override
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER)
+        {
+            return automationCapability.cast();
+        }
+        return super.getCapability(cap,side);
+    }
 
     public ItemStack getStack() {
         return handler.getStackInSlot(0);
@@ -49,7 +57,6 @@ public class AppliancePlinthEntity extends BlockEntity {
     {
         handler.insertItem(0,pStack,false);
         setChanged();
-
     }
 
     @Override
@@ -75,5 +82,17 @@ public class AppliancePlinthEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
         handler.deserializeNBT(pRegistries,pTag.getCompound("inventory"));
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        automationCapability = LazyOptional.of(() -> handler);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        automationCapability.invalidate();
     }
 }

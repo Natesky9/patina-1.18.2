@@ -106,23 +106,37 @@ public class ModBlocks {
     //
     public static final RegistryObject<Block> APPLIANCE_PLINTH = registerBlock("appliance_plinth",
             () -> new AppliancePlinthBlock(BlockBehaviour.Properties.of()
-                    .strength(3f)
-                    .noOcclusion()));
-    public static final RegistryObject<Block> MACHINE_COPIER = registerBlock("machine_copier",
-            () -> new MachineCopierBlock(BlockBehaviour.Properties.of()
-                    .strength(3f)
-                    .lightLevel((light) ->  5)));
-    public static final RegistryObject<Block> MACHINE_EXTRACTOR = registerBlock("machine_extractor",
-            () -> new MachineExtractorBlock(BlockBehaviour.Properties.of()
-                    .strength(3f)
-                    .lightLevel((light) ->  5)));
-    public static final RegistryObject<Block> MACHINE_COMBINER = registerBlock("machine_combiner",
-            () -> new MachineCombinerBlock(BlockBehaviour.Properties.of()
-                    .strength(3f)
-                    .lightLevel((light) ->  5)));
+                    .strength(3f).noOcclusion()));
+    public static final RegistryObject<Block> APPLIANCE_REINFORCED_PLINTH = registerBlock("appliance_upgraded_plinth",
+            () -> new AppliancePlinthBlock(BlockBehaviour.Properties.of()
+                    .strength(4f).noOcclusion()));
+
+    public static final RegistryObject<Block> MACHINE_UNIFIER = registerBlock("machine_unifier",//adding
+            () -> new MachineArcaneAddingBlock(BlockBehaviour.Properties.of()
+                    .strength(3f).noOcclusion().lightLevel((light) -> 5)));
+    public static final RegistryObject<Block> MACHINE_ABSTRACTOR = registerBlock("machine_abstractor",//subtracting
+            () -> new MachineArcaneSubtractionBlock(BlockBehaviour.Properties.of()
+                    .strength(3f).noOcclusion().lightLevel((light) -> 5)));
+    public static final RegistryObject<Block> MACHINE_REPLICATOR = registerBlock("machine_copier",//multiplying
+            () -> new MachineArcaneMultiplierBlock(BlockBehaviour.Properties.of()
+                    .strength(3f).noOcclusion().lightLevel((light) ->  5)));
+    public static final RegistryObject<Block> MACHINE_EXTRACTOR = registerBlock("machine_extractor",//diving
+            () -> new MachineArcaneDivisionBlock(BlockBehaviour.Properties.of()
+                    .strength(3f).noOcclusion().lightLevel((light) ->  5)));
+    public static final RegistryObject<Block> MACHINE_AUGMENTOR = registerBlock("machine_augmentor",//exponent
+            () -> new MachineArcaneExponentBlock(BlockBehaviour.Properties.of()
+                    .strength(3f).noOcclusion().lightLevel((light) ->  5)));
+    public static final RegistryObject<Block> MACHINE_ARBITRATOR = registerBlock("machine_arbitrator",//radical
+            () -> new MachineArcaneRadicalBlock(BlockBehaviour.Properties.of()
+                    .strength(3f).noOcclusion().lightLevel((light) -> 5)));
+
     public static final RegistryObject<Block> ESSENCE_CAULDRON = registerBlock("essence_cauldron",
             () -> new EssenceCauldronBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CAULDRON),
                     CauldronInteraction.EMPTY));
+
+    public static final RegistryObject<Block> MACHINE_MATRIX = registerBlock("machine_matrix",
+            () -> new MachineArcanaMatrix(BlockBehaviour.Properties.of()
+                    .strength(4f).noOcclusion().lightLevel((light) -> 15)));
     //public static final RegistryObject<Block> APPLIANCE_TOOLRACK = registerBlock("appliance_toolrack",
     //        () -> new ApplianceToolrackBlock(BlockBehaviour.Properties.of(Material.WOOD)
     //                .strength(3f)));

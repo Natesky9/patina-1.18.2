@@ -53,9 +53,15 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
         this.dropSelf(ModBlocks.APPLIANCE_PLINTH.get());
         this.dropOther(ModBlocks.ESSENCE_CAULDRON.get(), Blocks.CAULDRON);
-        this.dropSelf(ModBlocks.MACHINE_COPIER.get());
+
+        this.dropSelf(ModBlocks.MACHINE_REPLICATOR.get());
         this.dropSelf(ModBlocks.MACHINE_EXTRACTOR.get());
-        this.dropSelf(ModBlocks.MACHINE_COMBINER.get());
+        this.dropSelf(ModBlocks.MACHINE_AUGMENTOR.get());
+        this.dropSelf(ModBlocks.MACHINE_ARBITRATOR.get());
+        this.dropSelf(ModBlocks.MACHINE_ABSTRACTOR.get());
+        this.dropSelf(ModBlocks.MACHINE_UNIFIER.get());
+
+        this.dropSelf(ModBlocks.MACHINE_MATRIX.get());
     }
 
     @Override

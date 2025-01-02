@@ -107,12 +107,24 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.ADDON_ALEMBIC.get());
                         output.accept(ModBlocks.MACHINE_EVAPORATOR.get());
                         output.accept(ModBlocks.MACHINE_FOUNDRY.get());
+                        output.accept(ModBlocks.ADDON_FOUNDRY.get());
                         output.accept(ModBlocks.MACHINE_MINCERATOR.get());
                         output.accept(ModBlocks.MACHINE_TEXTILER.get());
                         output.accept(ModBlocks.MACHINE_ENCHANTER.get());
                         output.accept(ModBlocks.APPLIANCE_ICEBOX.get());
                         output.accept(ModBlocks.APPLIANCE_WARDROBE.get());
                         output.accept(ModBlocks.APPLIANCE_ARCANE_CONSOLIDATOR.get());
+
+                        output.accept(ModBlocks.APPLIANCE_PLINTH.get());
+                        output.accept(ModBlocks.APPLIANCE_REINFORCED_PLINTH.get());
+                        output.accept(ModBlocks.MACHINE_UNIFIER.get());
+                        output.accept(ModBlocks.MACHINE_ABSTRACTOR.get());
+                        output.accept(ModBlocks.MACHINE_REPLICATOR.get());
+                        output.accept(ModBlocks.MACHINE_EXTRACTOR.get());
+                        output.accept(ModBlocks.MACHINE_AUGMENTOR.get());
+                        output.accept(ModBlocks.MACHINE_ARBITRATOR.get());
+                        output.accept(ModBlocks.MACHINE_MATRIX.get());
+
                         output.accept(ModBlocks.CHORUS_TELEPORTER.get());
                         output.accept(ModBlocks.CHORUS_CABLE.get());
 

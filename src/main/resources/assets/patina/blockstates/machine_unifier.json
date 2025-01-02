@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "patina:block/machine_unifier"
+    },
+    "facing=east": {
+      "model": "patina:block/machine_unifier",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "patina:block/machine_unifier",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "patina:block/machine_unifier",
+      "y": 270
+    }
+  }
+}
